@@ -99,7 +99,7 @@
 #define Left_Gap W_SCALE(15)
 #define top_Gap H_SCALE(15)
 #define Group_Cell_Height H_SCALE(40)//左视图cell高度
-#define Page_Btn_W W_SCALE(46)
+#define Page_Btn_W W_SCALE(52)
 #define Group_Btn_W W_SCALE(30)
 #define Bottom_View_Height H_SCALE(88)//左视图cell高度
 
