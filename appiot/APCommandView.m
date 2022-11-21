@@ -273,22 +273,6 @@
 
 #pragma button回调
 
-
--(void)btnSwithClick:(UIButton *)btn
-{
-    if(btn)
-    {
-        if (btn.tag == 0)//按钮“控制”
-        {
-        }
-        else
-        {
-            
-        }
-    }
-}
-
-
 -(void)btnTestClick:(UIButton *)btn
 {
     if(btn)
@@ -313,6 +297,49 @@
         else
         {
             
+        }
+    }
+}
+-(void)btnSwithClick:(UIButton *)btn
+{
+    if(btn)
+    {
+        switch (btn.tag) {
+            case 0://按钮“开机”
+            {
+                
+            }
+                break;
+            case 1://按钮“机型”
+            {
+                
+            }
+                break;
+            case 2://按钮“开快门”
+            {
+                APUdpSocket *sockManager = [APUdpSocket sharedInstance];
+//                sockManager.host = @"192.168.1.219";
+                sockManager.port = 5050;
+                [sockManager createClientUdpSocket];
+                NSString *m = @"AD0000002F0000000000000000000000000000DC";
+                [sockManager broadcast:m];
+//                [sockManager sendMessage:@"AD0000002F0000000000000000000000000000DC"];
+            }
+                break;
+                
+            case 3://按钮“关快门”
+            {
+                APUdpSocket *sockManager = [APUdpSocket sharedInstance];
+//                sockManager.host = @"192.168.1.219";
+                sockManager.port = 5050;
+                [sockManager createClientUdpSocket];
+                NSString *m = @"AD0000002F0100000000000000000000000000DD";
+                [sockManager broadcast:m];
+            }
+                break;
+                
+            default:
+                break;
         }
     }
 }
