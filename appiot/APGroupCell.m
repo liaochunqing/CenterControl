@@ -83,6 +83,9 @@
     _im = [[UIImageView alloc] init];
     [self.contentView addSubview:_im];
     _im.image = [UIImage imageNamed:node.imageName];
+//    _im.image = [self scaleImage:[UIImage imageNamed:node.imageName] size:CGSizeMake(28, 28)];
+    _im.contentMode=UIViewContentModeScaleAspectFill;
+    _im.clipsToBounds=YES;
     [_im mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(self.contentView);
         make.left.mas_equalTo(_expendImageView.mas_right).offset(midGap);
@@ -159,6 +162,18 @@
     UIGraphicsEndImageContext();
      
     return image;
+}
+
+//这种压缩方式, 内存占用和图片大小都变小了
+// bitmap
+- (UIImage*)scaleImage:(UIImage*)image size:(CGSize)imageSize{
+    
+    UIGraphicsBeginImageContext(imageSize);
+    [image drawInRect:CGRectMake(0, 0, imageSize.width, imageSize.height)];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+
+    return newImage;
 }
 
 - (void)awakeFromNib {

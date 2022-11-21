@@ -15,10 +15,32 @@
         self.dataSource = self;
         self.delegate = self;
         self.backgroundColor = [UIColor clearColor];
+        
+        self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
+            self.searchController.searchResultsUpdater = self;
+//            self.searchController.dimsBackgroundDuringPresentation = FALSE;
+            [self.searchController.searchBar sizeToFit];
+            self.tableHeaderView = self.searchController.searchBar;
     }
     return self;
 }
-
+- (void)updateSearchResultsForSearchController:(UISearchController *)searchController
+{
+    if (_tempData && _tempData.count)
+    {
+        [_tempData removeAllObjects];
+    }
+    else
+    {
+        _tempData = [NSMutableArray array];
+    }
+    //在iOS开发中，系统提供了NSPredicate这个类给我们进行一些匹配、筛选操作
+    NSPredicate *searchPredicate = [NSPredicate predicateWithFormat:@"SELF CONTAINS[c] %@", self.searchController.searchBar.text];
+    _tempData = [[self.data filteredArrayUsingPredicate:searchPredicate] mutableCopy];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self reloadData];
+    });
+}
 /**
  * 初始化数据源
  */

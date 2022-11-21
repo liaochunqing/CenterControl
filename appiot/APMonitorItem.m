@@ -22,7 +22,7 @@
     ViewBorderRadius(self, 8, 1, ColorHex(0x636983));
     
     self.iv = [[UIImageView alloc] init];
-//    _iv.backgroundColor = [UIColor redColor];
+    self.iv.contentMode=UIViewContentModeScaleAspectFill;
     [self addSubview:self.iv];
     [self.iv mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.mas_left).offset(Left_Gap);

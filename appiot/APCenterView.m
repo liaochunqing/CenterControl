@@ -48,6 +48,7 @@
             UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(x, 0, Center_Btn_Width, Center_Btn_Heigth)];
             [view addSubview:button];
             ViewBorderRadius(button, 8, 2, ColorHex(0x375BCD ));
+//            ViewRadius(button, 8);
             [button setTitle:str forState:UIControlStateNormal];
             button.titleLabel.font = [UIFont systemFontOfSize: 16.0];
             [button setTitleColor:ColorHex(0xFFFFFF ) forState:UIControlStateNormal];
@@ -118,8 +119,12 @@
             if (temp)
             {
                 [temp setBackgroundImage:[self imageWithColor:[UIColor clearColor]] forState:UIControlStateNormal];
+                //清除边框
+                ViewBorder(temp, 2, ColorHex(0x375BCD ));
             }
+            
         }
+        ViewBorder(btn, 0, ColorHex(0x375BCD ));
         [btn setBackgroundImage:[self imageWithColor:ColorHex(0x43ACF9)] forState:UIControlStateNormal];
         
         switch (btn.tag) {

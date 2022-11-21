@@ -25,10 +25,11 @@
     
     self.iv = [[UIImageView alloc] init];
     [self addSubview:self.iv];
+    self.iv.contentMode=UIViewContentModeScaleAspectFill;
     [self.iv mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(self);
         make.top.mas_equalTo(self.mas_top).offset(42);
-        make.size.mas_equalTo(CGSizeMake(W_SCALE(75), H_SCALE(75)));
+        make.size.mas_equalTo(CGSizeMake(W_SCALE(76), H_SCALE(75)));
     }];
     
     self.lab = [[UILabel alloc] init];

@@ -81,6 +81,13 @@
 [View.layer setBorderWidth:(Width)];\
 [View.layer setBorderColor:[Color CGColor]]
 
+
+// View加边框
+#define ViewBorder(View, Width, Color)\
+[View.layer setMasksToBounds:YES];\
+[View.layer setBorderWidth:(Width)];\
+[View.layer setBorderColor:[Color CGColor]]
+
 // View 圆角
 #define ViewRadius(View, Radius)\
 [View.layer setCornerRadius:(Radius)];\
