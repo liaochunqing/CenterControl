@@ -1,0 +1,41 @@
+//
+//  APGroupNote.h
+//  appiot
+//
+//  Created by App-Iot02 on 2022/11/17.
+//
+
+#import <Foundation/Foundation.h>
+
+NS_ASSUME_NONNULL_BEGIN
+
+@interface APGroupNote : NSObject
+@property (nonatomic , assign) int parentId;//父节点的id，如果为-1表示该节点为根节点
+
+@property (nonatomic , assign) int nodeId;//本节点的id
+@property (nonatomic , strong) NSString *imageName;//该节点图片名
+
+@property (nonatomic , strong) NSString *name;//本节点的名称
+
+@property (nonatomic , assign) int depth;//该节点的深度
+
+@property (nonatomic , assign) BOOL expand;//该节点是否处于展开状态
+@property (nonatomic , assign) CGFloat height;//该节点展现的高度
+@property (nonatomic , assign) BOOL selected;//是否被选中
+@property (nonatomic) BOOL haveChild;
+
+/**
+*快速实例化该对象模型
+*/
+- (instancetype)initWithParentId : (int)parentId
+                          nodeId : (int)nodeId
+                       imageName : (NSString *)imageName
+                            name : (NSString *)name
+                           depth : (int)depth
+                            height:(CGFloat)height
+                          expand : (BOOL)expand
+                         selected:(BOOL)selected;
+
+@end
+
+NS_ASSUME_NONNULL_END

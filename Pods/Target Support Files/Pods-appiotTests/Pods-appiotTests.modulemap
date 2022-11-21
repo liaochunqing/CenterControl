@@ -1,0 +1,6 @@
+framework module Pods_appiotTests {
+  umbrella header "Pods-appiotTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
