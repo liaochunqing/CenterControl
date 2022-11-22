@@ -12,54 +12,76 @@
 -(instancetype)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame style:UITableViewStyleGrouped];
     if (self) {
-        self.dataSource = self;
-        self.delegate = self;
+        //        self.dataSource = self;
+        //        self.delegate = self;
         self.backgroundColor = [UIColor clearColor];
         
-        self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
-            self.searchController.searchResultsUpdater = self;
-//            self.searchController.dimsBackgroundDuringPresentation = FALSE;
-            [self.searchController.searchBar sizeToFit];
-            self.tableHeaderView = self.searchController.searchBar;
+        /*
+         self.estimatedSectionHeaderHeight = H_SCALE(44);
+         _filteredData = [NSMutableArray array];
+         
+         
+         self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
+         self.searchController.searchResultsUpdater = self;
+         _searchController.obscuresBackgroundDuringPresentation = NO;
+         
+         _searchController.hidesNavigationBarDuringPresentation = TRUE;
+         
+         _searchController.searchBar.delegate = self;
+         
+         
+         //        _searchController.searchBar.frame = CGRectMake(0, 0, Left_View_Width, H_SCALE(44));
+         
+         //设置bar
+         UISearchBar *bar = _searchController.searchBar;
+         //将搜索栏添加到页面上
+         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, Left_View_Width, H_SCALE(44))];
+         [view addSubview:bar];
+         [self addSubview:view];
+         //            self.tableHeaderView = self.searchController.searchBar;
+         //        UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 375, 44)];
+         //        [self addSubview:searchBar];
+         bar.tintColor = [UIColor redColor];
+         // 改变searchBar背景颜色
+         bar.barTintColor = ColorHex(0x29315F);
+         // 默认为YES,控制搜索控制器的灰色半透明效果
+         bar.placeholder = @"搜索投影机/分组";
+         bar.searchBarStyle = UISearchBarStyleMinimal;
+         [bar sizeToFit];
+         }
+         
+         //以此来设置搜索框中的颜色
+         UITextField *searchField=[_searchController.searchBar valueForKey:@"searchField"];
+         searchField.backgroundColor = ColorHex(0x29315F);
+         //改变搜索框中的placeholder的颜色
+         [searchField setValue:[UIColor whiteColor] forKeyPath:@"placeholderLabel.textColor"];
+         */
     }
     return self;
 }
-- (void)updateSearchResultsForSearchController:(UISearchController *)searchController
-{
-    if (_tempData && _tempData.count)
-    {
-        [_tempData removeAllObjects];
-    }
-    else
-    {
-        _tempData = [NSMutableArray array];
-    }
-    //在iOS开发中，系统提供了NSPredicate这个类给我们进行一些匹配、筛选操作
-    NSPredicate *searchPredicate = [NSPredicate predicateWithFormat:@"SELF CONTAINS[c] %@", self.searchController.searchBar.text];
-    _tempData = [[self.data filteredArrayUsingPredicate:searchPredicate] mutableCopy];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self reloadData];
-    });
-}
-/**
- * 初始化数据源
- */
--(NSMutableArray *)createTempData : (NSArray *)data{
-    _tempData = [NSMutableArray array];
-    _data = [NSMutableArray array];
 
-    
-    for (int i=0; i<data.count; i++)
-    {
-        APGroupNote *node = [data objectAtIndex:i];
-        [_data addObject:node];
 
-        if (node.expand) {
-            [_tempData addObject:node];
-        }
-    }
-    return _tempData;
-}
+
+
+///**
+// * 初始化数据源
+// */
+//-(NSMutableArray *)createTempData : (NSArray *)data{
+//    _tempData = [NSMutableArray array];
+//    _data = [NSMutableArray array];
+//
+//    
+//    for (int i=0; i<data.count; i++)
+//    {
+//        APGroupNote *node = [data objectAtIndex:i];
+//        [_data addObject:node];
+//
+//        if (node.expand) {
+//            [_tempData addObject:node];
+//        }
+//    }
+//    return _tempData;
+//}
 
 -(void)selectedAllWithSelected:(BOOL)selected
 {
@@ -131,11 +153,38 @@
         [vc presentViewController:alert animated:YES completion:nil];  //显示对话框
     }
 }
-
+//  颜色转换为背景图片
+- (UIImage *)imageWithColor:(UIColor *)color
+{
+    CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+     
+    CGContextSetFillColorWithColor(context, [color CGColor]);
+    CGContextFillRect(context, rect);
+     
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+     
+    return image;
+}
 #pragma mark *** UITableViewDelegate/UITableViewDataSource ***
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    if (_searchController.active) {
+         return 1;
+    }
+    return 1;
+}
  
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-//首先展示的数据是tempData的数据
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    //控制器使用的时候，就是点击了搜索框的时候
+    if (_searchController.active)
+    {
+        return _filteredData.count;
+    }
+    
     return _data.count;
 }
  
@@ -146,8 +195,16 @@
     if (!cell) {
         cell = [[APGroupCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NODE_CELL_ID];
     }
-
-    APGroupNote *node = [_data objectAtIndex:indexPath.row];
+    
+    APGroupNote *node;
+    if (_searchController.active)
+    {
+        node = [_filteredData objectAtIndex:indexPath.row];
+    }
+    else
+    {
+        node = [_data objectAtIndex:indexPath.row];
+    }
 
     [cell updateCellWithData:node];
     
@@ -155,11 +212,7 @@
     __block APGroupNote *temp = [_data objectAtIndex:indexPath.row];
     [cell setBtnClickBlock:^(BOOL index) {
         
-//        node.selected = index;
         temp.selected = index;
-        
-//        NSArray *dd = weakSelf.data;
-//        int i =0;
     }];
     return cell;
 }

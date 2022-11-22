@@ -32,13 +32,137 @@
     [self setFrame:CGRectMake(x, y, w, h)];
 //    self.backgroundColor = ColorHex(0x161635);
     
-//    [self cteateSearchView];
+    [self cteateSearchView];
     [self createButton];
-        [self createTableview];
-
+    [self createTableview];
     [self createBottomView];
 }
 
+-(void)cteateSearchView
+{
+    UITextField *filed = [[UITextField alloc] initWithFrame:CGRectMake(Left_Gap, 0, Left_View_Width - 2*Left_Gap, H_SCALE(38))];
+    ViewRadius(filed, 10);
+//    filed.borderStyle = UITextBorderStyleRoundedRect;
+    filed.textColor = [UIColor whiteColor];
+    filed.delegate = self;
+    filed.textAlignment = NSTextAlignmentCenter;
+    filed.backgroundColor = ColorHex(0x29315F);
+    filed.clearButtonMode = UITextFieldViewModeAlways;
+    //改变搜索框中的placeholder的颜色
+    NSString *holderText = @"搜索投影机/分组";
+    NSMutableAttributedString *placeholder = [[NSMutableAttributedString alloc] initWithString:holderText];
+    [placeholder addAttribute:NSForegroundColorAttributeName
+                            value:[UIColor whiteColor]
+                            range:NSMakeRange(0, holderText.length)];
+    [placeholder addAttribute:NSFontAttributeName
+                            value:[UIFont systemFontOfSize:16]
+                            range:NSMakeRange(0, holderText.length)];
+    filed.attributedPlaceholder = placeholder;
+
+    [self addSubview:filed];
+
+}
+//- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField;       // return NO to disallow editing.
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+//    _isFieldActive = YES;
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    if (textField.text.length == 0)
+    {
+        _isFieldActive = NO;
+        [_tableview reloadData];
+    }
+}
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+ {
+      [textField resignFirstResponder];    //主要是[receiver resignFirstResponder]在哪调用就能把receiver（text）对应的键盘往下收
+      return YES;
+ }
+- (BOOL)textFieldShouldClear:(UITextField *)textField
+{
+//返回一个BOOL值指明是否允许根据用户请求清除内容
+//可以设置在特定条件下才允许清除内容
+    
+    [textField resignFirstResponder];
+    _filteredData = [_data mutableCopy];
+    [_tableview reloadData];
+    return YES;
+}
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+//        if ([string isEqualToString:@"\n"]) { //按会车可以改变
+//                return YES;
+//            }
+
+    NSString * searchText = [textField.text stringByReplacingCharactersInRange:range withString:string]; //得到输入框的内容
+    if (_filteredData && _filteredData.count)
+    {
+        [_filteredData removeAllObjects];
+    }
+    else
+    {
+        _filteredData = [NSMutableArray array];
+    }
+    
+    if (searchText.length > 0)
+    {
+        _isFieldActive = YES;
+
+        // 将搜索的结果存放到数组中
+        NSPredicate *searchPredicate = [NSPredicate predicateWithFormat:@"SELF.name CONTAINS[c] %@", searchText];
+        _filteredData = [[_data filteredArrayUsingPredicate:searchPredicate] mutableCopy];
+        [_tableview reloadData];
+
+        //寻找父节点
+//        for (int i = 0; i < _filteredData.count; i++)
+//        {
+//            APGroupNote *node = _filteredData[i];
+//            if (node.parentId != -1)
+//            {
+//                for (int k = 0; k < _data.count; k++)
+//                {
+//                    APGroupNote *temp = _data[k];
+//                    if (node.parentId == temp.nodeId)
+//                    {
+//                        temp.height = Group_Cell_Height;
+//                        temp.expand = YES;
+//                        [_filteredData addObject:temp];
+//
+//                        if (temp.parentId != -1)
+//                        {
+//                            for (int j = 0; j < _data.count; j++)
+//                            {
+//                                APGroupNote *temptemp = _data[k];
+//                                if (temp.parentId == temptemp.nodeId)
+//                                {
+//                                    temptemp.height = Group_Cell_Height;
+//                                    temptemp.expand = YES;
+//                                    [_filteredData addObject:temptemp];
+//                                    break;
+//                                }
+//                            }
+//                            break;
+//                        }
+//
+//                    }
+//                }
+//            }
+//        }
+    }
+    else
+    {
+//        _filteredData = [_data mutableCopy];
+        _isFieldActive = NO;
+        [_tableview reloadData];
+    }
+
+    [_tableview reloadData];
+    return YES;
+
+}
 -(void)createTableview
 {
     //----------------------------------中国的省地市关系图3,2,1--------------------------------------------
@@ -67,7 +191,8 @@
     
     
     _tableview  = [[APGroupTableView alloc] init];
-    _tableview.userInteractionEnabled = YES;
+    _tableview.dataSource = self;
+    _tableview.delegate = self;
     [self addSubview:_tableview];
     [_tableview mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(Left_View_Width);
@@ -76,9 +201,31 @@
         make.bottom.mas_equalTo(self.mas_bottom).offset(0);
     }];
     
-    [_tableview createTempData:data];
+    [self createTempData:data];
     
 }
+
+
+/**
+ * 初始化数据源
+ */
+-(void)createTempData : (NSArray *)data{
+//    _tempData = [NSMutableArray array];
+    _data = [NSMutableArray array];
+
+    
+    for (int i=0; i<data.count; i++)
+    {
+        APGroupNote *node = [data objectAtIndex:i];
+        [_data addObject:node];
+
+//        if (node.expand) {
+//            [_tempData addObject:node];
+//        }
+    }
+//    return _tempData;
+}
+
 
 -(void)createBottomView
 {
@@ -181,6 +328,158 @@
 
 }
 
+#pragma mark 方法
+-(void)selectedAllWithSelected:(BOOL)selected
+{
+    for (int k = 0; k < _data.count; k++)
+    {
+        APGroupNote *node = _data[k];
+        node.selected = selected;
+    }
+    [_tableview reloadData];
+}
+
+#pragma  mark UISearchBarDelegate
+- (void)updateSearchResultsForSearchController:(UISearchController *)searchController
+{
+    NSString *searchText = searchController.searchBar.text;
+    
+    if (searchText.length>0)
+    {
+        if (_filteredData && _filteredData.count)
+        {
+            [_filteredData removeAllObjects];
+        }
+        else
+        {
+            _filteredData = [NSMutableArray array];
+        }
+        // 将搜索的结果存放到数组中
+        NSPredicate *searchPredicate = [NSPredicate predicateWithFormat:@"SELF.name CONTAINS[c] %@", searchText];
+        _filteredData = [[self.data filteredArrayUsingPredicate:searchPredicate] mutableCopy];
+        
+        WS(weakSelf);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf.tableview reloadData];
+        });
+    };
+}
+#pragma mark *** UITableViewDelegate/UITableViewDataSource ***
+//-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+//{
+//    if (_searchController.active) {
+//         return 1;
+//    }
+//    return 1;
+//}
+ 
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    //控制器使用的时候，就是点击了搜索框的时候
+    if (_isFieldActive)
+    {
+        return _filteredData.count;
+    }
+    
+    return _data.count;
+}
+ 
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    static NSString *NODE_CELL_ID = @"node_cell_id";
+
+    APGroupCell *cell = [tableView dequeueReusableCellWithIdentifier:NODE_CELL_ID];
+    if (!cell) {
+        cell = [[APGroupCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NODE_CELL_ID];
+    }
+    
+    APGroupNote *node;
+    if (_isFieldActive)
+    {
+        node = [_filteredData objectAtIndex:indexPath.row];
+    }
+    else
+    {
+        node = [_data objectAtIndex:indexPath.row];
+    }
+
+    [cell updateCellWithData:node];
+    
+//    WS(weakSelf);
+    __block APGroupNote *temp = [_data objectAtIndex:indexPath.row];
+    [cell setBtnClickBlock:^(BOOL index) {
+        
+        temp.selected = index;
+    }];
+    return cell;
+}
+
+ 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSUInteger row = indexPath.row ;
+    APGroupNote *node = _data[row];
+    if (node && node.height == 0)
+    {
+        return node.height;
+    }
+    
+    return 40;
+}
+ 
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSUInteger row = indexPath.row ;
+    APGroupNote *node = _data[row];
+    if (node == nil) return;
+    
+    if (node.expand == YES)
+    {
+        node.expand = !node.expand;
+        for (int i = 0; i < _data.count; i++)
+        {
+            APGroupNote *second = _data[i];
+            if (second.parentId == node.nodeId)
+            {
+                second.height = 0;
+                
+                for (int k = 0; k < _data.count; k++)
+                {
+                    APGroupNote *third = _data[k];
+                    if (third.parentId == second.nodeId)
+                    {
+                        third.height = 0;
+                    }
+                }
+            }
+        }
+    }
+    else
+    {
+        node.expand = !node.expand;
+        for (int i = 0; i < _data.count; i++)
+        {
+            APGroupNote *second = _data[i];
+            if (second.parentId == node.nodeId)
+            {
+                second.height = Group_Cell_Height;
+                if(second.expand == YES)
+                {
+                    for (int k = 0; k < _data.count; k++)
+                    {
+                        APGroupNote *third = _data[k];
+                        if (third.parentId == second.nodeId)
+                        {
+                            third.height = Group_Cell_Height;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    [tableView reloadData];
+}
 #pragma button响应
 -(void)btnBottomClick:(UIButton *)btn
 {
@@ -231,7 +530,7 @@
             }];
         }
         
-        [_tableview selectedAllWithSelected:self.btnLeft.selected];
+        [self selectedAllWithSelected:self.btnLeft.selected];
     }
     
     if (btn == self.btnRight)
@@ -274,15 +573,5 @@
  
 }
 
--(void)cteateSearchView
-{
-//    UISearchBar *searchBar = [[UISearchBar alloc]init];
-//        searchBar.placeholder = @"请输入搜索内容";
-//        searchBar.barStyle = UISearchBarStyleMinimal;
-//        searchBar.delegate = self;
-//        UITextField *searchField1 = [searchBar valueForKey:@"_searchField"];
-//        searchField1.backgroundColor = [UIColor whiteColor];
-//        searchBar.tintColor = [UIColor blackColor];
-//        [self.navigationController.navigationBar addSubview:searchBar];
-}
+
 @end
