@@ -62,107 +62,6 @@
     [self addSubview:filed];
 
 }
-//- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField;       // return NO to disallow editing.
-- (void)textFieldDidBeginEditing:(UITextField *)textField
-{
-//    _isFieldActive = YES;
-}
-
-- (void)textFieldDidEndEditing:(UITextField *)textField
-{
-    if (textField.text.length == 0)
-    {
-        _isFieldActive = NO;
-        [_tableview reloadData];
-    }
-}
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
- {
-      [textField resignFirstResponder];    //主要是[receiver resignFirstResponder]在哪调用就能把receiver（text）对应的键盘往下收
-      return YES;
- }
-- (BOOL)textFieldShouldClear:(UITextField *)textField
-{
-//返回一个BOOL值指明是否允许根据用户请求清除内容
-//可以设置在特定条件下才允许清除内容
-    
-    [textField resignFirstResponder];
-    _filteredData = [_data mutableCopy];
-    [_tableview reloadData];
-    return YES;
-}
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
-{
-//        if ([string isEqualToString:@"\n"]) { //按会车可以改变
-//                return YES;
-//            }
-
-    NSString * searchText = [textField.text stringByReplacingCharactersInRange:range withString:string]; //得到输入框的内容
-    if (_filteredData && _filteredData.count)
-    {
-        [_filteredData removeAllObjects];
-    }
-    else
-    {
-        _filteredData = [NSMutableArray array];
-    }
-    
-    if (searchText.length > 0)
-    {
-        _isFieldActive = YES;
-
-        // 将搜索的结果存放到数组中
-        NSPredicate *searchPredicate = [NSPredicate predicateWithFormat:@"SELF.name CONTAINS[c] %@", searchText];
-        _filteredData = [[_data filteredArrayUsingPredicate:searchPredicate] mutableCopy];
-        [_tableview reloadData];
-
-        //寻找父节点
-//        for (int i = 0; i < _filteredData.count; i++)
-//        {
-//            APGroupNote *node = _filteredData[i];
-//            if (node.parentId != -1)
-//            {
-//                for (int k = 0; k < _data.count; k++)
-//                {
-//                    APGroupNote *temp = _data[k];
-//                    if (node.parentId == temp.nodeId)
-//                    {
-//                        temp.height = Group_Cell_Height;
-//                        temp.expand = YES;
-//                        [_filteredData addObject:temp];
-//
-//                        if (temp.parentId != -1)
-//                        {
-//                            for (int j = 0; j < _data.count; j++)
-//                            {
-//                                APGroupNote *temptemp = _data[k];
-//                                if (temp.parentId == temptemp.nodeId)
-//                                {
-//                                    temptemp.height = Group_Cell_Height;
-//                                    temptemp.expand = YES;
-//                                    [_filteredData addObject:temptemp];
-//                                    break;
-//                                }
-//                            }
-//                            break;
-//                        }
-//
-//                    }
-//                }
-//            }
-//        }
-    }
-    else
-    {
-//        _filteredData = [_data mutableCopy];
-        _isFieldActive = NO;
-        [_tableview reloadData];
-    }
-
-    [_tableview reloadData];
-    return YES;
-
-}
 -(void)createTableview
 {
     //----------------------------------中国的省地市关系图3,2,1--------------------------------------------
@@ -209,21 +108,15 @@
 /**
  * 初始化数据源
  */
--(void)createTempData : (NSArray *)data{
-//    _tempData = [NSMutableArray array];
+-(void)createTempData : (NSArray *)data
+{
     _data = [NSMutableArray array];
-
     
     for (int i=0; i<data.count; i++)
     {
         APGroupNote *node = [data objectAtIndex:i];
         [_data addObject:node];
-
-//        if (node.expand) {
-//            [_tempData addObject:node];
-//        }
     }
-//    return _tempData;
 }
 
 
@@ -339,6 +232,17 @@
     [_tableview reloadData];
 }
 
+//隐藏编辑按钮
+-(void)setEditVailable
+{
+    _btnRight.hidden = NO;
+}
+//显示编辑按钮
+-(void)setEditUnavailable
+{
+    _btnRight.hidden = YES;
+}
+
 #pragma  mark UISearchBarDelegate
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController
 {
@@ -364,23 +268,119 @@
         });
     };
 }
+#pragma mark UITextFieldDelegate
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+//    _isFieldActive = YES;
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    if (textField.text.length == 0)
+    {
+        _isFieldActive = NO;
+        [_tableview reloadData];
+    }
+}
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+ {
+      [textField resignFirstResponder];    //主要是[receiver resignFirstResponder]在哪调用就能把receiver（text）对应的键盘往下收
+      return YES;
+ }
+- (BOOL)textFieldShouldClear:(UITextField *)textField
+{
+//返回一个BOOL值指明是否允许根据用户请求清除内容
+//可以设置在特定条件下才允许清除内容
+    
+    [textField resignFirstResponder];
+    _filteredData = [_data mutableCopy];
+    [_tableview reloadData];
+    return YES;
+}
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+//        if ([string isEqualToString:@"\n"]) { //按会车可以改变
+//                return YES;
+//            }
+
+    NSString * searchText = [textField.text stringByReplacingCharactersInRange:range withString:string]; //得到输入框的内容
+    if (_filteredData && _filteredData.count)
+    {
+        [_filteredData removeAllObjects];
+    }
+    else
+    {
+        _filteredData = [NSMutableArray array];
+    }
+    
+    if (searchText.length > 0)
+    {
+        _isFieldActive = YES;
+
+        // 将搜索的结果存放到数组中
+        NSPredicate *searchPredicate = [NSPredicate predicateWithFormat:@"SELF.name CONTAINS[c] %@", searchText];
+        _filteredData = [[_data filteredArrayUsingPredicate:searchPredicate] mutableCopy];
+        [_tableview reloadData];
+
+        //寻找父节点
+//        for (int i = 0; i < _filteredData.count; i++)
+//        {
+//            APGroupNote *node = _filteredData[i];
+//            if (node.parentId != -1)
+//            {
+//                for (int k = 0; k < _data.count; k++)
+//                {
+//                    APGroupNote *temp = _data[k];
+//                    if (node.parentId == temp.nodeId)
+//                    {
+//                        temp.height = Group_Cell_Height;
+//                        temp.expand = YES;
+//                        [_filteredData addObject:temp];
+//
+//                        if (temp.parentId != -1)
+//                        {
+//                            for (int j = 0; j < _data.count; j++)
+//                            {
+//                                APGroupNote *temptemp = _data[k];
+//                                if (temp.parentId == temptemp.nodeId)
+//                                {
+//                                    temptemp.height = Group_Cell_Height;
+//                                    temptemp.expand = YES;
+//                                    [_filteredData addObject:temptemp];
+//                                    break;
+//                                }
+//                            }
+//                            break;
+//                        }
+//
+//                    }
+//                }
+//            }
+//        }
+    }
+    else
+    {
+//        _filteredData = [_data mutableCopy];
+        _isFieldActive = NO;
+        [_tableview reloadData];
+    }
+
+    [_tableview reloadData];
+    return YES;
+
+}
 #pragma mark *** UITableViewDelegate/UITableViewDataSource ***
-//-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-//{
-//    if (_searchController.active) {
-//         return 1;
-//    }
-//    return 1;
-//}
  
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     //控制器使用的时候，就是点击了搜索框的时候
     if (_isFieldActive)
     {
+        [self setEditUnavailable];
         return _filteredData.count;
     }
     
+    [self setEditVailable];
     return _data.count;
 }
  
