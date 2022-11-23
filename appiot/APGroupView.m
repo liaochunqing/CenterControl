@@ -94,16 +94,20 @@
     _tableview.delegate = self;
 //    _tableview.editing = YES;
 //    _tableview.allowsMultipleSelectionDuringEditing = YES;
+    UIView *View = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Left_View_Width, 0.01)];
+    View.backgroundColor = [UIColor clearColor];
+    _tableview.tableHeaderView = View;
+    
     [self addSubview:_tableview];
     [_tableview mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(Left_View_Width);
-        make.top.mas_equalTo(self.mas_top).offset(80);
+        make.top.mas_equalTo(self.mas_top).offset(H_SCALE(90));
         make.left.mas_equalTo(self.mas_left).offset(0);
         make.bottom.mas_equalTo(self.mas_bottom).offset(0);
     }];
     
-    [self createTempData:data];
     
+    [self createTempData:data];
 }
 
 
@@ -191,7 +195,7 @@
 
 -(void)createButton
 {
-    
+    CGFloat top = H_SCALE(48);
     self.btnLeft = [UIButton new];
     [self addSubview:self.btnLeft];
 //    [self.btnLeft setBackgroundImage:[self imageWithColor:[UIColor clearColor]] forState:UIControlStateSelected];
@@ -202,7 +206,7 @@
     [self.btnLeft setTitleColor:ColorHex(0xFFFFFF ) forState:UIControlStateNormal];
     [self.btnLeft mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(57, Group_Btn_W));
-        make.top.mas_equalTo(self.mas_top).offset(H_SCALE(45));
+        make.top.mas_equalTo(self.mas_top).offset(top);
         make.left.equalTo(self.mas_left).offset(Left_Gap);
     }];
     [self.btnLeft addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -215,7 +219,7 @@
     [self.btnRight setTitleColor:ColorHex(0x3F6EF2) forState:UIControlStateNormal];
     [self.btnRight mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(W_SCALE(45), Group_Btn_W));
-        make.top.mas_equalTo(self.mas_top).offset(H_SCALE(45));
+        make.top.mas_equalTo(self.mas_top).offset(top);
         make.right.equalTo(self.mas_right).offset(-Left_Gap);
     }];
     [self.btnRight addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -472,11 +476,10 @@
     }
 
 }
-
-//- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    return UITableViewCellEditingStyleDelete | UITableViewCellEditingStyleInsert;
-//}
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 0.1;
+}
 
 #pragma button响应
 -(void)btnBottomClick:(UIButton *)btn
