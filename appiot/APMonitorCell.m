@@ -94,7 +94,7 @@
     [kuaimen mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(firtRow);
         make.right.mas_equalTo(zhan.mas_left).offset(-30);
-        make.size.mas_equalTo(CGSizeMake(W_SCALE(45), H_SCALE(20)));
+        make.size.mas_equalTo(CGSizeMake(W_SCALE(55), H_SCALE(20)));
     }];
     
     //开机

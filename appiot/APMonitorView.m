@@ -90,7 +90,7 @@
     [zhan mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(view.mas_left).offset(W_SCALE(618));
         make.top.mas_equalTo(view.mas_top).offset(0);
-        make.width.mas_equalTo(W_SCALE(64));
+        make.width.mas_equalTo(W_SCALE(75));
         make.bottom.mas_equalTo(view.mas_bottom).offset(0);
     }];
     
@@ -102,7 +102,7 @@
     [cuo mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(view.mas_left).offset(W_SCALE(768));
         make.top.mas_equalTo(view.mas_top).offset(0);
-        make.width.mas_equalTo(W_SCALE(48));
+        make.width.mas_equalTo(W_SCALE(56));
         make.bottom.mas_equalTo(view.mas_bottom).offset(0);
     }];
 }
