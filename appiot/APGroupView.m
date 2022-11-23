@@ -92,6 +92,8 @@
     _tableview  = [[APGroupTableView alloc] init];
     _tableview.dataSource = self;
     _tableview.delegate = self;
+//    _tableview.editing = YES;
+//    _tableview.allowsMultipleSelectionDuringEditing = YES;
     [self addSubview:_tableview];
     [_tableview mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(Left_View_Width);
@@ -138,7 +140,7 @@
     NSDictionary *dict3 = @{@"string":@"移动",
                            @"imageName":@"Group 11532",
     };
-    NSDictionary *dict4 = @{@"string":@"。。。",
+    NSDictionary *dict4 = @{@"string":@"更多",
                            @"imageName":@"Group 11531",
     };
     
@@ -231,43 +233,72 @@
     }
     [_tableview reloadData];
 }
+//设置cell展开折叠
+-(void)setExpend:(int)row
+{
+    WS(weakSelf);
+    APGroupNote *node = weakSelf.data[row];
+    
+    if (node.expand == YES)
+    {
+        node.expand = !node.expand;
+        for (int i = 0; i < _data.count; i++)
+        {
+            APGroupNote *second = _data[i];
+            if (second.parentId == node.nodeId)
+            {
+                second.height = 0;
+                
+                for (int k = 0; k < _data.count; k++)
+                {
+                    APGroupNote *third = _data[k];
+                    if (third.parentId == second.nodeId)
+                    {
+                        third.height = 0;
+                    }
+                }
+            }
+        }
+    }
+    else
+    {
+        node.expand = !node.expand;
+        for (int i = 0; i < _data.count; i++)
+        {
+            APGroupNote *second = _data[i];
+            if (second.parentId == node.nodeId)
+            {
+                second.height = Group_Cell_Height;
+                if(second.expand == YES)
+                {
+                    for (int k = 0; k < _data.count; k++)
+                    {
+                        APGroupNote *third = _data[k];
+                        if (third.parentId == second.nodeId)
+                        {
+                            third.height = Group_Cell_Height;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    [weakSelf.tableview reloadData];
+
+}
 
 //隐藏编辑按钮
 -(void)setEditVailable
 {
-    _btnRight.hidden = NO;
+    _btnLeft.hidden = _btnRight.hidden = NO;
+    
 }
 //显示编辑按钮
 -(void)setEditUnavailable
 {
-    _btnRight.hidden = YES;
+    _btnLeft.hidden = _btnRight.hidden = YES;
 }
 
-#pragma  mark UISearchBarDelegate
-- (void)updateSearchResultsForSearchController:(UISearchController *)searchController
-{
-    NSString *searchText = searchController.searchBar.text;
-    
-    if (searchText.length>0)
-    {
-        if (_filteredData && _filteredData.count)
-        {
-            [_filteredData removeAllObjects];
-        }
-        else
-        {
-            _filteredData = [NSMutableArray array];
-        }
-        // 将搜索的结果存放到数组中
-        NSPredicate *searchPredicate = [NSPredicate predicateWithFormat:@"SELF.name CONTAINS[c] %@", searchText];
-        _filteredData = [[self.data filteredArrayUsingPredicate:searchPredicate] mutableCopy];
-        
-        WS(weakSelf);
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [weakSelf.tableview reloadData];
-        });
-    };
-}
 #pragma mark UITextFieldDelegate
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
@@ -391,7 +422,6 @@
     if (!cell) {
         cell = [[APGroupCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NODE_CELL_ID];
     }
-    
     APGroupNote *node;
     if (_isFieldActive)
     {
@@ -402,16 +432,15 @@
         node = [_data objectAtIndex:indexPath.row];
     }
 
-    [cell updateCellWithData:node];
+    [cell updateCellWithData:node index:(int)indexPath.row];
     
-//    WS(weakSelf);
-    __block APGroupNote *temp = [_data objectAtIndex:indexPath.row];
+    WS(weakSelf);
     [cell setBtnClickBlock:^(BOOL index) {
-        
-        temp.selected = index;
+        [weakSelf setExpend:(int)indexPath.row];
     }];
     return cell;
 }
+
 
  
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -433,53 +462,22 @@
     APGroupNote *node = _data[row];
     if (node == nil) return;
     
-    if (node.expand == YES)
+    APGroupCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    if(cell.selectBtn)
     {
-        node.expand = !node.expand;
-        for (int i = 0; i < _data.count; i++)
-        {
-            APGroupNote *second = _data[i];
-            if (second.parentId == node.nodeId)
-            {
-                second.height = 0;
-                
-                for (int k = 0; k < _data.count; k++)
-                {
-                    APGroupNote *third = _data[k];
-                    if (third.parentId == second.nodeId)
-                    {
-                        third.height = 0;
-                    }
-                }
-            }
-        }
+        cell.selectBtn.selected = !cell.selectBtn.selected;
+        NSString *selectIamge = cell.selectBtn.selected?@"all" : @"Ellipse 4";
+        [cell.selectBtn setImage:[UIImage imageNamed:selectIamge] forState:UIControlStateNormal];
+        node.selected = cell.selectBtn.selected;
     }
-    else
-    {
-        node.expand = !node.expand;
-        for (int i = 0; i < _data.count; i++)
-        {
-            APGroupNote *second = _data[i];
-            if (second.parentId == node.nodeId)
-            {
-                second.height = Group_Cell_Height;
-                if(second.expand == YES)
-                {
-                    for (int k = 0; k < _data.count; k++)
-                    {
-                        APGroupNote *third = _data[k];
-                        if (third.parentId == second.nodeId)
-                        {
-                            third.height = Group_Cell_Height;
-                        }
-                    }
-                }
-            }
-        }
-    }
-    
-    [tableView reloadData];
+
 }
+
+//- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    return UITableViewCellEditingStyleDelete | UITableViewCellEditingStyleInsert;
+//}
+
 #pragma button响应
 -(void)btnBottomClick:(UIButton *)btn
 {

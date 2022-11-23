@@ -133,9 +133,17 @@
                 [self createCommandView];
             }
                 break;
-            case 1://按钮“”
+            case 1://按钮“监控”
             {
-                [self creatCenterChuangeView];
+                if(self.monitorView == nil)
+                {
+                    self.monitorView = [[APMonitorView alloc] init];
+                    [self addSubview:self.monitorView];
+                }
+                else
+                {
+                    [self bringSubviewToFront:self.monitorView];
+                }
             }
                 break;
             case 2://按钮“”

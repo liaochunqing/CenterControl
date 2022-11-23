@@ -14,18 +14,16 @@
     if (self) {
         //添加子控件
         self.backgroundColor = [UIColor clearColor];
-        self.selectedBackgroundView.backgroundColor = ColorHex(0x3F6EF2);
-//        self.haveChild = YES;
     }
     return self;
 }
 
--(void)updateCellWithData:(APGroupNote*)node
+-(void)updateCellWithData:(APGroupNote*)node index:(int)row
 {
     if(!node) return;
     for (UIView *subview in self.contentView.subviews)
     {
-            [subview removeFromSuperview];
+        [subview removeFromSuperview];
      }
     
     if(node.height == 0)
@@ -48,26 +46,29 @@
     CGFloat midGap = W_SCALE(35);//cell各个图标文字中间的间隙
     //展开箭头图标的创建
     CGFloat expendX = Left_Gap  + midGap* (node.depth);
-    CGFloat expendW = W_SCALE(14);
-    CGFloat expendH = H_SCALE(7);
-    _expendImageView = [[UIImageView alloc] init];
-    [self.contentView addSubview:_expendImageView];
+    //展开图标
+    _expendBtn = [UIButton new];
+//    [_expendBtn setBackgroundColor:[UIColor redColor]];
+    [self.contentView addSubview:_expendBtn];
     if (node.haveChild == YES)
     {
-        _expendImageView.hidden = NO;
+        _expendBtn.hidden = NO;
     }
     else
     {
-        _expendImageView.hidden = YES;
+        _expendBtn.hidden = YES;
         expendX = Left_Gap  + midGap* (node.depth - 1);
     }
-    [_expendImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [_expendBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(self.contentView);
         make.left.mas_equalTo(self.contentView.mas_left).offset(expendX);
-        make.size.mas_equalTo(CGSizeMake(expendW, expendH));
+        make.size.mas_equalTo(CGSizeMake(30, 30));
     }];
+    _expendBtn.tag = row;
+    [_expendBtn addTarget:self action:@selector(expendBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     NSString *name = node.expand?@"Vector(2)" : @"Vector(1)";
-    _expendImageView.image = [UIImage imageNamed:name];
+    [_expendBtn setImage:[UIImage imageNamed:name] forState:UIControlStateNormal];
+    
 
     
     //图标
@@ -88,7 +89,7 @@
     _im.clipsToBounds=YES;
     [_im mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(self.contentView);
-        make.left.mas_equalTo(_expendImageView.mas_right).offset(midGap);
+        make.left.mas_equalTo(_expendBtn.mas_right).offset(midGap);
         make.size.mas_equalTo(CGSizeMake(28, 28));
     }];
     
@@ -107,15 +108,14 @@
     
     //选中图标
     _selectBtn = [UIButton new];
+    _selectBtn.userInteractionEnabled = NO;
     [self.contentView addSubview:_selectBtn];
     [_selectBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(self.contentView);
         make.right.mas_equalTo(self.contentView.mas_right).offset(-Left_Gap);
         make.size.mas_equalTo(CGSizeMake(30, 30));
     }];
-    [_selectBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
-    _selectBtn.tag = node.selected;//把是否被选中赋值给tag
-    
+    _selectBtn.selected = node.selected;
     NSString *selectIamge = node.selected?@"all" : @"Ellipse 4";
     [_selectBtn setImage:[UIImage imageNamed:selectIamge] forState:UIControlStateNormal];
     
@@ -127,23 +127,11 @@
 //}
 
 #pragma button响应
-
--(void)btnClick:(UIButton *)btn
+//
+-(void)expendBtnClick:(UIButton *)btn
 {
-    if(btn)
+    if(btn == _expendBtn)
     {
-        //是否被选中，以tag作为判断值
-        if (btn.tag == 1)
-        {
-            btn.tag = 0;
-        }
-        else
-        {
-            btn.tag = 1;
-        }
-        
-        NSString *selectIamge = btn.tag?@"all" : @"Ellipse 4";
-        [btn setImage:[UIImage imageNamed:selectIamge] forState:UIControlStateNormal];
         self.btnClickBlock(btn.tag);
     }
 }

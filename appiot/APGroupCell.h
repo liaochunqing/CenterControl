@@ -15,16 +15,18 @@ typedef void(^ClickBlock)(BOOL index);
 NS_ASSUME_NONNULL_BEGIN
 
 @interface APGroupCell : UITableViewCell
-@property (strong, nonatomic) UIImageView *expendImageView;
+//@property (strong, nonatomic) UIImageView *expendImageView;
 @property (strong, nonatomic) UIImageView *im;
 @property (strong, nonatomic) UILabel *title;
 @property (strong, nonatomic) UIButton *selectBtn;
+@property (strong, nonatomic) UIButton *expendBtn;
+
 //@property (nonatomic) BOOL haveChild;
 
 @property (nonatomic, copy) ClickBlock btnClickBlock;
 
 
--(void)updateCellWithData:(APGroupNote*)node;
+-(void)updateCellWithData:(APGroupNote*)node index:(int)row;
 - (UIImage *)imageWithColor:(UIColor *)color;
 @end
 

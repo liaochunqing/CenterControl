@@ -16,7 +16,7 @@
                            depth : (int)depth
                             height:(CGFloat)height
                           expand : (BOOL)expand
-                         selected:(BOOL)selected;
+                         selected:(BOOL)selected
 {
     if (self = [super init])
     {

@@ -1,0 +1,148 @@
+//
+//  APMonitorView.m
+//  appiot
+//
+//  Created by App-Iot02 on 2022/11/23.
+//
+
+#import "APMonitorView.h"
+
+@implementation APMonitorView
+- (instancetype)initWithFrame:(CGRect)frame {
+    if (self = [super initWithFrame:frame]) {
+        [self createUI];
+    }
+    return self;
+}
+
+-(void)createUI
+{
+
+    CGFloat x = 0;
+    CGFloat y = Center_Top_Gap + Center_Btn_Heigth + top_Gap;
+    CGFloat w = Center_View_Width;
+    CGFloat h = SCREEN_HEIGHT - y - top_Gap;
+    
+    [self setFrame:CGRectMake(x, y, w, h)];
+    self.backgroundColor = ColorHex(0x161635);
+    
+    [self createTitleView];
+    [self createTableview];
+//    [self createMonitorView];
+}
+-(void)createTableview
+{
+    APMonitorModel *node1 = [APMonitorModel new];
+    APMonitorModel *node2 = [APMonitorModel new];
+    APMonitorModel *node3 = [APMonitorModel new];
+    _data = [NSMutableArray arrayWithArray:[NSArray arrayWithObjects:node1,node2,node3,node1,node2,node3,nil]];
+    _tableview  = [[UITableView alloc] init];
+    _tableview.dataSource = self;
+    _tableview.delegate = self;
+    _tableview.backgroundColor = ColorHex(0x1D2242);
+    ViewRadius(_tableview, 10);
+
+    [self addSubview:_tableview];
+    [_tableview mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.mas_top).offset(Left_Gap *2 + H_SCALE(45));
+        make.left.mas_equalTo(self.mas_left).offset(Left_Gap);
+        make.right.mas_equalTo(self.mas_right).offset(-Left_Gap);
+        make.bottom.mas_equalTo(self.mas_bottom).offset(0);
+    }];
+    
+//    [self createTempData:data];
+    
+}
+
+//标题 ：设备监测，展厅名称，报错码
+-(void)createTitleView
+{
+    UIView *view = [[UIView alloc] init];
+    [self addSubview:view];
+//    ViewRadius(view, 10);
+//    view.backgroundColor = [UIColor redColor];
+//    self.testBaseView = view;
+    [view mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.mas_left).offset(Left_Gap);
+        make.top.mas_equalTo(self.mas_top).offset(top_Gap);
+        make.right.mas_equalTo(self.mas_right).offset(-Left_Gap);
+        make.height.mas_equalTo(H_SCALE(45));
+    }];
+    
+    UILabel *lab = [[UILabel alloc] init];
+    [view addSubview:lab];
+    lab.text = @"设备监测  (120)";
+    lab.font = [UIFont systemFontOfSize:20];
+    lab.textColor = [UIColor whiteColor];
+    [lab mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(view.mas_left).offset(0);
+        make.top.mas_equalTo(view.mas_top).offset(0);
+        make.width.mas_equalTo(W_SCALE(290));
+        make.bottom.mas_equalTo(view.mas_bottom).offset(0);
+    }];
+    
+
+    UILabel *zhan = [[UILabel alloc] init];
+    [view addSubview:zhan];
+    zhan.text = @"展厅名称";
+    zhan.font = [UIFont systemFontOfSize:16];
+    zhan.textColor = [UIColor whiteColor];
+    [zhan mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(view.mas_left).offset(W_SCALE(618));
+        make.top.mas_equalTo(view.mas_top).offset(0);
+        make.width.mas_equalTo(W_SCALE(64));
+        make.bottom.mas_equalTo(view.mas_bottom).offset(0);
+    }];
+    
+    UILabel *cuo = [[UILabel alloc] init];
+    [view addSubview:cuo];
+    cuo.text = @"错误码";
+    cuo.font = [UIFont systemFontOfSize:16];
+    cuo.textColor = [UIColor whiteColor];
+    [cuo mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(view.mas_left).offset(W_SCALE(768));
+        make.top.mas_equalTo(view.mas_top).offset(0);
+        make.width.mas_equalTo(W_SCALE(48));
+        make.bottom.mas_equalTo(view.mas_bottom).offset(0);
+    }];
+}
+
+#pragma mark *** UITableViewDelegate/UITableViewDataSource ***
+ 
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+
+    return _data.count;
+}
+ 
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    static NSString *NODE_CELL_ID = @"node_cell_id";
+
+    APMonitorCell *cell = [tableView dequeueReusableCellWithIdentifier:NODE_CELL_ID];
+    if (!cell) {
+        cell = [[APMonitorCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NODE_CELL_ID];
+    }
+    
+    APMonitorModel *node;
+    node = [_data objectAtIndex:indexPath.row];
+
+
+    [cell updateCellWithData:node];
+    return cell;
+}
+
+ 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    return H_SCALE(146);
+}
+ 
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+ 
+}
+
+
+@end

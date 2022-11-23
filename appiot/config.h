@@ -4,11 +4,12 @@
 //
 //  Created by App-Iot02 on 2022/11/10.
 //
-//#import "AppDelegate.h"
-#import "GCDAsyncUdpSocket.h"
 
+#import "APTool.h"
+#import "GCDAsyncUdpSocket.h"
 #include "Masonry.h"
 #import "MBProgressHUD.h"
+
 #ifndef config_h
 #define config_h
 //**系统对象
@@ -115,7 +116,7 @@
 #define Center_View_Width W_SCALE(873)//右视图宽度
 #define Center_Btn_Width W_SCALE(120)//中间菜单按钮宽度
 #define Center_Btn_Heigth H_SCALE(44)
-#define Center_Top_Gap H_SCALE(40)
+#define Center_Top_Gap H_SCALE(50)
 #define Center_ChangeView_Top H_SCALE(127)//中间可变视图与顶部距离
 #define Command_Btn_W W_SCALE(192)
 #define Command_Btn_H H_SCALE(208)
