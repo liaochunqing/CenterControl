@@ -82,7 +82,7 @@
     [zhan mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(firtRow);
         make.right.mas_equalTo(firtRow.mas_right).offset(-Left_Gap);
-        make.size.mas_equalTo(CGSizeMake(W_SCALE(86), H_SCALE(20)));
+        make.size.mas_equalTo(CGSizeMake(W_SCALE(110), H_SCALE(20)));
     }];
     
     //开快门
@@ -109,40 +109,42 @@
         make.size.mas_equalTo(CGSizeMake(W_SCALE(45), H_SCALE(20)));
     }];
     
+    CGFloat fontsize = H_SCALE(13);
+    CGFloat w = W_SCALE(150);
     //ip
     UILabel *iplab = [[UILabel alloc] init];
     [self.contentView addSubview:iplab];
     iplab.text = @"IP:127.0.0.1:63142";
-    iplab.font = [UIFont systemFontOfSize:12];
+    iplab.font = [UIFont systemFontOfSize:fontsize];
     iplab.textColor = ColorHex(0xABBDD5);
     [iplab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(namelab.mas_bottom).offset(top_Gap);
         make.left.mas_equalTo(namelab.mas_left).offset(0);
-        make.size.mas_equalTo(CGSizeMake(W_SCALE(98), H_SCALE(17)));
+        make.size.mas_equalTo(CGSizeMake(w, H_SCALE(17)));
     }];
     
     //信号源
     UILabel *singallab = [[UILabel alloc] init];
     [self.contentView addSubview:singallab];
     singallab.text = @"信源：HDBase_T";
-    singallab.font = [UIFont systemFontOfSize:12];
+    singallab.font = [UIFont systemFontOfSize:fontsize];
     singallab.textColor = ColorHex(0xABBDD5);
     [singallab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(iplab.mas_bottom).offset(top_Gap);
         make.left.mas_equalTo(namelab.mas_left).offset(0);
-        make.size.mas_equalTo(CGSizeMake(W_SCALE(98), H_SCALE(17)));
+        make.size.mas_equalTo(CGSizeMake(w, H_SCALE(17)));
     }];
     
     //温度
     UILabel *templab = [[UILabel alloc] init];
     [self.contentView addSubview:templab];
     templab.text = @"环境温度（°C）：38";
-    templab.font = [UIFont systemFontOfSize:12];
+    templab.font = [UIFont systemFontOfSize:fontsize];
     templab.textColor = ColorHex(0xABBDD5);
     [templab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(singallab.mas_bottom).offset(top_Gap);
         make.left.mas_equalTo(namelab.mas_left).offset(0);
-        make.size.mas_equalTo(CGSizeMake(W_SCALE(112), H_SCALE(17)));
+        make.size.mas_equalTo(CGSizeMake(w, H_SCALE(17)));
     }];
     
     CGFloat left = W_SCALE(232);
@@ -150,24 +152,24 @@
     UILabel *idlab = [[UILabel alloc] init];
     [self.contentView addSubview:idlab];
     idlab.text = @"ID：38T8759859";
-    idlab.font = [UIFont systemFontOfSize:12];
+    idlab.font = [UIFont systemFontOfSize:fontsize];
     idlab.textColor = ColorHex(0xABBDD5);
     [idlab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(namelab.mas_bottom).offset(top_Gap);
         make.left.mas_equalTo(self.contentView.mas_left).offset(left);
-        make.size.mas_equalTo(CGSizeMake(W_SCALE(210), H_SCALE(17)));
+        make.size.mas_equalTo(CGSizeMake(w, H_SCALE(17)));
     }];
     
     //时间比
     UILabel *timelab = [[UILabel alloc] init];
     [self.contentView addSubview:timelab];
     timelab.text = @"整机/光源时间（h）：1000000/56795";
-    timelab.font = [UIFont systemFontOfSize:12];
+    timelab.font = [UIFont systemFontOfSize:fontsize];
     timelab.textColor = ColorHex(0xABBDD5);
     [timelab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(idlab.mas_bottom).offset(top_Gap);
         make.left.mas_equalTo(self.contentView.mas_left).offset(left);
-        make.size.mas_equalTo(CGSizeMake(W_SCALE(210), H_SCALE(17)));
+        make.size.mas_equalTo(CGSizeMake(w, H_SCALE(17)));
     }];
     
     //详情箭头图标

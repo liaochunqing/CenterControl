@@ -215,7 +215,6 @@ static APUdpSocket *sharedInstance = nil;
 }
 
 - (void)udpSocketDidClose:(GCDAsyncUdpSocket *)sock withError:(NSError *)error
-
 {
     NSLog(@"udpSocket关闭");
 }
