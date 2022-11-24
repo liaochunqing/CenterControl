@@ -57,8 +57,7 @@ static APUdpSocket *sharedInstance = nil;
    //消息内容
     NSData *sendData = [self convertHexStrToData:message];
     //如果向特定ip发送，这里要写明ip
-    NSString *host = @"255.255.255.255";
-    [self.udpSocket sendData:sendData toHost:host port:_port withTimeout:-1 tag:100];
+    [self.udpSocket sendData:sendData toHost:_host port:_port withTimeout:-1 tag:100];
 }
 
 - (void)sendMessage:(NSString *)message

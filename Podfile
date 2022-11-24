@@ -10,6 +10,7 @@ target 'appiot' do
   pod 'AFNetworking'
   pod 'Masonry'
   pod 'MBProgressHUD'
+  pod 'FMDB','~>2.6.0'
 
   target 'appiotTests' do
     inherit! :search_paths

@@ -15,12 +15,16 @@ PODS:
   - AFNetworking/UIKit (4.0.1):
     - AFNetworking/NSURLSession
   - CocoaAsyncSocket (7.6.5)
+  - FMDB (2.6.2):
+    - FMDB/standard (= 2.6.2)
+  - FMDB/standard (2.6.2)
   - Masonry (1.1.0)
   - MBProgressHUD (1.2.0)
 
 DEPENDENCIES:
   - AFNetworking
   - CocoaAsyncSocket (~> 7.6.0)
+  - FMDB (~> 2.6.0)
   - Masonry
   - MBProgressHUD
 
@@ -28,15 +32,17 @@ SPEC REPOS:
   trunk:
     - AFNetworking
     - CocoaAsyncSocket
+    - FMDB
     - Masonry
     - MBProgressHUD
 
 SPEC CHECKSUMS:
   AFNetworking: 7864c38297c79aaca1500c33288e429c3451fdce
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
+  FMDB: 854a0341b4726e53276f2a8996f06f1b80f9259a
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MBProgressHUD: 3ee5efcc380f6a79a7cc9b363dd669c5e1ae7406
 
-PODFILE CHECKSUM: d6bd481ea1095c0d23c1d523f9a88b86042e91eb
+PODFILE CHECKSUM: b6157026c7ddc142967a751c980e42f8edfb6abe
 
 COCOAPODS: 1.11.3

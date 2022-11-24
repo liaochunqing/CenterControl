@@ -14,6 +14,10 @@
     if (self) {
         //添加子控件
         self.backgroundColor = [UIColor clearColor];
+        
+        //设置被选中颜色
+        self.selectedBackgroundView = [[UIView alloc] initWithFrame:self.frame];
+        self.selectedBackgroundView.backgroundColor = ColorHex(0x29315F );//
     }
     return self;
 }
@@ -24,16 +28,12 @@
     for (UIView *subview in self.contentView.subviews)
     {
         [subview removeFromSuperview];
-     }
+    }
     
     if(node.height == 0)
     {
         return;
     };
-
-    //被选中颜色
-    self.selectedBackgroundView = [[UIView alloc] initWithFrame:self.frame];
-    self.selectedBackgroundView.backgroundColor = ColorHex(0x3F6EF2);//
 
     //测试代码
     {

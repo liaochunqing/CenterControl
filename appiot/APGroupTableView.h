@@ -13,7 +13,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface APGroupTableView : UITableView
-@property (nonatomic , strong) NSMutableArray *data;//传递过来已经组织好的数据（全量数据）
+//@property (nonatomic , strong) NSMutableArray *data;//传递过来已经组织好的数据（全量数据）
 
 //@property (nonatomic , strong) NSMutableArray *tempData;//用于存储数据源（部分数据）
 //@property (nonatomic,strong)UISearchController *searchController;//搜索
@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 //-(NSMutableArray *)createTempData : (NSArray *)data;
 //-(void)selectedAllWithSelected:(BOOL)selected;
--(void)deleteSelectedNode;
+//-(void)deleteSelectedNode;
 @end
 
 NS_ASSUME_NONNULL_END

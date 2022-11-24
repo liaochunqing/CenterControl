@@ -8,7 +8,6 @@
 #import "APBaseView.h"
 #import "APBottomButton.h"
 #import "APGroupTableView.h"
-//#import "config.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

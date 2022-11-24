@@ -318,7 +318,7 @@
             case 2://按钮“开快门”
             {
                 APUdpSocket *sockManager = [APUdpSocket sharedInstance];
-//                sockManager.host = @"192.168.1.219";
+                sockManager.host = @"255.255.255.255";
                 sockManager.port = 5050;
                 [sockManager createClientUdpSocket];
                 NSString *m = @"AD0000002F0000000000000000000000000000DC";

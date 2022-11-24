@@ -7,6 +7,7 @@
 
 #import "APGroupView.h"
 #import "APGroupNote.h"
+#import "AppDelegate.h"
 
 
 //CGFloat Group_Btn_W = (30);
@@ -23,7 +24,6 @@
 
 -(void)createUI
 {
-
     CGFloat x = 0;
     CGFloat y = H_SCALE(141);
     CGFloat w = Left_View_Width;
@@ -195,7 +195,7 @@
 
 -(void)createButton
 {
-    CGFloat top = H_SCALE(48);
+    CGFloat top = H_SCALE(52);
     self.btnLeft = [UIButton new];
     [self addSubview:self.btnLeft];
 //    [self.btnLeft setBackgroundImage:[self imageWithColor:[UIColor clearColor]] forState:UIControlStateSelected];
@@ -211,7 +211,6 @@
     }];
     [self.btnLeft addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
 
-    
     self.btnRight = [UIButton new];
     [self addSubview:self.btnRight];
     [self.btnRight setTitle:@"编辑" forState:UIControlStateNormal];
@@ -237,6 +236,70 @@
     }
     [_tableview reloadData];
 }
+
+
+-(void)deleteSelectedNode
+{
+    NSMutableIndexSet *set = [[NSMutableIndexSet alloc] init];//临时容器，存储将要删除的节点
+    
+    //收集删除节点
+    for (int i = 0; i < _data.count; i++)
+    {
+        APGroupNote *first = _data[i];
+        if (first.selected)//第一层
+        {
+            if(first.expand == YES)
+            {
+                for (int k = 0; k < _data.count; k++)
+                {
+                    APGroupNote *second = _data[k];
+                    if (second.parentId == first.nodeId)//第二层
+                    {
+                        for (int j = 0; j < _data.count; j++)
+                        {
+                            APGroupNote *third = _data[j];
+                            if (third.parentId == second.nodeId)//第三层
+                            {
+                                [set addIndex:j];
+
+                            }
+                        }
+                        [set addIndex:k];
+
+                    }
+                }
+            }
+            
+            [set addIndex:i];
+        }
+    }
+
+    
+    //删除节点刷新列表
+    if (set.count > 0)
+    {
+        WS(weakSelf);
+        UIAlertController  *alert = [UIAlertController alertControllerWithTitle:@"确认删除" message:@"删除后无法恢复" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"删除" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action)
+        {
+            
+            [weakSelf.data removeObjectsAtIndexes:set];
+            [weakSelf.tableview reloadData];
+        }];
+                
+        UIAlertAction *action2= [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+                }];
+
+        [alert addAction:action1];
+        [alert addAction:action2];
+        AppDelegate *appDelegate = kAppDelegate;
+    //    AppDelegate * appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        UIViewController *vc = appDelegate.mainVC;
+        [vc presentViewController:alert animated:YES completion:nil];  //显示对话框
+    }
+}
+
+
 //设置cell展开折叠
 -(void)setExpend:(int)row
 {
@@ -495,7 +558,7 @@
                 break;
             case 1://删除
             {
-                [_tableview deleteSelectedNode];
+                [self deleteSelectedNode];
             }
                 break;
             case 2://移动

@@ -89,7 +89,7 @@
 
 - (void)createScrollMenu
 {
-    UIView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, H_SCALE(74), Left_View_Width, H_SCALE(60))];
+    UIView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, H_SCALE(70), Left_View_Width, H_SCALE(60))];
     scrollView.backgroundColor = [UIColor clearColor];
     [self addSubview:scrollView];
 
