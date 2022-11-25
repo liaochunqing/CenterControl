@@ -8,6 +8,7 @@
 #import "APBaseView.h"
 #import "APBottomButton.h"
 #import "APGroupTableView.h"
+#import "APDatabaseTool.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -17,11 +18,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,strong)UIView *bottomView;
 @property(nonatomic,strong)APGroupTableView *tableview;
 
-@property (nonatomic , strong) NSMutableArray *data;//传递过来已经组织好的数据（全量数据）
-//@property (nonatomic,strong)UISearchController *searchController;//搜索
+@property (nonatomic , strong) NSMutableArray *data;//组织好的数据
+@property (nonatomic,strong)NSMutableArray *orgData;//数据库搜索上来的原始数据（全量数据）
 @property (nonatomic,strong)NSMutableArray *filteredData;//存储搜索过滤后的数据
 @property (nonatomic)BOOL isFieldActive;//是否正在使用
-
+//@property (nonatomic,strong)APDatabaseTool *dbtool;
 @end
 
 NS_ASSUME_NONNULL_END

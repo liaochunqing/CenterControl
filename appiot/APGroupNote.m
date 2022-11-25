@@ -9,26 +9,38 @@
 
 @implementation APGroupNote
 
-- (instancetype)initWithParentId : (int)parentId
-                          nodeId : (int)nodeId
-                       imageName : (NSString *)imageName
-                            name : (NSString *)name
-                           depth : (int)depth
-                            height:(CGFloat)height
-                          expand : (BOOL)expand
-                         selected:(BOOL)selected
+- (instancetype)init
 {
     if (self = [super init])
     {
-        self.parentId = parentId;
-        self.nodeId = nodeId;
-        self.imageName = imageName;
-        self.name = name;
-        self.depth = depth;
-        self.height = height;
-        self.expand = expand;
-        self.haveChild = YES;
+        self.height = Group_Cell_Height;
+        self.expand = YES;
+        self.haveChild = NO;
     }
     return self;
 }
+
+
+//- (instancetype)initWithParentId : (int)parentId
+//                          nodeId : (int)nodeId
+//                       imageName : (NSString *)imageName
+//                            name : (NSString *)name
+//                           depth : (int)depth
+//                            height:(CGFloat)height
+//                          expand : (BOOL)expand
+//                         selected:(BOOL)selected
+//{
+//    if (self = [super init])
+//    {
+//        self.parentId = parentId;
+//        self.nodeId = nodeId;
+//        self.imageName = imageName;
+//        self.name = name;
+//        self.depth = depth;
+//        self.height = height;
+//        self.expand = expand;
+//        self.haveChild = YES;
+//    }
+//    return self;
+//}
 @end

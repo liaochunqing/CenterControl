@@ -307,27 +307,16 @@
         switch (btn.tag) {
             case 0://按钮“开机”
             {
-                
-            }
-                break;
-            case 1://按钮“机型”
-            {
-                
-            }
-                break;
-            case 2://按钮“开快门”
-            {
                 APUdpSocket *sockManager = [APUdpSocket sharedInstance];
                 sockManager.host = @"255.255.255.255";
                 sockManager.port = 5050;
                 [sockManager createClientUdpSocket];
                 NSString *m = @"AD0000002F0000000000000000000000000000DC";
                 [sockManager broadcast:m];
-//                [sockManager sendMessage:@"AD0000002F0000000000000000000000000000DC"];
+
             }
                 break;
-                
-            case 3://按钮“关快门”
+            case 1://按钮“关机”
             {
                 APUdpSocket *sockManager = [APUdpSocket sharedInstance];
 //                sockManager.host = @"192.168.1.219";
@@ -335,6 +324,54 @@
                 [sockManager createClientUdpSocket];
                 NSString *m = @"AD0000002F0100000000000000000000000000DD";
                 [sockManager broadcast:m];
+            }
+                break;
+            case 2://按钮“开快门”
+            {
+                
+                
+                
+                
+            }
+                break;
+                
+            case 3://按钮“关快门”
+            {
+                //1.获得数据库文件的路径
+                    NSString *doc = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+                    NSLog(@"%@", doc);
+                    NSString *dbfileName = [doc stringByAppendingPathComponent:@"CentralControl.db"];
+                NSFileManager *fm = [NSFileManager defaultManager];
+                
+                //导入外部数据库.db文件
+//                if ([fm fileExistsAtPath:dbfileName] == NO)
+                {
+                    BOOL ok;
+                    ok = [fm removeItemAtPath:dbfileName error:nil];
+                            NSLog(@"删除成功");
+                    //拷贝数据库文件到指定目录
+                    NSString *backPath = [[NSBundle mainBundle] pathForResource:@"remote" ofType:@"db"];
+                     ok = [fm copyItemAtPath:backPath toPath:dbfileName error:nil];
+                    NSLog(@"%d",ok);
+                }
+                    //2.获得数据库
+                    FMDatabase *collectionDatabase = [FMDatabase databaseWithPath:dbfileName];
+                    
+                    //3.打开数据库
+                    if ([collectionDatabase open])
+                    {
+                        FMResultSet *resultSet = [collectionDatabase executeQuery:@"SELECT * FROM zk_group"];
+                        // 2.遍历结果
+                        // 遍历结果集
+                          while ([resultSet next])
+                          {
+                              NSString *dicNameData = [resultSet stringForColumn:@"group_name"]; // 将查询的字符串转换成字典
+                              NSLog(@"dicNameData = %@",dicNameData);
+//                              NSDictionary *dic = [WL_Tool dictionaryWithJsonString:dicNameData];
+//                              [self.wordList addObject:dic];
+                          }
+                        [collectionDatabase close];
+                    }
             }
                 break;
                 

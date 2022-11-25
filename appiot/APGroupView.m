@@ -31,12 +31,15 @@
     
     [self setFrame:CGRectMake(x, y, w, h)];
 //    self.backgroundColor = ColorHex(0x161635);
-    
+    _data = [NSMutableArray array];
+    _orgData = [NSMutableArray array];
     [self cteateSearchView];
     [self createButton];
     [self createTableview];
     [self createBottomView];
 }
+
+
 
 -(void)cteateSearchView
 {
@@ -63,33 +66,7 @@
 
 }
 -(void)createTableview
-{
-    //----------------------------------中国的省地市关系图3,2,1--------------------------------------------
-    APGroupNote *country1 = [[APGroupNote alloc] initWithParentId:-1 nodeId:0 imageName:@"Group 11674" name:@"展厅1" depth:0 height:Group_Cell_Height expand:YES selected:NO];
-    APGroupNote *province1 = [[APGroupNote alloc] initWithParentId:0 nodeId:1 imageName:@"Group 11674" name:@"展厅1-1" depth:1 height:Group_Cell_Height expand:YES selected:NO];
-    APGroupNote *city1 = [[APGroupNote alloc] initWithParentId:1 nodeId:2 imageName:@"Group 11661" name:@"投影机1001" depth:2 height:Group_Cell_Height expand:NO selected:NO];
-    APGroupNote *city2 = [[APGroupNote alloc] initWithParentId:-1 nodeId:3 imageName:@"Group 11674" name:@"展厅2" depth:0 height:Group_Cell_Height expand:NO selected:NO];
-    APGroupNote *city3 = [[APGroupNote alloc] initWithParentId:-1 nodeId:4 imageName:@"Group 11674" name:@"展厅3" depth:0 height:Group_Cell_Height expand:NO selected:NO];
-    APGroupNote *province2 = [[APGroupNote alloc] initWithParentId:-1 nodeId:5 imageName:@"Group 11674" name:@"展厅4" depth:0 height:Group_Cell_Height expand:NO selected:NO];
-    APGroupNote *city4 = [[APGroupNote alloc] initWithParentId:-1 nodeId:6 imageName:@"Group 11674" name:@"展厅5" depth:0 height:Group_Cell_Height expand:NO selected:NO];
-//    APGroupNote *city5 = [[APGroupNote alloc] initWithParentId:5 nodeId:7 name:@"广州" depth:2 expand:NO];
-//    APGroupNote *province3 = [[APGroupNote alloc] initWithParentId:0 nodeId:8 name:@"浙江" depth:1 expand:NO];
-//    APGroupNote *city6 = [[APGroupNote alloc] initWithParentId:8 nodeId:9 name:@"杭州" depth:2 expand:NO];
-//    //----------------------------------美国的省地市关系图0,1,2--------------------------------------------
-//    APGroupNote *country2 = [[APGroupNote alloc] initWithParentId:-1 nodeId:10 name:@"美国" depth:0 expand:YES];
-//    APGroupNote *province4 = [[APGroupNote alloc] initWithParentId:10 nodeId:11 name:@"纽约州" depth:1 expand:NO];
-//    APGroupNote *province5 = [[APGroupNote alloc] initWithParentId:10 nodeId:12 name:@"德州" depth:1 expand:NO];
-//    APGroupNote *city7 = [[APGroupNote alloc] initWithParentId:12 nodeId:13 name:@"休斯顿" depth:2 expand:NO];
-//    APGroupNote *province6 = [[APGroupNote alloc] initWithParentId:10 nodeId:14 name:@"加州" depth:1 expand:NO];
-//    APGroupNote *city8 = [[APGroupNote alloc] initWithParentId:14 nodeId:15 name:@"洛杉矶" depth:2 expand:NO];
-//    APGroupNote *city9 = [[APGroupNote alloc] initWithParentId:14 nodeId:16 name:@"旧金山" depth:2 expand:NO];
-//
-//    //----------------------------------日本的省地市关系图0,1,2--------------------------------------------
-//    APGroupNote *country3 = [[APGroupNote alloc] initWithParentId:-1 nodeId:17 name:@"日本" depth:0 expand:YES];
-    NSArray *data = [NSArray arrayWithObjects:country1,province1,city1,city2,city3,province2,city4,nil];
-    
-    
-    _tableview  = [[APGroupTableView alloc] init];
+{    _tableview  = [[APGroupTableView alloc] init];
     _tableview.dataSource = self;
     _tableview.delegate = self;
 //    _tableview.editing = YES;
@@ -106,23 +83,138 @@
         make.bottom.mas_equalTo(self.mas_bottom).offset(0);
     }];
     
+    [self createData];
+    //----------------------------------中国的省地市关系图3,2,1--------------------------------------------
+//    APGroupNote *country1 = [[APGroupNote alloc] initWithParentId:-1 nodeId:0 imageName:@"Group 11674" name:@"展厅1" depth:0 height:Group_Cell_Height expand:YES selected:NO];
+//    APGroupNote *province1 = [[APGroupNote alloc] initWithParentId:0 nodeId:1 imageName:@"Group 11674" name:@"展厅1-1" depth:1 height:Group_Cell_Height expand:YES selected:NO];
+//    APGroupNote *city1 = [[APGroupNote alloc] initWithParentId:1 nodeId:2 imageName:@"Group 11661" name:@"投影机1001" depth:2 height:Group_Cell_Height expand:NO selected:NO];
+//    APGroupNote *city2 = [[APGroupNote alloc] initWithParentId:-1 nodeId:3 imageName:@"Group 11674" name:@"展厅2" depth:0 height:Group_Cell_Height expand:NO selected:NO];
+//    APGroupNote *city3 = [[APGroupNote alloc] initWithParentId:-1 nodeId:4 imageName:@"Group 11674" name:@"展厅3" depth:0 height:Group_Cell_Height expand:NO selected:NO];
+//    APGroupNote *province2 = [[APGroupNote alloc] initWithParentId:-1 nodeId:5 imageName:@"Group 11674" name:@"展厅4" depth:0 height:Group_Cell_Height expand:NO selected:NO];
+//    APGroupNote *city4 = [[APGroupNote alloc] initWithParentId:-1 nodeId:6 imageName:@"Group 11674" name:@"展厅5" depth:0 height:Group_Cell_Height expand:NO selected:NO];
+//    APGroupNote *city5 = [[APGroupNote alloc] initWithParentId:5 nodeId:7 name:@"广州" depth:2 expand:NO];
+//    APGroupNote *province3 = [[APGroupNote alloc] initWithParentId:0 nodeId:8 name:@"浙江" depth:1 expand:NO];
+//    APGroupNote *city6 = [[APGroupNote alloc] initWithParentId:8 nodeId:9 name:@"杭州" depth:2 expand:NO];
+//    //----------------------------------美国的省地市关系图0,1,2--------------------------------------------
+//    APGroupNote *country2 = [[APGroupNote alloc] initWithParentId:-1 nodeId:10 name:@"美国" depth:0 expand:YES];
+//    APGroupNote *province4 = [[APGroupNote alloc] initWithParentId:10 nodeId:11 name:@"纽约州" depth:1 expand:NO];
+//    APGroupNote *province5 = [[APGroupNote alloc] initWithParentId:10 nodeId:12 name:@"德州" depth:1 expand:NO];
+//    APGroupNote *city7 = [[APGroupNote alloc] initWithParentId:12 nodeId:13 name:@"休斯顿" depth:2 expand:NO];
+//    APGroupNote *province6 = [[APGroupNote alloc] initWithParentId:10 nodeId:14 name:@"加州" depth:1 expand:NO];
+//    APGroupNote *city8 = [[APGroupNote alloc] initWithParentId:14 nodeId:15 name:@"洛杉矶" depth:2 expand:NO];
+//    APGroupNote *city9 = [[APGroupNote alloc] initWithParentId:14 nodeId:16 name:@"旧金山" depth:2 expand:NO];
+//
+//    //----------------------------------日本的省地市关系图0,1,2--------------------------------------------
+//    APGroupNote *country3 = [[APGroupNote alloc] initWithParentId:-1 nodeId:17 name:@"日本" depth:0 expand:YES];
+//    NSArray *data = [NSArray arrayWithObjects:country1,province1,city1,city2,city3,province2,city4,nil];
     
-    [self createTempData:data];
+
 }
 
 
 /**
  * 初始化数据源
  */
--(void)createTempData : (NSArray *)data
+-(void)createData
 {
-    _data = [NSMutableArray array];
-    
-    for (int i=0; i<data.count; i++)
+    //1.获得数据库文件的路径
+        NSString *doc = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+        NSString *dbfileName = [doc stringByAppendingPathComponent:DB_NAME];
+        //2.获得数据库
+        FMDatabase *db = [FMDatabase databaseWithPath:dbfileName];
+
+    //3.打开数据库
+    if ([db open])
     {
-        APGroupNote *node = [data objectAtIndex:i];
-        [_data addObject:node];
+        FMResultSet *resultSet = [db executeQuery:@"SELECT * FROM zk_group"];
+        // 遍历结果集
+          while ([resultSet next])
+          {
+              APGroupNote *node = [APGroupNote new];
+              node.name = SafeStr([resultSet stringForColumn:@"group_name"]);
+              node.parentId = SafeStr([resultSet stringForColumn:@"pid"]);
+              node.nodeId = SafeStr([resultSet stringForColumn:@"id"]);
+              node.isDevice = NO;
+              [_orgData addObject:node];
+          }
+        
+        resultSet = [db executeQuery:@"SELECT * FROM log_sn"];
+        // 遍历结果集
+          while ([resultSet next])
+          {
+//              NSString *str;
+              APGroupNote *node = [APGroupNote new];
+              node.name = SafeStr([resultSet stringForColumn:@"device_name"]);
+              node.parentId = SafeStr([resultSet stringForColumn:@"group_id"]);
+              node.nodeId = SafeStr([resultSet stringForColumn:@"gsn"]);
+              node.isDevice = YES;
+              [_orgData addObject:node];
+
+          }
+        [db close];
     }
+    
+    NSMutableArray *firstArr = [NSMutableArray array];
+    NSMutableArray *secondArr = [NSMutableArray array];
+    for (APGroupNote *node in _orgData.reverseObjectEnumerator)
+    {
+        if ([node.parentId isEqualToString:@"0" ])
+        {
+            node.depth = 0;//第0层
+            [firstArr addObject:node];
+            [_orgData removeObject:node];
+        }
+    }
+    
+    
+    
+    //第二次筛选
+    for (int i=0; i<firstArr.count; i++)
+    {
+        APGroupNote *node = firstArr[i];
+        [secondArr addObject:node];
+        for (APGroupNote *temp in _orgData.reverseObjectEnumerator)
+        {
+            if ([temp.parentId isEqualToString:node.nodeId])
+            {
+                node.haveChild = YES;
+                temp.depth = 1;//第1层
+                [secondArr addObject:temp];
+                [_orgData removeObject:temp];
+            }
+        }
+    }
+//    for (int i=0; i<secondArr.count; i++)
+//    {
+//        APGroupNote *node = secondArr[i];
+//        NSLog(@"%@,%d,%d",node.name,node.nodeId,node.parentId);
+//    }
+    
+    
+    //第三次筛选
+    for (int i=0; i<secondArr.count; i++)
+    {
+        APGroupNote *node = secondArr[i];
+        [_data addObject:node];
+        for (APGroupNote *temp in _orgData.reverseObjectEnumerator)
+        {
+            if ([temp.parentId isEqualToString:node.nodeId])
+            {
+                node.haveChild = YES;
+                temp.depth = 2;//第2层
+                temp.grandfatherId = node.parentId;
+                [_data addObject:temp];
+                [_orgData removeObject:temp];
+            }
+        }
+    }
+//    for (int i=0; i<_data.count; i++)
+//    {
+//        APGroupNote *node = _data[i];
+//        NSLog(@"%@,%d,%d",node.name,node.nodeId,node.parentId);
+//    }
+    
+    [_tableview reloadData];
 }
 
 
@@ -248,28 +340,22 @@
         APGroupNote *first = _data[i];
         if (first.selected)//第一层
         {
-            if(first.expand == YES)
+            for (int k = 0; k < _data.count; k++)
             {
-                for (int k = 0; k < _data.count; k++)
+                APGroupNote *second = _data[k];
+                if([second.parentId isEqualToString:first.nodeId])
                 {
-                    APGroupNote *second = _data[k];
-                    if (second.parentId == first.nodeId)//第二层
+                    for (int j = 0; j < _data.count; j++)
                     {
-                        for (int j = 0; j < _data.count; j++)
+                        APGroupNote *third = _data[j];
+                        if ([third.parentId isEqualToString:second.nodeId])
                         {
-                            APGroupNote *third = _data[j];
-                            if (third.parentId == second.nodeId)//第三层
-                            {
-                                [set addIndex:j];
-
-                            }
+                            [set addIndex:j];
                         }
-                        [set addIndex:k];
-
                     }
+                    [set addIndex:k];
                 }
             }
-            
             [set addIndex:i];
         }
     }
@@ -312,18 +398,9 @@
         for (int i = 0; i < _data.count; i++)
         {
             APGroupNote *second = _data[i];
-            if (second.parentId == node.nodeId)
+            if ([second.parentId isEqualToString:node.nodeId] || [second.grandfatherId isEqualToString:node.nodeId] )
             {
                 second.height = 0;
-                
-                for (int k = 0; k < _data.count; k++)
-                {
-                    APGroupNote *third = _data[k];
-                    if (third.parentId == second.nodeId)
-                    {
-                        third.height = 0;
-                    }
-                }
             }
         }
     }
@@ -333,7 +410,7 @@
         for (int i = 0; i < _data.count; i++)
         {
             APGroupNote *second = _data[i];
-            if (second.parentId == node.nodeId)
+            if ([second.parentId isEqualToString:node.nodeId])
             {
                 second.height = Group_Cell_Height;
                 if(second.expand == YES)
@@ -341,7 +418,7 @@
                     for (int k = 0; k < _data.count; k++)
                     {
                         APGroupNote *third = _data[k];
-                        if (third.parentId == second.nodeId)
+                        if([third.parentId isEqualToString:second.nodeId])
                         {
                             third.height = Group_Cell_Height;
                         }
@@ -351,7 +428,58 @@
         }
     }
     [weakSelf.tableview reloadData];
-
+//    WS(weakSelf);
+//    APGroupNote *node = weakSelf.data[row];
+//
+//    if (node.expand == YES)
+//    {
+//        node.expand = !node.expand;
+//        for (int i = 0; i < _data.count; i++)
+//        {
+//            APGroupNote *second = _data[i];
+//            if ([second.parentId isEqualToString:node.nodeId])
+////            if (second.parentId == node.nodeId)
+//            {
+//                second.height = 0;
+//
+//                for (int k = 0; k < _data.count; k++)
+//                {
+//                    APGroupNote *third = _data[k];
+//                    if([third.parentId isEqualToString:second.nodeId])
+////                    if (third.parentId == second.nodeId)
+//                    {
+//                        third.height = 0;
+//                    }
+//                }
+//            }
+//        }
+//    }
+//    else
+//    {
+//        node.expand = !node.expand;
+//        for (int i = 0; i < _data.count; i++)
+//        {
+//            APGroupNote *second = _data[i];
+//            if ([second.parentId isEqualToString:node.nodeId])
+////            if (second.parentId == node.nodeId)
+//            {
+//                second.height = Group_Cell_Height;
+//                if(second.expand == YES)
+//                {
+//                    for (int k = 0; k < _data.count; k++)
+//                    {
+//                        APGroupNote *third = _data[k];
+//                        if([third.parentId isEqualToString:second.nodeId])
+////                        if (third.parentId == second.nodeId)
+//                        {
+//                            third.height = Group_Cell_Height;
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
+//    [weakSelf.tableview reloadData];
 }
 
 //隐藏编辑按钮
@@ -519,7 +647,7 @@
         return node.height;
     }
     
-    return 40;
+    return Group_Cell_Height;
 }
  
 
@@ -532,10 +660,24 @@
     APGroupCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     if(cell.selectBtn)
     {
+        //本节点被选中
         cell.selectBtn.selected = !cell.selectBtn.selected;
         NSString *selectIamge = cell.selectBtn.selected?@"all" : @"Ellipse 4";
         [cell.selectBtn setImage:[UIImage imageNamed:selectIamge] forState:UIControlStateNormal];
         node.selected = cell.selectBtn.selected;
+        
+        //如果是组并且有孩子，则所有孩子都被选中
+        if (node.isDevice == NO && node.haveChild == YES)
+        {
+            for(APGroupNote *temp in _data)
+            {
+                if ([temp.parentId isEqualToString:node.nodeId] || [temp.grandfatherId isEqualToString:node.nodeId])
+                {
+                    temp.selected = cell.selectBtn.selected;
+                }
+            }
+            [tableView reloadData];
+        }
     }
 
 }

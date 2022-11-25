@@ -13,7 +13,11 @@
     if (self) {
         //添加子控件
         self.backgroundColor = [UIColor clearColor];
-//        self.selectedBackgroundView.backgroundColor = ColorHex(0x3F6EF2);
+        
+        //设置被选中颜色
+//        self.selectedBackgroundView = [[UIView alloc] initWithFrame:self.frame];
+//        self.selectedBackgroundView.backgroundColor = ColorHex(0x29315F );//
+        
     }
     return self;
 }
@@ -192,82 +196,6 @@
         make.left.mas_equalTo(self.contentView.mas_left).offset(Left_Gap);
         make.right.mas_equalTo(self.contentView.mas_right).offset(0);
         make.bottom.mas_equalTo(self.contentView.mas_bottom).offset(0);
-
     }];
-/*
-    CGFloat midGap = W_SCALE(35);//cell各个图标文字中间的间隙
-    //展开箭头图标的创建
-    CGFloat expendX = Left_Gap  + midGap* (node.depth);
-    CGFloat expendW = W_SCALE(14);
-    CGFloat expendH = H_SCALE(7);
-    _expendImageView = [[UIImageView alloc] init];
-    [self.contentView addSubview:_expendImageView];
-    if (node.haveChild == YES)
-    {
-        _expendImageView.hidden = NO;
-    }
-    else
-    {
-        _expendImageView.hidden = YES;
-        expendX = Left_Gap  + midGap* (node.depth - 1);
-    }
-    [_expendImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.mas_equalTo(self.contentView);
-        make.left.mas_equalTo(self.contentView.mas_left).offset(expendX);
-        make.size.mas_equalTo(CGSizeMake(expendW, expendH));
-    }];
-    NSString *name = node.expand?@"Vector(2)" : @"Vector(1)";
-    _expendImageView.image = [UIImage imageNamed:name];
-
-    
-    //图标
-//    CGFloat imX;
-//    if (node.haveChild)
-//    {
-//        imX = expendX + expendW + midGap;
-//    }
-//    else
-//    {
-//        imX = Left_Gap  + midGap* (node.depth) + ;
-//    }
-    _im = [[UIImageView alloc] init];
-    [self.contentView addSubview:_im];
-    _im.image = [UIImage imageNamed:node.imageName];
-//    _im.image = [self scaleImage:[UIImage imageNamed:node.imageName] size:CGSizeMake(28, 28)];
-    _im.contentMode=UIViewContentModeScaleAspectFill;
-    _im.clipsToBounds=YES;
-    [_im mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.mas_equalTo(self.contentView);
-        make.left.mas_equalTo(_expendImageView.mas_right).offset(midGap);
-        make.size.mas_equalTo(CGSizeMake(28, 28));
-    }];
-    
-    //标题
-    _title = [[UILabel alloc] init];
-    _title.textColor = ColorHex(0xFFFFFF);
-    _title.font = [UIFont systemFontOfSize:16];
-    _title.textAlignment = NSTextAlignmentLeft;
-    _title.text = node.name;
-    [self.contentView addSubview:_title];
-    [_title mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.mas_equalTo(self.contentView);
-        make.left.mas_equalTo(_im.mas_right).offset(midGap);
-        make.size.mas_equalTo(CGSizeMake(88, 28));
-    }];
-    
-    //选中图标
-    _selectBtn = [UIButton new];
-    [self.contentView addSubview:_selectBtn];
-    [_selectBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.mas_equalTo(self.contentView);
-        make.right.mas_equalTo(self.contentView.mas_right).offset(-Left_Gap);
-        make.size.mas_equalTo(CGSizeMake(30, 30));
-    }];
-    [_selectBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
-    _selectBtn.tag = node.selected;//把是否被选中赋值给tag
-    
-    NSString *selectIamge = node.selected?@"all" : @"Ellipse 4";
-    [_selectBtn setImage:[UIImage imageNamed:selectIamge] forState:UIControlStateNormal];
-    */
 }
 @end

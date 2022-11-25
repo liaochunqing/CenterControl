@@ -9,6 +9,7 @@
 #import "GCDAsyncUdpSocket.h"
 #include "Masonry.h"
 #import "MBProgressHUD.h"
+#import "FMDB.h"
 
 #ifndef config_h
 #define config_h
@@ -94,7 +95,7 @@
 [View.layer setCornerRadius:(Radius)];\
 [View.layer setMasksToBounds:YES]
 
-
+#define DB_NAME @"CentralControl.db"
 
 //适配
 #define W_SCALE(value) (value * (SCREEN_WIDTH/1194))

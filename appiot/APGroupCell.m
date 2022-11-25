@@ -35,62 +35,48 @@
         return;
     };
 
-    //测试代码
-    {
-        if ([node.imageName isEqualToString:@"Group 11661"])
-        {
-            node.haveChild = NO;
-        }
-    }
 
-    CGFloat midGap = W_SCALE(35);//cell各个图标文字中间的间隙
-    //展开箭头图标的创建
+    CGFloat midGap = W_SCALE(20);//cell各个图标文字中间的间隙
+    
     CGFloat expendX = Left_Gap  + midGap* (node.depth);
-    //展开图标
+    CGFloat expendW = W_SCALE(30);
+    //展开箭头图标的创建
     _expendBtn = [UIButton new];
-//    [_expendBtn setBackgroundColor:[UIColor redColor]];
     [self.contentView addSubview:_expendBtn];
-    if (node.haveChild == YES)
-    {
-        _expendBtn.hidden = NO;
-    }
-    else
-    {
-        _expendBtn.hidden = YES;
-        expendX = Left_Gap  + midGap* (node.depth - 1);
-    }
+
     [_expendBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(self.contentView);
         make.left.mas_equalTo(self.contentView.mas_left).offset(expendX);
-        make.size.mas_equalTo(CGSizeMake(30, 30));
+        make.size.mas_equalTo(CGSizeMake(expendW, expendW));
     }];
     _expendBtn.tag = row;
     [_expendBtn addTarget:self action:@selector(expendBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    NSString *name = node.expand?@"Vector(2)" : @"Vector(1)";
-    [_expendBtn setImage:[UIImage imageNamed:name] forState:UIControlStateNormal];
+    if (node.haveChild)
+    {
+        NSString *name = node.expand?@"Vector(2)" : @"Vector(1)";
+        [_expendBtn setImage:[UIImage imageNamed:name] forState:UIControlStateNormal];
+    }
     
-
+    CGFloat imH = H_SCALE(29);
+    CGFloat imW = W_SCALE(26);
+    if (node.isDevice)
+    {
+        imH = H_SCALE(36);
+        imW = W_SCALE(15);
+    }
     
-    //图标
-//    CGFloat imX;
-//    if (node.haveChild)
-//    {
-//        imX = expendX + expendW + midGap;
-//    }
-//    else
-//    {
-//        imX = Left_Gap  + midGap* (node.depth) + ;
-//    }
+//    expendW = _expendBtn.hidden?0:W_SCALE(30);
+    CGFloat imX = expendX + expendW + midGap;
     _im = [[UIImageView alloc] init];
     [self.contentView addSubview:_im];
-    _im.image = [UIImage imageNamed:node.imageName];
-//    _im.image = [self scaleImage:[UIImage imageNamed:node.imageName] size:CGSizeMake(28, 28)];
+    NSString *imgStr = node.isDevice?@"Group 11661" : @"Group 11674";
+    _im.image = [UIImage imageNamed:imgStr];
     _im.contentMode=UIViewContentModeScaleAspectFill;
     _im.clipsToBounds=YES;
     [_im mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(self.contentView);
-        make.left.mas_equalTo(_expendBtn.mas_right).offset(midGap);
-        make.size.mas_equalTo(CGSizeMake(28, 28));
+        make.left.mas_equalTo(self.contentView.mas_left).offset(imX);
+        make.size.mas_equalTo(CGSizeMake(imH, imW));
     }];
     
     //标题
@@ -103,7 +89,7 @@
     [_title mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(self.contentView);
         make.left.mas_equalTo(_im.mas_right).offset(midGap);
-        make.size.mas_equalTo(CGSizeMake(88, 28));
+        make.size.mas_equalTo(CGSizeMake(W_SCALE(170), H_SCALE(28)));
     }];
     
     //选中图标
@@ -121,13 +107,8 @@
     
 }
 
-//-(BOOL)NoChildWithData:(APGroupNote*)node
-//{
-//
-//}
 
 #pragma button响应
-//
 -(void)expendBtnClick:(UIButton *)btn
 {
     if(btn == _expendBtn)
@@ -150,29 +131,6 @@
     UIGraphicsEndImageContext();
      
     return image;
-}
-
-//这种压缩方式, 内存占用和图片大小都变小了
-// bitmap
-- (UIImage*)scaleImage:(UIImage*)image size:(CGSize)imageSize{
-    
-    UIGraphicsBeginImageContext(imageSize);
-    [image drawInRect:CGRectMake(0, 0, imageSize.width, imageSize.height)];
-    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-
-    return newImage;
-}
-
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    // Initialization code
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
 }
 
 @end
