@@ -16,14 +16,18 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic , strong) NSString *imageName;//该节点图片名
 @property (nonatomic , strong) NSString *name;//本节点的名称
 @property (nonatomic , assign) int depth;//该节点的深度
+@property (nonatomic , assign) int childNumber;//该节点的孩子数量
+@property (nonatomic , assign) int childSelected;//该节点的被选中的孩子数量
 @property (nonatomic , assign) BOOL expand;//该节点是否处于展开状态
 @property (nonatomic , assign) CGFloat height;//该节点展现的高度
 @property (nonatomic , assign) BOOL selected;//是否被选中
 @property (nonatomic) BOOL isDevice;
 @property (nonatomic) BOOL haveChild;
+@property (nonatomic , strong) APGroupNote * grandfather;//祖父节点，
+@property (nonatomic , strong) APGroupNote * parent;//父节点，
 
 - (instancetype)init;
-
+-(void)setSelectedAndCount:(BOOL)selected;
 /**
 *快速实例化该对象模型
 */

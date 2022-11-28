@@ -84,7 +84,12 @@
     _title.textColor = ColorHex(0xFFFFFF);
     _title.font = [UIFont systemFontOfSize:16];
     _title.textAlignment = NSTextAlignmentLeft;
-    _title.text = node.name;
+    NSString *str = node.name;
+    if(node.isDevice == NO)
+    {
+        str = [NSString stringWithFormat:@"(%d/%d)%@",node.selected,node.childNumber,node.name];
+    }
+    _title.text = str;
     [self.contentView addSubview:_title];
     [_title mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(self.contentView);

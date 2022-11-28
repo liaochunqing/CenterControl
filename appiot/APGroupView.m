@@ -166,8 +166,6 @@
         }
     }
     
-    
-    
     //第二次筛选
     for (int i=0; i<firstArr.count; i++)
     {
@@ -177,20 +175,17 @@
         {
             if ([temp.parentId isEqualToString:node.nodeId])
             {
+                if (temp.isDevice) node.childNumber++;
+                
                 node.haveChild = YES;
                 temp.depth = 1;//第1层
+                temp.parent = node;
                 [secondArr addObject:temp];
                 [_orgData removeObject:temp];
             }
         }
     }
-//    for (int i=0; i<secondArr.count; i++)
-//    {
-//        APGroupNote *node = secondArr[i];
-//        NSLog(@"%@,%d,%d",node.name,node.nodeId,node.parentId);
-//    }
-    
-    
+
     //第三次筛选
     for (int i=0; i<secondArr.count; i++)
     {
@@ -203,20 +198,41 @@
                 node.haveChild = YES;
                 temp.depth = 2;//第2层
                 temp.grandfatherId = node.parentId;
+                temp.parent = node;
+                temp.grandfather = node.parent;
+                if (temp.isDevice)
+                {
+                    node.childNumber++;
+                    if (temp.grandfather) temp.grandfather.childNumber++;
+                }
                 [_data addObject:temp];
                 [_orgData removeObject:temp];
             }
         }
     }
-//    for (int i=0; i<_data.count; i++)
-//    {
-//        APGroupNote *node = _data[i];
-//        NSLog(@"%@,%d,%d",node.name,node.nodeId,node.parentId);
-//    }
     
     [_tableview reloadData];
 }
 
+
+-(void)countChildNumberAndSelected
+{
+    for (APGroupNote *node in _data) {
+        if (node.isDevice == NO && node.haveChild)
+        {
+            for (APGroupNote *temp in _data)
+            {
+                if(temp.isDevice)
+                {
+                    if ([temp.parentId isEqualToString:node.nodeId] || [temp.grandfatherId isEqualToString:node.nodeId] )
+                    {
+                        node.childNumber++;
+                    }
+                }
+            }
+        }
+    }
+}
 
 -(void)createBottomView
 {
@@ -324,7 +340,7 @@
     for (int k = 0; k < _data.count; k++)
     {
         APGroupNote *node = _data[k];
-        node.selected = selected;
+        [node setChildSelected:selected];
     }
     [_tableview reloadData];
 }
@@ -549,44 +565,9 @@
         [_tableview reloadData];
 
         //寻找父节点
-//        for (int i = 0; i < _filteredData.count; i++)
-//        {
-//            APGroupNote *node = _filteredData[i];
-//            if (node.parentId != -1)
-//            {
-//                for (int k = 0; k < _data.count; k++)
-//                {
-//                    APGroupNote *temp = _data[k];
-//                    if (node.parentId == temp.nodeId)
-//                    {
-//                        temp.height = Group_Cell_Height;
-//                        temp.expand = YES;
-//                        [_filteredData addObject:temp];
-//
-//                        if (temp.parentId != -1)
-//                        {
-//                            for (int j = 0; j < _data.count; j++)
-//                            {
-//                                APGroupNote *temptemp = _data[k];
-//                                if (temp.parentId == temptemp.nodeId)
-//                                {
-//                                    temptemp.height = Group_Cell_Height;
-//                                    temptemp.expand = YES;
-//                                    [_filteredData addObject:temptemp];
-//                                    break;
-//                                }
-//                            }
-//                            break;
-//                        }
-//
-//                    }
-//                }
-//            }
-//        }
     }
     else
     {
-//        _filteredData = [_data mutableCopy];
         _isFieldActive = NO;
         [_tableview reloadData];
     }
@@ -664,7 +645,7 @@
         cell.selectBtn.selected = !cell.selectBtn.selected;
         NSString *selectIamge = cell.selectBtn.selected?@"all" : @"Ellipse 4";
         [cell.selectBtn setImage:[UIImage imageNamed:selectIamge] forState:UIControlStateNormal];
-        node.selected = cell.selectBtn.selected;
+        [node setSelectedAndCount:cell.selectBtn.selected];
         
         //如果是组并且有孩子，则所有孩子都被选中
         if (node.isDevice == NO && node.haveChild == YES)
@@ -673,11 +654,12 @@
             {
                 if ([temp.parentId isEqualToString:node.nodeId] || [temp.grandfatherId isEqualToString:node.nodeId])
                 {
-                    temp.selected = cell.selectBtn.selected;
+                    [temp setSelectedAndCount:cell.selectBtn.selected];
                 }
             }
-            [tableView reloadData];
         }
+        [tableView reloadData];
+
     }
 
 }

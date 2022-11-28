@@ -16,10 +16,28 @@
         self.height = Group_Cell_Height;
         self.expand = YES;
         self.haveChild = NO;
+        self.childNumber = 0;
     }
     return self;
 }
 
+-(void)setSelectedAndCount:(BOOL)selected
+{
+    self.selected = selected;
+    if (self.isDevice)
+    {
+        if (selected)
+        {
+            if (self.grandfather) self.grandfather.childSelected++;
+            if (self.parent) self.parent.childSelected++;
+        }
+        else
+        {
+            if (self.grandfather) self.grandfather.childSelected--;
+            if (self.parent) self.parent.childSelected--;
+        }
+    }
+}
 
 //- (instancetype)initWithParentId : (int)parentId
 //                          nodeId : (int)nodeId
