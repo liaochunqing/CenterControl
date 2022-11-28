@@ -6,6 +6,7 @@
 //
 
 #import "APMonitorView.h"
+#import "AppDelegate.h"
 
 @implementation APMonitorView
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -28,14 +29,78 @@
     
     [self createTitleView];
     [self createTableview];
-//    [self createMonitorView];
+    
+    [self getData];
+
 }
+
+-(void)refreshTitle
+{
+    if(_data.count)
+    {
+        _titleLab.text = [NSString stringWithFormat:@"设备监测(%d)", (int)_data.count];
+    }
+}
+
+-(void)getData
+{
+    AppDelegate *appDelegate = kAppDelegate;
+    APGroupView *vc = appDelegate.mainVC.leftView.groupView;
+    if (vc && [vc isKindOfClass:[APGroupView class]])
+    {
+        NSArray *temp = [vc getSelectedNode];
+        if (!temp) return;
+        
+        if (_data && _data.count)
+        {
+            [_data removeAllObjects];
+        }
+        else
+        {
+            _data = [NSMutableArray array];
+        }
+        _data = [NSMutableArray arrayWithArray:temp];
+
+        if (_data)
+        {
+            [self refreshTitle];
+            if (_tableview)
+                [ _tableview reloadData];
+        }
+
+    }
+}
+
+
+
+-(void)refreshTable:(NSArray *)arr
+{
+    if (!arr) return;
+    
+    if (_data && _data.count)
+    {
+        [_data removeAllObjects];
+    }
+    else
+    {
+        _data =[NSMutableArray array];
+    }
+    _data = [NSMutableArray arrayWithArray:arr];
+
+    if (_data)
+    {
+        [_tableview reloadData];
+        [self refreshTitle];
+    }
+}
+
+
 -(void)createTableview
 {
-    APMonitorModel *node1 = [APMonitorModel new];
-    APMonitorModel *node2 = [APMonitorModel new];
-    APMonitorModel *node3 = [APMonitorModel new];
-    _data = [NSMutableArray arrayWithArray:[NSArray arrayWithObjects:node1,node2,node3,node1,node2,node3,nil]];
+//    APMonitorModel *node1 = [APMonitorModel new];
+//    APMonitorModel *node2 = [APMonitorModel new];
+    APGroupNote *node3 = [APGroupNote new];
+    _data = [NSMutableArray arrayWithArray:[NSArray arrayWithObjects:node3,nil]];
     _tableview  = [[UITableView alloc] init];
     _tableview.dataSource = self;
     _tableview.delegate = self;
@@ -70,8 +135,9 @@
     }];
     
     UILabel *lab = [[UILabel alloc] init];
+    _titleLab = lab;
     [view addSubview:lab];
-    lab.text = @"设备监测  (120)";
+    lab.text = @"设备监测(0)";
     lab.font = [UIFont systemFontOfSize:20];
     lab.textColor = [UIColor whiteColor];
     [lab mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -106,7 +172,6 @@
         make.bottom.mas_equalTo(view.mas_bottom).offset(0);
     }];
 }
-
 #pragma mark *** UITableViewDelegate/UITableViewDataSource ***
  
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -123,7 +188,7 @@
         cell = [[APMonitorCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NODE_CELL_ID];
     }
     
-    APMonitorModel *node;
+    APGroupNote *node;
     node = [_data objectAtIndex:indexPath.row];
 
 

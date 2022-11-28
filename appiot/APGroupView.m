@@ -122,10 +122,21 @@
           {
 //              NSString *str;
               APGroupNote *node = [APGroupNote new];
+              node.isDevice = YES;
+
               node.name = SafeStr([resultSet stringForColumn:@"device_name"]);
               node.parentId = SafeStr([resultSet stringForColumn:@"group_id"]);
               node.nodeId = SafeStr([resultSet stringForColumn:@"gsn"]);
-              node.isDevice = YES;
+              node.signals = SafeStr([resultSet stringForColumn:@"signals"]);
+              node.ip = SafeStr([resultSet stringForColumn:@"ip"]);
+              node.temperature = SafeStr([resultSet stringForColumn:@"temperature"]);
+              node.machine_running_time = SafeStr([resultSet stringForColumn:@"machine_running_time"]);
+              node.light_running_time = SafeStr([resultSet stringForColumn:@"light_running_time"]);
+              node.connect = SafeStr([resultSet stringForColumn:@"connect"]);
+              node.supply_status = SafeStr([resultSet stringForColumn:@"supply_status"]);
+              node.shutter_status = SafeStr([resultSet stringForColumn:@"shutter_status"]);
+              node.error_code = SafeStr([resultSet stringForColumn:@"new_error_code"]);
+              node.device_id = SafeStr([resultSet stringForColumn:@"device_id"]);
               [_orgData addObject:node];
 
           }
@@ -329,6 +340,31 @@
 }
 
 #pragma mark 方法
+-(NSArray *)getSelectedNode
+{
+    NSMutableArray *arr = [NSMutableArray array];
+    for(APGroupNote *temp in _data)
+    {
+        if (temp.isDevice && temp.selected)
+        {
+            [arr addObject:temp];
+        }
+    }
+    
+    return  arr;
+}
+
+-(void)refrashMonitorTable
+{
+    AppDelegate *appDelegate = kAppDelegate;
+    APMonitorView *vc = appDelegate.mainVC.centerView.monitorView;
+    if (vc && [vc isKindOfClass:[APMonitorView class]])
+    {
+        NSArray *temp = [self getSelectedNode];
+        [vc refreshTable:temp];
+    }
+}
+
 -(void)refrashAllselectTitle
 {
     WS(weakSelf);
@@ -627,6 +663,8 @@
                 cell.selectBtn.selected ? node.father.childSelected++ : node.father.childSelected--;
             if (node.grandfather)
                 cell.selectBtn.selected ? node.grandfather.childSelected++ : node.grandfather.childSelected--;
+            
+            
         }
         else
         {
@@ -662,6 +700,8 @@
         }
         [tableView reloadData];
         [self refrashAllselectTitle];
+        
+        [self refrashMonitorTable];
 
     }
 
@@ -713,6 +753,7 @@
         [self selectedAllWithSelected:self.btnLeft.selected];
         
         [self refrashAllselectTitle];
+        [self refrashMonitorTable];
 
 //        if(self.btnLeft.selected == YES)
 //        {

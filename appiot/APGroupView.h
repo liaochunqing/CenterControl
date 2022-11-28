@@ -9,6 +9,7 @@
 #import "APBottomButton.h"
 #import "APGroupTableView.h"
 #import "APDatabaseTool.h"
+#import "APMonitorView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -27,6 +28,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,strong)NSMutableArray *filteredData;//存储搜索过滤后的数据
 @property (nonatomic)BOOL isFieldActive;//是否正在使用
 //@property (nonatomic,strong)APDatabaseTool *dbtool;
+
+-(NSArray *)getSelectedNode;
 @end
 
 NS_ASSUME_NONNULL_END

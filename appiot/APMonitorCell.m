@@ -22,7 +22,7 @@
     return self;
 }
 
--(void)updateCellWithData:(APMonitorModel*)node
+-(void)updateCellWithData:(APGroupNote*)node
 {
     if(!node) return;
     for (UIView *subview in self.contentView.subviews)
@@ -31,7 +31,8 @@
      }
     
     CGFloat midGap = 5;
-    
+    NSString *str;
+
     //第一行
     UIView *firtRow = [[UIView alloc] init];
     [self.contentView addSubview:firtRow];
@@ -54,7 +55,7 @@
     
     UILabel *namelab = [[UILabel alloc] init];
     [firtRow addSubview:namelab];
-    namelab.text = @"投影机10086 展厅10086";
+    namelab.text = node.name;//@"投影机10086 展厅10086";
     namelab.font = [UIFont systemFontOfSize:16];
     namelab.textColor = [UIColor whiteColor];
     [namelab mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -64,23 +65,33 @@
     }];
     
     //错误码
-    UIButton *errorcode = [UIButton new];
-    errorcode.userInteractionEnabled = NO;
-    [errorcode setTitle:@"14406" forState:UIControlStateNormal];
-    errorcode.titleLabel.font = [UIFont systemFontOfSize:16];
-    ViewBorderRadius(errorcode, 5, 1, ColorHex(0xABBDD5));
+//    UIButton *errorcode = [UIButton new];
+//    errorcode.userInteractionEnabled = NO;
+//    str = node.error_code;
+//    [errorcode setTitle:str forState:UIControlStateNormal];
+//    errorcode.titleLabel.font = [UIFont systemFontOfSize:16];
+//    errorcode.titleLabel.textAlignment = NSTextAlignmentLeft;
+////    ViewBorderRadius(errorcode, 5, 1, ColorHex(0xABBDD5));
+//    [firtRow addSubview:errorcode];
+    
+    UILabel *errorcode = [[UILabel alloc] init];
     [firtRow addSubview:errorcode];
+    errorcode.text = node.error_code;//
+    errorcode.font = [UIFont systemFontOfSize:16];
+    errorcode.textColor = [UIColor whiteColor];
+    errorcode.textAlignment = NSTextAlignmentLeft;
     [errorcode mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(firtRow);
         make.left.mas_equalTo(namelab.mas_right).offset(midGap);
-        make.size.mas_equalTo(CGSizeMake(W_SCALE(62), H_SCALE(30)));
+        make.size.mas_equalTo(CGSizeMake(W_SCALE(200), H_SCALE(30)));
     }];
     
 
     //RS232
     UILabel *zhan = [[UILabel alloc] init];
     [firtRow addSubview:zhan];
-    zhan.text = @"RS232已连接";
+    str = node.connect.intValue == 1 ? @"RS232已连接" : @"RS232未连接";
+    zhan.text = str;
     zhan.font = [UIFont systemFontOfSize:16];
     zhan.textColor = [UIColor whiteColor];
     [zhan mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -92,7 +103,7 @@
     //开快门
     UILabel *kuaimen = [[UILabel alloc] init];
     [firtRow addSubview:kuaimen];
-    kuaimen.text = @"开快门";
+    kuaimen.text = node.shutter_status;
     kuaimen.font = [UIFont systemFontOfSize:16];
     kuaimen.textColor = [UIColor whiteColor];
     [kuaimen mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -104,7 +115,7 @@
     //开机
     UILabel *kaiji = [[UILabel alloc] init];
     [firtRow addSubview:kaiji];
-    kaiji.text = @"开机";
+    kaiji.text = node.supply_status;
     kaiji.font = [UIFont systemFontOfSize:16];
     kaiji.textColor = [UIColor whiteColor];
     [kaiji mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -114,11 +125,11 @@
     }];
     
     CGFloat fontsize = H_SCALE(13);
-    CGFloat w = W_SCALE(150);
+    CGFloat w = W_SCALE(180);
     //ip
     UILabel *iplab = [[UILabel alloc] init];
     [self.contentView addSubview:iplab];
-    iplab.text = @"IP:127.0.0.1:63142";
+    iplab.text = [NSString stringWithFormat:@"ip:%@",node.ip];
     iplab.font = [UIFont systemFontOfSize:fontsize];
     iplab.textColor = ColorHex(0xABBDD5);
     [iplab mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -130,7 +141,7 @@
     //信号源
     UILabel *singallab = [[UILabel alloc] init];
     [self.contentView addSubview:singallab];
-    singallab.text = @"信源：HDBase_T";
+    singallab.text = [NSString stringWithFormat:@"信源:%@",node.signals];;
     singallab.font = [UIFont systemFontOfSize:fontsize];
     singallab.textColor = ColorHex(0xABBDD5);
     [singallab mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -142,7 +153,7 @@
     //温度
     UILabel *templab = [[UILabel alloc] init];
     [self.contentView addSubview:templab];
-    templab.text = @"环境温度（°C）：38";
+    templab.text = [NSString stringWithFormat:@"温度:%@",node.temperature];;
     templab.font = [UIFont systemFontOfSize:fontsize];
     templab.textColor = ColorHex(0xABBDD5);
     [templab mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -155,7 +166,7 @@
     //ID
     UILabel *idlab = [[UILabel alloc] init];
     [self.contentView addSubview:idlab];
-    idlab.text = @"ID：38T8759859";
+    idlab.text = [NSString stringWithFormat:@"ID:%@",node.device_id];;
     idlab.font = [UIFont systemFontOfSize:fontsize];
     idlab.textColor = ColorHex(0xABBDD5);
     [idlab mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -167,7 +178,7 @@
     //时间比
     UILabel *timelab = [[UILabel alloc] init];
     [self.contentView addSubview:timelab];
-    timelab.text = @"整机/光源时间（h）：1000000/56795";
+    timelab.text = [NSString stringWithFormat:@"整机/光源时间(h):%@/%@",node.machine_running_time,node.light_running_time];//@"整机/光源时间（h）：1000000/56795";
     timelab.font = [UIFont systemFontOfSize:fontsize];
     timelab.textColor = ColorHex(0xABBDD5);
     [timelab mas_makeConstraints:^(MASConstraintMaker *make) {

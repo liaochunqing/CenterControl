@@ -26,6 +26,18 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic , strong) APGroupNote * grandfather;//祖父节点，
 @property (nonatomic , strong) APGroupNote * father;//父节点，
 
+//监测的属性
+@property (nonatomic , strong) NSString *signals;//信源
+@property (nonatomic , strong) NSString *ip;//
+@property (nonatomic , strong) NSString *temperature;//环境温度
+@property (nonatomic , strong) NSString *machine_running_time;//整机时间
+@property (nonatomic , strong) NSString *light_running_time;//光源时间
+@property (nonatomic , strong) NSString *connect;//连接
+@property (nonatomic , strong) NSString *supply_status;//电源状态
+@property (nonatomic , strong) NSString *shutter_status;//快门状态
+@property (nonatomic , strong) NSString *error_code;//报错码
+@property (nonatomic , strong) NSString *device_id;//新建投影仪的冗余字段
+
 - (instancetype)init;
 -(void)setSelectedAndCount:(BOOL)selected;
 /**
