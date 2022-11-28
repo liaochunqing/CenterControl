@@ -23,20 +23,20 @@
 
 -(void)setSelectedAndCount:(BOOL)selected
 {
-    self.selected = selected;
-    if (self.isDevice)
-    {
-        if (selected)
-        {
-            if (self.grandfather) self.grandfather.childSelected++;
-            if (self.parent) self.parent.childSelected++;
-        }
-        else
-        {
-            if (self.grandfather) self.grandfather.childSelected--;
-            if (self.parent) self.parent.childSelected--;
-        }
-    }
+//    self.selected = selected;
+//    if (self.isDevice)
+//    {
+//        if (selected)
+//        {
+//            if (self.grandfather) self.grandfather.childSelected++;
+//            if (self.father) self.father.childSelected++;
+//        }
+//        else
+//        {
+//            if (self.grandfather) self.grandfather.childSelected--;
+//            if (self.father) self.father.childSelected--;
+//        }
+//    }
 }
 
 //- (instancetype)initWithParentId : (int)parentId

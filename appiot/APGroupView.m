@@ -179,7 +179,7 @@
                 
                 node.haveChild = YES;
                 temp.depth = 1;//第1层
-                temp.parent = node;
+                temp.father = node;
                 [secondArr addObject:temp];
                 [_orgData removeObject:temp];
             }
@@ -197,9 +197,9 @@
             {
                 node.haveChild = YES;
                 temp.depth = 2;//第2层
-                temp.grandfatherId = node.parentId;
-                temp.parent = node;
-                temp.grandfather = node.parent;
+//                temp.grandfatherId = node.parentId;
+                temp.father = node;
+                temp.grandfather = node.father;
                 if (temp.isDevice)
                 {
                     node.childNumber++;
@@ -224,10 +224,10 @@
             {
                 if(temp.isDevice)
                 {
-                    if ([temp.parentId isEqualToString:node.nodeId] || [temp.grandfatherId isEqualToString:node.nodeId] )
-                    {
-                        node.childNumber++;
-                    }
+//                    if ([temp.parentId isEqualToString:node.nodeId] || [temp.grandfatherId isEqualToString:node.nodeId] )
+//                    {
+//                        node.childNumber++;
+//                    }
                 }
             }
         }
@@ -414,7 +414,7 @@
         for (int i = 0; i < _data.count; i++)
         {
             APGroupNote *second = _data[i];
-            if ([second.parentId isEqualToString:node.nodeId] || [second.grandfatherId isEqualToString:node.nodeId] )
+            if ([second.parentId isEqualToString:node.nodeId] || (second.father && [second.father.parentId isEqualToString:node.nodeId]) )
             {
                 second.height = 0;
             }
@@ -444,58 +444,6 @@
         }
     }
     [weakSelf.tableview reloadData];
-//    WS(weakSelf);
-//    APGroupNote *node = weakSelf.data[row];
-//
-//    if (node.expand == YES)
-//    {
-//        node.expand = !node.expand;
-//        for (int i = 0; i < _data.count; i++)
-//        {
-//            APGroupNote *second = _data[i];
-//            if ([second.parentId isEqualToString:node.nodeId])
-////            if (second.parentId == node.nodeId)
-//            {
-//                second.height = 0;
-//
-//                for (int k = 0; k < _data.count; k++)
-//                {
-//                    APGroupNote *third = _data[k];
-//                    if([third.parentId isEqualToString:second.nodeId])
-////                    if (third.parentId == second.nodeId)
-//                    {
-//                        third.height = 0;
-//                    }
-//                }
-//            }
-//        }
-//    }
-//    else
-//    {
-//        node.expand = !node.expand;
-//        for (int i = 0; i < _data.count; i++)
-//        {
-//            APGroupNote *second = _data[i];
-//            if ([second.parentId isEqualToString:node.nodeId])
-////            if (second.parentId == node.nodeId)
-//            {
-//                second.height = Group_Cell_Height;
-//                if(second.expand == YES)
-//                {
-//                    for (int k = 0; k < _data.count; k++)
-//                    {
-//                        APGroupNote *third = _data[k];
-//                        if([third.parentId isEqualToString:second.nodeId])
-////                        if (third.parentId == second.nodeId)
-//                        {
-//                            third.height = Group_Cell_Height;
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
-//    [weakSelf.tableview reloadData];
 }
 
 //隐藏编辑按钮
@@ -645,16 +593,44 @@
         cell.selectBtn.selected = !cell.selectBtn.selected;
         NSString *selectIamge = cell.selectBtn.selected?@"all" : @"Ellipse 4";
         [cell.selectBtn setImage:[UIImage imageNamed:selectIamge] forState:UIControlStateNormal];
-        [node setSelectedAndCount:cell.selectBtn.selected];
-        
-        //如果是组并且有孩子，则所有孩子都被选中
-        if (node.isDevice == NO && node.haveChild == YES)
+        node.selected = cell.selectBtn.selected;
+
+        if (node.isDevice)
         {
-            for(APGroupNote *temp in _data)
+            if (node.father)
+                cell.selectBtn.selected ? node.father.childSelected++ : node.father.childSelected--;
+            if (node.grandfather)
+                cell.selectBtn.selected ? node.grandfather.childSelected++ : node.grandfather.childSelected--;
+        }
+        else
+        {
+            //如果是组并且有孩子，则所有孩子都被选中
+            if (node.haveChild == YES)
             {
-                if ([temp.parentId isEqualToString:node.nodeId] || [temp.grandfatherId isEqualToString:node.nodeId])
+                for(APGroupNote *temp in _data)
                 {
-                    [temp setSelectedAndCount:cell.selectBtn.selected];
+                    if ([temp.parentId isEqualToString:node.nodeId] || (temp.father && ([temp.father.parentId isEqualToString:node.nodeId])))
+                    {
+                        if (temp.father && temp.isDevice)
+                        {
+                            cell.selectBtn.selected ? temp.father.childSelected++ : temp.father.childSelected--;
+                            if (temp.father.childSelected > temp.father.childNumber)
+                                temp.father.childSelected = temp.father.childNumber;
+                            if (temp.father.childSelected < 0)
+                                temp.father.childSelected = 0;
+                        }
+                        if (temp.grandfather && temp.isDevice && temp.selected != cell.selectBtn.selected)
+                        {
+                            cell.selectBtn.selected ? temp.grandfather.childSelected++ : temp.grandfather.childSelected--;
+                            if (temp.grandfather.childSelected > temp.grandfather.childNumber)
+                                temp.grandfather.childSelected = temp.grandfather.childNumber;
+                            if (temp.grandfather.childSelected < 0)
+                                temp.grandfather.childSelected = 0;
+                        }
+                        
+                        temp.selected = cell.selectBtn.selected;
+
+                    }
                 }
             }
         }

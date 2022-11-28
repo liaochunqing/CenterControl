@@ -87,7 +87,7 @@
     NSString *str = node.name;
     if(node.isDevice == NO)
     {
-        str = [NSString stringWithFormat:@"(%d/%d)%@",node.selected,node.childNumber,node.name];
+        str = [NSString stringWithFormat:@"(%d/%d)%@",node.childSelected,node.childNumber,node.name];
     }
     _title.text = str;
     [self.contentView addSubview:_title];

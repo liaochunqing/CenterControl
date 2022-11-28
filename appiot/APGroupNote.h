@@ -10,7 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface APGroupNote : NSObject
-@property (nonatomic , strong) NSString * grandfatherId;//祖父节点的id，
+//@property (nonatomic , strong) NSString * grandfatherId;//祖父节点的id，
 @property (nonatomic , strong) NSString * parentId;//父节点的id，如果为-1表示该节点为根节点
 @property (nonatomic , strong) NSString * nodeId;//本节点的id
 @property (nonatomic , strong) NSString *imageName;//该节点图片名
@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) BOOL isDevice;
 @property (nonatomic) BOOL haveChild;
 @property (nonatomic , strong) APGroupNote * grandfather;//祖父节点，
-@property (nonatomic , strong) APGroupNote * parent;//父节点，
+@property (nonatomic , strong) APGroupNote * father;//父节点，
 
 - (instancetype)init;
 -(void)setSelectedAndCount:(BOOL)selected;
