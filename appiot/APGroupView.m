@@ -33,6 +33,9 @@
 //    self.backgroundColor = ColorHex(0x161635);
     _data = [NSMutableArray array];
     _orgData = [NSMutableArray array];
+    _allNumber = 0;
+    _selectedNumber = 0;
+    
     [self cteateSearchView];
     [self createButton];
     [self createTableview];
@@ -69,8 +72,8 @@
 {    _tableview  = [[APGroupTableView alloc] init];
     _tableview.dataSource = self;
     _tableview.delegate = self;
-//    _tableview.editing = YES;
-//    _tableview.allowsMultipleSelectionDuringEditing = YES;
+    _tableview.separatorStyle = NO;
+
     UIView *View = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Left_View_Width, 0.01)];
     View.backgroundColor = [UIColor clearColor];
     _tableview.tableHeaderView = View;
@@ -84,31 +87,6 @@
     }];
     
     [self createData];
-    //----------------------------------中国的省地市关系图3,2,1--------------------------------------------
-//    APGroupNote *country1 = [[APGroupNote alloc] initWithParentId:-1 nodeId:0 imageName:@"Group 11674" name:@"展厅1" depth:0 height:Group_Cell_Height expand:YES selected:NO];
-//    APGroupNote *province1 = [[APGroupNote alloc] initWithParentId:0 nodeId:1 imageName:@"Group 11674" name:@"展厅1-1" depth:1 height:Group_Cell_Height expand:YES selected:NO];
-//    APGroupNote *city1 = [[APGroupNote alloc] initWithParentId:1 nodeId:2 imageName:@"Group 11661" name:@"投影机1001" depth:2 height:Group_Cell_Height expand:NO selected:NO];
-//    APGroupNote *city2 = [[APGroupNote alloc] initWithParentId:-1 nodeId:3 imageName:@"Group 11674" name:@"展厅2" depth:0 height:Group_Cell_Height expand:NO selected:NO];
-//    APGroupNote *city3 = [[APGroupNote alloc] initWithParentId:-1 nodeId:4 imageName:@"Group 11674" name:@"展厅3" depth:0 height:Group_Cell_Height expand:NO selected:NO];
-//    APGroupNote *province2 = [[APGroupNote alloc] initWithParentId:-1 nodeId:5 imageName:@"Group 11674" name:@"展厅4" depth:0 height:Group_Cell_Height expand:NO selected:NO];
-//    APGroupNote *city4 = [[APGroupNote alloc] initWithParentId:-1 nodeId:6 imageName:@"Group 11674" name:@"展厅5" depth:0 height:Group_Cell_Height expand:NO selected:NO];
-//    APGroupNote *city5 = [[APGroupNote alloc] initWithParentId:5 nodeId:7 name:@"广州" depth:2 expand:NO];
-//    APGroupNote *province3 = [[APGroupNote alloc] initWithParentId:0 nodeId:8 name:@"浙江" depth:1 expand:NO];
-//    APGroupNote *city6 = [[APGroupNote alloc] initWithParentId:8 nodeId:9 name:@"杭州" depth:2 expand:NO];
-//    //----------------------------------美国的省地市关系图0,1,2--------------------------------------------
-//    APGroupNote *country2 = [[APGroupNote alloc] initWithParentId:-1 nodeId:10 name:@"美国" depth:0 expand:YES];
-//    APGroupNote *province4 = [[APGroupNote alloc] initWithParentId:10 nodeId:11 name:@"纽约州" depth:1 expand:NO];
-//    APGroupNote *province5 = [[APGroupNote alloc] initWithParentId:10 nodeId:12 name:@"德州" depth:1 expand:NO];
-//    APGroupNote *city7 = [[APGroupNote alloc] initWithParentId:12 nodeId:13 name:@"休斯顿" depth:2 expand:NO];
-//    APGroupNote *province6 = [[APGroupNote alloc] initWithParentId:10 nodeId:14 name:@"加州" depth:1 expand:NO];
-//    APGroupNote *city8 = [[APGroupNote alloc] initWithParentId:14 nodeId:15 name:@"洛杉矶" depth:2 expand:NO];
-//    APGroupNote *city9 = [[APGroupNote alloc] initWithParentId:14 nodeId:16 name:@"旧金山" depth:2 expand:NO];
-//
-//    //----------------------------------日本的省地市关系图0,1,2--------------------------------------------
-//    APGroupNote *country3 = [[APGroupNote alloc] initWithParentId:-1 nodeId:17 name:@"日本" depth:0 expand:YES];
-//    NSArray *data = [NSArray arrayWithObjects:country1,province1,city1,city2,city3,province2,city4,nil];
-    
-
 }
 
 
@@ -303,22 +281,38 @@
 
 -(void)createButton
 {
+    //全选图标
     CGFloat top = H_SCALE(52);
     self.btnLeft = [UIButton new];
     [self addSubview:self.btnLeft];
 //    [self.btnLeft setBackgroundImage:[self imageWithColor:[UIColor clearColor]] forState:UIControlStateSelected];
-    [self.btnLeft setBackgroundImage:[self imageWithColor:[UIColor grayColor]] forState:UIControlStateHighlighted];
-    [self.btnLeft setTitle:@"全选" forState:UIControlStateNormal];
-    ViewBorderRadius(self.btnLeft, 8, 1, ColorHex(0x4870EA));
+    [self.btnLeft setBackgroundImage:[self imageWithColor:[UIColor clearColor]] forState:UIControlStateHighlighted];
     self.btnLeft.titleLabel.font = [UIFont systemFontOfSize: 16.0];
     [self.btnLeft setTitleColor:ColorHex(0xFFFFFF ) forState:UIControlStateNormal];
     [self.btnLeft mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(57, Group_Btn_W));
+        make.size.mas_equalTo(CGSizeMake(Group_Btn_W, Group_Btn_W));
         make.top.mas_equalTo(self.mas_top).offset(top);
         make.left.equalTo(self.mas_left).offset(Left_Gap);
     }];
+    
+    [self.btnLeft setImage:[UIImage imageNamed:@"Ellipse 4"] forState:UIControlStateNormal];
     [self.btnLeft addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
+    
+    //全选标题
+    _allSelectLabel = [[UILabel alloc] init];
+    _allSelectLabel.textColor = [UIColor whiteColor];
+    _allSelectLabel.font = [UIFont systemFontOfSize:16];
+    _allSelectLabel.textAlignment = NSTextAlignmentLeft;
+    NSString *str = @"全部";
+    _allSelectLabel.text = str;
+    [self addSubview:_allSelectLabel];
+    [_allSelectLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(W_SCALE(250), Group_Btn_W));
+        make.top.mas_equalTo(self.mas_top).offset(top);
+        make.left.equalTo(self.btnLeft.mas_right).offset(0);
+    }];
 
+    //编辑按钮
     self.btnRight = [UIButton new];
     [self addSubview:self.btnRight];
     [self.btnRight setTitle:@"编辑" forState:UIControlStateNormal];
@@ -335,13 +329,46 @@
 }
 
 #pragma mark 方法
+-(void)refrashAllselectTitle
+{
+    WS(weakSelf);
+    
+    dispatch_async(dispatch_get_global_queue(0,0), ^{
+        
+        //执行耗时的异步操作...
+        weakSelf.selectedNumber = 0;
+        weakSelf.allNumber = 0;
+        for(APGroupNote *temp in weakSelf.data)
+        {
+            if (temp.isDevice)
+            {
+                weakSelf.allNumber++;
+                if (temp.selected)
+                {
+                    weakSelf.selectedNumber++;
+                }
+            }
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            //回到主线程，执行UI刷新操
+            weakSelf.allSelectLabel.text = [NSString stringWithFormat:@"全部(%d/%d)", weakSelf.selectedNumber,weakSelf.allNumber];
+
+        });
+    });
+}
+
 -(void)selectedAllWithSelected:(BOOL)selected
 {
-    for (int k = 0; k < _data.count; k++)
+    for(APGroupNote *temp in _data)
     {
-        APGroupNote *node = _data[k];
-        [node setChildSelected:selected];
+        temp.selected = selected;
+        if (temp.isDevice == NO)
+        {
+            temp.childSelected = selected ? temp.childNumber : 0;
+        }
     }
+    
     [_tableview reloadData];
 }
 
@@ -384,7 +411,6 @@
         UIAlertController  *alert = [UIAlertController alertControllerWithTitle:@"确认删除" message:@"删除后无法恢复" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"删除" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action)
         {
-            
             [weakSelf.data removeObjectsAtIndexes:set];
             [weakSelf.tableview reloadData];
         }];
@@ -635,6 +661,7 @@
             }
         }
         [tableView reloadData];
+        [self refrashAllselectTitle];
 
     }
 
@@ -679,22 +706,29 @@
     {
         
         self.btnLeft.selected = !self.btnLeft.selected;
-        if(self.btnLeft.selected == YES)
-        {
-            [self.btnLeft setTitle:@"取消全选" forState:UIControlStateNormal];
-            [self.btnLeft mas_updateConstraints:^(MASConstraintMaker *make) {
-                            make.size.mas_equalTo(CGSizeMake(90, Group_Btn_W));
-            }];
-        }
-        else
-        {
-            [self.btnLeft setTitle:@"全选" forState:UIControlStateNormal];
-            [self.btnLeft mas_updateConstraints:^(MASConstraintMaker *make) {
-                            make.size.mas_equalTo(CGSizeMake(57, Group_Btn_W));
-            }];
-        }
+        NSString *selectIamge = self.btnLeft.selected?@"all" : @"Ellipse 4";
+        [self.btnLeft setImage:[UIImage imageNamed:selectIamge] forState:UIControlStateNormal];
+        
         
         [self selectedAllWithSelected:self.btnLeft.selected];
+        
+        [self refrashAllselectTitle];
+
+//        if(self.btnLeft.selected == YES)
+//        {
+//            [self.btnLeft setTitle:@"取消全选" forState:UIControlStateNormal];
+//            [self.btnLeft mas_updateConstraints:^(MASConstraintMaker *make) {
+//                            make.size.mas_equalTo(CGSizeMake(90, Group_Btn_W));
+//            }];
+//        }
+//        else
+//        {
+//            [self.btnLeft setTitle:@"全选" forState:UIControlStateNormal];
+//            [self.btnLeft mas_updateConstraints:^(MASConstraintMaker *make) {
+//                            make.size.mas_equalTo(CGSizeMake(57, Group_Btn_W));
+//            }];
+//        }
+        
     }
     
     if (btn == self.btnRight)

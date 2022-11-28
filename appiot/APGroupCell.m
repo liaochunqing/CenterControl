@@ -15,9 +15,6 @@
         //添加子控件
         self.backgroundColor = [UIColor clearColor];
         
-        //设置被选中颜色
-        self.selectedBackgroundView = [[UIView alloc] initWithFrame:self.frame];
-        self.selectedBackgroundView.backgroundColor = ColorHex(0x29315F );//
     }
     return self;
 }
@@ -30,16 +27,20 @@
         [subview removeFromSuperview];
     }
     
+    //设置被选中颜色
+    self.selectedBackgroundView = [[UIView alloc] initWithFrame:self.frame];
+    self.selectedBackgroundView.backgroundColor = ColorHex(0x29315F );//
+    
     if(node.height == 0)
     {
         return;
     };
 
 
-    CGFloat midGap = W_SCALE(20);//cell各个图标文字中间的间隙
+    CGFloat midGap = W_SCALE(17);//cell各个图标文字中间的间隙
     
     CGFloat expendX = Left_Gap  + midGap* (node.depth);
-    CGFloat expendW = W_SCALE(30);
+    CGFloat expendW = W_SCALE(25);
     //展开箭头图标的创建
     _expendBtn = [UIButton new];
     [self.contentView addSubview:_expendBtn];

@@ -13,7 +13,11 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface APGroupView : APBaseView <UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>
+@property (nonatomic)int allNumber;//所有设备数
+@property (nonatomic)int selectedNumber;//被选中设备数
 @property(nonatomic,strong)UIButton *btnLeft;//全选按钮
+@property(nonatomic,strong)UILabel *allSelectLabel;//全选标题
+
 @property(nonatomic,strong)UIButton *btnRight;//编辑按钮
 @property(nonatomic,strong)UIView *bottomView;
 @property(nonatomic,strong)APGroupTableView *tableview;
