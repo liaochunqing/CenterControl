@@ -14,7 +14,8 @@
 		C63306BB292DE85B0057DA83 /* APMonitorModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C63306BA292DE85B0057DA83 /* APMonitorModel.m */; };
 		C63306BE292DE8D80057DA83 /* APTool.m in Sources */ = {isa = PBXBuildFile; fileRef = C63306BD292DE8D80057DA83 /* APTool.m */; };
 		C63306C8293059DF0057DA83 /* APDatabaseTool.m in Sources */ = {isa = PBXBuildFile; fileRef = C63306C7293059DF0057DA83 /* APDatabaseTool.m */; };
-		C63306CC2930A9220057DA83 /* remote.db in Resources */ = {isa = PBXBuildFile; fileRef = C63306CB2930A9210057DA83 /* remote.db */; };
+		C63306CF2935A88B0057DA83 /* APTcpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = C63306CE2935A88B0057DA83 /* APTcpSocket.m */; };
+		C63306D12935B1ED0057DA83 /* remote.db in Resources */ = {isa = PBXBuildFile; fileRef = C63306D02935B1ED0057DA83 /* remote.db */; };
 		C63C822F2923370300DBB3F6 /* APLeftPageButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C63C822E2923370300DBB3F6 /* APLeftPageButton.m */; };
 		C63C8233292367AE00DBB3F6 /* APComandButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C63C8232292367AE00DBB3F6 /* APComandButton.m */; };
 		C63C823629238B7400DBB3F6 /* APMonitorItem.m in Sources */ = {isa = PBXBuildFile; fileRef = C63C823529238B7400DBB3F6 /* APMonitorItem.m */; };
@@ -79,7 +80,9 @@
 		C63306BD292DE8D80057DA83 /* APTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APTool.m; sourceTree = "<group>"; };
 		C63306C6293059DF0057DA83 /* APDatabaseTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APDatabaseTool.h; sourceTree = "<group>"; };
 		C63306C7293059DF0057DA83 /* APDatabaseTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APDatabaseTool.m; sourceTree = "<group>"; };
-		C63306CB2930A9210057DA83 /* remote.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = remote.db; sourceTree = "<group>"; };
+		C63306CD2935A88B0057DA83 /* APTcpSocket.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APTcpSocket.h; sourceTree = "<group>"; };
+		C63306CE2935A88B0057DA83 /* APTcpSocket.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APTcpSocket.m; sourceTree = "<group>"; };
+		C63306D02935B1ED0057DA83 /* remote.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = remote.db; sourceTree = "<group>"; };
 		C63C822D2923370300DBB3F6 /* APLeftPageButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APLeftPageButton.h; sourceTree = "<group>"; };
 		C63C822E2923370300DBB3F6 /* APLeftPageButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APLeftPageButton.m; sourceTree = "<group>"; };
 		C63C8231292367AE00DBB3F6 /* APComandButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APComandButton.h; sourceTree = "<group>"; };
@@ -181,6 +184,8 @@
 			children = (
 				C63306AB292B45B10057DA83 /* APUdpSocket.h */,
 				C63306AC292B45B10057DA83 /* APUdpSocket.m */,
+				C63306CD2935A88B0057DA83 /* APTcpSocket.h */,
+				C63306CE2935A88B0057DA83 /* APTcpSocket.m */,
 			);
 			name = netWork;
 			sourceTree = "<group>";
@@ -255,7 +260,7 @@
 				C6C52848291B7DCF003F24C1 /* AppDelegate.m */,
 				C6CA8BB129220E1A00F5AAC2 /* APViewController.h */,
 				C6CA8BB229220E1A00F5AAC2 /* APViewController.m */,
-				C63306CB2930A9210057DA83 /* remote.db */,
+				C63306D02935B1ED0057DA83 /* remote.db */,
 				C6C5288C291CFC92003F24C1 /* config.h */,
 				C6C52858291B7DD1003F24C1 /* LaunchScreen.storyboard */,
 				C6C52856291B7DD1003F24C1 /* Assets.xcassets */,
@@ -453,7 +458,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C6C5285A291B7DD1003F24C1 /* LaunchScreen.storyboard in Resources */,
-				C63306CC2930A9220057DA83 /* remote.db in Resources */,
+				C63306D12935B1ED0057DA83 /* remote.db in Resources */,
 				C6C52857291B7DD1003F24C1 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -591,6 +596,7 @@
 				C63306AD292B45B10057DA83 /* APUdpSocket.m in Sources */,
 				C63C82392924B48400DBB3F6 /* APGroupView.m in Sources */,
 				C6C52855291B7DCF003F24C1 /* appiot.xcdatamodeld in Sources */,
+				C63306CF2935A88B0057DA83 /* APTcpSocket.m in Sources */,
 				C6C52849291B7DCF003F24C1 /* AppDelegate.m in Sources */,
 				C63306C8293059DF0057DA83 /* APDatabaseTool.m in Sources */,
 				C63306BE292DE8D80057DA83 /* APTool.m in Sources */,

@@ -7,9 +7,11 @@
 
 #import "APTool.h"
 #import "GCDAsyncUdpSocket.h"
+#import "GCDAsyncSocket.h"
 #include "Masonry.h"
 #import "MBProgressHUD.h"
 #import "FMDB.h"
+#import "APTcpSocket.h"
 
 #ifndef config_h
 #define config_h

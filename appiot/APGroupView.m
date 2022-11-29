@@ -343,13 +343,27 @@
 -(NSArray *)getSelectedNode
 {
     NSMutableArray *arr = [NSMutableArray array];
-    for(APGroupNote *temp in _data)
+    if (_isFieldActive)
     {
-        if (temp.isDevice && temp.selected)
+        for(APGroupNote *temp in _filteredData)
         {
-            [arr addObject:temp];
+            if (temp.isDevice && temp.selected)
+            {
+                [arr addObject:temp];
+            }
         }
     }
+    else
+    {
+        for(APGroupNote *temp in _data)
+        {
+            if (temp.isDevice && temp.selected)
+            {
+                [arr addObject:temp];
+            }
+        }
+    }
+    
     
     return  arr;
 }
@@ -645,6 +659,31 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSUInteger row = indexPath.row ;
+    
+    if (_isFieldActive)
+    {
+        APGroupNote *tempnode = _filteredData[row];
+        if (tempnode == nil) return;
+        
+        APGroupCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        if(cell.selectBtn)
+        {
+            //本节点被选中
+            cell.selectBtn.selected = !cell.selectBtn.selected;
+            NSString *selectIamge = cell.selectBtn.selected?@"all" : @"Ellipse 4";
+            [cell.selectBtn setImage:[UIImage imageNamed:selectIamge] forState:UIControlStateNormal];
+            tempnode.selected = cell.selectBtn.selected;
+            
+            [tableView reloadData];
+            [self refrashMonitorTable];
+        }
+        return;
+    }
+    else
+    {
+//        node = [_data objectAtIndex:indexPath.row];
+    }
+    
     APGroupNote *node = _data[row];
     if (node == nil) return;
     
@@ -700,9 +739,7 @@
         }
         [tableView reloadData];
         [self refrashAllselectTitle];
-        
         [self refrashMonitorTable];
-
     }
 
 }
