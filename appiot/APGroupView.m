@@ -804,7 +804,7 @@
             {
                 [UIView animateWithDuration:0.3 animations:^{
                     [self.bottomView setFrame:CGRectMake(0, self.frame.size.height, Left_View_Width, Bottom_View_Height)];
-                    [self.bottomView.superview layoutIfNeeded]; // 强制绘制 (重点是这句)
+                    [self.bottomView.superview layoutIfNeeded]; // 强制绘制
                 }];
             }
         }
