@@ -16,6 +16,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 - (UIImage *)imageWithColor:(UIColor *)color;
+
+// 16进制转NSData
+- (NSData *)convertHexStrToData:(NSString *)str;
+
+//普通字符串转换为十六进制的。
+- (NSString *)hexStringFromString:(NSString *)string;
+
+// 十六进制转换为普通字符串的。
+- (NSString *)stringFromHexString:(NSString *)hexString;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -31,12 +31,15 @@ typedef void(^SocketReturnMessage)(NSString *message);
 /*
  *初始化方法
  */
-+ (APTcpSocket *)shareManager;
+//+ (APTcpSocket *)shareManager;
 
 /*
  *连接服务/主机的方法
  */
 - (void)connectToHost:(NSString *)host Port:(NSUInteger)port;
+
+//发送数据
+-(void)sendData:(NSData *)contents;
 @end
 
 NS_ASSUME_NONNULL_END

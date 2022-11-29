@@ -96,11 +96,10 @@
 -(void)createData
 {
     //1.获得数据库文件的路径
-        NSString *doc = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
-        NSString *dbfileName = [doc stringByAppendingPathComponent:DB_NAME];
-        //2.获得数据库
-        FMDatabase *db = [FMDatabase databaseWithPath:dbfileName];
-
+    NSString *doc = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    NSString *dbfileName = [doc stringByAppendingPathComponent:DB_NAME];
+    //2.获得数据库
+    FMDatabase *db = [FMDatabase databaseWithPath:dbfileName];
     //3.打开数据库
     if ([db open])
     {
@@ -109,10 +108,11 @@
           while ([resultSet next])
           {
               APGroupNote *node = [APGroupNote new];
+              node.isDevice = NO;
+
               node.name = SafeStr([resultSet stringForColumn:@"group_name"]);
               node.parentId = SafeStr([resultSet stringForColumn:@"pid"]);
               node.nodeId = SafeStr([resultSet stringForColumn:@"id"]);
-              node.isDevice = NO;
               [_orgData addObject:node];
           }
         
@@ -120,7 +120,6 @@
         // 遍历结果集
           while ([resultSet next])
           {
-//              NSString *str;
               APGroupNote *node = [APGroupNote new];
               node.isDevice = YES;
 
@@ -137,6 +136,10 @@
               node.shutter_status = SafeStr([resultSet stringForColumn:@"shutter_status"]);
               node.error_code = SafeStr([resultSet stringForColumn:@"new_error_code"]);
               node.device_id = SafeStr([resultSet stringForColumn:@"device_id"]);
+              node.port = SafeStr([resultSet stringForColumn:@"port"]);
+              node.access_protocol = SafeStr([resultSet stringForColumn:@"access_protocol"]);
+              node.model_id = SafeStr([resultSet stringForColumn:@"model_id"]);
+
               [_orgData addObject:node];
 
           }
