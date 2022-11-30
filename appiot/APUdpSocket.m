@@ -29,7 +29,7 @@ static APUdpSocket *sharedInstance = nil;
         [_udpSocket closeAfterSending];
         
         dispatch_queue_t qQueue = dispatch_queue_create("Client queue", NULL);
-        _udpSocket = [[GCDAsyncUdpSocket alloc] initWithDelegate:self delegateQueue:qQueue];
+        _udpSocket = [[GCDAsyncUdpSocket alloc] initWithDelegate:sharedInstance delegateQueue:qQueue];
         NSError * error = nil;
         if([_udpSocket bindToPort :_port error:&error])
         {
@@ -52,12 +52,12 @@ static APUdpSocket *sharedInstance = nil;
 //        [_udpSocket beginReceiving:nil];
     }
 }
--(void)broadcast:(NSString *)message
+-(void)broadcast:(NSData *)data
 {
    //消息内容
-    NSData *sendData = [self convertHexStrToData:message];
+//    NSData *sendData = [self convertHexStrToData:message];
     //如果向特定ip发送，这里要写明ip
-    [self.udpSocket sendData:sendData toHost:_host port:_port withTimeout:-1 tag:100];
+    [self.udpSocket sendData:data toHost:_host port:_port withTimeout:-1 tag:100];
 }
 
 - (void)sendMessage:(NSString *)message

@@ -6,6 +6,7 @@
 //
 
 #import "APCommandView.h"
+#import "AppDelegate.h"
 
 @implementation APCommandView
 
@@ -30,6 +31,71 @@
     [self createSwitchView];
     [self createTestView];
     [self createMonitorView];
+    [self getSelectedDev];
+}
+-(void)refreshSelectedList:(NSArray *)arr
+{
+    if (!arr) return;
+    
+    if (_data && _data.count)
+    {
+        [_data removeAllObjects];
+    }
+    else
+    {
+        _data =[NSMutableArray array];
+    }
+    
+    _data = [NSMutableArray arrayWithArray:arr];
+}
+
+-(void)getSelectedDev
+{
+    AppDelegate *appDelegate = kAppDelegate;
+    APGroupView *vc = appDelegate.mainVC.leftView.groupView;
+    if (vc && [vc isKindOfClass:[APGroupView class]])
+    {
+        NSArray *temp = [vc getSelectedNode];
+        if (!temp) return;
+        
+        if (_data && _data.count)
+        {
+            [_data removeAllObjects];
+        }
+        else
+        {
+            _data = [NSMutableArray array];
+        }
+        _data = [NSMutableArray arrayWithArray:temp];
+    }
+}
+
+-(void)getDevExecDict
+{
+    //1.获得数据库文件的路径
+    NSString *doc = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    NSString *dbfileName = [doc stringByAppendingPathComponent:DB_NAME];
+    //2.获得数据库
+    FMDatabase *db = [FMDatabase databaseWithPath:dbfileName];
+    //3.打开数据库
+    if ([db open])
+    {
+        for (APGroupNote *node in _data)
+        {
+            node.commandDict = [NSMutableDictionary dictionary];
+            NSString *sqlStr = [NSString stringWithFormat:@"select l.parameter_value,i.exec_code from zk_command_mount m,zk_execlist_info i ,dev_execlist l where m.model_id=%@ and m.tab_code='control' and  m.exec_info_id=i.id and m.dev_exec_id=l.id",node.model_id];
+            FMResultSet *resultSet = [db executeQuery:sqlStr];
+            // 遍历结果集
+            while ([resultSet next])
+            {
+                NSString *key = SafeStr([resultSet stringForColumn:@"exec_code"]);
+                NSString *value = SafeStr([resultSet stringForColumn:@"parameter_value"]);
+                [node.commandDict setValue:value forKey:key];
+            }
+        }
+    }
+        
+    [db close];
 }
 
 -(void)createSwitchView
@@ -271,13 +337,40 @@
     }
 }
 
-#pragma button回调
+-(void)sendMessage:(NSString *)command
+{
+    for (APGroupNote *node in _data)
+    {
+        NSData * sendData = node.commandDict[command];
+//        NSString *str = [msg stringByReplacingOccurrencesOfString:@"<CR>" withString:@"\r"];
+//        NSString *hex = [[APTool shareInstance] hexStringFromString:str];
+//        NSData *sendData = [[APTool shareInstance] convertHexStrToData:hex];
+        
+        if ([@"tcp" compare:node.access_protocol options:NSCaseInsensitiveSearch |NSNumericSearch] ==NSOrderedSame)
+        {
+            APTcpSocket *tcpManager = [APTcpSocket shareManager];
+            [tcpManager connectToHost:node.ip Port:[node.port intValue]];
+            [tcpManager sendData:sendData];
+        }
+        else if ([@"udp" compare:node.access_protocol options:NSCaseInsensitiveSearch |NSNumericSearch] ==NSOrderedSame)
+        {
+            APUdpSocket *udpManager = [APUdpSocket sharedInstance];
+            udpManager.host = node.ip;
+            udpManager.port = [node.port intValue];
+            [udpManager createClientUdpSocket];
+            
+            [udpManager broadcast:sendData];
+        }
+    }
+}
+
+#pragma mark button回调
 
 -(void)btnTestClick:(UIButton *)btn
 {
     if(btn)
     {
-        if (btn.tag == 0)//按钮“控制”
+        if (btn.tag == 0)//
         {
         }
         else
@@ -291,7 +384,7 @@
 {
     if(btn)
     {
-        if (btn.tag == 0)//按钮“控制”
+        if (btn.tag == 0)//
         {
         }
         else
@@ -307,71 +400,23 @@
         switch (btn.tag) {
             case 0://按钮“开机”
             {
-                APUdpSocket *sockManager = [APUdpSocket sharedInstance];
-                sockManager.host = @"255.255.255.255";
-                sockManager.port = 5050;
-                [sockManager createClientUdpSocket];
-                NSString *m = @"AD0000002F0000000000000000000000000000DC";
-                [sockManager broadcast:m];
-
+                [self sendMessage:Command_kaiji];
             }
                 break;
             case 1://按钮“关机”
             {
-                APUdpSocket *sockManager = [APUdpSocket sharedInstance];
-//                sockManager.host = @"192.168.1.219";
-                sockManager.port = 5050;
-                [sockManager createClientUdpSocket];
-                NSString *m = @"AD0000002F0100000000000000000000000000DD";
-                [sockManager broadcast:m];
+                [self sendMessage:Command_guanji];
             }
                 break;
             case 2://按钮“开快门”
             {
-                
-                
-                
-                
+                [self sendMessage:Command_kaikuaimen];
             }
                 break;
                 
             case 3://按钮“关快门”
             {
-                //1.获得数据库文件的路径
-                    NSString *doc = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
-                    NSLog(@"%@", doc);
-                    NSString *dbfileName = [doc stringByAppendingPathComponent:@"CentralControl.db"];
-                NSFileManager *fm = [NSFileManager defaultManager];
-                
-                //导入外部数据库.db文件
-//                if ([fm fileExistsAtPath:dbfileName] == NO)
-                {
-                    BOOL ok;
-                    ok = [fm removeItemAtPath:dbfileName error:nil];
-                            NSLog(@"删除成功");
-                    //拷贝数据库文件到指定目录
-                    NSString *backPath = [[NSBundle mainBundle] pathForResource:@"remote" ofType:@"db"];
-                     ok = [fm copyItemAtPath:backPath toPath:dbfileName error:nil];
-                    NSLog(@"%d",ok);
-                }
-                    //2.获得数据库
-                    FMDatabase *collectionDatabase = [FMDatabase databaseWithPath:dbfileName];
-                    
-                    //3.打开数据库
-                    if ([collectionDatabase open])
-                    {
-                        FMResultSet *resultSet = [collectionDatabase executeQuery:@"SELECT * FROM zk_group"];
-                        // 2.遍历结果
-                        // 遍历结果集
-                          while ([resultSet next])
-                          {
-                              NSString *dicNameData = [resultSet stringForColumn:@"group_name"]; // 将查询的字符串转换成字典
-                              NSLog(@"dicNameData = %@",dicNameData);
-//                              NSDictionary *dic = [WL_Tool dictionaryWithJsonString:dicNameData];
-//                              [self.wordList addObject:dic];
-                          }
-                        [collectionDatabase close];
-                    }
+                [self sendMessage:Command_guankuaimen];
             }
                 break;
                 

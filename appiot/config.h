@@ -12,6 +12,7 @@
 #import "MBProgressHUD.h"
 #import "FMDB.h"
 #import "APTcpSocket.h"
+#import "APGroupNote.h"
 
 #ifndef config_h
 #define config_h
@@ -123,4 +124,14 @@
 #define Center_ChangeView_Top H_SCALE(127)//中间可变视图与顶部距离
 #define Command_Btn_W W_SCALE(192)
 #define Command_Btn_H H_SCALE(208)
+
+//命令
+#define Command_kaiji @"control-startMachine"  //开机
+#define Command_guanji @"control-stopMachine"//关机
+#define Command_kaikuaimen @"control-startShutter"//开快门
+#define Command_guankuaimen @"control-stopShutter"//关开门
+#define Monitor_information @"information source"  //查询信号源
+#define Monitor_status @"Power Supply"//查询投影机状态
+#define Monitor_device_info @"deviceInfo"//信息获取
+#define Monitor_shutter_info @"Shutter"//查询光源
 #endif /* config_h */

@@ -92,62 +92,29 @@
         [_tableview reloadData];
         [self refreshTitle];
     }
-    
+
     for (APGroupNote *node in _data)
     {
-//        APTcpSocket *tcpManager = [[APTcpSocket alloc] init];
-//        [tcpManager connectToHost:node.ip Port:[node.port intValue]];
+        NSData * sendData = node.monitorDict[Monitor_device_info];
         
-//        APTool *tool = [APTool shareInstance];
-//        NSString *str  = [tool stringFromHexString:@"41542B646576696365496E666F3F0D"];
-//        NSString *hex = [tool hexStringFromString:@"AT+deviceInfo?\r"];
-//        NSData *data = [tool convertHexStrToData:hex];
-//
-//        [tcpManager sendData:data];
-//        GCDAsyncSocket *socket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_main_queue()];
-//        socket.delegate = self;
-        GCDAsyncSocket *socket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_main_queue()];
-        NSError *error = nil;
-        if (![socket connectToHost:node.ip onPort:[node.port intValue] error:&error]) {
-//            //该方法异步
-            NSLog(@"%@",  @"连接服务器失败");
+        if ([@"tcp" compare:node.access_protocol options:NSCaseInsensitiveSearch |NSNumericSearch] ==NSOrderedSame)
+        {
+            APTcpSocket *tcpManager = [APTcpSocket shareManager];
+            [tcpManager connectToHost:node.ip Port:[node.port intValue]];
+            [tcpManager sendData:sendData];
         }
-
+        else if ([@"udp" compare:node.access_protocol options:NSCaseInsensitiveSearch |NSNumericSearch] ==NSOrderedSame)
+        {
+            APUdpSocket *udpManager = [APUdpSocket sharedInstance];
+            udpManager.host = node.ip;
+            udpManager.port = [node.port intValue];
+            [udpManager createClientUdpSocket];
+            
+            [udpManager broadcast:sendData];
+        }
     }
 }
-//41 54 2B 64 65 76 69 63 65 49 6E 66 6F 3F 0D
-- (void)socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(uint16_t)port
-{
-    NSString *message = [NSString stringWithFormat:@"DidConnectToHost.Host:%@--Port:%hu",host,port];
-    NSLog(@"%@",message);
-    APTool *tool = [APTool shareInstance];
-        NSString *str  = @"41542B646576696365496E666F3F0D";
-    NSString *hex = [tool hexStringFromString:@"AT+deviceInfo?\r"];
-    NSData *data = [tool convertHexStrToData:str];
-//    NSData* xmlData = [str dataUsingEncoding:NSUTF8StringEncoding];
-        [sock writeData:data withTimeout:-1 tag:1];//这里tag没用到
 
-        [sock readDataWithTimeout:-1 tag:1];
-//    [sock readDataToLength:1000 withTimeout:-1 tag:1];
-
-}
-
-#pragma mark 已经向服务器发送数据
-- (void)socket:(GCDAsyncSocket *)sock didWriteDataWithTag:(long)tag
-{
-    NSString *message = [NSString stringWithFormat:@"DidWriteDataWithTag:%ld",tag];
-    NSLog(@"%@",message);
-    // 读取数据
-    [sock readDataWithTimeout:-1 tag:tag];
-}
-
-#pragma mark 服务器返回数据
-
--(void)socket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag
-{
-    NSString *receiverStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"读取数据：%s %@",__func__,receiverStr);
-}
 -(void)createTableview
 {
 //    APMonitorModel *node1 = [APMonitorModel new];

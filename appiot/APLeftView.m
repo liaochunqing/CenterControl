@@ -75,6 +75,7 @@
         make.centerY.mas_equalTo(self.topView);
         make.right.mas_equalTo(self.topView.mas_right).offset(-Left_Gap);
     }];
+    self.btnRight.tag = 0;
     [self.btnRight addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
 
     self.btnLeft = [UIButton new];
@@ -85,6 +86,8 @@
         make.centerY.mas_equalTo(self.topView);
         make.right.equalTo(self.btnRight.mas_left).offset(-W_SCALE(20));
     }];
+    self.btnLeft.tag = 1;
+    [self.btnLeft addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)createScrollMenu
@@ -127,8 +130,41 @@
 {
     if(btn)
     {
-        if (btn.tag == 0)//按钮“控制”
+        if (btn.tag == 0)//右按钮
         {
+            //1.获得数据库文件的路径
+                NSString *doc = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+                NSLog(@"%@", doc);
+                NSString *dbfileName = [doc stringByAppendingPathComponent:@"CentralControl.db"];
+            NSFileManager *fm = [NSFileManager defaultManager];
+            
+            //导入外部数据库.db文件
+//                if ([fm fileExistsAtPath:dbfileName] == NO)
+            {
+                BOOL ok;
+                ok = [fm removeItemAtPath:dbfileName error:nil];
+                        NSLog(@"删除成功");
+                //拷贝数据库文件到指定目录
+                NSString *backPath = [[NSBundle mainBundle] pathForResource:@"remote" ofType:@"db"];
+                 ok = [fm copyItemAtPath:backPath toPath:dbfileName error:nil];
+                NSLog(@"%d",ok);
+            }
+                //2.获得数据库
+//                FMDatabase *collectionDatabase = [FMDatabase databaseWithPath:dbfileName];
+//                
+//                //3.打开数据库
+//                if ([collectionDatabase open])
+//                {
+//                    FMResultSet *resultSet = [collectionDatabase executeQuery:@"SELECT * FROM zk_group"];
+//                    // 2.遍历结果
+//                    // 遍历结果集
+//                      while ([resultSet next])
+//                      {
+//                          NSString *dicNameData = [resultSet stringForColumn:@"group_name"]; // 将查询的字符串转换成字典
+//                          NSLog(@"dicNameData = %@",dicNameData);
+//                      }
+//                    [collectionDatabase close];
+//                }
         }
         else
         {

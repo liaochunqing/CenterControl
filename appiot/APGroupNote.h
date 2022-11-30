@@ -32,6 +32,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic , strong) NSString *model_id;//设备型号ID
 //@property (nonatomic , strong) NSString *signals;//信源
 
+//控制
+@property (nonatomic,strong)NSMutableDictionary *commandDict;
+@property (nonatomic,strong)NSMutableDictionary *monitorDict;
+
 //监测的属性
 @property (nonatomic , strong) NSString *signals;//信源
 @property (nonatomic , strong) NSString *ip;//

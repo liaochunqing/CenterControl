@@ -10,6 +10,7 @@
 #import "APGroupTableView.h"
 #import "APDatabaseTool.h"
 #import "APMonitorView.h"
+#import "APCommandView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

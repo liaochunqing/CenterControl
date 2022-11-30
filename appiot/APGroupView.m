@@ -89,6 +89,26 @@
     [self createData];
 }
 
+-(NSData*)getSendDataFromParam:(NSString *)param
+{
+    NSString *temp = param;
+    if ([param containsString:@"appotype:\"hex\""] )
+    {
+        NSArray *arr = [param componentsSeparatedByString:@"#"];
+        temp = [arr lastObject];
+    }
+    else if ([param containsString:@"appotype:\"string\""])
+    {
+        NSArray *arr = [param componentsSeparatedByString:@"#"];
+        temp = [arr firstObject];
+    }
+    
+    NSString *str = [SafeStr(temp) stringByReplacingOccurrencesOfString:@"<CR>" withString:@"\r"];
+    NSString *hex = [[APTool shareInstance] hexStringFromString:str];
+    NSData *sendData = [[APTool shareInstance] convertHexStrToData:hex];
+    
+    return sendData;
+}
 
 /**
  * 初始化数据源
@@ -103,21 +123,8 @@
     //3.打开数据库
     if ([db open])
     {
-        FMResultSet *resultSet = [db executeQuery:@"SELECT * FROM zk_group"];
-        // 遍历结果集
-          while ([resultSet next])
-          {
-              APGroupNote *node = [APGroupNote new];
-              node.isDevice = NO;
-
-              node.name = SafeStr([resultSet stringForColumn:@"group_name"]);
-              node.parentId = SafeStr([resultSet stringForColumn:@"pid"]);
-              node.nodeId = SafeStr([resultSet stringForColumn:@"id"]);
-              [_orgData addObject:node];
-          }
-        
-        resultSet = [db executeQuery:@"SELECT * FROM log_sn"];
-        // 遍历结果集
+        //查询设备
+        FMResultSet *resultSet = [db executeQuery:@"SELECT * FROM log_sn"];
           while ([resultSet next])
           {
               APGroupNote *node = [APGroupNote new];
@@ -143,6 +150,48 @@
               [_orgData addObject:node];
 
           }
+        
+        for (APGroupNote *node in _orgData)
+        {
+            // 获取控制界面的命令  control
+            node.commandDict = [NSMutableDictionary dictionary];
+            NSString *sqlStr = [NSString stringWithFormat:@"select l.parameter_value,i.exec_code from zk_command_mount m,zk_execlist_info i ,dev_execlist l where m.model_id=%@ and m.tab_code='control' and  m.exec_info_id=i.id and m.dev_exec_id=l.id",node.model_id];
+            FMResultSet *resultSet = [db executeQuery:sqlStr];
+            while ([resultSet next])
+            {
+                NSString *key = SafeStr([resultSet stringForColumn:@"exec_code"]);
+                NSString *param = SafeStr([resultSet stringForColumn:@"parameter_value"]);
+                NSData *data = [self getSendDataFromParam:param];
+                [node.commandDict setValue:data forKey:key];
+            }
+            
+            // 获取监控界面的命令  ViewList
+            node.monitorDict = [NSMutableDictionary dictionary];
+            sqlStr = [NSString stringWithFormat:@"select l.parameter_value,i.exec_code from zk_command_mount m,zk_execlist_info i ,dev_execlist l where m.model_id=%@ and m.tab_code='ViewList' and  m.exec_info_id=i.id and m.dev_exec_id=l.id",node.model_id];
+            resultSet = [db executeQuery:sqlStr];
+            while ([resultSet next])
+            {
+                NSString *key = SafeStr([resultSet stringForColumn:@"exec_code"]);
+                NSString *param = SafeStr([resultSet stringForColumn:@"parameter_value"]);
+                NSData *data = [self getSendDataFromParam:param];
+                [node.monitorDict setValue:data forKey:key];
+            }
+        }
+        
+        //查询分组
+        resultSet = [db executeQuery:@"SELECT * FROM zk_group"];
+        while ([resultSet next])
+        {
+            APGroupNote *node = [APGroupNote new];
+            node.isDevice = NO;
+
+            node.name = SafeStr([resultSet stringForColumn:@"group_name"]);
+            node.parentId = SafeStr([resultSet stringForColumn:@"pid"]);
+            node.nodeId = SafeStr([resultSet stringForColumn:@"id"]);
+            [_orgData addObject:node];
+        }
+        
+        //关闭数据库
         [db close];
     }
     
@@ -373,12 +422,19 @@
 
 -(void)refrashMonitorTable
 {
+    NSArray *temp = [self getSelectedNode];
+
     AppDelegate *appDelegate = kAppDelegate;
     APMonitorView *vc = appDelegate.mainVC.centerView.monitorView;
     if (vc && [vc isKindOfClass:[APMonitorView class]])
     {
-        NSArray *temp = [self getSelectedNode];
         [vc refreshTable:temp];
+    }
+    
+    APCommandView *cvc = appDelegate.mainVC.centerView.commandView;
+    if (cvc && [cvc isKindOfClass:[APCommandView class]])
+    {
+        [cvc refreshSelectedList:temp];
     }
 }
 

@@ -17,6 +17,8 @@
         self.expand = YES;
         self.haveChild = NO;
         self.childNumber = 0;
+        self.commandDict = [NSMutableDictionary dictionary];
+        self.monitorDict = [NSMutableDictionary dictionary];
     }
     return self;
 }

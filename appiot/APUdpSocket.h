@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 -(void)createClientUdpSocket;  // socket连接
 -(void)cutOffSocket; // 断开socket连接
 - (void)sendMessage:(NSString *)message;
--(void)broadcast:(NSString *)message;
+-(void)broadcast:(NSData *)data;
 @end
 
 NS_ASSUME_NONNULL_END
