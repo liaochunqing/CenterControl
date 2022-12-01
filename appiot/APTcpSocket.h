@@ -9,7 +9,7 @@
 #import "config.h"
 
 NS_ASSUME_NONNULL_BEGIN
-//typedef void(^SocketReturnMessage)(NSString *message);
+typedef void(^SocketReturnMessage)(NSString *message);
 
 @interface APTcpSocket : NSObject<GCDAsyncSocketDelegate>
 /*
@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 /*
  *创建SocketReturnMessage类型的block对象
  */
-//@property (nonatomic,copy) SocketReturnMessage socketMessageBlock;
+@property (nonatomic,copy) SocketReturnMessage socketMessageBlock;
 
 
 /*

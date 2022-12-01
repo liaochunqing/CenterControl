@@ -69,23 +69,12 @@ static APTcpSocket *shareManager = nil;
 - (void)socket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag
 {
     NSString *receiverStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+//    NSDictionary *dic = [APTool dictionaryWithJsonString:receiverStr];
     NSLog(@"收到数据: %@",receiverStr);
+    self.socketMessageBlock(receiverStr);
     [sock readDataWithTimeout:-1 tag:0];
 }
 
-#pragma mark 服务器返回的数据段长度
-- (void)socket:(GCDAsyncSocket *)sock didReadPartialDataOfLength:(NSUInteger)partialLength tag:(long)tag
-{
-    NSString *message = [NSString stringWithFormat:@"DidReadPartialDataOfLength:%lu",(unsigned long)partialLength];
-    NSLog(@"%@",message);
-}
-
-
-- (void)socket:(GCDAsyncSocket *)sock didWritePartialDataOfLength:(NSUInteger)partialLength tag:(long)tag
-{
-    NSString *message = [NSString stringWithFormat:@"DidWritePartialDataOfLength:%lu",(unsigned long)partialLength];
-    NSLog(@"%@",message);
-}
 #pragma mark 连接失败,可以在这里设置重连
 - (void)socketDidDisconnect:(GCDAsyncSocket *)sock withError:(NSError *)err
 {
@@ -95,10 +84,4 @@ static APTcpSocket *shareManager = nil;
     //TODO:设置重连
 }
 
-#pragma mark 长时间没有接收到数据
-- (void)socket:(GCDAsyncSocket *)sock didAcceptNewSocket:(GCDAsyncSocket *)newSocket
-{
-    NSString *message = [NSString stringWithFormat:@"DidAcceptNewSocket:%@",newSocket];
-    NSLog(@"%@",message);
-}
 @end

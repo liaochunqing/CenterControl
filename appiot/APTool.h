@@ -25,6 +25,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 // 十六进制转换为普通字符串的。
 - (NSString *)stringFromHexString:(NSString *)hexString;
+
+//JSON字符串转化为字典
++ (NSDictionary *)dictionaryWithJsonString:(NSString *)jsonString;
 @end
 
 NS_ASSUME_NONNULL_END

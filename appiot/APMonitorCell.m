@@ -31,7 +31,9 @@
      }
     
     CGFloat midGap = 5;
-    NSString *str;
+    NSString *str = @"";
+    UIColor *color = ColorHex(0xCCCCCC);
+    NSString *imgName = @"";
 
     //第一行
     UIView *firtRow = [[UIView alloc] init];
@@ -45,7 +47,7 @@
     
     _im = [[UIImageView alloc] init];
     [firtRow addSubview:_im];
-    _im.image = [UIImage imageNamed:@"Group 11661"];
+    _im.image = [UIImage imageNamed:@"dev"];
     _im.contentMode=UIViewContentModeScaleAspectFill;
     [_im mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(firtRow);
@@ -57,7 +59,7 @@
     [firtRow addSubview:namelab];
     namelab.text = node.name;//@"投影机10086 展厅10086";
     namelab.font = [UIFont systemFontOfSize:16];
-    namelab.textColor = [UIColor whiteColor];
+    namelab.textColor = ColorHex(0xCCCCCC);
     [namelab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(firtRow);
         make.left.mas_equalTo(_im.mas_right).offset(midGap);
@@ -65,21 +67,13 @@
     }];
     
     //错误码
-//    UIButton *errorcode = [UIButton new];
-//    errorcode.userInteractionEnabled = NO;
-//    str = node.error_code;
-//    [errorcode setTitle:str forState:UIControlStateNormal];
-//    errorcode.titleLabel.font = [UIFont systemFontOfSize:16];
-//    errorcode.titleLabel.textAlignment = NSTextAlignmentLeft;
-////    ViewBorderRadius(errorcode, 5, 1, ColorHex(0xABBDD5));
-//    [firtRow addSubview:errorcode];
-    
     UILabel *errorcode = [[UILabel alloc] init];
     [firtRow addSubview:errorcode];
-    errorcode.text = node.error_code;//
+    errorcode.text = node.error_code.length?node.error_code:@"--";//
     errorcode.font = [UIFont systemFontOfSize:16];
-    errorcode.textColor = [UIColor whiteColor];
+    errorcode.textColor = ColorHex(0xCCCCCC);
     errorcode.textAlignment = NSTextAlignmentLeft;
+//    ViewBorderRadius(errorcode, 3, 0.5, ColorHex(0xCCCCCC));
     [errorcode mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(firtRow);
         make.left.mas_equalTo(namelab.mas_right).offset(midGap);
@@ -88,41 +82,103 @@
     
 
     //RS232
+
+    if(node.connect.intValue == 1)
+    {
+        str = @"RS232已连接";
+        color = ColorHex(0xEC00CF );
+        imgName =@"Group 11726";
+    }
+    else
+    {
+        str = @"RS232未连接";
+        color = ColorHex(0xCCCCCC);
+        imgName =@"Group 11727";
+    }
     UILabel *zhan = [[UILabel alloc] init];
     [firtRow addSubview:zhan];
-    str = node.connect.intValue == 1 ? @"RS232已连接" : @"RS232未连接";
     zhan.text = str;
     zhan.font = [UIFont systemFontOfSize:16];
-    zhan.textColor = [UIColor whiteColor];
+    zhan.textColor = color;
     [zhan mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(firtRow);
         make.right.mas_equalTo(firtRow.mas_right).offset(-Left_Gap);
         make.size.mas_equalTo(CGSizeMake(W_SCALE(110), H_SCALE(20)));
     }];
+    UIImageView *imzhan = [[UIImageView alloc] init];
+    imzhan.image = [UIImage imageNamed:imgName];
+    [firtRow addSubview:imzhan];
+    [imzhan mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.mas_equalTo(firtRow);
+        make.right.mas_equalTo(zhan.mas_left).offset(-3);
+        make.size.mas_equalTo(CGSizeMake(W_SCALE(16), H_SCALE(16)));
+    }];
     
     //开快门
+    if(node.shutter_status.intValue == 1)
+    {
+        str = @"快门开";
+        color = ColorHex(0xFFBD12);
+        imgName =@"Group 11725";
+    }
+    else
+    {
+        str = @"快门关";
+        color = ColorHex(0xCCCCCC);
+        imgName =@"Group 11727";
+    }
     UILabel *kuaimen = [[UILabel alloc] init];
     [firtRow addSubview:kuaimen];
-    kuaimen.text = node.shutter_status;
+    kuaimen.text = str;
     kuaimen.font = [UIFont systemFontOfSize:16];
-    kuaimen.textColor = [UIColor whiteColor];
+    kuaimen.textColor = color;
     [kuaimen mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(firtRow);
         make.right.mas_equalTo(zhan.mas_left).offset(-30);
         make.size.mas_equalTo(CGSizeMake(W_SCALE(55), H_SCALE(20)));
     }];
+    UIImageView *imkuaimen = [[UIImageView alloc] init];
+    imkuaimen.image = [UIImage imageNamed:imgName];
+    [firtRow addSubview:imkuaimen];
+    [imkuaimen mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.mas_equalTo(firtRow);
+        make.right.mas_equalTo(kuaimen.mas_left).offset(-3);
+        make.size.mas_equalTo(CGSizeMake(W_SCALE(16), H_SCALE(16)));
+    }];
     
     //开机
+    if(node.shutter_status.intValue == 1)
+    {
+        str = @"开机";
+        color = ColorHex(0x12D4B2 );
+        imgName =@"Group 11724";
+    }
+    else
+    {
+        str = @"关机";
+        color = ColorHex(0xCCCCCC);
+        imgName =@"Group 11727";
+    }
     UILabel *kaiji = [[UILabel alloc] init];
     [firtRow addSubview:kaiji];
-    kaiji.text = node.supply_status;
+    kaiji.text = str;
     kaiji.font = [UIFont systemFontOfSize:16];
-    kaiji.textColor = [UIColor whiteColor];
+    kaiji.textColor = color;
     [kaiji mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(firtRow);
         make.right.mas_equalTo(kuaimen.mas_left).offset(-30);
         make.size.mas_equalTo(CGSizeMake(W_SCALE(45), H_SCALE(20)));
     }];
+    
+    UIImageView *imkaiji = [[UIImageView alloc] init];
+    imkaiji.image = [UIImage imageNamed:imgName];
+    [firtRow addSubview:imkaiji];
+    [imkaiji mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.mas_equalTo(firtRow);
+        make.right.mas_equalTo(kaiji.mas_left).offset(-3);
+        make.size.mas_equalTo(CGSizeMake(W_SCALE(16), H_SCALE(16)));
+    }];
+    
     
     CGFloat fontsize = H_SCALE(13);
     CGFloat w = W_SCALE(180);
@@ -166,7 +222,7 @@
     //ID
     UILabel *idlab = [[UILabel alloc] init];
     [self.contentView addSubview:idlab];
-    idlab.text = [NSString stringWithFormat:@"ID:%@",node.device_id];;
+    idlab.text = [NSString stringWithFormat:@"ID:%@",node.device_id.length?node.device_id:@"--"];;
     idlab.font = [UIFont systemFontOfSize:fontsize];
     idlab.textColor = ColorHex(0xABBDD5);
     [idlab mas_makeConstraints:^(MASConstraintMaker *make) {

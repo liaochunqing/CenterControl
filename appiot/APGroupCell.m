@@ -70,7 +70,7 @@
     CGFloat imX = expendX + expendW + midGap;
     _im = [[UIImageView alloc] init];
     [self.contentView addSubview:_im];
-    NSString *imgStr = node.isDevice?@"Group 11661" : @"Group 11674";
+    NSString *imgStr = node.isDevice?@"dev" : @"Group 11674";
     _im.image = [UIImage imageNamed:imgStr];
     _im.contentMode=UIViewContentModeScaleAspectFill;
     _im.clipsToBounds=YES;

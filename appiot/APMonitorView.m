@@ -117,10 +117,7 @@
 
 -(void)createTableview
 {
-//    APMonitorModel *node1 = [APMonitorModel new];
-//    APMonitorModel *node2 = [APMonitorModel new];
-    APGroupNote *node3 = [APGroupNote new];
-    _data = [NSMutableArray arrayWithArray:[NSArray arrayWithObjects:node3,nil]];
+    _data = [NSMutableArray array];
     _tableview  = [[UITableView alloc] init];
     _tableview.dataSource = self;
     _tableview.delegate = self;
@@ -134,9 +131,6 @@
         make.right.mas_equalTo(self.mas_right).offset(-Left_Gap);
         make.bottom.mas_equalTo(self.mas_bottom).offset(0);
     }];
-    
-//    [self createTempData:data];
-    
 }
 
 //标题 ：设备监测，展厅名称，报错码
