@@ -368,6 +368,19 @@
 
 -(void)btnTestClick:(UIButton *)btn
 {
+    UIAlertController  *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"没有选中任何设备" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *action2= [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+            }];
+
+    [alert addAction:action2];
+//        UIView* subview = alert.view.subviews.firstObject;
+//        UIView*  alertContentView = subview.subviews.firstObject;
+//        alertContentView.backgroundColor = [UIColor whiteColor];
+    
+    AppDelegate *appDelegate = kAppDelegate;
+    UIViewController *vc = appDelegate.mainVC;
+    [vc presentViewController:alert animated:YES completion:nil];
+    
     if(btn)
     {
         if (btn.tag == 0)//
@@ -395,6 +408,22 @@
 }
 -(void)btnSwithClick:(UIButton *)btn
 {
+    if(_data.count == 0)
+    {
+        UIAlertController  *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"没有选中任何设备" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *action2= [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+                }];
+
+        [alert addAction:action2];
+//        UIView* subview = alert.view.subviews.firstObject;
+//        UIView*  alertContentView = subview.subviews.firstObject;
+//        alertContentView.backgroundColor = [UIColor whiteColor];
+        
+        AppDelegate *appDelegate = kAppDelegate;
+        UIViewController *vc = appDelegate.mainVC;
+        [vc presentViewController:alert animated:YES completion:nil];
+    }
+    
     if(btn)
     {
         switch (btn.tag) {

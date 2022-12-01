@@ -30,90 +30,9 @@
     [self createTitleView];
     [self createTableview];
     
-    [self getData];
+    [self getDataFromLeftView];
 }
 
--(void)refreshTitle
-{
-    if(_data.count)
-    {
-        _titleLab.text = [NSString stringWithFormat:@"设备监测(%d)", (int)_data.count];
-    }
-}
-
--(void)getData
-{
-    AppDelegate *appDelegate = kAppDelegate;
-    APGroupView *vc = appDelegate.mainVC.leftView.groupView;
-    if (vc && [vc isKindOfClass:[APGroupView class]])
-    {
-        NSArray *temp = [vc getSelectedNode];
-        if (!temp) return;
-        
-        if (_data && _data.count)
-        {
-            [_data removeAllObjects];
-        }
-        else
-        {
-            _data = [NSMutableArray array];
-        }
-        _data = [NSMutableArray arrayWithArray:temp];
-
-        if (_data)
-        {
-            [self refreshTitle];
-            if (_tableview)
-                [ _tableview reloadData];
-        }
-
-    }
-    
-}
-
-
-
--(void)refreshTable:(NSArray *)arr
-{
-    if (!arr) return;
-    
-    if (_data && _data.count)
-    {
-        [_data removeAllObjects];
-    }
-    else
-    {
-        _data =[NSMutableArray array];
-    }
-    _data = [NSMutableArray arrayWithArray:arr];
-
-    if (_data)
-    {
-        [_tableview reloadData];
-        [self refreshTitle];
-    }
-
-    for (APGroupNote *node in _data)
-    {
-        NSData * sendData = node.monitorDict[Monitor_device_info];
-        
-        if ([@"tcp" compare:node.access_protocol options:NSCaseInsensitiveSearch |NSNumericSearch] ==NSOrderedSame)
-        {
-            APTcpSocket *tcpManager = [APTcpSocket shareManager];
-            [tcpManager connectToHost:node.ip Port:[node.port intValue]];
-            [tcpManager sendData:sendData];
-        }
-        else if ([@"udp" compare:node.access_protocol options:NSCaseInsensitiveSearch |NSNumericSearch] ==NSOrderedSame)
-        {
-            APUdpSocket *udpManager = [APUdpSocket sharedInstance];
-            udpManager.host = node.ip;
-            udpManager.port = [node.port intValue];
-            [udpManager createClientUdpSocket];
-            
-            [udpManager broadcast:sendData];
-        }
-    }
-}
 
 -(void)createTableview
 {
@@ -186,6 +105,129 @@
         make.bottom.mas_equalTo(view.mas_bottom).offset(0);
     }];
 }
+
+#pragma mark 方法
+-(void)getDataFromNetwork:(APGroupNote *)node row:(int)row
+{
+//    for (APGroupNote *node in _data)
+    {
+        NSData * sendData = node.monitorDict[Monitor_device_info];
+        
+        if ([@"tcp" compare:node.access_protocol options:NSCaseInsensitiveSearch |NSNumericSearch] ==NSOrderedSame)
+        {
+            _tcpManager = [APTcpSocket shareManager];
+            [_tcpManager connectToHost:node.ip Port:[node.port intValue]];
+            [_tcpManager sendData:sendData];
+            WS(weakSelf);
+//
+//            NSString *lll = @"appp#system: On, lightsource: Off,runtime: 180.5 H, temperature: 26, NtcCw1: 31, NtcBlueLaser1: 30, NtcBlueLaser2: 30, NtcDmd1: 18, NtcPowerSupply: 26, productinfo: modelname: L7, brandName: APPO, machinesn: SP002148000038";
+            
+            [_tcpManager setSocketMessageBlock:^(NSString * _Nonnull message) {
+                   if(message)
+                   {
+                       NSArray *arr = [message componentsSeparatedByString:@"#"];
+                       NSString *str = [arr lastObject];
+                       arr = [str componentsSeparatedByString:@","];
+                       
+                       APGroupNote *tempNode = weakSelf.data[row];
+                       for (NSString *temp in arr)
+                       {
+                           NSArray *tempArr = [temp componentsSeparatedByString:@":"];
+                           NSString *first = [[tempArr firstObject] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+                           NSString *last = [[tempArr lastObject] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+
+                           if ([@"system" compare:first options:NSCaseInsensitiveSearch] ==NSOrderedSame)
+                           {
+                               tempNode.supply_status = [@"on" compare:last options:NSCaseInsensitiveSearch] ==NSOrderedSame?@"1":@"2";
+                           }
+                           else if ([@"lightsource" compare:first options:NSCaseInsensitiveSearch] ==NSOrderedSame)
+                           {
+                               tempNode.shutter_status = [@"on" compare:last options:NSCaseInsensitiveSearch] ==NSOrderedSame?@"1":@"2";
+                           }
+                           else if ([@"temperature" compare:first options:NSCaseInsensitiveSearch] ==NSOrderedSame)
+                           {
+                               tempNode.temperature = last;
+                           }
+                           else if ([@"runtime" compare:first options:NSCaseInsensitiveSearch] ==NSOrderedSame)
+                           {
+                               tempNode.machine_running_time = last;
+                           }
+                       }
+                       
+                       [weakSelf.tableview reloadData];
+                   }
+            }];
+        }
+        else if ([@"udp" compare:node.access_protocol options:NSCaseInsensitiveSearch |NSNumericSearch] ==NSOrderedSame)
+        {
+            _udpManager = [APUdpSocket sharedInstance];
+            _udpManager.host = node.ip;
+            _udpManager.port = [node.port intValue];
+            [_udpManager createClientUdpSocket];
+            [_udpManager broadcast:sendData];
+        }
+    }
+}
+
+-(void)getDataFromLeftView
+{
+    AppDelegate *appDelegate = kAppDelegate;
+    APGroupView *vc = appDelegate.mainVC.leftView.groupView;
+    if (vc && [vc isKindOfClass:[APGroupView class]])
+    {
+        NSArray *temp = [vc getSelectedNode];
+        if (!temp) return;
+        
+        if (_data && _data.count)
+        {
+            [_data removeAllObjects];
+        }
+        else
+        {
+            _data = [NSMutableArray array];
+        }
+        _data = [NSMutableArray arrayWithArray:temp];
+
+        if (_data)
+        {
+            [self refreshTitle];
+            if (_tableview)
+                [ _tableview reloadData];
+        }
+
+    }
+    
+}
+
+-(void)refreshTitle
+{
+    if(_data.count)
+    {
+        _titleLab.text = [NSString stringWithFormat:@"设备监测(%d)", (int)_data.count];
+    }
+}
+
+-(void)refreshTable:(NSArray *)arr
+{
+    if (!arr) return;
+    
+    if (_data && _data.count)
+    {
+        [_data removeAllObjects];
+    }
+    else
+    {
+        _data =[NSMutableArray array];
+    }
+    _data = [NSMutableArray arrayWithArray:arr];
+
+    if (_data)
+    {
+        [_tableview reloadData];
+        [self refreshTitle];
+    }
+}
+
 #pragma mark *** UITableViewDelegate/UITableViewDataSource ***
  
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -203,9 +245,12 @@
     }
     
     APGroupNote *node;
+    int row = (int)indexPath.row;
     node = [_data objectAtIndex:indexPath.row];
 
-
+    //socket连接机器获取最新信息
+    [self getDataFromNetwork:node row:row];
+    
     [cell updateCellWithData:node];
     return cell;
 }

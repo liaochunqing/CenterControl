@@ -40,6 +40,9 @@
     [self createButton];
     [self createTableview];
     [self createBottomView];
+    
+    //一秒后显示悬浮小球
+    [self performSelector:@selector(createFloatButton) withObject:nil afterDelay:1];
 }
 
 
@@ -390,7 +393,60 @@
 
 
 }
+//悬浮小球 新加设备按钮
+-(void)createFloatButton
+{
+    if (!_floatButton)
+    {
+        _floatButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _floatButton.frame = CGRectMake(W_SCALE(250), H_SCALE(518), W_SCALE(55), H_SCALE(55));//初始在屏幕上的位置
+        [_floatButton setImage:[UIImage imageNamed:@"Group 11697"] forState:UIControlStateNormal];
+        
+        UIWindow *window =  [[[UIApplication sharedApplication] windows] objectAtIndex:0];
+        window.backgroundColor = [UIColor whiteColor];
+        [window addSubview:_floatButton];
+        UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc]initWithTarget:
+                                       self action:@selector(locationChange:)];
+        pan.delaysTouchesBegan = YES;
+        [_floatButton addGestureRecognizer:pan];
+        [_floatButton addTarget:self action:@selector(floatbtnClick:) forControlEvents:UIControlEventTouchUpInside];
 
+    }
+}
+
+
+-(void)locationChange:(UIPanGestureRecognizer*)p{
+    CGFloat HEIGHT=_floatButton.frame.size.height;
+    CGFloat WIDTH=_floatButton.frame.size.width;
+    BOOL isOver = NO;
+    CGPoint panPoint = [p locationInView:[UIApplication sharedApplication].windows[0]];
+    CGRect frame = CGRectMake(panPoint.x, panPoint.y, HEIGHT, WIDTH);
+    NSLog(@"%f--panPoint.x-%f-panPoint.y-", panPoint.x, panPoint.y);
+    if(p.state == UIGestureRecognizerStateChanged){
+        _floatButton.center = CGPointMake(panPoint.x, panPoint.y);
+    }
+    else if(p.state == UIGestureRecognizerStateEnded){
+        if (panPoint.x + WIDTH > Left_View_Width) {
+            frame.origin.x = Left_View_Width - WIDTH;
+            isOver = YES;
+        } else if (panPoint.y + HEIGHT > SCREEN_HEIGHT) {
+            frame.origin.y = SCREEN_HEIGHT - 2*HEIGHT;
+            isOver = YES;
+        } else if(panPoint.x - WIDTH / 2< 0) {
+            frame.origin.x = 0;
+            isOver = YES;
+        } else if(panPoint.y - HEIGHT / 2 < 0) {
+            frame.origin.y = 0;
+            isOver = YES;
+        }
+        WS(weakSelf);
+        if (isOver) {
+            [UIView animateWithDuration:0.3 animations:^{
+                weakSelf.floatButton.frame = frame;
+            }];
+        }
+    }
+}
 #pragma mark 方法
 -(NSArray *)getSelectedNode
 {
@@ -907,6 +963,11 @@
     }
  
 }
-
-
+-(void)floatbtnClick:(UIButton *)btn
+{
+    if(btn)
+    {
+        
+    }
+}
 @end

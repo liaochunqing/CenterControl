@@ -30,6 +30,8 @@
     
     [self.window makeKeyAndVisible];
     
+
+
     return YES;
 }
 
@@ -96,4 +98,56 @@
     }
 }
 
+//-(void)createButton{
+//    if (!_button) {
+////        _window = [[UIApplication sharedApplication] keyWindow];
+//        _window.backgroundColor = [UIColor whiteColor];
+//        [_window addSubview:self.button];
+//        UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc]initWithTarget:
+//                                       self action:@selector(locationChange:)];
+//        pan.delaysTouchesBegan = YES;
+//        [_button addGestureRecognizer:pan];
+//    }
+//}
+//
+//- (UIButton*)button {
+//    if (!_button) {
+//        _button = [UIButton buttonWithType:UIButtonTypeCustom];
+//        _button.frame = CGRectMake(W_SCALE(250), H_SCALE(468), W_SCALE(55), H_SCALE(55));//初始在屏幕上的位置
+//        [_button setImage:[UIImage imageNamed:@"Group 11697"] forState:UIControlStateNormal];
+//    }
+//    return _button;
+//}
+//
+//-(void)locationChange:(UIPanGestureRecognizer*)p{
+//    CGFloat HEIGHT=_button.frame.size.height;
+//    CGFloat WIDTH=_button.frame.size.width;
+//    BOOL isOver = NO;
+//    CGPoint panPoint = [p locationInView:[UIApplication sharedApplication].windows[0]];
+//    CGRect frame = CGRectMake(panPoint.x, panPoint.y, HEIGHT, WIDTH);
+//    NSLog(@"%f--panPoint.x-%f-panPoint.y-", panPoint.x, panPoint.y);
+//    if(p.state == UIGestureRecognizerStateChanged){
+//        _button.center = CGPointMake(panPoint.x, panPoint.y);
+//    }
+//    else if(p.state == UIGestureRecognizerStateEnded){
+//        if (panPoint.x + WIDTH > SCREEN_WIDTH) {
+//            frame.origin.x = SCREEN_WIDTH - WIDTH;
+//            isOver = YES;
+//        } else if (panPoint.y + HEIGHT > SCREEN_HEIGHT) {
+//            frame.origin.y = SCREEN_HEIGHT - HEIGHT;
+//            isOver = YES;
+//        } else if(panPoint.x - WIDTH / 2< 0) {
+//            frame.origin.x = 0;
+//            isOver = YES;
+//        } else if(panPoint.y - HEIGHT / 2 < 0) {
+//            frame.origin.y = 0;
+//            isOver = YES;
+//        }
+//        if (isOver) {
+//            [UIView animateWithDuration:0.3 animations:^{
+//                self.button.frame = frame;
+//            }];
+//        }
+//    }
+//}
 @end

@@ -17,6 +17,7 @@
 @property (readonly, strong) NSPersistentContainer *persistentContainer;
 @property (nonatomic,strong)UIWindow *window;
 @property (nonatomic,strong) APViewController *mainVC;
+//@property (strong, nonatomic) UIButton *button;//悬浮小球按钮
 
 - (void)saveContext;
 
