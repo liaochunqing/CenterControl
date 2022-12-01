@@ -24,7 +24,7 @@
 
     ViewRadius(self, 3);
     self.iv = [[UIImageView alloc] init];
-    self.iv.userInteractionEnabled = YES;
+//    self.iv.userInteractionEnabled = YES;
     [self addSubview:self.iv];
     [self.iv mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(self);

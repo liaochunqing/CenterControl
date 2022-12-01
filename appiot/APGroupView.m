@@ -399,7 +399,7 @@
     if (!_floatButton)
     {
         _floatButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _floatButton.frame = CGRectMake(W_SCALE(250), H_SCALE(518), W_SCALE(55), H_SCALE(55));//初始在屏幕上的位置
+        _floatButton.frame = CGRectMake(W_SCALE(250), H_SCALE(700), W_SCALE(55), H_SCALE(55));//初始在屏幕上的位置
         [_floatButton setImage:[UIImage imageNamed:@"Group 11697"] forState:UIControlStateNormal];
         
         UIWindow *window =  [[[UIApplication sharedApplication] windows] objectAtIndex:0];
@@ -410,7 +410,6 @@
         pan.delaysTouchesBegan = YES;
         [_floatButton addGestureRecognizer:pan];
         [_floatButton addTarget:self action:@selector(floatbtnClick:) forControlEvents:UIControlEventTouchUpInside];
-
     }
 }
 
@@ -448,6 +447,45 @@
     }
 }
 #pragma mark 方法
+-(void)countEveryGroupChildAndSelected
+{
+    NSMutableArray *arr = [NSMutableArray array];
+    if (_isFieldActive)
+    {
+//        for(APGroupNote *temp in _filteredData)
+//        {
+//            if (temp.isDevice && temp.selected)
+//            {
+//                [arr addObject:temp];
+//            }
+//        }
+    }
+    else
+    {
+        for(APGroupNote *node in _data)
+        {
+            if (node.isDevice == NO)
+            {
+                node.childNumber = 0;
+                node.childSelected = 0;
+                for (APGroupNote *temp in _data)
+                {
+                    if (temp.isDevice)
+                    {
+                        if ([temp.parentId isEqualToString:node.nodeId] || (temp.father && ([temp.father.parentId isEqualToString:node.nodeId])))
+                        {
+                            node.childNumber++;
+                            if(temp.selected) node.childSelected++;
+                        }
+                    }
+                        
+                }
+            }
+        }
+    }
+//    return  arr;
+}
+
 -(NSArray *)getSelectedNode
 {
     NSMutableArray *arr = [NSMutableArray array];
@@ -541,31 +579,52 @@
 -(void)deleteSelectedNode
 {
     NSMutableIndexSet *set = [[NSMutableIndexSet alloc] init];//临时容器，存储将要删除的节点
+    BOOL haveGroup = NO;
     
     //收集删除节点
     for (int i = 0; i < _data.count; i++)
     {
         APGroupNote *first = _data[i];
-        if (first.selected)//第一层
+        if (first.selected)
         {
-            for (int k = 0; k < _data.count; k++)
+            [set addIndex:i];
+            if(first.isDevice)
             {
-                APGroupNote *second = _data[k];
-                if([second.parentId isEqualToString:first.nodeId])
+            }
+            else//把分组的子节点选出来
+            {
+                haveGroup = YES;
+                for (int j = 0; j < _data.count; j++)
                 {
-                    for (int j = 0; j < _data.count; j++)
+                    APGroupNote *temp = _data[j];
+                    if ([temp.parentId isEqualToString:first.nodeId] || (temp.father && ([temp.father.parentId isEqualToString:first.nodeId])))
                     {
-                        APGroupNote *third = _data[j];
-                        if ([third.parentId isEqualToString:second.nodeId])
-                        {
-                            [set addIndex:j];
-                        }
+                        [set addIndex:j];
                     }
-                    [set addIndex:k];
                 }
             }
-            [set addIndex:i];
         }
+        
+//        if (first.selected)//第一层
+//        {
+//            for (int k = 0; k < _data.count; k++)
+//            {
+//                APGroupNote *second = _data[k];
+//                if([second.parentId isEqualToString:first.nodeId])
+//                {
+//                    for (int j = 0; j < _data.count; j++)
+//                    {
+//                        APGroupNote *third = _data[j];
+//                        if ([third.parentId isEqualToString:second.nodeId])
+//                        {
+//                            [set addIndex:j];
+//                        }
+//                    }
+//                    [set addIndex:k];
+//                }
+//            }
+//            [set addIndex:i];
+//        }
     }
 
     
@@ -573,10 +632,13 @@
     if (set.count > 0)
     {
         WS(weakSelf);
-        UIAlertController  *alert = [UIAlertController alertControllerWithTitle:@"确认删除" message:@"删除后无法恢复" preferredStyle:UIAlertControllerStyleAlert];
+        NSString *msg = haveGroup?@"确认删除分组以及分组内的所有设备吗":@"确认删除设备吗";
+        UIAlertController  *alert = [UIAlertController alertControllerWithTitle:msg message:@"删除后无法恢复" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"删除" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action)
         {
             [weakSelf.data removeObjectsAtIndexes:set];
+            [weakSelf refrashAllselectTitle];
+            [weakSelf countEveryGroupChildAndSelected];
             [weakSelf.tableview reloadData];
         }];
                 
@@ -775,6 +837,7 @@
 {
     NSUInteger row = indexPath.row ;
     
+    //搜索列表
     if (_isFieldActive)
     {
         APGroupNote *tempnode = _filteredData[row];
@@ -792,71 +855,41 @@
             [tableView reloadData];
             [self refrashMonitorTable];
         }
-        return;
     }
-    else
+    else//正常列表
     {
-//        node = [_data objectAtIndex:indexPath.row];
-    }
-    
-    APGroupNote *node = _data[row];
-    if (node == nil) return;
-    
-    APGroupCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    if(cell.selectBtn)
-    {
-        //本节点被选中
-        cell.selectBtn.selected = !cell.selectBtn.selected;
-        NSString *selectIamge = cell.selectBtn.selected?@"all" : @"Ellipse 4";
-        [cell.selectBtn setImage:[UIImage imageNamed:selectIamge] forState:UIControlStateNormal];
-        node.selected = cell.selectBtn.selected;
+        APGroupNote *node = _data[row];
+        if (node == nil) return;
+        
+        APGroupCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        if(cell.selectBtn)
+        {
+            //本节点被选中
+            cell.selectBtn.selected = !cell.selectBtn.selected;
+            NSString *selectIamge = cell.selectBtn.selected?@"all" : @"Ellipse 4";
+            [cell.selectBtn setImage:[UIImage imageNamed:selectIamge] forState:UIControlStateNormal];
+            node.selected = cell.selectBtn.selected;
 
-        if (node.isDevice)
-        {
-            if (node.father)
-                cell.selectBtn.selected ? node.father.childSelected++ : node.father.childSelected--;
-            if (node.grandfather)
-                cell.selectBtn.selected ? node.grandfather.childSelected++ : node.grandfather.childSelected--;
-            
-            
-        }
-        else
-        {
-            //如果是组并且有孩子，则所有孩子都被选中
-            if (node.haveChild == YES)
+            if (node.isDevice == NO)
             {
-                for(APGroupNote *temp in _data)
+                //如果是组并且有孩子，则所有孩子都被选中
+                if (node.haveChild == YES)
                 {
-                    if ([temp.parentId isEqualToString:node.nodeId] || (temp.father && ([temp.father.parentId isEqualToString:node.nodeId])))
+                    for(APGroupNote *temp in _data)
                     {
-                        if (temp.father && temp.isDevice)
+                        if ([temp.parentId isEqualToString:node.nodeId] || (temp.father && ([temp.father.parentId isEqualToString:node.nodeId])))
                         {
-                            cell.selectBtn.selected ? temp.father.childSelected++ : temp.father.childSelected--;
-                            if (temp.father.childSelected > temp.father.childNumber)
-                                temp.father.childSelected = temp.father.childNumber;
-                            if (temp.father.childSelected < 0)
-                                temp.father.childSelected = 0;
+                            temp.selected = cell.selectBtn.selected;
                         }
-                        if (temp.grandfather && temp.isDevice && temp.selected != cell.selectBtn.selected)
-                        {
-                            cell.selectBtn.selected ? temp.grandfather.childSelected++ : temp.grandfather.childSelected--;
-                            if (temp.grandfather.childSelected > temp.grandfather.childNumber)
-                                temp.grandfather.childSelected = temp.grandfather.childNumber;
-                            if (temp.grandfather.childSelected < 0)
-                                temp.grandfather.childSelected = 0;
-                        }
-                        
-                        temp.selected = cell.selectBtn.selected;
-
                     }
                 }
             }
+            [self refrashAllselectTitle];
+            [self refrashMonitorTable];
+            [self countEveryGroupChildAndSelected];
+            [tableView reloadData];
         }
-        [tableView reloadData];
-        [self refrashAllselectTitle];
-        [self refrashMonitorTable];
     }
-
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
