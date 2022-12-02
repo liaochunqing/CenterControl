@@ -71,7 +71,16 @@ static APTcpSocket *shareManager = nil;
     NSString *receiverStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 //    NSDictionary *dic = [APTool dictionaryWithJsonString:receiverStr];
     NSLog(@"收到数据: %@",receiverStr);
-    self.socketMessageBlock(receiverStr);
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+       // UI更新代码
+        if (self.socketMessageBlock)
+        {
+            self.socketMessageBlock(receiverStr);
+        }
+    });
+    
+    
     [sock readDataWithTimeout:-1 tag:0];
 }
 

@@ -127,6 +127,13 @@
         ViewBorder(btn, 0, ColorHex(0x375BCD ));
         [btn setBackgroundImage:[self imageWithColor:ColorHex(0x43ACF9)] forState:UIControlStateNormal];
         
+        
+        if(self.monitorView != nil)
+        {
+            [self.monitorView removeFromSuperview];
+            self.monitorView = nil;
+        }
+        
         switch (btn.tag) {
             case 0://按钮“控制”
             {

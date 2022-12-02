@@ -8,6 +8,8 @@
 #import "APMonitorView.h"
 #import "AppDelegate.h"
 
+#define Monitor_getdatafromnet_clock (3)//定时秒 获取数据
+
 @implementation APMonitorView
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
@@ -31,8 +33,29 @@
     [self createTableview];
     
     [self getDataFromLeftView];
-}
+    
+    WS(weakSelf);
+//    self.isFocused
+    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:Monitor_getdatafromnet_clock repeats:YES block:^(NSTimer * _Nonnull timer)
+                      {
+        NSArray *arrIndex = weakSelf.tableview.indexPathsForVisibleRows;
+        for (int i = 0; i<arrIndex.count; i++)
+        {
+            NSIndexPath *path = arrIndex[i];
+            int row = (int)path.row;
+            APGroupNote *node = weakSelf.data[row];
+            //socket连接机器获取最新信息
+            [weakSelf getDataFromNetwork:node row:row];
+        }
+    }];
 
+}
+//-(void)viewDidAppear:(BOOL)animated
+//{
+//    [super viewDidAppear:animated];
+//}
+
+//viewWillDisappear
 
 -(void)createTableview
 {
@@ -154,7 +177,11 @@
                            }
                        }
                        
-                       [weakSelf.tableview reloadData];
+                       dispatch_async(dispatch_get_main_queue(), ^{
+                          // UI更新代码
+                           NSArray *rowArray = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:row inSection:0]];
+                           [weakSelf.tableview reloadRowsAtIndexPaths:rowArray withRowAnimation:UITableViewRowAnimationFade];
+                       });
                    }
             }];
         }
@@ -194,9 +221,7 @@
             if (_tableview)
                 [ _tableview reloadData];
         }
-
     }
-    
 }
 
 -(void)refreshTitle
@@ -245,11 +270,8 @@
     }
     
     APGroupNote *node;
-    int row = (int)indexPath.row;
+//    int row = (int)indexPath.row;
     node = [_data objectAtIndex:indexPath.row];
-
-    //socket连接机器获取最新信息
-    [self getDataFromNetwork:node row:row];
     
     [cell updateCellWithData:node];
     return cell;

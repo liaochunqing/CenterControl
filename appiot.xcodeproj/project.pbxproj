@@ -15,7 +15,6 @@
 		C63306BE292DE8D80057DA83 /* APTool.m in Sources */ = {isa = PBXBuildFile; fileRef = C63306BD292DE8D80057DA83 /* APTool.m */; };
 		C63306C8293059DF0057DA83 /* APDatabaseTool.m in Sources */ = {isa = PBXBuildFile; fileRef = C63306C7293059DF0057DA83 /* APDatabaseTool.m */; };
 		C63306CF2935A88B0057DA83 /* APTcpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = C63306CE2935A88B0057DA83 /* APTcpSocket.m */; };
-		C63306D12935B1ED0057DA83 /* remote.db in Resources */ = {isa = PBXBuildFile; fileRef = C63306D02935B1ED0057DA83 /* remote.db */; };
 		C63C822F2923370300DBB3F6 /* APLeftPageButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C63C822E2923370300DBB3F6 /* APLeftPageButton.m */; };
 		C63C8233292367AE00DBB3F6 /* APComandButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C63C8232292367AE00DBB3F6 /* APComandButton.m */; };
 		C63C823629238B7400DBB3F6 /* APMonitorItem.m in Sources */ = {isa = PBXBuildFile; fileRef = C63C823529238B7400DBB3F6 /* APMonitorItem.m */; };
@@ -38,6 +37,7 @@
 		C6CA8BBA29222F8700F5AAC2 /* APCenterView.m in Sources */ = {isa = PBXBuildFile; fileRef = C6CA8BB929222F8700F5AAC2 /* APCenterView.m */; };
 		C6CA8BBD292233B700F5AAC2 /* APBaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = C6CA8BBC292233B700F5AAC2 /* APBaseView.m */; };
 		C6CA8BC02922345800F5AAC2 /* APCommandView.m in Sources */ = {isa = PBXBuildFile; fileRef = C6CA8BBF2922345800F5AAC2 /* APCommandView.m */; };
+		C6F66D47293993E000903563 /* remote.db in Resources */ = {isa = PBXBuildFile; fileRef = C6F66D46293993E000903563 /* remote.db */; };
 		CDAF7A201535A7BF8524ABBD /* Pods_appiot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB3765024A92663D80DC1163 /* Pods_appiot.framework */; };
 		E1FE5C87F1B352B5DF206E02 /* Pods_appiotTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87EB77647DEFF331311B61D6 /* Pods_appiotTests.framework */; };
 /* End PBXBuildFile section */
@@ -82,7 +82,6 @@
 		C63306C7293059DF0057DA83 /* APDatabaseTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APDatabaseTool.m; sourceTree = "<group>"; };
 		C63306CD2935A88B0057DA83 /* APTcpSocket.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APTcpSocket.h; sourceTree = "<group>"; };
 		C63306CE2935A88B0057DA83 /* APTcpSocket.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APTcpSocket.m; sourceTree = "<group>"; };
-		C63306D02935B1ED0057DA83 /* remote.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = remote.db; sourceTree = "<group>"; };
 		C63C822D2923370300DBB3F6 /* APLeftPageButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APLeftPageButton.h; sourceTree = "<group>"; };
 		C63C822E2923370300DBB3F6 /* APLeftPageButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APLeftPageButton.m; sourceTree = "<group>"; };
 		C63C8231292367AE00DBB3F6 /* APComandButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APComandButton.h; sourceTree = "<group>"; };
@@ -125,6 +124,7 @@
 		C6CA8BBC292233B700F5AAC2 /* APBaseView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APBaseView.m; sourceTree = "<group>"; };
 		C6CA8BBE2922345800F5AAC2 /* APCommandView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APCommandView.h; sourceTree = "<group>"; };
 		C6CA8BBF2922345800F5AAC2 /* APCommandView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APCommandView.m; sourceTree = "<group>"; };
+		C6F66D46293993E000903563 /* remote.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = remote.db; sourceTree = "<group>"; };
 		F110C31EB98C931C5089AE17 /* Pods_appiot_appiotUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_appiot_appiotUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -260,7 +260,7 @@
 				C6C52848291B7DCF003F24C1 /* AppDelegate.m */,
 				C6CA8BB129220E1A00F5AAC2 /* APViewController.h */,
 				C6CA8BB229220E1A00F5AAC2 /* APViewController.m */,
-				C63306D02935B1ED0057DA83 /* remote.db */,
+				C6F66D46293993E000903563 /* remote.db */,
 				C6C5288C291CFC92003F24C1 /* config.h */,
 				C6C52858291B7DD1003F24C1 /* LaunchScreen.storyboard */,
 				C6C52856291B7DD1003F24C1 /* Assets.xcassets */,
@@ -458,7 +458,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C6C5285A291B7DD1003F24C1 /* LaunchScreen.storyboard in Resources */,
-				C63306D12935B1ED0057DA83 /* remote.db in Resources */,
+				C6F66D47293993E000903563 /* remote.db in Resources */,
 				C6C52857291B7DD1003F24C1 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

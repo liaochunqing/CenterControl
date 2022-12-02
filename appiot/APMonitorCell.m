@@ -147,7 +147,7 @@
     }];
     
     //开机
-    if(node.shutter_status.intValue == 1)
+    if(node.supply_status.intValue == 1)
     {
         str = @"开机";
         color = ColorHex(0x12D4B2 );
