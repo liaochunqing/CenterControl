@@ -12,6 +12,9 @@
 #import "APMonitorView.h"
 #import "APCommandView.h"
 #import "LFPopupMenu.h"
+#import "APNewDeviceView.h"
+
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface APGroupView : APBaseView <UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>
@@ -30,9 +33,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,strong)NSMutableArray *groupData;//分组
 
 @property (nonatomic)BOOL isFieldActive;//是否正在使用
-//@property (nonatomic,strong)APDatabaseTool *dbtool;
 @property (strong, nonatomic) UIButton *floatButton;//悬浮小球 新加设备按钮
-@property(nonatomic,strong)UIView *devView;
+@property(nonatomic,strong)APNewDeviceView *devView;
 
 -(NSArray *)getSelectedNode;
 @end

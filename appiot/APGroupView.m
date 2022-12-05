@@ -1012,189 +1012,34 @@
                                NSLog(@"点击了第%zi个",index);
             if(index == 0)
             {
-                [weakSelf newDeviceView];
-            }
-                           }];
-            
-        [menu showArrowToView:self.floatButton];
-    }
-}
-
--(void)groupBtnClick:(UIButton *)btn
-{
-    if(btn)
-    {
-        NSMutableArray *array = [NSMutableArray array];
-        for (APGroupNote *temp in _groupData)
-        {
-            LFPopupMenuItem *item = [LFPopupMenuItem createWithTitle:temp.name image:[UIImage imageNamed:@"icon_menu_record_normal"]];
-            [array addObject:item];
-        }
-        
-
-        LFPopupMenu *menu = [[LFPopupMenu alloc] init];
-        menu.minWidth = btn.frame.size.width;
-        WS(weakSelf);
-        [menu configWithItems:array action:^(NSInteger index)
-         {
-            NSLog(@"点击了第%zi个",index);
-            if(index == 0)
-            {
 //                [weakSelf newDeviceView];
+                weakSelf.devView = [[APNewDeviceView alloc] init];
+                AppDelegate *appDelegate = kAppDelegate;
+                UIViewController *vc = appDelegate.mainVC;
+                [vc.view addSubview:weakSelf.devView];
+                [vc.view bringSubviewToFront:weakSelf.devView];
+                weakSelf.devView.groupData = [NSMutableArray arrayWithArray:weakSelf.groupData];
+                
+                //ok按钮
+                [weakSelf.devView setOkBtnClickBlock:^(BOOL index) {
+                    [weakSelf.devView removeFromSuperview];
+                                    weakSelf.floatButton.hidden = NO;
+
+                }];
+                //取消按钮
+                [weakSelf.devView setCancelBtnClickBlock:^(BOOL index) {
+                    [weakSelf.devView removeFromSuperview];
+
+                    weakSelf.floatButton.hidden = NO;
+
+                }];
+                
+                weakSelf.floatButton.hidden = YES;
+
             }
         }];
             
-        [menu showArrowToView:btn];
+        [menu showArrowToView:self.floatButton];
     }
-}
-
--(void)newDevBtnClick:(UIButton *)btn
-{
-    if(btn.tag == 0)//确定
-    {
-
-    }
-    else if(btn.tag == 1)
-    {
-    }
-    
-    [_devView removeFromSuperview];
-    _floatButton.hidden = NO;
-}
--(void)newDeviceView
-{
-    _floatButton.hidden = YES;
-    
-    _devView = [[UIView alloc] initWithFrame: [UIScreen mainScreen].bounds];
-    _devView.backgroundColor = [UIColor clearColor];
-    AppDelegate *appDelegate = kAppDelegate;
-    UIViewController *vc = appDelegate.mainVC;
-    [vc.view addSubview:_devView];
-    [vc.view bringSubviewToFront:_devView];
-    
-    UIView *baseview = [UIView new];
-    baseview.backgroundColor = [UIColor whiteColor];
-    ViewRadius(baseview, 10);
-    [_devView addSubview:baseview];
-    [baseview mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.mas_equalTo(_devView);
-        make.centerY.mas_equalTo(_devView);
-        make.size.mas_equalTo(CGSizeMake(W_SCALE(400), H_SCALE(550)));
-    }];
- 
-    UILabel *namelab = [[UILabel alloc] init];
-    [baseview addSubview:namelab];
-    namelab.text = @"新增投影机";
-    namelab.font = [UIFont systemFontOfSize:20];
-    namelab.textColor = ColorHex(0x1D2242);
-    [namelab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(baseview.mas_top).offset(Left_Gap);
-        make.left.mas_equalTo(baseview.mas_left).offset(Left_Gap);
-        make.size.mas_equalTo(CGSizeMake(W_SCALE(176), H_SCALE(22)));
-    }];
-    
-    CGFloat lineH = H_SCALE(30);
-    CGFloat labelW = W_SCALE(100);
-    CGFloat textLeft = labelW + 2*Left_Gap;
-    
-    
-    UILabel *fenzuLab = [[UILabel alloc] init];
-    [baseview addSubview:fenzuLab];
-    fenzuLab.text = @"投影机分组";
-    fenzuLab.font = [UIFont systemFontOfSize:16];
-    fenzuLab.textColor = ColorHex(0xCCCCCC);
-    [fenzuLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(namelab.mas_bottom).offset(top_Gap);
-        make.left.mas_equalTo(baseview.mas_left).offset(Left_Gap);
-        make.size.mas_equalTo(CGSizeMake(labelW, lineH));
-    }];
-    //投影机分组的btn
-    UIButton *btn = [UIButton new];
-    ViewBorderRadius(btn, 5, 1, [UIColor grayColor]);
-    [baseview addSubview:btn];
-
-    [btn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(namelab.mas_bottom).offset(top_Gap);
-        make.right.mas_equalTo(baseview.mas_right).offset(-Left_Gap);
-        make.left.mas_equalTo(baseview.mas_left).offset(textLeft);
-        make.height.mas_equalTo(lineH);
-    }];
-    [btn addTarget:self action:@selector(groupBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    //展开箭头图标的创建
-    UIImageView * expendIm = [UIImageView new];
-    expendIm.contentMode=UIViewContentModeScaleAspectFill;
-    [btn addSubview:expendIm];
-    NSString *name = btn.selected?@"Vector(2)" : @"Vector(1)";
-    expendIm.image = [UIImage imageNamed:name];
-    [expendIm mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.mas_equalTo(btn);
-        make.right.mas_equalTo(btn.mas_right).offset(-Left_Gap);
-        make.size.mas_equalTo(CGSizeMake(W_SCALE(12), W_SCALE(6)));
-    }];
-
-    
-    UIButton *okbtn = [UIButton new];
-    [baseview addSubview:okbtn];
-//    [okbtn setBackgroundColor:[UIColor blueColor] forState:UIControlStateNormal];
-    okbtn.backgroundColor = [UIColor blueColor];
-    ViewBorderRadius(okbtn, 5, 0.8, [UIColor grayColor]);
-    [okbtn setTitle:@"确定" forState:UIControlStateNormal];
-    okbtn.tag = 0;
-    [okbtn addTarget:self action:@selector(newDevBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    [okbtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(W_SCALE(100), H_SCALE(40)));
-        make.bottom.mas_equalTo(baseview.mas_bottom).offset(-top_Gap);
-        make.right.mas_equalTo(baseview.mas_right).offset(-W_SCALE(50));
-    }];
-
-    UIButton *cancelbtn = [UIButton new];
-    [baseview addSubview:cancelbtn];
-    ViewBorderRadius(cancelbtn, 5, 0.8, [UIColor grayColor]);
-    [cancelbtn setTitle:@"取消" forState:UIControlStateNormal];
-    [cancelbtn setTitleColor:ColorHex(0xCCCCCC) forState:UIControlStateNormal];
-    cancelbtn.tag = 1;
-    [cancelbtn addTarget:self action:@selector(newDevBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    [cancelbtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(W_SCALE(100), H_SCALE(40)));
-        make.bottom.mas_equalTo(baseview.mas_bottom).offset(-top_Gap);
-        make.left.mas_equalTo(baseview.mas_left).offset(W_SCALE(50));
-    }];
-    
-
-
-
-//    UIImageView *imzhan = [[UIImageView alloc] init];
-//    imzhan.image = [UIImage imageNamed:imgName];
-//    [firtRow addSubview:imzhan];
-//    [imzhan mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.centerY.mas_equalTo(firtRow);
-//        make.right.mas_equalTo(zhan.mas_left).offset(-3);
-//        make.size.mas_equalTo(CGSizeMake(W_SCALE(16), H_SCALE(16)));
-//    }];
-//
-//
-//
-//
-//    //详情箭头图标
-//    UIImageView *arror = [[UIImageView alloc] init];
-//    arror.image = [UIImage imageNamed:@"arrorright"];
-//    [self.contentView addSubview:arror];
-//    [arror mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.centerY.mas_equalTo(self.contentView);
-//        make.right.mas_equalTo(self.contentView.mas_right).offset(-Left_Gap);
-//        make.size.mas_equalTo(CGSizeMake(W_SCALE(6), H_SCALE(12)));
-//
-//    }];
-//
-//    //底部分割线
-//    UIImageView *bottomLine = [[UIImageView alloc] init];
-//    bottomLine.backgroundColor = ColorHex(0x333A55);
-//    [self.contentView addSubview:bottomLine];
-//    [bottomLine mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.height.mas_equalTo(1);
-//        make.left.mas_equalTo(self.contentView.mas_left).offset(Left_Gap);
-//        make.right.mas_equalTo(self.contentView.mas_right).offset(0);
-//        make.bottom.mas_equalTo(self.contentView.mas_bottom).offset(0);
-//    }];
 }
 @end
