@@ -14,6 +14,7 @@
     if (self = [super initWithFrame:frame]) {
         [self setFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
         self.deviceInfo = [APGroupNote new];
+        self.protocolData = [NSMutableArray arrayWithObjects:@"TCP",@"UDP",@"MQTT", nil];
         [self createUI];
     }
     return self;
@@ -29,7 +30,7 @@
 -(void)newDeviceView
 {
     
-    CGFloat lineH = H_SCALE(30);//行高
+    CGFloat lineH = H_SCALE(35);//行高
     CGFloat labelW = W_SCALE(96);//左侧标题控件的宽度
     CGFloat labelFontSize = 14;
     UIColor *labelColor = ColorHex(0x434343);
@@ -102,7 +103,8 @@
         make.size.mas_equalTo(CGSizeMake(W_SCALE(12), W_SCALE(6)));
     }];
 
-    
+    /*************************************************投影机名称*********************************************/
+
     //投影机名字
     UILabel *devname = [[UILabel alloc] init];
     [_baseview addSubview:devname];
@@ -120,7 +122,7 @@
     _nameField.textColor = contentColor;
     _nameField.textAlignment = NSTextAlignmentCenter;
 
-    _nameField.font = [UIFont systemFontOfSize:14];
+    _nameField.font = [UIFont systemFontOfSize:contentFontSize];
     _nameField.placeholder = @"请输入投影机名称";
     ViewBorderRadius(_nameField, 5, 1, ColorHex(0xABBDD5 ));
     [_baseview addSubview:_nameField];
@@ -172,6 +174,146 @@
         make.size.mas_equalTo(CGSizeMake(W_SCALE(12), W_SCALE(6)));
     }];
     
+    /*************************************************投影机ID*********************************************/
+    UILabel *devid = [[UILabel alloc] init];
+    [_baseview addSubview:devid];
+    devid.text = @"投影机ID";
+    devid.font = [UIFont systemFontOfSize:labelFontSize];
+    devid.textColor = labelColor;
+    [devid mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(jixingLab.mas_bottom).offset(top_Gap);
+        make.left.mas_equalTo(_baseview.mas_left).offset(Left_Gap);
+        make.size.mas_equalTo(CGSizeMake(labelW, lineH));
+    }];
+    
+    _idField = [UITextField new];
+    _idField.delegate = self;
+    _idField.textColor = contentColor;
+    _idField.textAlignment = NSTextAlignmentCenter;
+
+    _idField.font = [UIFont systemFontOfSize:contentFontSize];
+    _idField.placeholder = @"请输入投影机的ID";
+    ViewBorderRadius(_idField, 5, 1, ColorHex(0xABBDD5 ));
+    [_baseview addSubview:_idField];
+
+    [_idField mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(jixingLab.mas_bottom).offset(top_Gap);
+        make.right.mas_equalTo(_baseview.mas_right).offset(-Left_Gap);
+        make.left.mas_equalTo(_baseview.mas_left).offset(textLeft);
+        make.height.mas_equalTo(lineH);
+    }];
+    
+    /*************************网络设置**********************************/
+    UILabel *netlab = [[UILabel alloc] init];
+    [_baseview addSubview:netlab];
+    netlab.text = @"网络设置";
+//    netlab.textAlignment =  NSTextAlignmentCenter;
+    netlab.font = [UIFont boldSystemFontOfSize:16];
+    netlab.textColor = ColorHex(0x1D2242);
+    [netlab mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(_idField.mas_bottom).offset(top_Gap + top_Gap);
+        make.left.mas_equalTo(_baseview.mas_left).offset(Left_Gap);
+        make.size.mas_equalTo(CGSizeMake(W_SCALE(176), H_SCALE(22)));
+    }];
+    
+    /*************************接入协议**********************************/
+    UILabel *protocolLab = [[UILabel alloc] init];
+    [_baseview addSubview:protocolLab];
+    protocolLab.text = @"接入协议";
+    protocolLab.font = [UIFont systemFontOfSize:labelFontSize];
+    protocolLab.textColor = labelColor;
+    [protocolLab mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(netlab.mas_bottom).offset(top_Gap);
+        make.left.mas_equalTo(_baseview.mas_left).offset(Left_Gap);
+        make.size.mas_equalTo(CGSizeMake(labelW, lineH));
+    }];
+    
+    //投影机分组的textfield
+    _protocolField = [UITextField new];
+    _protocolField.delegate = self;
+    _protocolField.textColor =contentColor;
+    _protocolField.textAlignment = NSTextAlignmentCenter;
+    _protocolField.font = [UIFont systemFontOfSize:contentFontSize];
+    _protocolField.placeholder = @"请选择投影机的接入协议";
+    ViewBorderRadius(_protocolField, 5, 1, ColorHex(0xABBDD5 ));
+    [_baseview addSubview:_protocolField];
+
+    [_protocolField mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(netlab.mas_bottom).offset(top_Gap);
+        make.right.mas_equalTo(_baseview.mas_right).offset(-Left_Gap);
+        make.left.mas_equalTo(_baseview.mas_left).offset(textLeft);
+        make.height.mas_equalTo(lineH);
+    }];
+    //展开箭头图标的创建
+    _protocolExpendIm = [UIImageView new];
+    _protocolExpendIm.contentMode=UIViewContentModeScaleAspectFill;
+    [_protocolField addSubview:_protocolExpendIm];
+    name = @"Vector(2)";
+    _protocolExpendIm.image = [UIImage imageNamed:name];
+    [_protocolExpendIm mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.mas_equalTo(_protocolField);
+        make.right.mas_equalTo(_protocolField.mas_right).offset(-Left_Gap);
+        make.size.mas_equalTo(CGSizeMake(W_SCALE(12), W_SCALE(6)));
+    }];
+
+    
+    /*************************IP**********************************/
+    UILabel *iplab = [[UILabel alloc] init];
+    [_baseview addSubview:iplab];
+    iplab.text = @"IP地址";
+    iplab.font = [UIFont systemFontOfSize:labelFontSize];
+    iplab.textColor = labelColor;
+    [iplab mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(protocolLab.mas_bottom).offset(top_Gap);
+        make.left.mas_equalTo(_baseview.mas_left).offset(Left_Gap);
+        make.size.mas_equalTo(CGSizeMake(labelW, lineH));
+    }];
+    
+    _ipField = [UITextField new];
+    _ipField.delegate = self;
+    _ipField.textColor = contentColor;
+    _ipField.textAlignment = NSTextAlignmentCenter;
+
+    _ipField.font = [UIFont systemFontOfSize:contentFontSize];
+    _ipField.placeholder = @"请输入投影机的ip";
+    ViewBorderRadius(_ipField, 5, 1, ColorHex(0xABBDD5 ));
+    [_baseview addSubview:_ipField];
+
+    [_ipField mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(protocolLab.mas_bottom).offset(top_Gap);
+        make.right.mas_equalTo(_baseview.mas_right).offset(-Left_Gap);
+        make.left.mas_equalTo(_baseview.mas_left).offset(textLeft);
+        make.height.mas_equalTo(lineH);
+    }];
+    /*************************端口**********************************/
+    UILabel *portLab = [[UILabel alloc] init];
+    [_baseview addSubview:portLab];
+    portLab.text = @"端口";
+    portLab.font = [UIFont systemFontOfSize:labelFontSize];
+    portLab.textColor = labelColor;
+    [portLab mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(iplab.mas_bottom).offset(top_Gap);
+        make.left.mas_equalTo(_baseview.mas_left).offset(Left_Gap);
+        make.size.mas_equalTo(CGSizeMake(labelW, lineH));
+    }];
+    
+    _portField = [UITextField new];
+    _portField.delegate = self;
+    _portField.textColor = contentColor;
+    _portField.textAlignment = NSTextAlignmentCenter;
+
+    _portField.font = [UIFont systemFontOfSize:contentFontSize];
+    _portField.placeholder = @"请输入投影机的端口";
+    ViewBorderRadius(_portField, 5, 1, ColorHex(0xABBDD5 ));
+    [_baseview addSubview:_portField];
+
+    [_portField mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(iplab.mas_bottom).offset(top_Gap);
+        make.right.mas_equalTo(_baseview.mas_right).offset(-Left_Gap);
+        make.left.mas_equalTo(_baseview.mas_left).offset(textLeft);
+        make.height.mas_equalTo(lineH);
+    }];
+    
     
     
     UIButton *okbtn = [UIButton new];
@@ -185,20 +327,20 @@
     [okbtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(W_SCALE(100), H_SCALE(40)));
         make.bottom.mas_equalTo(_baseview.mas_bottom).offset(-top_Gap);
-        make.right.mas_equalTo(_baseview.mas_right).offset(-W_SCALE(50));
+        make.right.mas_equalTo(_baseview.mas_right).offset(-W_SCALE(55));
     }];
 
     UIButton *cancelbtn = [UIButton new];
     [_baseview addSubview:cancelbtn];
     ViewBorderRadius(cancelbtn, 5, 0.8, [UIColor grayColor]);
     [cancelbtn setTitle:@"取消" forState:UIControlStateNormal];
-    [cancelbtn setTitleColor:ColorHex(0xCCCCCC) forState:UIControlStateNormal];
+    [cancelbtn setTitleColor:ColorHex(0x1D2242) forState:UIControlStateNormal];
     cancelbtn.tag = 1;
     [cancelbtn addTarget:self action:@selector(newDevBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     [cancelbtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(W_SCALE(100), H_SCALE(40)));
         make.bottom.mas_equalTo(_baseview.mas_bottom).offset(-top_Gap);
-        make.left.mas_equalTo(_baseview.mas_left).offset(W_SCALE(50));
+        make.left.mas_equalTo(_baseview.mas_left).offset(W_SCALE(55));
     }];
     
 }
@@ -269,6 +411,62 @@
 }
 
 
+-(void)setProtocolTable
+{
+    if (_protocolTableView == nil)
+    {
+        
+        _protocolTableView = [[UITableView alloc] init];
+        _protocolTableView.dataSource = self;
+        _protocolTableView.delegate = self;
+        _protocolTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        _protocolTableView.backgroundColor = [UIColor whiteColor];
+        ViewBorderRadius(_protocolTableView, 5, 1, ColorHex(0xABBDD5 ));
+        [self addSubview:_protocolTableView];
+        [_protocolTableView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.mas_equalTo(_protocolField.frame.size.width);
+            make.top.mas_equalTo(_protocolField.mas_bottom).offset(0);
+            make.left.mas_equalTo(_protocolField.mas_left).offset(0);
+            make.bottom.mas_equalTo(_baseview.mas_bottom).offset(-H_SCALE(100));
+        }];
+    }
+    else
+    {
+//        _groupTableView.hidden = !_groupTableView.hidden;
+        [_protocolTableView removeFromSuperview];
+        _protocolTableView = nil;
+    }
+    
+//    if (_groupTableView)
+    {
+        NSString *name = _protocolTableView?@"Vector(1)" : @"Vector(2)";
+        _protocolExpendIm.image = [UIImage imageNamed:name];
+    }
+}
+
+//保存数据到数据库
+-(void)writeDB
+{
+    //1.获得数据库文件的路径
+    NSString *doc = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    NSString *dbfileName = [doc stringByAppendingPathComponent:DB_NAME];
+    //2.获得数据库
+    FMDatabase *db = [FMDatabase databaseWithPath:dbfileName];
+    //3.打开数据库
+    if ([db open])
+    {
+        NSString *sqlStr = [NSString stringWithFormat:@"insert into log_sn (group_id,device_name,model_id,gsn,access_protocol,ip,port) values (%@,%@,%@,%@,%@,%@,%@)",_deviceInfo.parentId, _deviceInfo.name, _deviceInfo.model_id,_deviceInfo.nodeId, _deviceInfo.access_protocol, _deviceInfo.ip, _deviceInfo.port];
+        BOOL ret = [db executeUpdate:sqlStr];
+          if  (ret)
+          {
+              NSLog(@"插入数据库错误");
+          }
+              
+        //关闭数据库
+        [db close];
+    }
+    
+}
 #pragma  mark textfield delegate
 
 
@@ -289,6 +487,11 @@
         [self setModelTable];
         return NO;
     }
+    else if(textField == _protocolField)
+    {
+        [self setProtocolTable];
+        return NO;
+    }
     
     return YES;
 }
@@ -298,6 +501,18 @@
     if (textField == _nameField )
     {
         _deviceInfo.name = SafeStr(textField.text);
+    }
+    else if (textField == _idField )
+    {
+        _deviceInfo.nodeId = SafeStr(textField.text);
+    }
+    else if (textField == _ipField )
+    {
+        _deviceInfo.ip = SafeStr(textField.text);
+    }
+    else if (textField == _portField )
+    {
+        _deviceInfo.port = SafeStr(textField.text);
     }
 }
 
@@ -315,6 +530,11 @@
         [_modelTableView removeFromSuperview];
         _modelTableView = nil;
     }
+    if(_protocolTableView)
+    {
+        [_protocolTableView removeFromSuperview];
+        _protocolTableView = nil;
+    }
 }
 
 -(void)newDevBtnClick:(UIButton *)btn
@@ -322,6 +542,7 @@
     if(btn.tag == 0)//确定
     {
         self.okBtnClickBlock(0);
+        [self writeDB];
     }
     else if(btn.tag == 1)
     {
@@ -332,10 +553,6 @@
 }
 
 #pragma mark *** UITableViewDelegate/UITableViewDataSource ***
-//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-//{
-//    return 1;
-//}
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     int count = 0;
@@ -346,6 +563,10 @@
     else if (tableView == _modelTableView)
     {
         return _modelData.count;
+    }
+    else if (tableView == _protocolTableView)
+    {
+        return _protocolData.count;
     }
     
     return count;
@@ -383,7 +604,13 @@
         cell.textLabel.text = node.modelName;
         
     }
+    else if(tableView == _protocolTableView)
+    {
+        NSString *str = _protocolData[indexPath.row];
 
+        cell.textLabel.text = SafeStr(str);
+        
+    }
     return cell;
 }
 
@@ -414,6 +641,13 @@
         _modelField.text = node.modelName;
         _deviceInfo.model_id = node.modelId;
         [self setModelTable];
+    }
+    else if (tableView == _protocolTableView)
+    {
+        NSString *str = _protocolData[indexPath.row];
+        _protocolField.text = SafeStr(str);
+        _deviceInfo.access_protocol = SafeStr(str);
+        [self setProtocolTable];
     }
 }
 //- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section

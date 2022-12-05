@@ -22,11 +22,20 @@ typedef void(^ClickBlock)(BOOL index);
 @property (nonatomic,strong)NSMutableArray *groupData;//分组的数据
 
 @property (nonatomic,strong)UITextField *nameField;
+@property (nonatomic,strong)UITextField *idField;
+@property (nonatomic,strong)UITextField *ipField;
+@property (nonatomic,strong)UITextField *portField;
+
+
 @property (nonatomic,strong)UITextField *modelField;//机型
 @property (nonatomic,strong)UITableView *modelTableView;//
 @property (nonatomic,strong)UIImageView * modelExpendIm;
 @property (nonatomic,strong)NSMutableArray *modelData;//机型的数据
 
+@property (nonatomic,strong)UITextField *protocolField;//接入协议  tcp udp mqtt
+@property (nonatomic,strong)UITableView *protocolTableView;//
+@property (nonatomic,strong)UIImageView * protocolExpendIm;
+@property (nonatomic,strong)NSMutableArray *protocolData;//接入协议的数据
 
 @property (nonatomic,strong)APGroupNote *deviceInfo;
 
