@@ -49,7 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic , strong) NSString *device_id;//新建投影仪的冗余字段
 
 - (instancetype)init;
--(void)setSelectedAndCount:(BOOL)selected;
+//-(void)setSelectedAndCount:(BOOL)selected;
 /**
 *快速实例化该对象模型
 */

@@ -11,7 +11,8 @@ target 'appiot' do
   pod 'Masonry'
   pod 'MBProgressHUD'
   pod 'FMDB','~>2.6.0'
-
+  pod 'LFKit/Component/LFPopupMenu'
+  
   target 'appiotTests' do
     inherit! :search_paths
     # Pods for testing

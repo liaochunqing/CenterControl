@@ -21,8 +21,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) UIButton *selectBtn;
 @property (strong, nonatomic) UIButton *expendBtn;
 
-//@property (nonatomic) BOOL haveChild;
-
 @property (nonatomic, copy) ClickBlock btnClickBlock;
 
 

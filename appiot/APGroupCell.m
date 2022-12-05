@@ -36,7 +36,6 @@
         return;
     };
 
-
     CGFloat midGap = W_SCALE(17);//cell各个图标文字中间的间隙
     
     CGFloat expendX = Left_Gap  + midGap* (node.depth);
@@ -57,6 +56,19 @@
         NSString *name = node.expand?@"Vector(2)" : @"Vector(1)";
         [_expendBtn setImage:[UIImage imageNamed:name] forState:UIControlStateNormal];
     }
+    
+    //扩大点击区域的btn
+    UIButton *btn = [UIButton new];
+    btn.backgroundColor = [UIColor clearColor];
+    [self.contentView addSubview:btn];
+
+    [btn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.mas_equalTo(self.contentView);
+        make.left.mas_equalTo(self.contentView.mas_left).offset(0);
+        make.size.mas_equalTo(CGSizeMake(W_SCALE(100), Group_Cell_Height));
+    }];
+    [btn addTarget:self action:@selector(expendBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+
     
     CGFloat imH = H_SCALE(29);
     CGFloat imW = W_SCALE(26);
@@ -117,10 +129,7 @@
 #pragma button响应
 -(void)expendBtnClick:(UIButton *)btn
 {
-    if(btn == _expendBtn)
-    {
-        self.btnClickBlock(btn.tag);
-    }
+    self.btnClickBlock(btn.tag);
 }
 
 //  颜色转换为背景图片

@@ -18,6 +18,7 @@ PODS:
   - FMDB (2.6.2):
     - FMDB/standard (= 2.6.2)
   - FMDB/standard (2.6.2)
+  - LFKit/Component/LFPopupMenu (1.2.0)
   - Masonry (1.1.0)
   - MBProgressHUD (1.2.0)
 
@@ -25,6 +26,7 @@ DEPENDENCIES:
   - AFNetworking
   - CocoaAsyncSocket (~> 7.6.0)
   - FMDB (~> 2.6.0)
+  - LFKit/Component/LFPopupMenu
   - Masonry
   - MBProgressHUD
 
@@ -33,6 +35,7 @@ SPEC REPOS:
     - AFNetworking
     - CocoaAsyncSocket
     - FMDB
+    - LFKit
     - Masonry
     - MBProgressHUD
 
@@ -40,9 +43,10 @@ SPEC CHECKSUMS:
   AFNetworking: 7864c38297c79aaca1500c33288e429c3451fdce
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   FMDB: 854a0341b4726e53276f2a8996f06f1b80f9259a
+  LFKit: ad4817aba7b1593b7d0e29d31a80b2c5d0e5ad06
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MBProgressHUD: 3ee5efcc380f6a79a7cc9b363dd669c5e1ae7406
 
-PODFILE CHECKSUM: b6157026c7ddc142967a751c980e42f8edfb6abe
+PODFILE CHECKSUM: 6de6ba3b01fe705e7e777b5ab009abcadf578701
 
 COCOAPODS: 1.11.3

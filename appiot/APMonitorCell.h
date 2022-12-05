@@ -17,7 +17,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) UIImageView *im;
 @property (strong, nonatomic) UILabel *title;
 @property (strong, nonatomic) UIButton *selectBtn;
-//@property (nonatomic) BOOL haveChild;
 
 //@property (nonatomic, copy) ClickBlock btnClickBlock;
 
