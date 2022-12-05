@@ -13,11 +13,22 @@ typedef void(^ClickBlock)(BOOL index);
 @interface APNewDeviceView : APBaseView<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>
 
 @property (nonatomic,strong)UIView *baseview;
+@property (nonatomic,strong)UIButton *baseBtn;
+
 
 @property (nonatomic,strong)UITableView *groupTableView;//
-@property (nonatomic,strong)UITextField *groupField;
+@property (nonatomic,strong)UITextField *groupField;//分组
 @property (nonatomic,strong)UIImageView * groupExpendIm;
 @property (nonatomic,strong)NSMutableArray *groupData;//分组的数据
+
+@property (nonatomic,strong)UITextField *nameField;
+@property (nonatomic,strong)UITextField *modelField;//机型
+@property (nonatomic,strong)UITableView *modelTableView;//
+@property (nonatomic,strong)UIImageView * modelExpendIm;
+@property (nonatomic,strong)NSMutableArray *modelData;//机型的数据
+
+
+@property (nonatomic,strong)APGroupNote *deviceInfo;
 
 @property (nonatomic, copy) ClickBlock okBtnClickBlock;
 @property (nonatomic, copy) ClickBlock cancelBtnClickBlock;

@@ -195,6 +195,18 @@
             [_orgData addObject:node];
         }
         
+        //获取modelid  和 modelname
+        resultSet = [db executeQuery:@"SELECT * FROM dev_model"];
+        _modelData = [NSMutableArray array];
+        while ([resultSet next])
+        {
+            APDevModel *temp = [APDevModel new];
+
+            temp.modelId = SafeStr([resultSet stringForColumn:@"id"]);
+            temp.modelName = SafeStr([resultSet stringForColumn:@"model"]);
+            [_modelData addObject:temp];
+        }
+        
         //关闭数据库
         [db close];
     }
@@ -1019,7 +1031,8 @@
                 [vc.view addSubview:weakSelf.devView];
                 [vc.view bringSubviewToFront:weakSelf.devView];
                 weakSelf.devView.groupData = [NSMutableArray arrayWithArray:weakSelf.groupData];
-                
+                weakSelf.devView.modelData = [NSMutableArray arrayWithArray:weakSelf.modelData];
+
                 //ok按钮
                 [weakSelf.devView setOkBtnClickBlock:^(BOOL index) {
                     [weakSelf.devView removeFromSuperview];

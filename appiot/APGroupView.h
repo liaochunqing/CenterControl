@@ -13,6 +13,7 @@
 #import "APCommandView.h"
 #import "LFPopupMenu.h"
 #import "APNewDeviceView.h"
+#import "APDevModel.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -31,6 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,strong)NSMutableArray *orgData;//数据库搜索上来的原始数据（全量数据）
 @property (nonatomic,strong)NSMutableArray *filteredData;//存储搜索过滤后的数据
 @property (nonatomic,strong)NSMutableArray *groupData;//分组
+@property (nonatomic,strong)NSMutableArray *modelData;//分组
 
 @property (nonatomic)BOOL isFieldActive;//是否正在使用
 @property (strong, nonatomic) UIButton *floatButton;//悬浮小球 新加设备按钮
