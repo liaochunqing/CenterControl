@@ -300,7 +300,7 @@
 //    self.bottomView.hidden = YES;
     [self.bottomView setFrame:CGRectMake(0, self.frame.size.height, Left_View_Width, Bottom_View_Height)];
     
-    NSDictionary *dict1 = @{@"string":@"重命名",
+    NSDictionary *dict1 = @{@"string":@"编辑",
                            @"imageName":@"Group 11531",
     };
     NSDictionary *dict2 = @{@"string":@"删除",
@@ -916,9 +916,50 @@
     {
         
         switch (btn.tag) {
-            case 0://按钮重命名
+            case 0://按钮编辑
             {
-//                [self createCommandView];
+                NSArray *temp = [self getSelectedNode];
+                if(temp.count != 1)
+                {
+                    UIAlertController  *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"请选中一台设备" preferredStyle:UIAlertControllerStyleAlert];
+                    UIAlertAction *action2= [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+                            }];
+
+                    [alert addAction:action2];
+                    AppDelegate *appDelegate = kAppDelegate;
+                    UIViewController *vc = appDelegate.mainVC;
+                    [vc presentViewController:alert animated:YES completion:nil];
+                }
+                else
+                {
+                    [_editDevView removeFromSuperview];
+                    _editDevView = nil;
+                    _editDevView = [[APAPEditDeviceView alloc] init];
+                    AppDelegate *appDelegate = kAppDelegate;
+                    UIViewController *vc = appDelegate.mainVC;
+                    [vc.view addSubview:_editDevView];
+                    [vc.view bringSubviewToFront:_editDevView];
+                    _editDevView.groupData = [NSMutableArray arrayWithArray:self.groupData];
+                    _editDevView.modelData = [NSMutableArray arrayWithArray:self.modelData];
+                    _editDevView.deviceInfo = temp[0];
+                    [_editDevView setDefaultValue];
+                    //ok按钮
+                    WS(weakSelf);
+                    [_editDevView setOkBtnClickBlock:^(BOOL index) {
+                        [weakSelf.editDevView removeFromSuperview];
+                                        weakSelf.floatButton.hidden = NO;
+
+                    }];
+                    //取消按钮
+                    [_editDevView setCancelBtnClickBlock:^(BOOL index) {
+                        [weakSelf.editDevView removeFromSuperview];
+
+                        weakSelf.floatButton.hidden = NO;
+
+                    }];
+                    
+                    self.floatButton.hidden = YES;
+                }
             }
                 break;
             case 1://删除

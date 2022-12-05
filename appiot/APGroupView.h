@@ -14,6 +14,7 @@
 #import "LFPopupMenu.h"
 #import "APNewDeviceView.h"
 #import "APDevModel.h"
+#import "APAPEditDeviceView.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -37,6 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic)BOOL isFieldActive;//是否正在使用
 @property (strong, nonatomic) UIButton *floatButton;//悬浮小球 新加设备按钮
 @property(nonatomic,strong)APNewDeviceView *devView;
+@property(nonatomic,strong)APAPEditDeviceView *editDevView;
 
 -(NSArray *)getSelectedNode;
 @end

@@ -1,19 +1,20 @@
 //
-//  APNewDeviceView.m
+//  APAPEditDeviceView.m
 //  appiot
 //
 //  Created by App-Iot02 on 2022/12/5.
 //
 
-#import "APNewDeviceView.h"
+#import "APAPEditDeviceView.h"
 #import "AppDelegate.h"
 
-@implementation APNewDeviceView
+@implementation APAPEditDeviceView
+
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         [self setFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
-        self.deviceInfo = [APGroupNote new];
+//        self.deviceInfo = [APGroupNote new];
         self.protocolData = [NSMutableArray arrayWithObjects:@"TCP",@"UDP",@"MQTT", nil];
         [self createUI];
     }
@@ -23,7 +24,6 @@
 
 -(void)createUI
 {
-    
     [self newDeviceView];
 }
 
@@ -53,7 +53,7 @@
  
     UILabel *namelab = [[UILabel alloc] init];
     [_baseview addSubview:namelab];
-    namelab.text = @"新增投影机";
+    namelab.text = @"编辑投影机";
     namelab.textAlignment =  NSTextAlignmentCenter;
     namelab.font = [UIFont systemFontOfSize:20];
     namelab.textColor = ColorHex(0x1D2242);
@@ -314,8 +314,7 @@
         make.left.mas_equalTo(_baseview.mas_left).offset(textLeft);
         make.height.mas_equalTo(lineH);
     }];
-    
-    
+
     
     UIButton *okbtn = [UIButton new];
     [_baseview addSubview:okbtn];
@@ -344,6 +343,20 @@
         make.left.mas_equalTo(_baseview.mas_left).offset(W_SCALE(55));
     }];
     
+}
+
+#pragma mark 对外接口
+-(void)setDefaultValue
+{
+    
+    //设置默认值
+    _groupField.text = SafeStr(_deviceInfo.parentId);
+    _nameField.text = SafeStr(_deviceInfo.name);
+    _modelField.text = SafeStr(_deviceInfo.model_id);
+    _nameField.text = SafeStr(_deviceInfo.nodeId);
+    _protocolField.text = SafeStr(_deviceInfo.access_protocol);
+    _ipField.text = SafeStr(_deviceInfo.ip);
+    _protocolField.text = SafeStr(_deviceInfo.port);
 }
 
 #pragma  mark 私有方法
@@ -702,11 +715,5 @@
         [self setProtocolTable];
     }
 }
-//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-//{
-//    return 0.1;
-//}
-
-
 
 @end

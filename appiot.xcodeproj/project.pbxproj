@@ -40,6 +40,7 @@
 		C6D010D9293D855E003674C9 /* APNewDeviceView.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D010D8293D855E003674C9 /* APNewDeviceView.m */; };
 		C6D010DB293DC9CE003674C9 /* remote.db in Resources */ = {isa = PBXBuildFile; fileRef = C6D010DA293DC9CE003674C9 /* remote.db */; };
 		C6D010DE293DCB61003674C9 /* APDevModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D010DD293DCB61003674C9 /* APDevModel.m */; };
+		C6D010E4293DFCB1003674C9 /* APAPEditDeviceView.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D010E3293DFCB1003674C9 /* APAPEditDeviceView.m */; };
 		CDAF7A201535A7BF8524ABBD /* Pods_appiot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB3765024A92663D80DC1163 /* Pods_appiot.framework */; };
 		E1FE5C87F1B352B5DF206E02 /* Pods_appiotTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87EB77647DEFF331311B61D6 /* Pods_appiotTests.framework */; };
 /* End PBXBuildFile section */
@@ -131,6 +132,8 @@
 		C6D010DA293DC9CE003674C9 /* remote.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = remote.db; sourceTree = "<group>"; };
 		C6D010DC293DCB61003674C9 /* APDevModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APDevModel.h; sourceTree = "<group>"; };
 		C6D010DD293DCB61003674C9 /* APDevModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APDevModel.m; sourceTree = "<group>"; };
+		C6D010E2293DFCB1003674C9 /* APAPEditDeviceView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APAPEditDeviceView.h; sourceTree = "<group>"; };
+		C6D010E3293DFCB1003674C9 /* APAPEditDeviceView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APAPEditDeviceView.m; sourceTree = "<group>"; };
 		F110C31EB98C931C5089AE17 /* Pods_appiot_appiotUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_appiot_appiotUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -321,6 +324,8 @@
 				C63C82482925FF5500DBB3F6 /* APGroupCell.m */,
 				C6D010D7293D855E003674C9 /* APNewDeviceView.h */,
 				C6D010D8293D855E003674C9 /* APNewDeviceView.m */,
+				C6D010E2293DFCB1003674C9 /* APAPEditDeviceView.h */,
+				C6D010E3293DFCB1003674C9 /* APAPEditDeviceView.m */,
 			);
 			name = view;
 			sourceTree = "<group>";
@@ -599,6 +604,7 @@
 			files = (
 				C63C822F2923370300DBB3F6 /* APLeftPageButton.m in Sources */,
 				C6CA8BB329220E1A00F5AAC2 /* APViewController.m in Sources */,
+				C6D010E4293DFCB1003674C9 /* APAPEditDeviceView.m in Sources */,
 				C63C823629238B7400DBB3F6 /* APMonitorItem.m in Sources */,
 				C6C5285D291B7DD1003F24C1 /* main.m in Sources */,
 				C63306BB292DE85B0057DA83 /* APMonitorModel.m in Sources */,
