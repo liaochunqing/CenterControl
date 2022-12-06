@@ -342,13 +342,13 @@
     for (APGroupNote *node in _data)
     {
         NSData * sendData = node.commandDict[command];
-//        NSString *str = [msg stringByReplacingOccurrencesOfString:@"<CR>" withString:@"\r"];
-//        NSString *hex = [[APTool shareInstance] hexStringFromString:str];
-//        NSData *sendData = [[APTool shareInstance] convertHexStrToData:hex];
         
         NSString *sss = [[NSString alloc] initWithData:sendData encoding:NSUTF8StringEncoding];
-//        NSString *ttt = [[APTool shareInstance] stringFromHexString:sss];
-        NSLog(@"%@,ip=%@,port=%@,发送数据：%@",node.access_protocol,node.ip,node.port,sss);
+//        NSString *hex = [[APTool shareInstance] hexStringFromString:@"AD0000002F0100000000000000000000000000DD"];
+//                NSData *sendData11 = [[APTool shareInstance] convertHexStrToData:hex];
+//        NSData *sendData22 = [[APTool shareInstance] convertHexStrToData:sss];
+
+        NSLog(@"%@,ip=%@,port=%@,发送数据：%@",node.access_protocol,node.ip,node.port,sendData);
         
         if ([@"tcp" compare:node.access_protocol options:NSCaseInsensitiveSearch |NSNumericSearch] ==NSOrderedSame)
         {
@@ -361,8 +361,7 @@
             APUdpSocket *udpManager = [APUdpSocket sharedInstance];
             udpManager.host = node.ip;//@"255.255.255.255";
             udpManager.port = [node.port intValue];
-//            [udpManager createClientUdpSocket];
-            
+            [udpManager createClientUdpSocket];
             [udpManager sendMessage:sendData];
         }
     }

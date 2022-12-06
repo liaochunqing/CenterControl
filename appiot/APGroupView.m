@@ -106,7 +106,7 @@
     NSString *finalStr = [str stringByReplacingOccurrencesOfString:@" " withString:@""];
 
     NSString *hex = [[APTool shareInstance] hexStringFromString:finalStr];
-    NSData *sendData = [[APTool shareInstance] convertHexStrToData:hex];
+    NSData *sendData = [[APTool shareInstance] convertHexStrToData:finalStr];
 //    NSString *sss = [[NSString alloc] initWithData:sendData encoding:NSUTF8StringEncoding];
 
     return sendData;
