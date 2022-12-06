@@ -456,21 +456,28 @@
     //3.打开数据库
     if ([db open])
     {
-        NSString *sqlStr = [NSString stringWithFormat:@"insert into log_sn (group_id,device_name,model_id,gsn,access_protocol,ip,port) values (%@,%@,%d,%@,%@,%@,%d)",_deviceInfo.parentId, _deviceInfo.name, [_deviceInfo.model_id intValue] ,@"appo-wy-10009-001", _deviceInfo.access_protocol, _deviceInfo.ip, [_deviceInfo.port intValue]];
+        NSString *sqlStr = [NSString stringWithFormat:@"insert into log_sn (group_id,device_name,model_id,gsn,access_protocol,ip,port) values ('%@','%@','%@','%@','%@','%@','%@')",_deviceInfo.parentId, _deviceInfo.name, _deviceInfo.model_id ,_deviceInfo.nodeId, _deviceInfo.access_protocol, _deviceInfo.ip, _deviceInfo.port];
         BOOL ret = [db executeUpdate:sqlStr];
-          if  (ret)
-          {
-              NSLog(@"插入数据库错误");
-          }
+        if  (ret)
+        {
+            AppDelegate *appDelegate = kAppDelegate;
+            APGroupView *vc = appDelegate.mainVC.leftView.groupView;
+            if (vc && [vc isKindOfClass:[APGroupView class]])
+            {
+                [vc refreshTable];
+            }
+        }
+        else
+        {
+            NSLog(@"插入数据库错误");
+        }
               
         //关闭数据库
         [db close];
     }
-    
 }
+
 #pragma  mark textfield delegate
-
-
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
 
 //写你要实现的：页面跳转的相关代码

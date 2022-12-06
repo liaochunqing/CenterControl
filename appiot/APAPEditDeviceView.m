@@ -350,13 +350,21 @@
 {
     
     //设置默认值
-    _groupField.text = SafeStr(_deviceInfo.parentId);
+    _groupField.text = _deviceInfo.father?_deviceInfo.father.name:@"";
     _nameField.text = SafeStr(_deviceInfo.name);
-    _modelField.text = SafeStr(_deviceInfo.model_id);
-    _nameField.text = SafeStr(_deviceInfo.nodeId);
+    _idField.text = _deviceInfo.nodeId;
     _protocolField.text = SafeStr(_deviceInfo.access_protocol);
     _ipField.text = SafeStr(_deviceInfo.ip);
-    _protocolField.text = SafeStr(_deviceInfo.port);
+    _portField.text = _deviceInfo.port;
+    
+    for (APDevModel *model in _modelData)
+    {
+        if ([_deviceInfo.model_id isEqualToString:model.modelId])
+        {
+            _modelField.text = SafeStr(model.modelName);
+            break;;
+        }
+    }
 }
 
 #pragma  mark 私有方法
@@ -458,7 +466,7 @@
     }
 }
 
-//保存数据到数据库
+//更新数据到数据库
 -(void)writeDB
 {
     //1.获得数据库文件的路径
@@ -469,12 +477,23 @@
     //3.打开数据库
     if ([db open])
     {
-        NSString *sqlStr = [NSString stringWithFormat:@"insert into log_sn (group_id,device_name,model_id,gsn,access_protocol,ip,port) values (%@,%@,%d,%@,%@,%@,%d)",_deviceInfo.parentId, _deviceInfo.name, [_deviceInfo.model_id intValue] ,@"appo-wy-10009-001", _deviceInfo.access_protocol, _deviceInfo.ip, [_deviceInfo.port intValue]];
+        NSString *sqlStr = [NSString stringWithFormat:@"UPDATE log_sn set group_id='%@',device_name='%@',model_id='%@',access_protocol='%@',ip='%@',port='%@' where gsn=='%@'",_deviceInfo.parentId, _deviceInfo.name, _deviceInfo.model_id, _deviceInfo.access_protocol, _deviceInfo.ip, _deviceInfo.port,_deviceInfo.nodeId];
+        
+//        NSString *sqlStr = [NSString stringWithFormat:@"UPDATE log_sn set ip='%@' where gsn=='%@'",_deviceInfo.ip, _deviceInfo.nodeId];
         BOOL ret = [db executeUpdate:sqlStr];
-          if  (ret)
-          {
-              NSLog(@"插入数据库错误");
-          }
+        if  (ret)
+        {
+            AppDelegate *appDelegate = kAppDelegate;
+            APGroupView *vc = appDelegate.mainVC.leftView.groupView;
+            if (vc && [vc isKindOfClass:[APGroupView class]])
+            {
+                [vc refreshTable];
+            }
+        }
+        else
+        {
+            NSLog(@"插入数据库错误");
+        }
               
         //关闭数据库
         [db close];

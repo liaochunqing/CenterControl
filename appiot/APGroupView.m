@@ -89,7 +89,7 @@
         make.bottom.mas_equalTo(self.mas_bottom).offset(0);
     }];
     
-    [self createData];
+    [self getDataFromDB];
 }
 
 -(NSData*)getSendDataFromParam:(NSString *)param
@@ -116,7 +116,7 @@
 /**
  * 初始化数据源
  */
--(void)createData
+-(void)getDataFromDB
 {
     //1.获得数据库文件的路径
     NSString *doc = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
@@ -270,6 +270,7 @@
     
     [_tableview reloadData];
 }
+
 
 
 -(void)countChildNumberAndSelected
@@ -459,7 +460,40 @@
         }
     }
 }
-#pragma mark 方法
+#pragma  mark 对外接口
+-(void)refreshTable
+{
+    [self getDataFromDB];
+}
+
+-(NSArray *)getSelectedNode
+{
+    NSMutableArray *arr = [NSMutableArray array];
+    if (_isFieldActive)
+    {
+        for(APGroupNote *temp in _filteredData)
+        {
+            if (temp.isDevice && temp.selected)
+            {
+                [arr addObject:temp];
+            }
+        }
+    }
+    else
+    {
+        for(APGroupNote *temp in _data)
+        {
+            if (temp.isDevice && temp.selected)
+            {
+                [arr addObject:temp];
+            }
+        }
+    }
+    
+    
+    return  arr;
+}
+#pragma mark 私有方法
 -(void)countEveryGroupChildAndSelected
 {
     NSMutableArray *arr = [NSMutableArray array];
@@ -499,33 +533,7 @@
 //    return  arr;
 }
 
--(NSArray *)getSelectedNode
-{
-    NSMutableArray *arr = [NSMutableArray array];
-    if (_isFieldActive)
-    {
-        for(APGroupNote *temp in _filteredData)
-        {
-            if (temp.isDevice && temp.selected)
-            {
-                [arr addObject:temp];
-            }
-        }
-    }
-    else
-    {
-        for(APGroupNote *temp in _data)
-        {
-            if (temp.isDevice && temp.selected)
-            {
-                [arr addObject:temp];
-            }
-        }
-    }
-    
-    
-    return  arr;
-}
+
 
 -(void)refrashMonitorTable
 {

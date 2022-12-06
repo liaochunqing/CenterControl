@@ -6,7 +6,6 @@
 //
 
 #import "APBaseView.h"
-
 NS_ASSUME_NONNULL_BEGIN
 typedef void(^ClickBlock)(BOOL index);
 
