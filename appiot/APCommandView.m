@@ -37,16 +37,16 @@
 {
     if (!arr) return;
     
-    if (_data && _data.count)
-    {
-        [_data removeAllObjects];
-    }
-    else
-    {
-        _data =[NSMutableArray array];
-    }
-    
-    _data = [NSMutableArray arrayWithArray:arr];
+//    if (_data && _data.count)
+//    {
+//        [_data removeAllObjects];
+//    }
+//    else
+//    {
+//        _data =[NSMutableArray array];
+//    }
+//
+//    _data = [NSMutableArray arrayWithArray:arr];
 }
 
 -(void)getSelectedDev
@@ -346,6 +346,10 @@
 //        NSString *hex = [[APTool shareInstance] hexStringFromString:str];
 //        NSData *sendData = [[APTool shareInstance] convertHexStrToData:hex];
         
+        NSString *sss = [[NSString alloc] initWithData:sendData encoding:NSUTF8StringEncoding];
+//        NSString *ttt = [[APTool shareInstance] stringFromHexString:sss];
+        NSLog(@"%@,ip=%@,port=%@,发送数据：%@",node.access_protocol,node.ip,node.port,sss);
+        
         if ([@"tcp" compare:node.access_protocol options:NSCaseInsensitiveSearch |NSNumericSearch] ==NSOrderedSame)
         {
             APTcpSocket *tcpManager = [APTcpSocket shareManager];
@@ -355,11 +359,11 @@
         else if ([@"udp" compare:node.access_protocol options:NSCaseInsensitiveSearch |NSNumericSearch] ==NSOrderedSame)
         {
             APUdpSocket *udpManager = [APUdpSocket sharedInstance];
-            udpManager.host = node.ip;
+            udpManager.host = node.ip;//@"255.255.255.255";
             udpManager.port = [node.port intValue];
-            [udpManager createClientUdpSocket];
+//            [udpManager createClientUdpSocket];
             
-            [udpManager broadcast:sendData];
+            [udpManager sendMessage:sendData];
         }
     }
 }
@@ -407,6 +411,29 @@
 }
 -(void)btnSwithClick:(UIButton *)btn
 {
+    
+    AppDelegate *appDelegate = kAppDelegate;
+    APGroupView *vc = appDelegate.mainVC.leftView.groupView;
+    if (vc && [vc isKindOfClass:[APGroupView class]])
+    {
+        NSArray *temp = [vc getSelectedNode];
+        
+        
+        if (_data && _data.count)
+        {
+            [_data removeAllObjects];
+        }
+        else
+        {
+            _data =[NSMutableArray array];
+        }
+        
+        if(temp)
+        {
+            _data = [NSMutableArray arrayWithArray:temp];
+        }
+    }
+    
     if(_data.count == 0)
     {
         UIAlertController  *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"没有选中任何设备" preferredStyle:UIAlertControllerStyleAlert];
@@ -421,6 +448,8 @@
         AppDelegate *appDelegate = kAppDelegate;
         UIViewController *vc = appDelegate.mainVC;
         [vc presentViewController:alert animated:YES completion:nil];
+        
+        return;
     }
     
     if(btn)

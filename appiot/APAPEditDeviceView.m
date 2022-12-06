@@ -449,7 +449,9 @@
             make.width.mas_equalTo(_protocolField.frame.size.width);
             make.top.mas_equalTo(_protocolField.mas_bottom).offset(0);
             make.left.mas_equalTo(_protocolField.mas_left).offset(0);
-            make.bottom.mas_equalTo(_baseview.mas_bottom).offset(-H_SCALE(100));
+//            make.bottom.mas_equalTo(_baseview.mas_bottom).offset(-H_SCALE(100));
+            make.height.mas_equalTo(H_SCALE(150));
+
         }];
     }
     else
@@ -508,25 +510,25 @@
 //写你要实现的：页面跳转的相关代码
     if (textField == _groupField)
     {
+        [_nameField resignFirstResponder];
+        [_ipField resignFirstResponder];
+        [_portField resignFirstResponder];
         [self setGroupTable];
-        [textField resignFirstResponder];
-
         return NO;
-    }
-    else if(textField == _nameField ||
-            textField == _ipField ||
-            textField == _portField)
-    {
-        [textField resignFirstResponder];
-        return YES;
     }
     else if(textField == _modelField)
     {
+        [_nameField resignFirstResponder];
+        [_ipField resignFirstResponder];
+        [_portField resignFirstResponder];
         [self setModelTable];
         return NO;
     }
     else if(textField == _protocolField)
     {
+        [_nameField resignFirstResponder];
+        [_ipField resignFirstResponder];
+        [_portField resignFirstResponder];
         [self setProtocolTable];
         return NO;
     }

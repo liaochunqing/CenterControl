@@ -483,25 +483,25 @@
 //写你要实现的：页面跳转的相关代码
     if (textField == _groupField)
     {
+        [_nameField resignFirstResponder];
+        [_ipField resignFirstResponder];
+        [_portField resignFirstResponder];
         [self setGroupTable];
-        [textField resignFirstResponder];
-
         return NO;
-    }
-    else if(textField == _nameField ||
-            textField == _ipField ||
-            textField == _portField)
-    {
-        [textField resignFirstResponder];
-        return YES;
     }
     else if(textField == _modelField)
     {
+        [_nameField resignFirstResponder];
+        [_ipField resignFirstResponder];
+        [_portField resignFirstResponder];
         [self setModelTable];
         return NO;
     }
     else if(textField == _protocolField)
     {
+        [_nameField resignFirstResponder];
+        [_ipField resignFirstResponder];
+        [_portField resignFirstResponder];
         [self setProtocolTable];
         return NO;
     }

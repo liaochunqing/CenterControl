@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (APUdpSocket *)sharedInstance;   // 单例
 -(void)createClientUdpSocket;  // socket连接
 -(void)cutOffSocket; // 断开socket连接
-- (void)sendMessage:(NSString *)message;
+- (void)sendMessage:(NSData *)data;
 -(void)broadcast:(NSData *)data;
 @end
 

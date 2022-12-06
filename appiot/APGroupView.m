@@ -30,11 +30,7 @@
     CGFloat h = SCREEN_HEIGHT - y;
     
     [self setFrame:CGRectMake(x, y, w, h)];
-//    self.backgroundColor = ColorHex(0x161635);
-    _data = [NSMutableArray array];
-    _orgData = [NSMutableArray array];
-    _allNumber = 0;
-    _selectedNumber = 0;
+
     
     [self cteateSearchView];
     [self createButton];
@@ -106,10 +102,13 @@
         temp = [arr firstObject];
     }
     
-    NSString *str = [SafeStr(temp) stringByReplacingOccurrencesOfString:@"<CR>" withString:@"\r"];
-    NSString *hex = [[APTool shareInstance] hexStringFromString:str];
+    NSString *str = [SafeStr(temp) stringByReplacingOccurrencesOfString:@"<CR>" withString:@"\r"];//
+    NSString *finalStr = [str stringByReplacingOccurrencesOfString:@" " withString:@""];
+
+    NSString *hex = [[APTool shareInstance] hexStringFromString:finalStr];
     NSData *sendData = [[APTool shareInstance] convertHexStrToData:hex];
-    
+//    NSString *sss = [[NSString alloc] initWithData:sendData encoding:NSUTF8StringEncoding];
+
     return sendData;
 }
 
@@ -126,6 +125,12 @@
     //3.打开数据库
     if ([db open])
     {
+        //
+        _data = [NSMutableArray array];
+        _orgData = [NSMutableArray array];
+        _allNumber = 0;
+        _selectedNumber = 0;
+        
         //查询设备
         FMResultSet *resultSet = [db executeQuery:@"SELECT * FROM log_sn"];
           while ([resultSet next])
@@ -929,7 +934,7 @@
                 NSArray *temp = [self getSelectedNode];
                 if(temp.count != 1)
                 {
-                    UIAlertController  *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"请选中一台设备" preferredStyle:UIAlertControllerStyleAlert];
+                    UIAlertController  *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"只能编辑一台设备" preferredStyle:UIAlertControllerStyleAlert];
                     UIAlertAction *action2= [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
                             }];
 

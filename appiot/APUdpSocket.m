@@ -14,8 +14,8 @@ static APUdpSocket *sharedInstance = nil;
 
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-            sharedInstance = [[APUdpSocket alloc]init];
-//            [sharedInstance createClientUdpSocket];
+            sharedInstance = [[APUdpSocket alloc] init];
+            [sharedInstance createClientUdpSocket];
             });
     return sharedInstance;
 }
@@ -26,15 +26,15 @@ static APUdpSocket *sharedInstance = nil;
     //1.创建一个 udp socket用来和服务器端进行通讯
     if (_udpSocket == nil)
     {
-        [_udpSocket closeAfterSending];
+//        [_udpSocket closeAfterSending];
         
-        dispatch_queue_t qQueue = dispatch_queue_create("Client queue", NULL);
-        _udpSocket = [[GCDAsyncUdpSocket alloc] initWithDelegate:sharedInstance delegateQueue:qQueue];
+//        dispatch_queue_t qQueue = dispatch_queue_create("Client queue", NULL);
+        _udpSocket = [[GCDAsyncUdpSocket alloc] initWithDelegate:sharedInstance delegateQueue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)];
         NSError * error = nil;
-        if([_udpSocket bindToPort :_port error:&error])
-        {
-            NSLog(@"bindToPort");
-        }
+//        if([_udpSocket bindToPort :_port error:&error])
+//        {
+//            NSLog(@"bindToPort");
+//        }
         //广播
         [_udpSocket enableBroadcast:YES error:&error];
         if (error) {
@@ -54,22 +54,20 @@ static APUdpSocket *sharedInstance = nil;
 }
 -(void)broadcast:(NSData *)data
 {
-   //消息内容
-//    NSData *sendData = [self convertHexStrToData:message];
     //如果向特定ip发送，这里要写明ip
+    _host = @"255.255.255.255";
     [self.udpSocket sendData:data toHost:_host port:_port withTimeout:-1 tag:100];
 }
 
-- (void)sendMessage:(NSString *)message
+- (void)sendMessage:(NSData *)data
 {
     if (_udpSocket)
     {
 //        NSData *sendData = [message dataUsingEncoding:NSUTF8StringEncoding];
-        NSData *sendData = [self convertHexStrToData:message];
+//        NSData *sendData = [self convertHexStrToData:message];
 
-        [_udpSocket sendData:sendData toHost:_host port:_port withTimeout:60 tag:100];
+        [_udpSocket sendData:data toHost:_host port:_port withTimeout:30 tag:100];
     }
-
 }
 -(void)cutOffSocket; // 断开socket连接
 {
