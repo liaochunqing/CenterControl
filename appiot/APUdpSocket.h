@@ -15,7 +15,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) UInt16 port;        // socket的prot
 @property (nonatomic, strong) NSTimer *connectTimer;    // 计时器
 @property (nonatomic, strong) NSDictionary *socketResult;
-//@property (nonatomic, strong) dataBlock receiveData;
 
 //- (void)receiveData:(dataBlock)block;
 

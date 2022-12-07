@@ -30,86 +30,28 @@
     CGFloat h = SCREEN_HEIGHT - y;
     
     [self setFrame:CGRectMake(x, y, w, h)];
-
     
+    [self getDataFromDB];
+
     [self cteateSearchView];
     [self createButton];
     [self createTableview];
     [self createBottomView];
     
+    [self refrashAllselectTitle];
     //一秒后显示悬浮小球
-    [self performSelector:@selector(createFloatButton) withObject:nil afterDelay:1];
+    [self performSelector:@selector(createFloatButton) withObject:nil afterDelay:0.5];
 }
 
+#pragma mark 私有方法
 
-
--(void)cteateSearchView
+-(void)initData
 {
-    UITextField *filed = [[UITextField alloc] initWithFrame:CGRectMake(Left_Gap, 0, Left_View_Width - 2*Left_Gap, H_SCALE(38))];
-    ViewRadius(filed, 10);
-//    filed.borderStyle = UITextBorderStyleRoundedRect;
-    filed.textColor = [UIColor whiteColor];
-    filed.delegate = self;
-    filed.textAlignment = NSTextAlignmentCenter;
-    filed.backgroundColor = ColorHex(0x29315F);
-    filed.clearButtonMode = UITextFieldViewModeAlways;
-    //改变搜索框中的placeholder的颜色
-    NSString *holderText = @"搜索投影机/分组";
-    NSMutableAttributedString *placeholder = [[NSMutableAttributedString alloc] initWithString:holderText];
-    [placeholder addAttribute:NSForegroundColorAttributeName
-                            value:[UIColor whiteColor]
-                            range:NSMakeRange(0, holderText.length)];
-    [placeholder addAttribute:NSFontAttributeName
-                            value:[UIFont systemFontOfSize:16]
-                            range:NSMakeRange(0, holderText.length)];
-    filed.attributedPlaceholder = placeholder;
-
-    [self addSubview:filed];
-
-}
--(void)createTableview
-{    _tableview  = [[APGroupTableView alloc] init];
-    _tableview.dataSource = self;
-    _tableview.delegate = self;
-    _tableview.separatorStyle = NO;
-
-    UIView *View = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Left_View_Width, 0.01)];
-    View.backgroundColor = [UIColor clearColor];
-    _tableview.tableHeaderView = View;
     
-    [self addSubview:_tableview];
-    [_tableview mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(Left_View_Width);
-        make.top.mas_equalTo(self.mas_top).offset(H_SCALE(90));
-        make.left.mas_equalTo(self.mas_left).offset(0);
-        make.bottom.mas_equalTo(self.mas_bottom).offset(0);
-    }];
-    
-    [self getDataFromDB];
-}
-
--(NSData*)getSendDataFromParam:(NSString *)param
-{
-    NSString *temp = param;
-    if ([param containsString:@"appotype:\"hex\""] )
-    {
-        NSArray *arr = [param componentsSeparatedByString:@"#"];
-        temp = [arr lastObject];
-    }
-    else if ([param containsString:@"appotype:\"string\""])
-    {
-        NSArray *arr = [param componentsSeparatedByString:@"#"];
-        temp = [arr firstObject];
-    }
-    
-    NSString *str = [SafeStr(temp) stringByReplacingOccurrencesOfString:@"<CR>" withString:@"\r"];//
-    NSString *finalStr = [str stringByReplacingOccurrencesOfString:@" " withString:@""];
-
-    NSString *hex = [[APTool shareInstance] hexStringFromString:finalStr];
-    NSData *sendData = [[APTool shareInstance] convertHexStrToData:finalStr];
-//    NSString *sss = [[NSString alloc] initWithData:sendData encoding:NSUTF8StringEncoding];
-
-    return sendData;
+    _data = [NSMutableArray array];
+    _orgData = [NSMutableArray array];
+    _allNumber = 0;
+    _selectedNumber = 0;
 }
 
 /**
@@ -125,11 +67,8 @@
     //3.打开数据库
     if ([db open])
     {
-        //
-        _data = [NSMutableArray array];
-        _orgData = [NSMutableArray array];
-        _allNumber = 0;
-        _selectedNumber = 0;
+        //初始化数据容器
+        [self initData];
         
         //查询设备
         FMResultSet *resultSet = [db executeQuery:@"SELECT * FROM log_sn"];
@@ -166,9 +105,13 @@
             FMResultSet *resultSet = [db executeQuery:sqlStr];
             while ([resultSet next])
             {
+                if([node.name containsString:@"mini"])//测试代码,方便断点用
+                {
+                    int i = 0;
+                }
                 NSString *key = SafeStr([resultSet stringForColumn:@"exec_code"]);
                 NSString *param = SafeStr([resultSet stringForColumn:@"parameter_value"]);
-                NSData *data = [self getSendDataFromParam:param];
+                NSData *data = [self getSendDataFromParam:param node:node];
                 [node.commandDict setValue:data forKey:key];
             }
             
@@ -180,7 +123,7 @@
             {
                 NSString *key = SafeStr([resultSet stringForColumn:@"exec_code"]);
                 NSString *param = SafeStr([resultSet stringForColumn:@"parameter_value"]);
-                NSData *data = [self getSendDataFromParam:param];
+                NSData *data = [self getSendDataFromParam:param node:node];
                 [node.monitorDict setValue:data forKey:key];
             }
         }
@@ -222,6 +165,9 @@
     {
         if ([node.parentId isEqualToString:@"0" ])
         {
+//            if ([node.nodeId isEqualToString:@"228"] == NO)//测试代码 需要去掉
+//                continue;
+                
             node.depth = 0;//第0层
             [firstArr addObject:node];
             [_orgData removeObject:node];
@@ -273,28 +219,85 @@
         }
     }
     
-    [_tableview reloadData];
 }
 
 
-
--(void)countChildNumberAndSelected
+-(NSData*)getSendDataFromParam:(NSString *)param node:(APGroupNote*)node
 {
-    for (APGroupNote *node in _data) {
-        if (node.isDevice == NO && node.haveChild)
-        {
-            for (APGroupNote *temp in _data)
-            {
-                if(temp.isDevice)
-                {
-//                    if ([temp.parentId isEqualToString:node.nodeId] || [temp.grandfatherId isEqualToString:node.nodeId] )
-//                    {
-//                        node.childNumber++;
-//                    }
-                }
-            }
-        }
+    NSString *temp = param;
+    BOOL isHex = NO;
+    if ([param containsString:@"appotype:\"hex\""] )
+    {
+        isHex = YES;
+        NSArray *arr = [param componentsSeparatedByString:@"#"];
+        temp = [arr lastObject];
     }
+    else if ([param containsString:@"appotype:\"string\""])
+    {
+        NSArray *arr = [param componentsSeparatedByString:@"#"];
+        temp = [arr firstObject];
+    }
+    
+    //把cr换成\r\n
+    NSString *str = [SafeStr(temp) stringByReplacingOccurrencesOfString:@"<CR>" withString:@""];
+    str = [str stringByAppendingString:@"\r\n"];
+    
+    //去除中间的空格符
+    str = [str stringByReplacingOccurrencesOfString:@" " withString:@""];
+    NSString *finalStr = str;
+    if (isHex == NO)
+    {
+        finalStr = [[APTool shareInstance] hexStringFromString:str];
+    }
+    NSData *sendData = [[APTool shareInstance] convertHexStrToData:finalStr];
+
+    return sendData;
+}
+
+-(void)cteateSearchView
+{
+    UITextField *filed = [[UITextField alloc] initWithFrame:CGRectMake(Left_Gap, 0, Left_View_Width - 2*Left_Gap, H_SCALE(38))];
+    ViewRadius(filed, 10);
+//    filed.borderStyle = UITextBorderStyleRoundedRect;
+    filed.textColor = [UIColor whiteColor];
+    filed.delegate = self;
+    filed.textAlignment = NSTextAlignmentCenter;
+    filed.backgroundColor = ColorHex(0x29315F);
+    filed.clearButtonMode = UITextFieldViewModeAlways;
+    //改变搜索框中的placeholder的颜色
+    NSString *holderText = @"搜索投影机/分组";
+    NSMutableAttributedString *placeholder = [[NSMutableAttributedString alloc] initWithString:holderText];
+    [placeholder addAttribute:NSForegroundColorAttributeName
+                            value:[UIColor whiteColor]
+                            range:NSMakeRange(0, holderText.length)];
+    [placeholder addAttribute:NSFontAttributeName
+                            value:[UIFont systemFontOfSize:16]
+                            range:NSMakeRange(0, holderText.length)];
+    filed.attributedPlaceholder = placeholder;
+
+    [self addSubview:filed];
+
+}
+-(void)createTableview
+{    _tableview  = [[APGroupTableView alloc] init];
+    _tableview.dataSource = self;
+    _tableview.delegate = self;
+    _tableview.separatorStyle = NO;
+
+    UIView *View = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Left_View_Width, 0.01)];
+    View.backgroundColor = [UIColor clearColor];
+    _tableview.tableHeaderView = View;
+    
+    [self addSubview:_tableview];
+    [_tableview mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_equalTo(Left_View_Width);
+        make.top.mas_equalTo(self.mas_top).offset(H_SCALE(90));
+        make.left.mas_equalTo(self.mas_left).offset(0);
+        make.bottom.mas_equalTo(self.mas_bottom).offset(0);
+    }];
+    
+    [_tableview reloadData];
+
 }
 
 -(void)createBottomView
@@ -381,7 +384,7 @@
     }];
     
     [self.btnLeft setImage:[UIImage imageNamed:@"Ellipse 4"] forState:UIControlStateNormal];
-    [self.btnLeft addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
+    [self.btnLeft addTarget:self action:@selector(allSelectbtnClick:) forControlEvents:UIControlEventTouchUpInside];
     
     //全选标题
     _allSelectLabel = [[UILabel alloc] init];
@@ -408,109 +411,16 @@
         make.top.mas_equalTo(self.mas_top).offset(top);
         make.right.equalTo(self.mas_right).offset(-Left_Gap);
     }];
-    [self.btnRight addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
+    [self.btnRight addTarget:self action:@selector(editBtnClick:) forControlEvents:UIControlEventTouchUpInside];
 
 
 }
-//悬浮小球 新加设备按钮
--(void)createFloatButton
-{
-    if (!_floatButton)
-    {
-        _floatButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _floatButton.frame = CGRectMake(W_SCALE(250), H_SCALE(700), W_SCALE(55), H_SCALE(55));//初始在屏幕上的位置
-        [_floatButton setImage:[UIImage imageNamed:@"Group 11697"] forState:UIControlStateNormal];
-        
-        UIWindow *window =  [[[UIApplication sharedApplication] windows] objectAtIndex:0];
-        window.backgroundColor = [UIColor whiteColor];
-        [window addSubview:_floatButton];
-        UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc]initWithTarget:
-                                       self action:@selector(locationChange:)];
-        pan.delaysTouchesBegan = YES;
-        [_floatButton addGestureRecognizer:pan];
-        [_floatButton addTarget:self action:@selector(floatbtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    }
-}
-
-
--(void)locationChange:(UIPanGestureRecognizer*)p{
-    CGFloat HEIGHT=_floatButton.frame.size.height;
-    CGFloat WIDTH=_floatButton.frame.size.width;
-    BOOL isOver = NO;
-    CGPoint panPoint = [p locationInView:[UIApplication sharedApplication].windows[0]];
-    CGRect frame = CGRectMake(panPoint.x, panPoint.y, HEIGHT, WIDTH);
-    NSLog(@"%f--panPoint.x-%f-panPoint.y-", panPoint.x, panPoint.y);
-    if(p.state == UIGestureRecognizerStateChanged){
-        _floatButton.center = CGPointMake(panPoint.x, panPoint.y);
-    }
-    else if(p.state == UIGestureRecognizerStateEnded){
-        if (panPoint.x + WIDTH > Left_View_Width) {
-            frame.origin.x = Left_View_Width - WIDTH;
-            isOver = YES;
-        } else if (panPoint.y + HEIGHT > SCREEN_HEIGHT) {
-            frame.origin.y = SCREEN_HEIGHT - 2*HEIGHT;
-            isOver = YES;
-        } else if(panPoint.x - WIDTH / 2< 0) {
-            frame.origin.x = 0;
-            isOver = YES;
-        } else if(panPoint.y - HEIGHT / 2 < 0) {
-            frame.origin.y = 0;
-            isOver = YES;
-        }
-        WS(weakSelf);
-        if (isOver) {
-            [UIView animateWithDuration:0.3 animations:^{
-                weakSelf.floatButton.frame = frame;
-            }];
-        }
-    }
-}
-#pragma  mark 对外接口
--(void)refreshTable
-{
-    [self getDataFromDB];
-}
-
--(NSArray *)getSelectedNode
-{
-    NSMutableArray *arr = [NSMutableArray array];
-    if (_isFieldActive)
-    {
-        for(APGroupNote *temp in _filteredData)
-        {
-            if (temp.isDevice && temp.selected)
-            {
-                [arr addObject:temp];
-            }
-        }
-    }
-    else
-    {
-        for(APGroupNote *temp in _data)
-        {
-            if (temp.isDevice && temp.selected)
-            {
-                [arr addObject:temp];
-            }
-        }
-    }
-    
-    
-    return  arr;
-}
-#pragma mark 私有方法
 -(void)countEveryGroupChildAndSelected
 {
-    NSMutableArray *arr = [NSMutableArray array];
+//    NSMutableArray *arr = [NSMutableArray array];
     if (_isFieldActive)
     {
-//        for(APGroupNote *temp in _filteredData)
-//        {
-//            if (temp.isDevice && temp.selected)
-//            {
-//                [arr addObject:temp];
-//            }
-//        }
+        
     }
     else
     {
@@ -542,7 +452,7 @@
 
 -(void)refrashMonitorTable
 {
-    NSArray *temp = [self getSelectedNode];
+    NSArray *temp = [self getSelectedDevice];
 
     AppDelegate *appDelegate = kAppDelegate;
     APMonitorView *vc = appDelegate.mainVC.centerView.monitorView;
@@ -604,7 +514,36 @@
 
 -(void)deleteSelectedNode
 {
-    NSMutableIndexSet *set = [[NSMutableIndexSet alloc] init];//临时容器，存储将要删除的节点
+//    NSMutableIndexSet *set = [[NSMutableIndexSet alloc] init];//临时容器，存储将要删除的节点
+//    BOOL haveGroup = NO;
+//
+//    //收集删除节点
+//    for (int i = 0; i < _data.count; i++)
+//    {
+//        APGroupNote *first = _data[i];
+//        if (first.selected)
+//        {
+//            [set addIndex:i];
+//            if(first.isDevice)
+//            {
+//            }
+//            else//把分组的子节点选出来
+//            {
+//                haveGroup = YES;
+//                for (int j = 0; j < _data.count; j++)
+//                {
+//                    APGroupNote *temp = _data[j];
+//                    if ([temp.parentId isEqualToString:first.nodeId] || (temp.father && ([temp.father.parentId isEqualToString:first.nodeId])))
+//                    {
+//                        [set addIndex:j];
+//                    }
+//                }
+//            }
+//        }
+//
+//    }
+
+    NSMutableArray *deleteArray = [NSMutableArray array];//临时容器，存储将要删除的节点
     BOOL haveGroup = NO;
     
     //收集删除节点
@@ -613,7 +552,7 @@
         APGroupNote *first = _data[i];
         if (first.selected)
         {
-            [set addIndex:i];
+            [deleteArray addObject:first];
             if(first.isDevice)
             {
             }
@@ -625,47 +564,27 @@
                     APGroupNote *temp = _data[j];
                     if ([temp.parentId isEqualToString:first.nodeId] || (temp.father && ([temp.father.parentId isEqualToString:first.nodeId])))
                     {
-                        [set addIndex:j];
+                        [deleteArray addObject:temp];
                     }
                 }
             }
         }
         
-//        if (first.selected)//第一层
-//        {
-//            for (int k = 0; k < _data.count; k++)
-//            {
-//                APGroupNote *second = _data[k];
-//                if([second.parentId isEqualToString:first.nodeId])
-//                {
-//                    for (int j = 0; j < _data.count; j++)
-//                    {
-//                        APGroupNote *third = _data[j];
-//                        if ([third.parentId isEqualToString:second.nodeId])
-//                        {
-//                            [set addIndex:j];
-//                        }
-//                    }
-//                    [set addIndex:k];
-//                }
-//            }
-//            [set addIndex:i];
-//        }
     }
-
     
     //删除节点刷新列表
-    if (set.count > 0)
+    if (deleteArray.count > 0)
     {
         WS(weakSelf);
         NSString *msg = haveGroup?@"确认删除分组以及分组内的所有设备吗":@"确认删除设备吗";
         UIAlertController  *alert = [UIAlertController alertControllerWithTitle:msg message:@"删除后无法恢复" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"删除" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action)
         {
-            [weakSelf.data removeObjectsAtIndexes:set];
-            [weakSelf refrashAllselectTitle];
-            [weakSelf countEveryGroupChildAndSelected];
-            [weakSelf.tableview reloadData];
+//            [weakSelf.data removeObjectsAtIndexes:set];
+//            [weakSelf refrashAllselectTitle];
+//            [weakSelf countEveryGroupChildAndSelected];
+            [weakSelf deleteFromDBtaget:deleteArray];
+            [weakSelf refreshTable];
         }];
                 
         UIAlertAction *action2= [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
@@ -677,6 +596,46 @@
     //    AppDelegate * appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         UIViewController *vc = appDelegate.mainVC;
         [vc presentViewController:alert animated:YES completion:nil];  //显示对话框
+    }
+}
+
+//写数据到数据库
+-(void)deleteFromDBtaget:(NSArray *)array
+{
+    //1.获得数据库文件的路径
+    NSString *doc = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    NSString *dbfileName = [doc stringByAppendingPathComponent:DB_NAME];
+    //2.获得数据库
+    FMDatabase *db = [FMDatabase databaseWithPath:dbfileName];
+    //3.打开数据库
+    if ([db open])
+    {
+        NSArray *tempArray = [self getSelectedDevAndGroup];
+        for (APGroupNote *node in tempArray)
+        {
+            NSString *tableName = node.isDevice? @"log_sn" : @"zk_group";
+            NSString *field =  node.isDevice? @"gsn" : @"id";
+            NSString *keyStr = node.nodeId;
+            NSString *sqlStr = [NSString stringWithFormat:@"delete from %@ where %@='%@'",tableName,field,keyStr];
+            BOOL ret = [db executeUpdate:sqlStr];
+            if  (ret)
+            {
+//                AppDelegate *appDelegate = kAppDelegate;
+//                APGroupView *vc = appDelegate.mainVC.leftView.groupView;
+//                if (vc && [vc isKindOfClass:[APGroupView class]])
+//                {
+//                    [vc refreshTable];
+//                }
+                NSLog(@"删除数据库成功");
+            }
+            else
+            {
+                NSLog(@"删除数据库错误");
+            }
+        }
+              
+        //关闭数据库
+        [db close];
     }
 }
 
@@ -735,6 +694,111 @@
 -(void)setEditUnavailable
 {
     _btnLeft.hidden = _btnRight.hidden = YES;
+}
+
+
+#pragma  mark 悬浮小球 新加设备按钮
+-(void)createFloatButton
+{
+    if (!_floatButton)
+    {
+        _floatButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _floatButton.frame = CGRectMake(W_SCALE(250), H_SCALE(700), W_SCALE(55), H_SCALE(55));//初始在屏幕上的位置
+        [_floatButton setImage:[UIImage imageNamed:@"Group 11697"] forState:UIControlStateNormal];
+        
+        UIWindow *window =  [[[UIApplication sharedApplication] windows] objectAtIndex:0];
+        window.backgroundColor = [UIColor whiteColor];
+        [window addSubview:_floatButton];
+        UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc]initWithTarget:
+                                       self action:@selector(locationChange:)];
+        pan.delaysTouchesBegan = YES;
+        [_floatButton addGestureRecognizer:pan];
+        [_floatButton addTarget:self action:@selector(floatbtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    }
+}
+
+
+-(void)locationChange:(UIPanGestureRecognizer*)p{
+    CGFloat HEIGHT=_floatButton.frame.size.height;
+    CGFloat WIDTH=_floatButton.frame.size.width;
+    BOOL isOver = NO;
+    CGPoint panPoint = [p locationInView:[UIApplication sharedApplication].windows[0]];
+    CGRect frame = CGRectMake(panPoint.x, panPoint.y, HEIGHT, WIDTH);
+    NSLog(@"%f--panPoint.x-%f-panPoint.y-", panPoint.x, panPoint.y);
+    if(p.state == UIGestureRecognizerStateChanged){
+        _floatButton.center = CGPointMake(panPoint.x, panPoint.y);
+    }
+    else if(p.state == UIGestureRecognizerStateEnded){
+        if (panPoint.x + WIDTH > Left_View_Width) {
+            frame.origin.x = Left_View_Width - WIDTH;
+            isOver = YES;
+        } else if (panPoint.y + HEIGHT > SCREEN_HEIGHT) {
+            frame.origin.y = SCREEN_HEIGHT - 2*HEIGHT;
+            isOver = YES;
+        } else if(panPoint.x - WIDTH / 2< 0) {
+            frame.origin.x = 0;
+            isOver = YES;
+        } else if(panPoint.y - HEIGHT / 2 < 0) {
+            frame.origin.y = 0;
+            isOver = YES;
+        }
+        WS(weakSelf);
+        if (isOver) {
+            [UIView animateWithDuration:0.3 animations:^{
+                weakSelf.floatButton.frame = frame;
+            }];
+        }
+    }
+}
+#pragma  mark 对外接口
+-(void)refreshTable
+{
+    [self getDataFromDB];
+    [self refrashAllselectTitle];
+    [_tableview reloadData];
+}
+
+-(NSArray *)getSelectedDevice
+{
+    NSMutableArray *arr = [NSMutableArray array];
+    if (_isFieldActive)
+    {
+        for(APGroupNote *temp in _filteredData)
+        {
+            if (temp.isDevice && temp.selected)
+            {
+                [arr addObject:temp];
+            }
+        }
+    }
+    else
+    {
+        for(APGroupNote *temp in _data)
+        {
+            if (temp.isDevice && temp.selected)
+            {
+                [arr addObject:temp];
+            }
+        }
+    }
+    
+    return  arr;
+}
+
+
+
+-(NSArray *)getSelectedDevAndGroup
+{
+    NSMutableArray *arr = [NSMutableArray array];
+    for(APGroupNote *temp in _data)
+    {
+        if (temp.selected)
+        {
+            [arr addObject:temp];
+        }
+    }
+    
+    return  arr;
 }
 
 #pragma mark UITextFieldDelegate
@@ -922,7 +986,7 @@
     return 0.1;
 }
 
-#pragma button响应
+#pragma mark button响应
 -(void)btnBottomClick:(UIButton *)btn
 {
     if(btn)
@@ -931,7 +995,7 @@
         switch (btn.tag) {
             case 0://按钮编辑
             {
-                NSArray *temp = [self getSelectedNode];
+                NSArray *temp = [self getSelectedDevice];
                 if(temp.count != 1)
                 {
                     UIAlertController  *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"只能编辑一台设备" preferredStyle:UIAlertControllerStyleAlert];
@@ -992,7 +1056,7 @@
     }
 }
 
--(void)btnClick:(UIButton *)btn
+-(void)allSelectbtnClick:(UIButton *)btn
 {
     if (btn == self.btnLeft)
     {
@@ -1001,28 +1065,14 @@
         NSString *selectIamge = self.btnLeft.selected?@"all" : @"Ellipse 4";
         [self.btnLeft setImage:[UIImage imageNamed:selectIamge] forState:UIControlStateNormal];
         
-        
         [self selectedAllWithSelected:self.btnLeft.selected];
-        
         [self refrashAllselectTitle];
         [self refrashMonitorTable];
-
-//        if(self.btnLeft.selected == YES)
-//        {
-//            [self.btnLeft setTitle:@"取消全选" forState:UIControlStateNormal];
-//            [self.btnLeft mas_updateConstraints:^(MASConstraintMaker *make) {
-//                            make.size.mas_equalTo(CGSizeMake(90, Group_Btn_W));
-//            }];
-//        }
-//        else
-//        {
-//            [self.btnLeft setTitle:@"全选" forState:UIControlStateNormal];
-//            [self.btnLeft mas_updateConstraints:^(MASConstraintMaker *make) {
-//                            make.size.mas_equalTo(CGSizeMake(57, Group_Btn_W));
-//            }];
-//        }
-        
     }
+}
+-(void)editBtnClick:(UIButton *)btn
+{
+
     
     if (btn == self.btnRight)
     {

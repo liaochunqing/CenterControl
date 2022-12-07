@@ -202,7 +202,7 @@
     APGroupView *vc = appDelegate.mainVC.leftView.groupView;
     if (vc && [vc isKindOfClass:[APGroupView class]])
     {
-        NSArray *temp = [vc getSelectedNode];
+        NSArray *temp = [vc getSelectedDevice];
         if (!temp) return;
         
         if (_data && _data.count)

@@ -15,7 +15,8 @@ typedef void(^SocketReturnMessage)(NSString *message);
 /*
  *创建GCDAsyncSocket tcp的socket对象
  */
-@property (nonatomic,strong) GCDAsyncSocket *socket;
+@property (nonatomic,strong) GCDAsyncSocket *__nullable socket;
+@property (nonatomic, strong) NSMutableDictionary *socketDict;
 
 /*
  *主机端口

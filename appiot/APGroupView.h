@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,strong)APNewDeviceView *devView;
 @property(nonatomic,strong)APAPEditDeviceView *editDevView;
 
--(NSArray *)getSelectedNode;
+-(NSArray *)getSelectedDevice;
 -(void)refreshTable;
 
 @end

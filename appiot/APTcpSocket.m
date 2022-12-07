@@ -24,20 +24,41 @@ static APTcpSocket *shareManager = nil;
 #pragma mark连接服务器
 - (void)connectToHost:(NSString *)host Port:(NSUInteger)port
 {
+    if (_socketDict == nil)
+    {
+        _socketDict = [NSMutableDictionary dictionary];
+    }
+    //从缓存获取已经连接的socket
+    [self getSocketFromCashWith:host port:port];
+
     if (self.socket == nil || [self.socket isDisconnected])
     {
-        dispatch_queue_t queue = dispatch_queue_create("Client queue", NULL);
+        dispatch_queue_t queue = dispatch_queue_create("tcpqueue", NULL);
         self.socket = [[GCDAsyncSocket alloc] initWithDelegate:shareManager delegateQueue:queue socketQueue:nil];
-//        self.socket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_main_queue()];
+//        self.socket = [[GCDAsyncSocket alloc] initWithDelegate:shareManager delegateQueue:dispatch_get_main_queue()];
     }
     NSError *error = nil;
-    BOOL isConnectHost = [self.socket connectToHost:host
-                                             onPort:(uint16_t)port
-                                        withTimeout:ConnectTime
-                                            error:&error];
-    if (isConnectHost == NO)//没有链接到服务器
+    [self.socket connectToHost:host onPort:(uint16_t)port withTimeout:ConnectTime error:&error];
+
+}
+
+//从缓存获取已经连接的socket
+-(void)getSocketFromCashWith:(NSString *)host port:(NSUInteger)port
+{
+    if(_socketDict)
     {
-        NSLog(@"连接错误 ERROR:%@",error.description);
+        self.socket = nil;
+        
+        NSString *localKey = [NSString stringWithFormat:@"%@+%d",host,(int)port];
+        
+        for (NSString * key in _socketDict)
+        {
+            if([key isEqualToString:localKey])
+            {
+                self.socket = _socketDict[key];
+                break;
+            }
+        }
     }
 }
 
@@ -46,6 +67,7 @@ static APTcpSocket *shareManager = nil;
 {
     [self.socket writeData:contents withTimeout:-1 tag:0];
     NSLog(@"%p发送：%@",self.socket, contents);
+    [self.socket readDataWithTimeout:-1 tag:0];
 }
 
 #pragma mark 已连接到服务器
@@ -53,6 +75,13 @@ static APTcpSocket *shareManager = nil;
 {
     NSString *message = [NSString stringWithFormat:@"sock:%p,Host:%@,Port:%d",sock,host,port];
     NSLog(@"连接成功%@",message);
+    //保存socket
+    if(_socketDict)
+    {
+        NSString *key = [NSString stringWithFormat:@"%@+%d",host,port];
+        [_socketDict setObject:sock forKey:SafeStr(key)];
+    }
+    
     // 读取数据
     [sock readDataWithTimeout:-1 tag:0];
 }

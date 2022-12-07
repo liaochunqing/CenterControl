@@ -55,7 +55,7 @@
     APGroupView *vc = appDelegate.mainVC.leftView.groupView;
     if (vc && [vc isKindOfClass:[APGroupView class]])
     {
-        NSArray *temp = [vc getSelectedNode];
+        NSArray *temp = [vc getSelectedDevice];
         if (!temp) return;
         
         if (_data && _data.count)
@@ -343,21 +343,20 @@
     {
         NSData * sendData = node.commandDict[command];
         
-        NSString *sss = [[NSString alloc] initWithData:sendData encoding:NSUTF8StringEncoding];
-//        NSString *hex = [[APTool shareInstance] hexStringFromString:@"AD0000002F0100000000000000000000000000DD"];
-//                NSData *sendData11 = [[APTool shareInstance] convertHexStrToData:hex];
-//        NSData *sendData22 = [[APTool shareInstance] convertHexStrToData:sss];
-
-        NSLog(@"%@,ip=%@,port=%@,发送数据：%@",node.access_protocol,node.ip,node.port,sendData);
         
         if ([@"tcp" compare:node.access_protocol options:NSCaseInsensitiveSearch |NSNumericSearch] ==NSOrderedSame)
         {
+            NSLog(@"%@,ip=%@,port=%@,发送数据：%@",node.access_protocol,node.ip,node.port,sendData);
+            NSString *sss = [[NSString alloc] initWithData:sendData encoding:NSUTF8StringEncoding];
+
             APTcpSocket *tcpManager = [APTcpSocket shareManager];
             [tcpManager connectToHost:node.ip Port:[node.port intValue]];
             [tcpManager sendData:sendData];
         }
         else if ([@"udp" compare:node.access_protocol options:NSCaseInsensitiveSearch |NSNumericSearch] ==NSOrderedSame)
         {
+            NSLog(@"%@,ip=%@,port=%@,发送数据：%@",node.access_protocol,node.ip,node.port,sendData);
+
             APUdpSocket *udpManager = [APUdpSocket sharedInstance];
             udpManager.host = node.ip;//@"255.255.255.255";
             udpManager.port = [node.port intValue];
@@ -415,7 +414,7 @@
     APGroupView *vc = appDelegate.mainVC.leftView.groupView;
     if (vc && [vc isKindOfClass:[APGroupView class]])
     {
-        NSArray *temp = [vc getSelectedNode];
+        NSArray *temp = [vc getSelectedDevice];
         
         
         if (_data && _data.count)
