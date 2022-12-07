@@ -106,6 +106,20 @@
     }
 }
 
+//创建“控制”窗口view
+-(void)createInstallView
+{
+    if(self.installView == nil)
+    {
+        self.installView = [[APInstallView alloc] init];
+        [self addSubview:self.installView];
+    }
+    else
+    {
+        [self bringSubviewToFront:self.installView];
+    }
+}
+
 #pragma button响应函数
 
 -(void)btnClick:(UIButton *)btn
@@ -156,6 +170,12 @@
             case 2://按钮“”
             {
                 [self creatCenterChuangeView];
+            }
+                break;
+                
+            case 3://“安装调节”
+            {
+                [self createInstallView];
             }
                 break;
                 

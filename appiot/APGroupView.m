@@ -483,6 +483,8 @@
         
         //执行耗时的异步操作...
         weakSelf.allNumber = 0;
+        weakSelf.selectedNumber = 0;
+
         for(APGroupNote *temp in weakSelf.data)
         {
             if (temp.isDevice)

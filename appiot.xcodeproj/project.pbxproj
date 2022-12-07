@@ -41,6 +41,7 @@
 		C6D010DB293DC9CE003674C9 /* remote.db in Resources */ = {isa = PBXBuildFile; fileRef = C6D010DA293DC9CE003674C9 /* remote.db */; };
 		C6D010DE293DCB61003674C9 /* APDevModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D010DD293DCB61003674C9 /* APDevModel.m */; };
 		C6D010E4293DFCB1003674C9 /* APAPEditDeviceView.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D010E3293DFCB1003674C9 /* APAPEditDeviceView.m */; };
+		C6D010E829409743003674C9 /* APInstallView.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D010E729409743003674C9 /* APInstallView.m */; };
 		CDAF7A201535A7BF8524ABBD /* Pods_appiot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB3765024A92663D80DC1163 /* Pods_appiot.framework */; };
 		E1FE5C87F1B352B5DF206E02 /* Pods_appiotTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87EB77647DEFF331311B61D6 /* Pods_appiotTests.framework */; };
 /* End PBXBuildFile section */
@@ -134,6 +135,8 @@
 		C6D010DD293DCB61003674C9 /* APDevModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APDevModel.m; sourceTree = "<group>"; };
 		C6D010E2293DFCB1003674C9 /* APAPEditDeviceView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APAPEditDeviceView.h; sourceTree = "<group>"; };
 		C6D010E3293DFCB1003674C9 /* APAPEditDeviceView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APAPEditDeviceView.m; sourceTree = "<group>"; };
+		C6D010E629409743003674C9 /* APInstallView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APInstallView.h; sourceTree = "<group>"; };
+		C6D010E729409743003674C9 /* APInstallView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APInstallView.m; sourceTree = "<group>"; };
 		F110C31EB98C931C5089AE17 /* Pods_appiot_appiotUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_appiot_appiotUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -357,10 +360,20 @@
 			children = (
 				C6CA8BB829222F8700F5AAC2 /* APCenterView.h */,
 				C6CA8BB929222F8700F5AAC2 /* APCenterView.m */,
+				C6D010E529409709003674C9 /* installView */,
 				C63C82302923675D00DBB3F6 /* comandView */,
 				C63306AE292DC4D20057DA83 /* monitorView */,
 			);
 			name = centerDisplay;
+			sourceTree = "<group>";
+		};
+		C6D010E529409709003674C9 /* installView */ = {
+			isa = PBXGroup;
+			children = (
+				C6D010E629409743003674C9 /* APInstallView.h */,
+				C6D010E729409743003674C9 /* APInstallView.m */,
+			);
+			name = installView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -611,6 +624,7 @@
 				C63C82462925DD1200DBB3F6 /* APGroupTableView.m in Sources */,
 				C63306AD292B45B10057DA83 /* APUdpSocket.m in Sources */,
 				C63C82392924B48400DBB3F6 /* APGroupView.m in Sources */,
+				C6D010E829409743003674C9 /* APInstallView.m in Sources */,
 				C6C52855291B7DCF003F24C1 /* appiot.xcdatamodeld in Sources */,
 				C63306CF2935A88B0057DA83 /* APTcpSocket.m in Sources */,
 				C6D010DE293DCB61003674C9 /* APDevModel.m in Sources */,
