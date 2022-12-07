@@ -157,7 +157,7 @@
     NSDictionary *dict1 = @{@"string":@"关",
                            @"color":ColorHex(0x494E67),
     };
-    NSDictionary *dict2 = @{@"string":@"网络",
+    NSDictionary *dict2 = @{@"string":@"网格",
                            @"color":ColorHex(0x344B67),
     };
     NSDictionary *dict3 = @{@"string":@"红",
@@ -175,8 +175,8 @@
                            @"color":ColorHex(0x494E67),
     };
     
-    NSDictionary *dict7 = @{@"string":@"橙",
-                            @"color":ColorHex(0x493C39),
+    NSDictionary *dict7 = @{@"string":@"黑",
+                            @"color":[UIColor darkGrayColor],//ColorHex(0x493C39),
     };
     
     
@@ -205,7 +205,7 @@
     
     CGFloat btnW = W_SCALE(90);
     CGFloat btnH = H_SCALE(43);
-    CGFloat midGap = W_SCALE(20);
+    CGFloat midGap = (((Center_View_Width - 2*Left_Gap) - 2*Left_Gap) - btnW*array.count) / (array.count-1);//W_SCALE(20);
     CGFloat x = Left_Gap;
     for (int i = 0; i < array.count; i++) {
         NSDictionary *dic = array[i];
@@ -238,20 +238,34 @@
 //设备监测
 -(void)createMonitorView
 {
+    NSString*total = @"520";
+    NSString*erroNumber = @"5";
+    NSString*online = @"0";
+    NSString*offline =@"520";
+    
+    AppDelegate *appDelegate = kAppDelegate;
+    APGroupView *vc = appDelegate.mainVC.leftView.groupView;
+    if (vc && [vc isKindOfClass:[APGroupView class]])
+    {
+        total = [NSString stringWithFormat:@"%d",vc.allNumber];
+        offline = total;
+        erroNumber = [NSString stringWithFormat:@"%d",vc.errorCodeNumber];
+    }
+    
     NSDictionary *dict1 = @{@"string":@"设备总数",
-                           @"number":@"77777",
+                           @"number":total,
                             @"imageName":@"Group 215",
     };
     NSDictionary *dict2 = @{@"string":@"在线设备数",
-                           @"number":@"88888",
+                           @"number":online,
                             @"imageName":@"Group 216",
     };
     NSDictionary *dict3 = @{@"string":@"离线设备数",
-                           @"number":@"99999",
+                           @"number":offline,
                             @"imageName":@"Group 217",
     };
     NSDictionary *dict4 = @{@"string":@"异常设备",
-                           @"number":@"23",
+                           @"number":erroNumber,
                             @"imageName":@"Group 218",
     };
 
@@ -370,6 +384,8 @@
 
 -(void)btnTestClick:(UIButton *)btn
 {
+    [self getSelectedDev];
+    
     if(_data.count == 0)
     {
         UIAlertController  *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"没有选中任何设备" preferredStyle:UIAlertControllerStyleAlert];
@@ -384,54 +400,55 @@
     
     if(btn)
     {
-        if (btn.tag == 0)//
-        {
-        }
-        else
-        {
-            
+        switch (btn.tag) {
+            case 0://关
+            {
+                [self sendMessage:Command_guan];
+            }
+                break;
+            case 1://网络
+            {
+                [self sendMessage:Command_wangge];
+            }
+                break;
+            case 2://红
+            {
+                [self sendMessage:Command_hong];
+            }
+                break;
+                
+            case 3://绿
+            {
+                [self sendMessage:Command_lv];
+            }
+                break;
+            case 4://蓝
+            {
+                [self sendMessage:Command_lan];
+            }
+                break;
+            case 5://白
+            {
+                [self sendMessage:Command_bai];
+            }
+                break;
+            case 6://黑
+            {
+                [self sendMessage:Command_hei];
+            }
+                break;
+                
+            default:
+                break;
         }
     }
 }
 
--(void)btnRefreshClick:(UIButton *)btn
-{
-    if(btn)
-    {
-        if (btn.tag == 0)//
-        {
-        }
-        else
-        {
-            
-        }
-    }
-}
+
 -(void)btnSwithClick:(UIButton *)btn
 {
-    
-    AppDelegate *appDelegate = kAppDelegate;
-    APGroupView *vc = appDelegate.mainVC.leftView.groupView;
-    if (vc && [vc isKindOfClass:[APGroupView class]])
-    {
-        NSArray *temp = [vc getSelectedDevice];
-        
-        
-        if (_data && _data.count)
-        {
-            [_data removeAllObjects];
-        }
-        else
-        {
-            _data =[NSMutableArray array];
-        }
-        
-        if(temp)
-        {
-            _data = [NSMutableArray arrayWithArray:temp];
-        }
-    }
-    
+    [self getSelectedDev];
+
     if(_data.count == 0)
     {
         UIAlertController  *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"没有选中任何设备" preferredStyle:UIAlertControllerStyleAlert];
@@ -477,6 +494,22 @@
                 
             default:
                 break;
+        }
+    }
+}
+
+-(void)btnRefreshClick:(UIButton *)btn
+{
+    [self getSelectedDev];
+
+    if(btn)
+    {
+        if (btn.tag == 0)//
+        {
+        }
+        else
+        {
+            
         }
     }
 }

@@ -130,6 +130,15 @@
 #define Command_guanji @"control-stopMachine"//关机
 #define Command_kaikuaimen @"control-startShutter"//开快门
 #define Command_guankuaimen @"control-stopShutter"//关开门
+
+#define Command_guan @"control-testChart-off"//关
+#define Command_wangge @"control-testChart-gridding"//网格
+#define Command_bai @"control-testChart-white"//白
+#define Command_hong @"control-testChart-red"//红
+#define Command_lv @"control-testChart-green"//绿
+#define Command_lan @"control-testChart-blue"//蓝
+#define Command_hei @"control-testChart-black"//黑
+
 #define Monitor_information @"information source"  //查询信号源
 #define Monitor_status @"Power Supply"//查询投影机状态
 #define Monitor_device_info @"deviceInfo"//信息获取

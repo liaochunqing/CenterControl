@@ -52,6 +52,7 @@
     _orgData = [NSMutableArray array];
     _allNumber = 0;
     _selectedNumber = 0;
+    _errorCodeNumber = 0;
 }
 
 /**
@@ -93,6 +94,15 @@
               node.port = SafeStr([resultSet stringForColumn:@"port"]);
               node.access_protocol = SafeStr([resultSet stringForColumn:@"access_protocol"]);
               node.model_id = SafeStr([resultSet stringForColumn:@"model_id"]);
+              NSString *errorcode = SafeStr([resultSet stringForColumn:@"new_error_code"]);
+              if([node.name containsString:@"武-测试机-4"])//测试代码,方便断点用
+              {
+                  int i = 0;
+              }
+              if(errorcode.length)
+              {
+                  _errorCodeNumber++;
+              }
 
               [_orgData addObject:node];
           }
@@ -105,10 +115,6 @@
             FMResultSet *resultSet = [db executeQuery:sqlStr];
             while ([resultSet next])
             {
-                if([node.name containsString:@"mini"])//测试代码,方便断点用
-                {
-                    int i = 0;
-                }
                 NSString *key = SafeStr([resultSet stringForColumn:@"exec_code"]);
                 NSString *param = SafeStr([resultSet stringForColumn:@"parameter_value"]);
                 NSData *data = [self getSendDataFromParam:param node:node];
@@ -257,6 +263,7 @@
 -(void)cteateSearchView
 {
     UITextField *filed = [[UITextField alloc] initWithFrame:CGRectMake(Left_Gap, 0, Left_View_Width - 2*Left_Gap, H_SCALE(38))];
+    _textfiled = filed;
     ViewRadius(filed, 10);
 //    filed.borderStyle = UITextBorderStyleRoundedRect;
     filed.textColor = [UIColor whiteColor];
@@ -475,7 +482,6 @@
     dispatch_async(dispatch_get_global_queue(0,0), ^{
         
         //执行耗时的异步操作...
-        weakSelf.selectedNumber = 0;
         weakSelf.allNumber = 0;
         for(APGroupNote *temp in weakSelf.data)
         {
@@ -814,6 +820,9 @@
         _isFieldActive = NO;
         [_tableview reloadData];
     }
+    
+    [textField resignFirstResponder];    //主要是[receiver resignFirstResponder]在哪调用就能把receiver（text）对应的键盘往下收
+
 }
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
  {
@@ -825,7 +834,7 @@
 //返回一个BOOL值指明是否允许根据用户请求清除内容
 //可以设置在特定条件下才允许清除内容
     
-    [textField resignFirstResponder];
+//    [textField resignFirstResponder];
     _filteredData = [_data mutableCopy];
     [_tableview reloadData];
     return YES;
