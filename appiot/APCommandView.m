@@ -388,9 +388,18 @@
     
     if(_data.count == 0)
     {
-        UIAlertController  *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"没有选中任何设备" preferredStyle:UIAlertControllerStyleAlert];
+        NSString *t= @"提示";
+        NSString *m= @"没有选中任何设备";
+        UIAlertController  *alert = [UIAlertController alertControllerWithTitle:t message:m preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *action2= [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
                 }];
+
+        
+        //修改title
+        [[APTool shareInstance] setAlterviewTitleWith:alert title:t color:[UIColor blackColor]];
+        [[APTool shareInstance] setAlterviewMessageWith:alert message:m color:[UIColor blackColor]];
+        [[APTool shareInstance] setAlterviewBackgroundColor:alert color:[UIColor whiteColor]];
+//        ViewRadius(alert, 5);
 
         [alert addAction:action2];
         AppDelegate *appDelegate = kAppDelegate;
@@ -451,14 +460,18 @@
 
     if(_data.count == 0)
     {
-        UIAlertController  *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"没有选中任何设备" preferredStyle:UIAlertControllerStyleAlert];
+        NSString *t= @"提示";
+        NSString *m= @"没有选中任何设备";
+        UIAlertController  *alert = [UIAlertController alertControllerWithTitle:t message:m preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *action2= [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
                 }];
+//        ViewRadius(alert, 5);
 
         [alert addAction:action2];
-//        UIView* subview = alert.view.subviews.firstObject;
-//        UIView*  alertContentView = subview.subviews.firstObject;
-//        alertContentView.backgroundColor = [UIColor whiteColor];
+        //修改title
+        [[APTool shareInstance] setAlterviewTitleWith:alert title:t color:[UIColor blackColor]];
+        [[APTool shareInstance] setAlterviewMessageWith:alert message:m color:[UIColor blackColor]];
+        [[APTool shareInstance] setAlterviewBackgroundColor:alert color:[UIColor whiteColor]];
         
         AppDelegate *appDelegate = kAppDelegate;
         UIViewController *vc = appDelegate.mainVC;

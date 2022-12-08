@@ -27,6 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic , strong) APGroupNote * father;//父节点，
 
 //连接属性
+@property (nonatomic , strong) NSString *ip;//
 @property (nonatomic , strong) NSString *port;//端口
 @property (nonatomic , strong) NSString *access_protocol;//连接协议  udp tcp mqtt
 @property (nonatomic , strong) NSString *model_id;//设备型号ID
@@ -38,7 +39,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 //监测的属性
 @property (nonatomic , strong) NSString *signals;//信源
-@property (nonatomic , strong) NSString *ip;//
 @property (nonatomic , strong) NSString *temperature;//环境温度
 @property (nonatomic , strong) NSString *machine_running_time;//整机时间
 @property (nonatomic , strong) NSString *light_running_time;//光源时间

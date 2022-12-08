@@ -28,6 +28,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 //JSON字符串转化为字典
 + (NSDictionary *)dictionaryWithJsonString:(NSString *)jsonString;
+
+//UIAlertController 标题设置
+-(void)setAlterviewTitleWith:(UIAlertController *)alert title:(NSString*)str color:(UIColor *)color;
+//UIAlertController mesaage设置
+-(void)setAlterviewMessageWith:(UIAlertController *)alert message:(NSString*)str color:(UIColor *)color;
+//UIAlertController 背景颜色设置
+-(void)setAlterviewBackgroundColor:(UIAlertController *)alert color:(UIColor*)color;
 @end
 
 NS_ASSUME_NONNULL_END

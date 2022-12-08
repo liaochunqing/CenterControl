@@ -34,6 +34,42 @@
     return image;
 }
 
+-(void)setAlterviewTitleWith:(UIAlertController *)alert title:(NSString*)str color:(UIColor *)color
+{
+    //修改title
+        NSMutableAttributedString *alertControllerStr = [[NSMutableAttributedString alloc] initWithString:str];
+        [alertControllerStr addAttribute:NSForegroundColorAttributeName value:color range:NSMakeRange(0, str.length)];
+        [alertControllerStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:18] range:NSMakeRange(0, str.length)];
+        [alert setValue:alertControllerStr forKey:@"attributedTitle"];
+}
+
+-(void)setAlterviewMessageWith:(UIAlertController *)alert message:(NSString*)str color:(UIColor *)color
+{
+    //修改title
+        NSMutableAttributedString *alertControllerStr = [[NSMutableAttributedString alloc] initWithString:str];
+        [alertControllerStr addAttribute:NSForegroundColorAttributeName value:color range:NSMakeRange(0, str.length)];
+        [alertControllerStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14] range:NSMakeRange(0, str.length)];
+        [alert setValue:alertControllerStr forKey:@"attributedMessage"];
+}
+
+-(void)setAlterviewBackgroundColor:(UIAlertController *)alert color:(UIColor*)color
+{
+    // Accessing alert view backgroundColor :
+    if(alert.view.subviews.firstObject)
+    {
+        UIView *firstview = alert.view.subviews.firstObject;
+        if(firstview.subviews.firstObject)
+        {
+            UIView *tempView = firstview.subviews.firstObject;
+            tempView.backgroundColor = color;
+            if(tempView.subviews.firstObject)
+            {
+                UIView *alertContentView = tempView.subviews.firstObject;
+                alertContentView.backgroundColor = color;
+            }
+        }
+    }
+}
 #pragma mark - 十六进制转换工具
 // 16进制转NSData
 - (NSData *)convertHexStrToData:(NSString *)str

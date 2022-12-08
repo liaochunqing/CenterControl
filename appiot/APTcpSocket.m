@@ -45,7 +45,7 @@ static APTcpSocket *shareManager = nil;
 //从缓存获取已经连接的socket
 -(void)getSocketFromCashWith:(NSString *)host port:(NSUInteger)port
 {
-    if(_socketDict)
+    if(_socketDict && _socketDict.count)
     {
         self.socket = nil;
         

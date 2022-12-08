@@ -140,7 +140,11 @@
 #define Command_hei @"control-testChart-black"//黑
 
 #define Monitor_information @"information source"  //查询信号源
-#define Monitor_status @"Power Supply"//查询投影机状态
+#define Monitor_status @"Power Supply"//查询电源
 #define Monitor_device_info @"deviceInfo"//信息获取
 #define Monitor_shutter_info @"Shutter"//查询光源
+#define Monitor_run_time @"run time"//查询整机运行时间
+#define Monitor_Temperature @"Temperature"//查询传感器温度
+#define Monitor_LightSourceTime @"LightSourceTime"//查询光源运行时间
+
 #endif /* config_h */

@@ -70,25 +70,28 @@
     self.btnRight = [UIButton new];
     [self.topView addSubview:self.btnRight];
     [self.btnRight setBackgroundImage:[UIImage imageNamed:@"Icon1"] forState:UIControlStateNormal];
+//    [self.btnRight setBackgroundImage:[self imageWithColor:ColorHex(0x1D2242)] forState:UIControlStateNormal];
+    [self.btnRight setBackgroundImage:[self imageWithColor:ColorHex(0x7877A9)] forState:UIControlStateHighlighted];
 //    self.btnRight.backgroundColor = [UIColor yellowColor];
+    self.btnRight.tag = 0;
+    [self.btnRight addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.btnRight mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(W_SCALE(25), H_SCALE(19)));
         make.centerY.mas_equalTo(self.topView);
         make.right.mas_equalTo(self.topView.mas_right).offset(-Left_Gap);
     }];
-    self.btnRight.tag = 0;
-    [self.btnRight addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
 
     self.btnLeft = [UIButton new];
     [self.topView addSubview:self.btnLeft];
     [self.btnLeft setBackgroundImage:[UIImage imageNamed:@"Group 11702"] forState:UIControlStateNormal];
+    [self.btnLeft setBackgroundImage:[self imageWithColor:ColorHex(0x7877A9)] forState:UIControlStateHighlighted];
+    self.btnLeft.tag = 1;
+    [self.btnLeft addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.btnLeft mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(W_SCALE(22), H_SCALE(20)));
         make.centerY.mas_equalTo(self.topView);
         make.right.equalTo(self.btnRight.mas_left).offset(-W_SCALE(20));
     }];
-    self.btnLeft.tag = 1;
-    [self.btnLeft addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)createScrollMenu

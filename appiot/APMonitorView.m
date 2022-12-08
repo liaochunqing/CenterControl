@@ -132,68 +132,66 @@
 #pragma mark 方法
 -(void)getDataFromNetwork:(APGroupNote *)node row:(int)row
 {
-//    for (APGroupNote *node in _data)
+    NSData * sendData = node.monitorDict[Monitor_device_info];
+    
+    if ([@"tcp" compare:node.access_protocol options:NSCaseInsensitiveSearch |NSNumericSearch] ==NSOrderedSame)
     {
-        NSData * sendData = node.monitorDict[Monitor_device_info];
-        
-        if ([@"tcp" compare:node.access_protocol options:NSCaseInsensitiveSearch |NSNumericSearch] ==NSOrderedSame)
-        {
-            _tcpManager = [APTcpSocket shareManager];
-            [_tcpManager connectToHost:node.ip Port:[node.port intValue]];
-            [_tcpManager sendData:sendData];
-            WS(weakSelf);
+        _tcpManager = [APTcpSocket shareManager];
+        [_tcpManager connectToHost:node.ip Port:[node.port intValue]];
+        [_tcpManager sendData:sendData];
+        WS(weakSelf);
 //
 //            NSString *lll = @"appp#system: On, lightsource: Off,runtime: 180.5 H, temperature: 26, NtcCw1: 31, NtcBlueLaser1: 30, NtcBlueLaser2: 30, NtcDmd1: 18, NtcPowerSupply: 26, productinfo: modelname: L7, brandName: APPO, machinesn: SP002148000038";
-            
-            [_tcpManager setSocketMessageBlock:^(NSString * _Nonnull message) {
-                   if(message)
+        
+        [_tcpManager setSocketMessageBlock:^(NSString * _Nonnull message) {
+               if(message)
+               {
+                   NSArray *arr = [message componentsSeparatedByString:@"#"];
+                   NSString *str = [arr lastObject];
+                   arr = [str componentsSeparatedByString:@","];
+                   
+                   APGroupNote *tempNode = weakSelf.data[row];
+                   for (NSString *temp in arr)
                    {
-                       NSArray *arr = [message componentsSeparatedByString:@"#"];
-                       NSString *str = [arr lastObject];
-                       arr = [str componentsSeparatedByString:@","];
-                       
-                       APGroupNote *tempNode = weakSelf.data[row];
-                       for (NSString *temp in arr)
-                       {
-                           NSArray *tempArr = [temp componentsSeparatedByString:@":"];
-                           NSString *first = [[tempArr firstObject] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-                           NSString *last = [[tempArr lastObject] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+                       NSArray *tempArr = [temp componentsSeparatedByString:@":"];
+                       NSString *first = [[tempArr firstObject] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+                       NSString *last = [[tempArr lastObject] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 
-                           if ([@"system" compare:first options:NSCaseInsensitiveSearch] ==NSOrderedSame)
-                           {
-                               tempNode.supply_status = [@"on" compare:last options:NSCaseInsensitiveSearch] ==NSOrderedSame?@"1":@"2";
-                           }
-                           else if ([@"lightsource" compare:first options:NSCaseInsensitiveSearch] ==NSOrderedSame)
-                           {
-                               tempNode.shutter_status = [@"on" compare:last options:NSCaseInsensitiveSearch] ==NSOrderedSame?@"1":@"2";
-                           }
-                           else if ([@"temperature" compare:first options:NSCaseInsensitiveSearch] ==NSOrderedSame)
-                           {
-                               tempNode.temperature = last;
-                           }
-                           else if ([@"runtime" compare:first options:NSCaseInsensitiveSearch] ==NSOrderedSame)
-                           {
-                               tempNode.machine_running_time = last;
-                           }
+                       if ([@"system" compare:first options:NSCaseInsensitiveSearch] ==NSOrderedSame)
+                       {
+                           tempNode.supply_status = [@"on" compare:last options:NSCaseInsensitiveSearch] ==NSOrderedSame?@"1":@"2";
                        }
-                       
-                       dispatch_async(dispatch_get_main_queue(), ^{
-                          // UI更新代码
-                           NSArray *rowArray = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:row inSection:0]];
-                           [weakSelf.tableview reloadRowsAtIndexPaths:rowArray withRowAnimation:UITableViewRowAnimationFade];
-                       });
+                       else if ([@"lightsource" compare:first options:NSCaseInsensitiveSearch] ==NSOrderedSame)
+                       {
+                           tempNode.shutter_status = [@"on" compare:last options:NSCaseInsensitiveSearch] ==NSOrderedSame?@"1":@"2";
+                       }
+                       else if ([@"temperature" compare:first options:NSCaseInsensitiveSearch] ==NSOrderedSame)
+                       {
+                           tempNode.temperature = last;
+                       }
+                       else if ([@"runtime" compare:first options:NSCaseInsensitiveSearch] ==NSOrderedSame)
+                       {
+                           tempNode.machine_running_time = last;
+                       }
                    }
-            }];
-        }
-        else if ([@"udp" compare:node.access_protocol options:NSCaseInsensitiveSearch |NSNumericSearch] ==NSOrderedSame)
-        {
-            _udpManager = [APUdpSocket sharedInstance];
-            _udpManager.host = node.ip;
-            _udpManager.port = [node.port intValue];
-            [_udpManager createClientUdpSocket];
-            [_udpManager broadcast:sendData];
-        }
+                   
+                   dispatch_async(dispatch_get_main_queue(), ^{
+                      // UI更新代码
+                       NSArray *rowArray = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:row inSection:0]];
+                       [weakSelf.tableview reloadRowsAtIndexPaths:rowArray withRowAnimation:UITableViewRowAnimationFade];
+                   });
+               }
+        }];
     }
+    else if ([@"udp" compare:node.access_protocol options:NSCaseInsensitiveSearch |NSNumericSearch] ==NSOrderedSame)
+    {
+        _udpManager = [APUdpSocket sharedInstance];
+        _udpManager.host = node.ip;
+        _udpManager.port = [node.port intValue];
+        [_udpManager createClientUdpSocket];
+        [_udpManager broadcast:sendData];
+    }
+
 }
 
 -(void)getDataFromLeftView

@@ -14,8 +14,8 @@
             filePath = "appiot/APTool.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "108"
-            endingLineNumber = "108"
+            startingLineNumber = "144"
+            endingLineNumber = "144"
             landmarkName = "+dictionaryWithJsonString:"
             landmarkType = "7">
          </BreakpointContent>
@@ -23,16 +23,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "45E9205D-F800-4B28-B8E7-2926D8F969B9"
+            uuid = "683DA7A2-1B2D-49DF-A7EF-EA4B2DCDDF50"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "appiot/APGroupView.m"
+            filePath = "appiot/APMonitorView.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "641"
-            endingLineNumber = "641"
-            landmarkName = "-deleteFromDBtaget:"
+            startingLineNumber = "147"
+            endingLineNumber = "147"
+            landmarkName = "-getDataFromNetwork:row:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

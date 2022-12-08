@@ -95,7 +95,7 @@
               node.access_protocol = SafeStr([resultSet stringForColumn:@"access_protocol"]);
               node.model_id = SafeStr([resultSet stringForColumn:@"model_id"]);
               NSString *errorcode = SafeStr([resultSet stringForColumn:@"new_error_code"]);
-              if([node.name containsString:@"武-测试机-4"])//测试代码,方便断点用
+              if([node.name containsString:@"-L1+"])//测试代码,方便断点用
               {
                   int i = 0;
               }
@@ -127,6 +127,10 @@
             resultSet = [db executeQuery:sqlStr];
             while ([resultSet next])
             {
+                if([node.name containsString:@"设备-L1+"])//测试代码,方便断点用
+                {
+                    int i = 0;
+                }
                 NSString *key = SafeStr([resultSet stringForColumn:@"exec_code"]);
                 NSString *param = SafeStr([resultSet stringForColumn:@"parameter_value"]);
                 NSData *data = [self getSendDataFromParam:param node:node];
@@ -141,10 +145,14 @@
         {
             APGroupNote *node = [APGroupNote new];
             node.isDevice = NO;
-
+            
             node.name = SafeStr([resultSet stringForColumn:@"group_name"]);
             node.parentId = SafeStr([resultSet stringForColumn:@"pid"]);
             node.nodeId = SafeStr([resultSet stringForColumn:@"id"]);
+            if([node.name containsString:@"Cheshi"])//测试代码,方便断点用
+            {
+                int i = 0;
+            }
             [_groupData addObject:node];
             [_orgData addObject:node];
         }
@@ -275,12 +283,19 @@
     NSString *holderText = @"搜索投影机/分组";
     NSMutableAttributedString *placeholder = [[NSMutableAttributedString alloc] initWithString:holderText];
     [placeholder addAttribute:NSForegroundColorAttributeName
-                            value:[UIColor whiteColor]
+                            value:ColorHex(0xABBDD5 )
                             range:NSMakeRange(0, holderText.length)];
     [placeholder addAttribute:NSFontAttributeName
                             value:[UIFont systemFontOfSize:16]
                             range:NSMakeRange(0, holderText.length)];
     filed.attributedPlaceholder = placeholder;
+    
+    //搜索图标
+//    UIImageView *leftSearcgImgView = [[UIImageView alloc] initWithFrame:CGRectMake(30, 10, 180, 15)];
+//    leftSearcgImgView.image = [UIImage imageNamed:@"Vector"];
+//    leftSearcgImgView.contentMode = UIViewContentModeCenter;
+//    filed.leftView = leftSearcgImgView;
+//    filed.leftViewMode = UITextFieldViewModeAlways;
 
     [self addSubview:filed];
     
@@ -290,7 +305,19 @@
         make.left.mas_equalTo(self.mas_left).offset(Left_Gap);
         make.height.mas_equalTo(H_SCALE(38));
     }];
+    
+//    [self setTextFieldLeftPadding:filed withWidth:50];
 }
+
+//-(void)setTextFieldLeftPadding:(UITextField *)myTextField withWidth:(CGFloat)leftWidth
+//{
+//    CGRect frame = myTextField.frame;
+//    frame.size.width = leftWidth;
+//    UIView *leftview = [[UIView alloc] initWithFrame:frame];
+//    myTextField.leftViewMode = UITextFieldViewModeAlways;
+//    myTextField.leftView = leftview;
+//}
+
 -(void)createTableview
 {    _tableview  = [[APGroupTableView alloc] init];
     _tableview.dataSource = self;
@@ -1022,10 +1049,18 @@
                 NSArray *temp = [self getSelectedDevice];
                 if(temp.count != 1)
                 {
-                    UIAlertController  *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"只能编辑一台设备" preferredStyle:UIAlertControllerStyleAlert];
+                    NSString *t = @"提示";
+                    NSString *m = @"只能编辑一台设备";
+                    UIAlertController  *alert = [UIAlertController alertControllerWithTitle:t message:m preferredStyle:UIAlertControllerStyleAlert];
                     UIAlertAction *action2= [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
                             }];
+//                    [action2 setValue:[UIColor blueColor] forKey:@"titleTextColor"];
+                    //修改title
+                    [[APTool shareInstance] setAlterviewTitleWith:alert title:t color:[UIColor blackColor]];
+                    [[APTool shareInstance] setAlterviewMessageWith:alert message:m color:[UIColor blackColor]];
+                    [[APTool shareInstance] setAlterviewBackgroundColor:alert color:[UIColor whiteColor]];
 
+//                    ViewRadius(alert, 5);
                     [alert addAction:action2];
                     AppDelegate *appDelegate = kAppDelegate;
                     UIViewController *vc = appDelegate.mainVC;
@@ -1096,11 +1131,8 @@
 }
 -(void)editBtnClick:(UIButton *)btn
 {
-
-    
     if (btn == self.btnRight)
     {
-        
         self.btnRight.selected = !self.btnRight.selected;
         if(self.btnRight.selected == YES)
         {
@@ -1111,8 +1143,9 @@
             
             if (self.bottomView)
             {
+                CGFloat w = self.frame.size.width;
                 [UIView animateWithDuration:0.3 animations:^{
-                    [self.bottomView setFrame:CGRectMake(0, self.frame.size.height - Bottom_View_Height, Left_View_Width, Bottom_View_Height)];
+                    [self.bottomView setFrame:CGRectMake(0, self.frame.size.height - Bottom_View_Height, w, Bottom_View_Height)];
 //                    self.bottomView.hidden = NO;
                     [self.bottomView.superview layoutIfNeeded];//强制绘制
                 }];
@@ -1126,10 +1159,12 @@
                             make.size.mas_equalTo(CGSizeMake(45, Group_Btn_W));
             }];
             
+            CGFloat w = self.frame.size.width;
+
             if (self.bottomView)
             {
                 [UIView animateWithDuration:0.3 animations:^{
-                    [self.bottomView setFrame:CGRectMake(0, self.frame.size.height, Left_View_Width, Bottom_View_Height)];
+                    [self.bottomView setFrame:CGRectMake(0, self.frame.size.height, w, Bottom_View_Height)];
                     [self.bottomView.superview layoutIfNeeded]; // 强制绘制
                 }];
             }
@@ -1150,7 +1185,7 @@
         WS(weakSelf);
         [menu configWithItems:array action:^(NSInteger index) {
                                NSLog(@"点击了第%zi个",index);
-            if(index == 0)
+            if(index == 0)//投影机
             {
 //                [weakSelf newDeviceView];
                 weakSelf.devView = [[APNewDeviceView alloc] init];
@@ -1177,6 +1212,33 @@
                 
                 weakSelf.floatButton.hidden = YES;
 
+            }
+            else if (index == 1)//分组
+            {
+                
+                weakSelf.createGroupView = [[APNewGroupView alloc] init];
+                AppDelegate *appDelegate = kAppDelegate;
+                UIViewController *vc = appDelegate.mainVC;
+                [vc.view addSubview:weakSelf.createGroupView];
+                [vc.view bringSubviewToFront:weakSelf.createGroupView];
+                weakSelf.createGroupView.groupData = [NSMutableArray arrayWithArray:weakSelf.groupData];
+//                weakSelf.devView.modelData = [NSMutableArray arrayWithArray:weakSelf.modelData];
+
+                //ok按钮
+                [weakSelf.createGroupView setOkBtnClickBlock:^(BOOL index) {
+                    [weakSelf.createGroupView removeFromSuperview];
+                                    weakSelf.floatButton.hidden = NO;
+
+                }];
+                //取消按钮
+                [weakSelf.createGroupView setCancelBtnClickBlock:^(BOOL index) {
+                    [weakSelf.createGroupView removeFromSuperview];
+
+                    weakSelf.floatButton.hidden = NO;
+
+                }];
+                
+                weakSelf.floatButton.hidden = YES;
             }
         }];
             
