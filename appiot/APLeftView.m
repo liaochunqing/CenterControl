@@ -44,6 +44,7 @@
 -(void)createTitleView
 {
     self.topView = [[UILabel alloc] init];
+    self.topView.userInteractionEnabled = YES;
     [self addSubview:self.topView];
     self.topView.backgroundColor = [UIColor clearColor];
     [self.topView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -137,6 +138,20 @@
         else
         {
             
+                LFPopupMenuItem *item1 = [LFPopupMenuItem createWithTitle:@"App版本号" image:[UIImage imageNamed:@"icon_menu_record_normal"]];
+                    LFPopupMenuItem *item2 = [LFPopupMenuItem createWithTitle:@"修改密码" image:[UIImage imageNamed:@"icon_menu_shoot_normal"]];
+                    LFPopupMenuItem *item3 = [LFPopupMenuItem createWithTitle:@"退出登录" image:[UIImage imageNamed:@"icon_menu_album_normal"]];
+                NSArray *array = @[item1, item2,item3];
+
+                LFPopupMenu *menu = [[LFPopupMenu alloc] init];
+            menu.minWidth = W_SCALE(150);
+//                WS(weakSelf);
+                [menu configWithItems:array action:^(NSInteger index) {
+                                       NSLog(@"点击了第%zi个",index);
+                }];
+                    
+                [menu showArrowToView:btn];
+
         }
     }
 }

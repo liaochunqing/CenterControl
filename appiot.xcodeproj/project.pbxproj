@@ -38,10 +38,10 @@
 		C6CA8BBD292233B700F5AAC2 /* APBaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = C6CA8BBC292233B700F5AAC2 /* APBaseView.m */; };
 		C6CA8BC02922345800F5AAC2 /* APCommandView.m in Sources */ = {isa = PBXBuildFile; fileRef = C6CA8BBF2922345800F5AAC2 /* APCommandView.m */; };
 		C6D010D9293D855E003674C9 /* APNewDeviceView.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D010D8293D855E003674C9 /* APNewDeviceView.m */; };
-		C6D010DB293DC9CE003674C9 /* remote.db in Resources */ = {isa = PBXBuildFile; fileRef = C6D010DA293DC9CE003674C9 /* remote.db */; };
 		C6D010DE293DCB61003674C9 /* APDevModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D010DD293DCB61003674C9 /* APDevModel.m */; };
 		C6D010E4293DFCB1003674C9 /* APAPEditDeviceView.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D010E3293DFCB1003674C9 /* APAPEditDeviceView.m */; };
 		C6D010E829409743003674C9 /* APInstallView.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D010E729409743003674C9 /* APInstallView.m */; };
+		C6D010EC2940A2FD003674C9 /* remote.db in Resources */ = {isa = PBXBuildFile; fileRef = C6D010EB2940A2FD003674C9 /* remote.db */; };
 		CDAF7A201535A7BF8524ABBD /* Pods_appiot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB3765024A92663D80DC1163 /* Pods_appiot.framework */; };
 		E1FE5C87F1B352B5DF206E02 /* Pods_appiotTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87EB77647DEFF331311B61D6 /* Pods_appiotTests.framework */; };
 /* End PBXBuildFile section */
@@ -130,13 +130,13 @@
 		C6CA8BBF2922345800F5AAC2 /* APCommandView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APCommandView.m; sourceTree = "<group>"; };
 		C6D010D7293D855E003674C9 /* APNewDeviceView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APNewDeviceView.h; sourceTree = "<group>"; };
 		C6D010D8293D855E003674C9 /* APNewDeviceView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APNewDeviceView.m; sourceTree = "<group>"; };
-		C6D010DA293DC9CE003674C9 /* remote.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = remote.db; sourceTree = "<group>"; };
 		C6D010DC293DCB61003674C9 /* APDevModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APDevModel.h; sourceTree = "<group>"; };
 		C6D010DD293DCB61003674C9 /* APDevModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APDevModel.m; sourceTree = "<group>"; };
 		C6D010E2293DFCB1003674C9 /* APAPEditDeviceView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APAPEditDeviceView.h; sourceTree = "<group>"; };
 		C6D010E3293DFCB1003674C9 /* APAPEditDeviceView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APAPEditDeviceView.m; sourceTree = "<group>"; };
 		C6D010E629409743003674C9 /* APInstallView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APInstallView.h; sourceTree = "<group>"; };
 		C6D010E729409743003674C9 /* APInstallView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APInstallView.m; sourceTree = "<group>"; };
+		C6D010EB2940A2FD003674C9 /* remote.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = remote.db; sourceTree = "<group>"; };
 		F110C31EB98C931C5089AE17 /* Pods_appiot_appiotUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_appiot_appiotUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -272,8 +272,8 @@
 				C6C52848291B7DCF003F24C1 /* AppDelegate.m */,
 				C6CA8BB129220E1A00F5AAC2 /* APViewController.h */,
 				C6CA8BB229220E1A00F5AAC2 /* APViewController.m */,
-				C6D010DA293DC9CE003674C9 /* remote.db */,
 				C6C5288C291CFC92003F24C1 /* config.h */,
+				C6D010EB2940A2FD003674C9 /* remote.db */,
 				C6C52858291B7DD1003F24C1 /* LaunchScreen.storyboard */,
 				C6C52856291B7DD1003F24C1 /* Assets.xcassets */,
 				C6C5285B291B7DD1003F24C1 /* Info.plist */,
@@ -486,7 +486,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C6C5285A291B7DD1003F24C1 /* LaunchScreen.storyboard in Resources */,
-				C6D010DB293DC9CE003674C9 /* remote.db in Resources */,
+				C6D010EC2940A2FD003674C9 /* remote.db in Resources */,
 				C6C52857291B7DD1003F24C1 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
