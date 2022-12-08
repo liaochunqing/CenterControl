@@ -107,7 +107,9 @@
     [_title mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(self.contentView);
         make.left.mas_equalTo(_im.mas_right).offset(midGap);
-        make.size.mas_equalTo(CGSizeMake(W_SCALE(170), H_SCALE(28)));
+        make.right.mas_equalTo(self.contentView.mas_right).offset(-Left_Gap-30-Left_Gap);
+        make.height.mas_equalTo(H_SCALE(28));
+//        make.size.mas_equalTo(CGSizeMake(W_SCALE(170), H_SCALE(28)));
     }];
     
     //选中图标

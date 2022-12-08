@@ -28,7 +28,7 @@
     CGFloat y = H_SCALE(141);
     CGFloat w = Left_View_Width;
     CGFloat h = SCREEN_HEIGHT - y;
-    
+
     [self setFrame:CGRectMake(x, y, w, h)];
     
     [self getDataFromDB];
@@ -262,7 +262,7 @@
 
 -(void)cteateSearchView
 {
-    UITextField *filed = [[UITextField alloc] initWithFrame:CGRectMake(Left_Gap, 0, Left_View_Width - 2*Left_Gap, H_SCALE(38))];
+    UITextField *filed = [[UITextField alloc] init];
     _textfiled = filed;
     ViewRadius(filed, 10);
 //    filed.borderStyle = UITextBorderStyleRoundedRect;
@@ -283,7 +283,13 @@
     filed.attributedPlaceholder = placeholder;
 
     [self addSubview:filed];
-
+    
+    [filed mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(self.mas_right).offset(-Left_Gap);
+        make.top.mas_equalTo(self.mas_top).offset(0);
+        make.left.mas_equalTo(self.mas_left).offset(Left_Gap);
+        make.height.mas_equalTo(H_SCALE(38));
+    }];
 }
 -(void)createTableview
 {    _tableview  = [[APGroupTableView alloc] init];
@@ -297,7 +303,7 @@
     
     [self addSubview:_tableview];
     [_tableview mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(Left_View_Width);
+        make.right.mas_equalTo(self.mas_right).offset(0);
         make.top.mas_equalTo(self.mas_top).offset(H_SCALE(90));
         make.left.mas_equalTo(self.mas_left).offset(0);
         make.bottom.mas_equalTo(self.mas_bottom).offset(0);
@@ -315,6 +321,13 @@
     self.bottomView.backgroundColor = ColorHex(0x1D2242 );
 //    self.bottomView.hidden = YES;
     [self.bottomView setFrame:CGRectMake(0, self.frame.size.height, Left_View_Width, Bottom_View_Height)];
+    
+//    [self.bottomView mas_updateConstraints:^(MASConstraintMaker *make) {
+//        make.right.mas_equalTo(self.mas_right).offset(0);
+//        make.top.mas_equalTo(self.mas_top).offset(H_SCALE(90));
+//        make.left.mas_equalTo(self.mas_left).offset(0);
+//        make.bottom.mas_equalTo(self.mas_bottom).offset(0);
+//    }];
     
     NSDictionary *dict1 = @{@"string":@"编辑",
                            @"imageName":@"Group 11531",

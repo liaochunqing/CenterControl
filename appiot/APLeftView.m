@@ -96,6 +96,12 @@
     UIView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, H_SCALE(70), Left_View_Width, H_SCALE(60))];
     scrollView.backgroundColor = [UIColor clearColor];
     [self addSubview:scrollView];
+//    [scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.right.mas_equalTo(self.mas_right).offset(-Left_Gap);
+//        make.top.mas_equalTo(self.mas_top).offset(0);
+//        make.left.mas_equalTo(self.mas_left).offset(Left_Gap);
+//        make.height.mas_equalTo(H_SCALE(38));
+//    }];
 
     NSArray *array = [NSArray arrayWithObjects:@"分组", @"机型", @"图纸",nil];
     CGFloat midGap = (Left_View_Width - 2*Left_Gap - array.count*Page_Btn_W)/(array.count - 1);
@@ -133,7 +139,36 @@
     {
         if (btn.tag == 0)//右按钮
         {
- 
+            btn.selected = !btn.selected;
+            if (btn.selected)
+            {
+                CGFloat x = 0;
+                CGFloat y = 0;
+                CGFloat w = Left_View_Width + W_SCALE(150);
+                CGFloat h = SCREEN_HEIGHT;
+//                [UIView animateWithDuration:0.5 animations:^{
+                    self.frame = CGRectMake(x, y, w, h);
+                    [self.superview bringSubviewToFront:self];
+
+//                } completion:^(BOOL finished) {
+//
+//                }];
+            }
+            else
+            {
+                CGFloat x = 0;
+                CGFloat y = 0;
+                CGFloat w = Left_View_Width;
+                CGFloat h = SCREEN_HEIGHT;
+//                [UIView animateWithDuration:0.5 animations:^{
+                    self.frame = CGRectMake(x, y, w, h);
+                    [self.superview bringSubviewToFront:self];
+
+//                } completion:^(BOOL finished) {
+//                    
+//                }];
+            }
+
         }
         else
         {
@@ -182,8 +217,19 @@
             {
                 if(self.groupView == nil)
                 {
+                    CGFloat x = 0;
+                    CGFloat y = H_SCALE(141);
+                    CGFloat w = Left_View_Width;
+                    CGFloat h = SCREEN_HEIGHT - y;
+                    
                     self.groupView = [[APGroupView alloc] init];
                     [self addSubview:self.groupView];
+                    [self.groupView mas_makeConstraints:^(MASConstraintMaker *make) {
+                        make.right.mas_equalTo(self.mas_right).offset(0);
+                        make.top.mas_equalTo(self.mas_top).offset(H_SCALE(141));
+                        make.left.mas_equalTo(self.mas_left).offset(0);
+                        make.height.mas_equalTo(SCREEN_HEIGHT - y);
+                    }];
                 }
                 else
                 {
