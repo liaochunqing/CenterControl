@@ -36,7 +36,6 @@
 -(void)createSelectedView
 {
     UILabel *fenzuLab = [[UILabel alloc] init];
-//    _titleLab = fenzuLab;
     [self addSubview:fenzuLab];
     fenzuLab.text = @"当前已选设备";
     fenzuLab.font = [UIFont systemFontOfSize:20];
