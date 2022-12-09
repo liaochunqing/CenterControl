@@ -306,17 +306,8 @@
         make.height.mas_equalTo(H_SCALE(38));
     }];
     
-//    [self setTextFieldLeftPadding:filed withWidth:50];
 }
 
-//-(void)setTextFieldLeftPadding:(UITextField *)myTextField withWidth:(CGFloat)leftWidth
-//{
-//    CGRect frame = myTextField.frame;
-//    frame.size.width = leftWidth;
-//    UIView *leftview = [[UIView alloc] initWithFrame:frame];
-//    myTextField.leftViewMode = UITextFieldViewModeAlways;
-//    myTextField.leftView = leftview;
-//}
 
 -(void)createTableview
 {    _tableview  = [[APGroupTableView alloc] init];
@@ -493,6 +484,26 @@
         }
     }
 //    return  arr;
+}
+
+#pragma  mark 悬浮小球 新加设备按钮
+-(void)createFloatButton
+{
+    if (!_floatButton)
+    {
+        _floatButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _floatButton.frame = CGRectMake(W_SCALE(250), H_SCALE(700), W_SCALE(55), H_SCALE(55));//初始在屏幕上的位置
+        [_floatButton setImage:[UIImage imageNamed:@"Group 11697"] forState:UIControlStateNormal];
+        
+        UIWindow *window =  [[[UIApplication sharedApplication] windows] objectAtIndex:0];
+        window.backgroundColor = [UIColor whiteColor];
+        [window addSubview:_floatButton];
+        UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc]initWithTarget:
+                                       self action:@selector(locationChange:)];
+        pan.delaysTouchesBegan = YES;
+        [_floatButton addGestureRecognizer:pan];
+        [_floatButton addTarget:self action:@selector(floatbtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    }
 }
 
 
@@ -745,25 +756,6 @@
 }
 
 
-#pragma  mark 悬浮小球 新加设备按钮
--(void)createFloatButton
-{
-    if (!_floatButton)
-    {
-        _floatButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _floatButton.frame = CGRectMake(W_SCALE(250), H_SCALE(700), W_SCALE(55), H_SCALE(55));//初始在屏幕上的位置
-        [_floatButton setImage:[UIImage imageNamed:@"Group 11697"] forState:UIControlStateNormal];
-        
-        UIWindow *window =  [[[UIApplication sharedApplication] windows] objectAtIndex:0];
-        window.backgroundColor = [UIColor whiteColor];
-        [window addSubview:_floatButton];
-        UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc]initWithTarget:
-                                       self action:@selector(locationChange:)];
-        pan.delaysTouchesBegan = YES;
-        [_floatButton addGestureRecognizer:pan];
-        [_floatButton addTarget:self action:@selector(floatbtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    }
-}
 
 
 -(void)locationChange:(UIPanGestureRecognizer*)p{
@@ -1145,7 +1137,7 @@
                 if(temp.count == 0)
                 {
                     NSString *t = @"提示";
-                    NSString *m = @"请选择要移动设备或者分组";
+                    NSString *m = @"请选择要移动的设备或者分组";
                     UIAlertController  *alert = [UIAlertController alertControllerWithTitle:t message:m preferredStyle:UIAlertControllerStyleAlert];
                     UIAlertAction *action2= [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
                             }];
@@ -1178,16 +1170,14 @@
                     WS(weakSelf);
                     [_moveView setOkBtnClickBlock:^(BOOL index) {
                         [weakSelf.editDevView removeFromSuperview];
-                                        weakSelf.floatButton.hidden = NO;
+                        weakSelf.floatButton.hidden = NO;
                         [weakSelf refreshTable];
 
                     }];
                     //取消按钮
                     [_moveView setCancelBtnClickBlock:^(BOOL index) {
                         [weakSelf.editDevView removeFromSuperview];
-
                         weakSelf.floatButton.hidden = NO;
-
                     }];
                     
                     self.floatButton.hidden = YES;

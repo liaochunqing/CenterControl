@@ -46,58 +46,10 @@
             filePath = "appiot/APMoveDevAndGroupView.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "241"
-            endingLineNumber = "241"
+            startingLineNumber = "237"
+            endingLineNumber = "237"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "27065690-BE20-4B37-82CD-BC2C60127138"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "appiot/APMoveDevAndGroupView.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "157"
-            endingLineNumber = "157"
-            landmarkName = "-writeDB"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "27065690-BE20-4B37-82CD-BC2C60127138 - 5c31cd47e9386f30"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[APMoveDevAndGroupView writeDB]"
-                  moduleName = "appiot"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/app-iot02/Desktop/appiot/appiot/APMoveDevAndGroupView.m"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "157"
-                  endingLineNumber = "157"
-                  offsetFromSymbolStart = "212">
-               </Location>
-               <Location
-                  uuid = "27065690-BE20-4B37-82CD-BC2C60127138 - 5c31cd47e9386f30"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[APMoveDevAndGroupView writeDB]"
-                  moduleName = "appiot"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/app-iot02/Desktop/appiot/appiot/APMoveDevAndGroupView.m"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "157"
-                  endingLineNumber = "157"
-                  offsetFromSymbolStart = "224">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

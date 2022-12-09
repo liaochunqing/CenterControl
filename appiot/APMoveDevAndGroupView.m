@@ -76,7 +76,7 @@
         make.left.mas_equalTo(_baseview.mas_left).offset(0);
         make.right.mas_equalTo(_baseview.mas_right).offset(0);
         make.top.mas_equalTo(fenzuLab.mas_bottom).offset(0);
-        make.height.mas_equalTo(1);
+        make.height.mas_equalTo(0.5);
     }];
     
     if (_groupTableView == nil)
@@ -97,18 +97,17 @@
             make.left.mas_equalTo(_baseview.mas_left).offset(0);
             make.bottom.mas_equalTo(_baseview.mas_bottom).offset(-2*top_Gap- W_SCALE(55));
         }];
-        
-        /************************************分割线****************************************************/
-//        UIImageView* line = [[UIImageView alloc] init];
-//        line.backgroundColor = ColorHex(0x8E8E92);
-//        [_groupTableView addSubview:line];
-//        [line mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.left.mas_equalTo(_groupTableView.mas_left).offset(0);
-//            make.right.mas_equalTo(_groupTableView.mas_right).offset(0);
-//            make.bottom.mas_equalTo(_groupTableView.mas_bottom).offset(-1);
-//            make.height.mas_equalTo(1);
-//        }];
     }
+    /************************************分割线****************************************************/
+        line = [[UIImageView alloc] init];
+        line.backgroundColor = ColorHex(0x8E8E92);
+        [_baseview addSubview:line];
+        [line mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(_baseview.mas_left).offset(0);
+            make.right.mas_equalTo(_baseview.mas_right).offset(0);
+            make.top.mas_equalTo(_groupTableView.mas_bottom).offset(0);
+            make.height.mas_equalTo(0.5);
+        }];
     
     
     UIButton *okbtn = [UIButton new];
@@ -192,23 +191,20 @@
     }
 }
 #pragma  mark button delegate
--(void)singleTapAction
-{
-//    if(_groupTableView)
-//    {
-//        [_groupTableView removeFromSuperview];
-//        _groupTableView = nil;
-//        NSString *name = _groupTableView?@"Vector(1)" : @"Vector(2)";
-//        _groupExpendIm.image = [UIImage imageNamed:name];
-//    }
-}
 
 -(void)newDevBtnClick:(UIButton *)btn
 {
     if(btn.tag == 0)//确定
     {
-        [self writeDB];
-        self.okBtnClickBlock(0);
+        if(_movetoGroupNode.nodeId != nil)
+        {
+            [self writeDB];
+            self.okBtnClickBlock(0);
+        }
+        else
+        {
+            self.cancelBtnClickBlock(1);
+        }
     }
     else if(btn.tag == 1)
     {
