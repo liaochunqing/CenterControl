@@ -185,10 +185,9 @@
         _groupTableView.delegate = self;
         _groupTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _groupTableView.backgroundColor = [UIColor whiteColor];
-        _groupTableView.showsVerticalScrollIndicator = YES;
-        _groupTableView.showsHorizontalScrollIndicator = YES;
-
-        [_groupTableView flashScrollIndicators];
+//        _groupTableView.showsVerticalScrollIndicator = YES;
+//        _groupTableView.showsHorizontalScrollIndicator = YES;
+//        [_groupTableView flashScrollIndicators];
         ViewBorderRadius(_groupTableView, 5, 1, ColorHex(0xABBDD5 ));
         [self addSubview:_groupTableView];
         [_groupTableView mas_makeConstraints:^(MASConstraintMaker *make) {

@@ -23,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic , assign) BOOL selected;//是否被选中
 @property (nonatomic) BOOL isDevice;
 @property (nonatomic) BOOL haveChild;
+@property (nonatomic) BOOL needMove;
 @property (nonatomic , strong) APGroupNote * grandfather;//祖父节点，
 @property (nonatomic , strong) APGroupNote * father;//父节点，
 

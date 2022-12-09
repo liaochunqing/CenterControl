@@ -88,7 +88,7 @@
     self.btnLeft.tag = 1;
     [self.btnLeft addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.btnLeft mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(W_SCALE(22), H_SCALE(20)));
+        make.size.mas_equalTo(CGSizeMake(W_SCALE(22), H_SCALE(22)));
         make.centerY.mas_equalTo(self.topView);
         make.right.equalTo(self.btnRight.mas_left).offset(-W_SCALE(20));
     }];

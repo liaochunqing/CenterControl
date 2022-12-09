@@ -849,6 +849,42 @@
     return  arr;
 }
 
+//如果有组需要移动， 只需要改变组的父id即可
+-(NSArray *)getNeedMoveDevAndGroup
+{
+    //被选中的所有
+    NSMutableArray *selectedArr = [NSMutableArray array];
+    for(APGroupNote *temp in _data)
+    {
+        if (temp.selected)
+        {
+            [selectedArr addObject:temp];
+        }
+    }
+    
+    NSMutableIndexSet *set = [[NSMutableIndexSet alloc] init];//临时容器，存储将要删除的节点
+
+    //需要帅选掉的
+    NSMutableArray *tempArray = [NSMutableArray array];
+    for (APGroupNote* node in selectedArr)
+    {
+        if(node.isDevice == NO)
+        {
+            for (int i = 0; i < selectedArr.count; i++)
+            {
+                APGroupNote *temptemp = selectedArr[i];
+                if ([temptemp.parentId isEqualToString:node.nodeId] || (temptemp.father && ([temptemp.father.parentId isEqualToString:node.nodeId])))
+                {
+                    [set addIndex:i];
+                }
+            }
+        }
+    }
+ 
+    [selectedArr removeObjectsAtIndexes:set];
+    return  selectedArr;
+}
+
 #pragma mark UITextFieldDelegate
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
@@ -1105,8 +1141,58 @@
                 break;
             case 2://移动
             {
-//                [self creatCenterChuangeView];
-            }
+                NSArray *temp = [self getSelectedDevAndGroup];
+                if(temp.count == 0)
+                {
+                    NSString *t = @"提示";
+                    NSString *m = @"请选择要移动设备或者分组";
+                    UIAlertController  *alert = [UIAlertController alertControllerWithTitle:t message:m preferredStyle:UIAlertControllerStyleAlert];
+                    UIAlertAction *action2= [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+                            }];
+//                    [action2 setValue:[UIColor blueColor] forKey:@"titleTextColor"];
+                    //修改title
+                    [[APTool shareInstance] setAlterviewTitleWith:alert title:t color:[UIColor blackColor]];
+                    [[APTool shareInstance] setAlterviewMessageWith:alert message:m color:[UIColor blackColor]];
+                    [[APTool shareInstance] setAlterviewBackgroundColor:alert color:[UIColor whiteColor]];
+
+//                    ViewRadius(alert, 5);
+                    [alert addAction:action2];
+                    AppDelegate *appDelegate = kAppDelegate;
+                    UIViewController *vc = appDelegate.mainVC;
+                    [vc presentViewController:alert animated:YES completion:nil];
+                }
+                else
+                {
+                    [_moveView removeFromSuperview];
+                    _moveView = nil;
+                    _moveView = [[APMoveDevAndGroupView alloc] init];
+                    AppDelegate *appDelegate = kAppDelegate;
+                    UIViewController *vc = appDelegate.mainVC;
+                    [vc.view addSubview:_moveView];
+                    [vc.view bringSubviewToFront:_moveView];
+                    _moveView.groupData = [NSMutableArray arrayWithArray:self.groupData];
+                    _moveView.selectedData = [NSMutableArray arrayWithArray:[self getNeedMoveDevAndGroup]];
+                    [_moveView setDefaultValue];
+
+                    //ok按钮
+                    WS(weakSelf);
+                    [_moveView setOkBtnClickBlock:^(BOOL index) {
+                        [weakSelf.editDevView removeFromSuperview];
+                                        weakSelf.floatButton.hidden = NO;
+                        [weakSelf refreshTable];
+
+                    }];
+                    //取消按钮
+                    [_moveView setCancelBtnClickBlock:^(BOOL index) {
+                        [weakSelf.editDevView removeFromSuperview];
+
+                        weakSelf.floatButton.hidden = NO;
+
+                    }];
+                    
+                    self.floatButton.hidden = YES;
+                }
+              }
                 break;
                 
             default:
@@ -1185,7 +1271,7 @@
         WS(weakSelf);
         [menu configWithItems:array action:^(NSInteger index) {
                                NSLog(@"点击了第%zi个",index);
-            if(index == 0)//投影机
+            if(index == 0)//新增投影机
             {
 //                [weakSelf newDeviceView];
                 weakSelf.devView = [[APNewDeviceView alloc] init];
@@ -1213,7 +1299,7 @@
                 weakSelf.floatButton.hidden = YES;
 
             }
-            else if (index == 1)//分组
+            else if (index == 1)//新增分组
             {
                 
                 weakSelf.createGroupView = [[APNewGroupView alloc] init];

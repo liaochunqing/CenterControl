@@ -16,6 +16,7 @@
 #import "APDevModel.h"
 #import "APAPEditDeviceView.h"
 #import "APNewGroupView.h"
+#import "APMoveDevAndGroupView.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -43,7 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,strong)APNewDeviceView *devView;
 @property(nonatomic,strong)APNewGroupView *createGroupView;
 @property(nonatomic,strong)APAPEditDeviceView *editDevView;
-
+@property(nonatomic,strong)APMoveDevAndGroupView *moveView;
 -(NSArray *)getSelectedDevice;
 -(void)refreshTable;
 
