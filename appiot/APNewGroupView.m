@@ -14,7 +14,7 @@
     if (self = [super initWithFrame:frame]) {
         [self setFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
         self.groupInfo = [APGroupNote new];
-//        self.protocolData = [NSMutableArray arrayWithObjects:@"TCP",@"UDP",@"MQTT", nil];
+        self.groupData = [NSMutableArray array];
         [self createUI];
     }
     return self;
@@ -41,7 +41,7 @@
     [_baseview mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(self);
 //        make.centerY.mas_equalTo(self);
-        make.top.mas_equalTo(self.mas_top).offset(-H_SCALE(600));
+        make.top.mas_equalTo(self.mas_top).offset(H_SCALE(120));
         make.size.mas_equalTo(CGSizeMake(W_SCALE(400), H_SCALE(250)));
     }];
  
@@ -185,6 +185,10 @@
         _groupTableView.delegate = self;
         _groupTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _groupTableView.backgroundColor = [UIColor whiteColor];
+        _groupTableView.showsVerticalScrollIndicator = YES;
+        _groupTableView.showsHorizontalScrollIndicator = YES;
+
+        [_groupTableView flashScrollIndicators];
         ViewBorderRadius(_groupTableView, 5, 1, ColorHex(0xABBDD5 ));
         [self addSubview:_groupTableView];
         [_groupTableView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -193,6 +197,13 @@
             make.left.mas_equalTo(_groupField.mas_left).offset(0);
             make.bottom.mas_equalTo(_baseview.mas_bottom).offset(-top_Gap);
         }];
+        
+        //添加一条数据
+        APGroupNote *node = [APGroupNote new];
+        node.nodeId = @"0";
+        node.name = @"空";
+        if (_groupData.count)
+            [_groupData insertObject:node atIndex:0];
     }
     else
     {
@@ -220,7 +231,10 @@
     //3.打开数据库
     if ([db open])
     {
-        NSString *sqlStr = [NSString stringWithFormat:@"insert into zk_group (group_name,pid) values ('%@','%@')",_groupInfo.name, _groupInfo.parentId];
+        int x = arc4random() % 2000 + 1000;//生成2000-3000的随机数作为id
+
+        NSString *ID = [NSString stringWithFormat:@"%d",x];
+        NSString *sqlStr = [NSString stringWithFormat:@"insert into zk_group (id,group_name,pid) values ('%@','%@','%@')",ID, _groupInfo.name, _groupInfo.parentId];
         BOOL ret = [db executeUpdate:sqlStr];
         if  (ret)
         {
