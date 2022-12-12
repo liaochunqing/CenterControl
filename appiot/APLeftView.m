@@ -7,6 +7,7 @@
 
 #import "APLeftView.h"
 #import "APLeftPageButton.h"
+#import "AppDelegate.h"
 
 
 #define btn_setting 100
@@ -182,10 +183,44 @@
                 NSArray *array = @[item1, item2,item3];
 
                 LFPopupMenu *menu = [[LFPopupMenu alloc] init];
-            menu.minWidth = W_SCALE(150);
-//                WS(weakSelf);
+                menu.minWidth = W_SCALE(150);
+                WS(weakSelf);
                 [menu configWithItems:array action:^(NSInteger index) {
                                        NSLog(@"点击了第%zi个",index);
+                    
+                    
+                    AppDelegate *appDelegate = kAppDelegate;
+                    UIViewController *vc = appDelegate.mainVC;
+                    
+                    if(index == 0)
+                    {
+                        APVersionView *version = [APVersionView new];
+                        [vc.view addSubview:version];
+//                        [vc.view bringSubviewToFront:version];
+                    }
+                    else if (index == 1)
+                    {
+                        APPasswordView *pv = [APPasswordView new];
+                        [vc.view addSubview:pv];
+//                        [vc.view bringSubviewToFront:pv];
+                    }
+                    else if (index == 2)
+                    {
+                        NSString *msg = @"确认要退出账户吗";
+                        UIAlertController  *alert = [UIAlertController alertControllerWithTitle:msg message:@"" preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action)
+                        {
+                        }];
+                                
+                        UIAlertAction *action2= [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+                                }];
+
+                        [alert addAction:action1];
+                        [alert addAction:action2];
+                        AppDelegate *appDelegate = kAppDelegate;
+                        UIViewController *vc = appDelegate.mainVC;
+                        [vc presentViewController:alert animated:YES completion:nil];  //显示对话框
+                    }
                 }];
                     
                 [menu showArrowToView:btn];

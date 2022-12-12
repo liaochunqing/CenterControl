@@ -44,6 +44,8 @@
 		C6D010EC2940A2FD003674C9 /* remote.db in Resources */ = {isa = PBXBuildFile; fileRef = C6D010EB2940A2FD003674C9 /* remote.db */; };
 		C6D010EF2941E399003674C9 /* APNewGroupView.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D010EE2941E399003674C9 /* APNewGroupView.m */; };
 		C6D010F2294303C7003674C9 /* APMoveDevAndGroupView.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D010F1294303C7003674C9 /* APMoveDevAndGroupView.m */; };
+		C6D010F52946B96D003674C9 /* APVersionView.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D010F42946B96D003674C9 /* APVersionView.m */; };
+		C6D010F82946BF67003674C9 /* APPasswordView.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D010F72946BF67003674C9 /* APPasswordView.m */; };
 		CDAF7A201535A7BF8524ABBD /* Pods_appiot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB3765024A92663D80DC1163 /* Pods_appiot.framework */; };
 		E1FE5C87F1B352B5DF206E02 /* Pods_appiotTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87EB77647DEFF331311B61D6 /* Pods_appiotTests.framework */; };
 /* End PBXBuildFile section */
@@ -143,6 +145,10 @@
 		C6D010EE2941E399003674C9 /* APNewGroupView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APNewGroupView.m; sourceTree = "<group>"; };
 		C6D010F0294303C7003674C9 /* APMoveDevAndGroupView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APMoveDevAndGroupView.h; sourceTree = "<group>"; };
 		C6D010F1294303C7003674C9 /* APMoveDevAndGroupView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APMoveDevAndGroupView.m; sourceTree = "<group>"; };
+		C6D010F32946B96D003674C9 /* APVersionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APVersionView.h; sourceTree = "<group>"; };
+		C6D010F42946B96D003674C9 /* APVersionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APVersionView.m; sourceTree = "<group>"; };
+		C6D010F62946BF67003674C9 /* APPasswordView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APPasswordView.h; sourceTree = "<group>"; };
+		C6D010F72946BF67003674C9 /* APPasswordView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APPasswordView.m; sourceTree = "<group>"; };
 		F110C31EB98C931C5089AE17 /* Pods_appiot_appiotUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_appiot_appiotUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -339,6 +345,10 @@
 				C6D010EE2941E399003674C9 /* APNewGroupView.m */,
 				C6D010F0294303C7003674C9 /* APMoveDevAndGroupView.h */,
 				C6D010F1294303C7003674C9 /* APMoveDevAndGroupView.m */,
+				C6D010F32946B96D003674C9 /* APVersionView.h */,
+				C6D010F42946B96D003674C9 /* APVersionView.m */,
+				C6D010F62946BF67003674C9 /* APPasswordView.h */,
+				C6D010F72946BF67003674C9 /* APPasswordView.m */,
 			);
 			name = view;
 			sourceTree = "<group>";
@@ -635,6 +645,7 @@
 				C63C82462925DD1200DBB3F6 /* APGroupTableView.m in Sources */,
 				C63306AD292B45B10057DA83 /* APUdpSocket.m in Sources */,
 				C63C82392924B48400DBB3F6 /* APGroupView.m in Sources */,
+				C6D010F82946BF67003674C9 /* APPasswordView.m in Sources */,
 				C6D010E829409743003674C9 /* APInstallView.m in Sources */,
 				C6C52855291B7DCF003F24C1 /* appiot.xcdatamodeld in Sources */,
 				C63306CF2935A88B0057DA83 /* APTcpSocket.m in Sources */,
@@ -652,6 +663,7 @@
 				C6C5288B291CFC05003F24C1 /* APBaseViewController.m in Sources */,
 				C63C82432925DAF100DBB3F6 /* APGroupNote.m in Sources */,
 				C63C8233292367AE00DBB3F6 /* APComandButton.m in Sources */,
+				C6D010F52946B96D003674C9 /* APVersionView.m in Sources */,
 				C6CA8BBD292233B700F5AAC2 /* APBaseView.m in Sources */,
 				C6CA8BC02922345800F5AAC2 /* APCommandView.m in Sources */,
 				C63306B4292DCF050057DA83 /* APMonitorCell.m in Sources */,

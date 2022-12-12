@@ -8,6 +8,8 @@
 #import <UIKit/UIKit.h>
 #import "APBaseView.h"
 #import "APGroupView.h"
+#import "APVersionView.h"
+#import "APPasswordView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
