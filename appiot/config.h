@@ -115,6 +115,7 @@
 #define Page_Btn_W W_SCALE(52)
 #define Group_Btn_W W_SCALE(30)
 #define Bottom_View_Height H_SCALE(88)//左视图cell高度
+#define Notification_Get_SelectedDev @"getselecteddev"
 
 //右侧view
 #define Center_View_Width W_SCALE(873)//右视图宽度

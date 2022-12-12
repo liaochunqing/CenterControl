@@ -146,6 +146,7 @@
         {
             [self.monitorView removeFromSuperview];
             self.monitorView = nil;
+            [kNotificationCenter removeObserver:Notification_Get_SelectedDev];
         }
         
         switch (btn.tag) {

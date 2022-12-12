@@ -39,11 +39,23 @@
     [self createBottomView];
     
     [self refrashAllselectTitle];
+    
+    //创建通知
+//    _notification =[NSNotification notificationWithName:Notification_Get_SelectedDev object:nil];
     //一秒后显示悬浮小球
     [self performSelector:@selector(createFloatButton) withObject:nil afterDelay:0.5];
 }
 
 #pragma mark 私有方法
+
+-(void)notifyDevSelectedChanged
+{
+    
+    NSArray *arr =(NSArray *)[self getSelectedDevice];
+    NSDictionary *dict = [NSDictionary dictionaryWithObject:arr forKey:@"array"];
+    //通过通知中心发送通知
+    [kNotificationCenter postNotificationName:Notification_Get_SelectedDev object:nil userInfo:dict];
+}
 
 -(void)initData
 {
@@ -127,10 +139,7 @@
             resultSet = [db executeQuery:sqlStr];
             while ([resultSet next])
             {
-                if([node.name containsString:@"设备-L1+"])//测试代码,方便断点用
-                {
-                    int i = 0;
-                }
+                
                 NSString *key = SafeStr([resultSet stringForColumn:@"exec_code"]);
                 NSString *param = SafeStr([resultSet stringForColumn:@"parameter_value"]);
                 NSData *data = [self getSendDataFromParam:param node:node];
@@ -252,16 +261,20 @@
         temp = [arr firstObject];
     }
     
-    //把cr换成\r\n
-    NSString *str = [SafeStr(temp) stringByReplacingOccurrencesOfString:@"<CR>" withString:@""];
-    str = [str stringByAppendingString:@"\r\n"];
+    if([node.name containsString:@"设备-L5"])//测试代码,方便断点用
+    {
+        int i = 0;
+    }
     
     //去除中间的空格符
-    str = [str stringByReplacingOccurrencesOfString:@" " withString:@""];
+    NSString *str = [temp stringByReplacingOccurrencesOfString:@" " withString:@""];
     NSString *finalStr = str;
     if (isHex == NO)
     {
-        finalStr = [[APTool shareInstance] hexStringFromString:str];
+        //把cr换成\r\n
+        finalStr = [SafeStr(finalStr) stringByReplacingOccurrencesOfString:@"<CR>" withString:@""];
+        finalStr = [finalStr stringByAppendingString:@"\r\n"];
+        finalStr = [[APTool shareInstance] hexStringFromString:finalStr];
     }
     NSData *sendData = [[APTool shareInstance] convertHexStrToData:finalStr];
 
@@ -510,20 +523,20 @@
 
 -(void)refrashMonitorTable
 {
-    NSArray *temp = [self getSelectedDevice];
-
-    AppDelegate *appDelegate = kAppDelegate;
-    APMonitorView *vc = appDelegate.mainVC.centerView.monitorView;
-    if (vc && [vc isKindOfClass:[APMonitorView class]])
-    {
-        [vc refreshTable:temp];
-    }
-    
-    APCommandView *cvc = appDelegate.mainVC.centerView.commandView;
-    if (cvc && [cvc isKindOfClass:[APCommandView class]])
-    {
-        [cvc refreshSelectedList:temp];
-    }
+//    NSArray *temp = [self getSelectedDevice];
+//
+//    AppDelegate *appDelegate = kAppDelegate;
+//    APMonitorView *vc = appDelegate.mainVC.centerView.monitorView;
+//    if (vc && [vc isKindOfClass:[APMonitorView class]])
+//    {
+//        [vc refreshTable:temp];
+//    }
+//
+//    APCommandView *cvc = appDelegate.mainVC.centerView.commandView;
+//    if (cvc && [cvc isKindOfClass:[APCommandView class]])
+//    {
+//        [cvc refreshSelectedList:temp];
+//    }
 }
 
 -(void)refrashAllselectTitle
@@ -795,6 +808,7 @@
 {
     [self getDataFromDB];
     [self refrashAllselectTitle];
+    [self notifyDevSelectedChanged];
     [_tableview reloadData];
 }
 
@@ -1022,7 +1036,7 @@
             tempnode.selected = cell.selectBtn.selected;
             
             [tableView reloadData];
-            [self refrashMonitorTable];
+//            [self refrashMonitorTable];
         }
     }
     else//正常列表
@@ -1054,11 +1068,13 @@
                 }
             }
             [self refrashAllselectTitle];
-            [self refrashMonitorTable];
+//            [self refrashMonitorTable];
             [self countEveryGroupChildAndSelected];
             [tableView reloadData];
         }
     }
+    
+    [self notifyDevSelectedChanged];
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
@@ -1202,7 +1218,7 @@
         
         [self selectedAllWithSelected:self.btnLeft.selected];
         [self refrashAllselectTitle];
-        [self refrashMonitorTable];
+        [self notifyDevSelectedChanged];
     }
 }
 -(void)editBtnClick:(UIButton *)btn

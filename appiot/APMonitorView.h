@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,strong)APTcpSocket *tcpManager;//tcp管理器
 @property (nonatomic,strong)APUdpSocket *udpManager;//udp管理器
 
--(void)refreshTable:(NSArray *)arr;
+//-(void)refreshTable:(NSArray *)arr;
 
 @end
 

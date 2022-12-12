@@ -244,15 +244,15 @@
     }];
     
     //详情箭头图标
-    UIImageView *arror = [[UIImageView alloc] init];
-    arror.image = [UIImage imageNamed:@"arrorright"];
-    [self.contentView addSubview:arror];
-    [arror mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.mas_equalTo(self.contentView);
-        make.right.mas_equalTo(self.contentView.mas_right).offset(-Left_Gap);
-        make.size.mas_equalTo(CGSizeMake(W_SCALE(6), H_SCALE(12)));
-
-    }];
+//    UIImageView *arror = [[UIImageView alloc] init];
+//    arror.image = [UIImage imageNamed:@"arrorright"];
+//    [self.contentView addSubview:arror];
+//    [arror mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.centerY.mas_equalTo(self.contentView);
+//        make.right.mas_equalTo(self.contentView.mas_right).offset(-Left_Gap);
+//        make.size.mas_equalTo(CGSizeMake(W_SCALE(6), H_SCALE(12)));
+//
+//    }];
     
     //底部分割线
     UIImageView *bottomLine = [[UIImageView alloc] init];

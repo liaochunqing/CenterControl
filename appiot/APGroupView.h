@@ -22,6 +22,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface APGroupView : APBaseView <UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>
+//@property(nonatomic,strong)NSNotification *notification;
+
 @property (nonatomic)int allNumber;//所有设备数
 @property (nonatomic)int selectedNumber;//被选中设备数
 @property (nonatomic)int errorCodeNumber;//有错误码的设备数

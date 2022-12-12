@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,strong)UIView *testBaseView;
 @property(nonatomic,strong)NSMutableArray *data;
 
--(void)refreshSelectedList:(NSArray *)arr;
+//-(void)refreshSelectedList:(NSArray *)arr;
 @end
 
 NS_ASSUME_NONNULL_END

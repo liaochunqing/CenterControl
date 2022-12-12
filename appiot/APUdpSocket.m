@@ -79,12 +79,24 @@ static APUdpSocket *sharedInstance = nil;
 
     uint16_t port = [GCDAsyncUdpSocket portFromAddress:address];
 
-    NSString *s = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    NSString *receiverStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+//    NSString *receiverStr1 = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
+//
+//    NSString *receiverStr2 = [[NSString alloc] initWithData:data encoding:NSUnicodeStringEncoding];
+//
+//    NSString *receiverStr3 = [[NSString alloc] initWithData:data encoding:NSUTF16StringEncoding];
 
     // 继续来等待接收下一次消息
 
-    NSLog(@"收到响应 [%@:%d] == %@", ip, port, s);
-//    NSLog(@"接收到%@的消息:%@",address,data);//自行转换格式吧
+    NSLog(@"收到响应 [%@:%d] == %@", ip, port, receiverStr);
+    dispatch_async(dispatch_get_main_queue(), ^{
+       // UI更新代码
+        if (self.socketMessageBlock)
+        {
+            self.socketMessageBlock(data);
+        }
+    });
+    
 }
 
 - (void)udpSocketDidClose:(GCDAsyncUdpSocket *)sock withError:(NSError *)error
