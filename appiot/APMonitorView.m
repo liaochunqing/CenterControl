@@ -34,11 +34,11 @@
     [self createTableview];
     [self getDataFromLeftView];
     
+    //监听设备选中的通知
     [kNotificationCenter addObserver:self selector:@selector(notifySelectedDevChanged:) name:Notification_Get_SelectedDev object:nil];
     
     WS(weakSelf);
-//    self.isFocused
-    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:Monitor_getdatafromnet_clock repeats:NO block:^(NSTimer * _Nonnull timer)
+    _timer = [NSTimer scheduledTimerWithTimeInterval:Monitor_getdatafromnet_clock repeats:YES block:^(NSTimer * _Nonnull timer)
     {
         NSArray *arrIndex = weakSelf.tableview.indexPathsForVisibleRows;
         for (int i = 0; i<arrIndex.count; i++)
@@ -148,18 +148,19 @@
 #pragma mark 方法
 -(void)getDataFromNetwork:(APGroupNote *)node row:(int)row
 {
-    
     if ([@"tcp" compare:node.access_protocol options:NSCaseInsensitiveSearch |NSNumericSearch] ==NSOrderedSame)
     {
 //        NSData * sendData = node.monitorDict[Monitor_device_info];
-        
+        int i = 0;
         for (NSString * key in node.monitorDict)
         {
+            i++;
             NSData* tcpdata = node.monitorDict[key];
             
             _tcpManager = [APTcpSocket shareManager];
             [_tcpManager connectToHost:node.ip Port:[node.port intValue]];
-            [_tcpManager sendData:tcpdata];
+//            [_tcpManager sendData:tcpdata];
+            [_tcpManager performSelector:@selector(sendData:) withObject:tcpdata afterDelay:0.2*i];
             WS(weakSelf);
     //
     //            NSString *lll = @"appp#system: On, lightsource: Off,runtime: 180.5 H, temperature: 26, NtcCw1: 31, NtcBlueLaser1: 30, NtcBlueLaser2: 30, NtcDmd1: 18, NtcPowerSupply: 26, productinfo: modelname: L7, brandName: APPO, machinesn: SP002148000038";
@@ -168,33 +169,66 @@
                    if(message)
                    {
                        NSArray *arr = [message componentsSeparatedByString:@"#"];
-                       NSString *str = [arr lastObject];
-                       arr = [str componentsSeparatedByString:@","];
-                       
+                       NSString *firstStr = [arr firstObject];
+                       NSString *lastStr = [arr lastObject];
                        APGroupNote *tempNode = weakSelf.data[row];
-                       for (NSString *temp in arr)
-                       {
-                           NSArray *tempArr = [temp componentsSeparatedByString:@":"];
-                           NSString *first = [[tempArr firstObject] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-                           NSString *last = [[tempArr lastObject] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 
-                           if ([@"system" compare:first options:NSCaseInsensitiveSearch] ==NSOrderedSame)
+                       if([@"AT+LightSource" isEqualToString:firstStr])//光源（快门）开关
+                       {
+                           tempNode.shutter_status = [lastStr containsString:@"On"]?@"1":@"2";
+                       }
+                       else if([@"AT+LightSourceTime" isEqualToString:firstStr])//光源（快门）运行时间
+                       {
+                           arr = [lastStr componentsSeparatedByString:@"\r"];
+                           tempNode.light_running_time = arr?arr[0]:lastStr;
+                       }
+                       else if([@"AT+RunTime" isEqualToString:firstStr])//整机运行时间
+                       {
+                           arr = [lastStr componentsSeparatedByString:@"\r"];
+                           tempNode.machine_running_time = arr?arr[0]:lastStr;;
+                       }
+                       else if([@"AT+Temperature" isEqualToString:firstStr])//温度
+                       {
+                           for (NSString *temp in [lastStr componentsSeparatedByString:@","])
                            {
-                               tempNode.supply_status = [@"on" compare:last options:NSCaseInsensitiveSearch] ==NSOrderedSame?@"1":@"2";
-                           }
-                           else if ([@"lightsource" compare:first options:NSCaseInsensitiveSearch] ==NSOrderedSame)
-                           {
-                               tempNode.shutter_status = [@"on" compare:last options:NSCaseInsensitiveSearch] ==NSOrderedSame?@"1":@"2";
-                           }
-                           else if ([@"temperature" compare:first options:NSCaseInsensitiveSearch] ==NSOrderedSame)
-                           {
-                               tempNode.temperature = last;
-                           }
-                           else if ([@"runtime" compare:first options:NSCaseInsensitiveSearch] ==NSOrderedSame)
-                           {
-                               tempNode.machine_running_time = last;
+                               NSArray *tempArr = [temp componentsSeparatedByString:@":"];
+                               NSString *first = [[tempArr firstObject] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+                               NSString *last = [[tempArr lastObject] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+
+                               if ([@"NtcEnv" compare:first options:NSCaseInsensitiveSearch] ==NSOrderedSame)
+                               {
+                                   tempNode.temperature = last;
+                                   break;
+                               }
                            }
                        }
+                       else if([@"appp" isEqualToString:firstStr])//整机信息
+                       {
+                           for (NSString *temp in [lastStr componentsSeparatedByString:@","])
+                           {
+                               NSArray *tempArr = [temp componentsSeparatedByString:@":"];
+                               NSString *first = [[tempArr firstObject] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+                               NSString *last = [[tempArr lastObject] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+
+                               if ([@"system" compare:first options:NSCaseInsensitiveSearch] ==NSOrderedSame)
+                               {
+                                   tempNode.supply_status = [@"on" compare:last options:NSCaseInsensitiveSearch] ==NSOrderedSame?@"1":@"2";
+                               }
+                               else if ([@"lightsource" compare:first options:NSCaseInsensitiveSearch] ==NSOrderedSame)
+                               {
+                                   tempNode.shutter_status = [@"on" compare:last options:NSCaseInsensitiveSearch] ==NSOrderedSame?@"1":@"2";
+                               }
+                               else if ([@"temperature" compare:first options:NSCaseInsensitiveSearch] ==NSOrderedSame)
+                               {
+                                   tempNode.temperature = last;
+                               }
+                               else if ([@"runtime" compare:first options:NSCaseInsensitiveSearch] ==NSOrderedSame)
+                               {
+                                   tempNode.machine_running_time = last;
+                               }
+                           }
+                       }
+                       
                        
                        dispatch_async(dispatch_get_main_queue(), ^{
                           // UI更新代码
@@ -204,8 +238,6 @@
                    }
             }];
         }
-
-
     }
     else if ([@"udp" compare:node.access_protocol options:NSCaseInsensitiveSearch |NSNumericSearch] ==NSOrderedSame)
     {
@@ -250,11 +282,8 @@
                        });
                    }
             }];
-
-
         }
     }
-
 }
 
 -(void)getDataFromLeftView

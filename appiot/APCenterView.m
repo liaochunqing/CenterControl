@@ -144,6 +144,8 @@
         
         if(self.monitorView != nil)
         {
+            [self.monitorView.timer invalidate];
+            self.monitorView.timer = nil;
             [self.monitorView removeFromSuperview];
             self.monitorView = nil;
             [kNotificationCenter removeObserver:Notification_Get_SelectedDev];

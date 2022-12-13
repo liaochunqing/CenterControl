@@ -36,53 +36,5 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "4EFC0CBC-1FAE-440B-BD1B-888B11E854FD"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "appiot/APMonitorView.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "156"
-            endingLineNumber = "156"
-            landmarkName = "-getDataFromNetwork:row:"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "4EFC0CBC-1FAE-440B-BD1B-888B11E854FD - dee0ff489309df6a"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[APMonitorView getDataFromNetwork:row:]"
-                  moduleName = "appiot"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/app-iot02/Desktop/appiot/appiot/APMonitorView.m"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "156"
-                  endingLineNumber = "156"
-                  offsetFromSymbolStart = "172">
-               </Location>
-               <Location
-                  uuid = "4EFC0CBC-1FAE-440B-BD1B-888B11E854FD - dee0ff489309df6a"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[APMonitorView getDataFromNetwork:row:]"
-                  moduleName = "appiot"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/app-iot02/Desktop/appiot/appiot/APMonitorView.m"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "156"
-                  endingLineNumber = "156"
-                  offsetFromSymbolStart = "180">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
    </Breakpoints>
 </Bucket>
