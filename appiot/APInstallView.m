@@ -8,7 +8,7 @@
 #import "APInstallView.h"
 #import "AppDelegate.h"
 
-#define title_width W_SCALE(118)
+#define title_width W_SCALE(120)
 #define btn_height (H_SCALE(33))
 #define btn_width W_SCALE(100)
 
@@ -37,6 +37,7 @@
 
     [self createSelectedView];
     [self getDataFromLeftView];
+    [self createMenuView];
 
 }
 
@@ -53,6 +54,65 @@
         make.left.mas_equalTo(self.mas_left).offset(Left_Gap);
         make.size.mas_equalTo(CGSizeMake(title_width, btn_height));
     }];
+}
+
+-(void)createMenuView
+{
+    _menuView = [UIView new];
+    [self addSubview:_menuView];
+    [_menuView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.mas_top).offset(btn_height + top_Gap);
+        make.left.mas_equalTo(self.mas_left).offset(0);
+        make.right.mas_equalTo(self.mas_right).offset(0);
+        make.height.mas_equalTo(H_SCALE(65));
+    }];
+    
+    
+    UIImageView *line = [[UIImageView alloc] init];
+    line.backgroundColor = ColorHex(0x8E8E92);
+    [_menuView addSubview:line];
+    [line mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(_menuView.mas_left).offset(0);
+        make.right.mas_equalTo(_menuView.mas_right).offset(0);
+        make.bottom.mas_equalTo(_menuView.mas_bottom).offset(0);
+        make.height.mas_equalTo(0.5);
+    }];
+    
+    NSArray *array = [NSArray arrayWithObjects:@"镜头调节", @"图像调节", @"色彩调节", @"画面剪裁", @"畸变校正", @"安装配置",@"信号",@"设置",@"连接控制",nil];
+    
+    self.menuBtnArray = [NSMutableArray array];
+
+    CGFloat midGap = W_SCALE(23);
+    CGFloat w = W_SCALE(68);
+    int x = Left_Gap;
+    for (int i = 0; i < array.count; i++)
+    {
+        NSString *str = array[i];
+        APMenuButton *button = [[APMenuButton alloc] init];
+        button.lab.text = str;
+        [button addTarget:self action:@selector(menuBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+        [_menuView addSubview:button];
+        [button mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(_menuView.mas_top).offset(0);
+            make.bottom.mas_equalTo(_menuView.mas_bottom).offset(0);
+            make.left.mas_equalTo(_menuView.mas_left).offset(x);
+            make.width.mas_equalTo(w);
+        }];
+//
+        
+        x += w + midGap;
+        
+        if(i == 0)//默认选中第一个
+        {
+            [button sendActionsForControlEvents:UIControlEventTouchUpInside];//代码点击
+        }
+        if (self.menuBtnArray)
+        {
+            [self.menuBtnArray addObject:button];
+        }
+    }
+
+
 }
 
 
@@ -73,7 +133,7 @@
     }];
     
     
-    self.menuBtnArray = [NSMutableArray array];
+    self.btnArray = [NSMutableArray array];
 //    CGFloat w = W_SCALE(102);
     CGFloat midGap = Left_Gap;
     int x = 0;
@@ -103,9 +163,9 @@
         {
             [button sendActionsForControlEvents:UIControlEventTouchUpInside];//代码点击
         }
-        if (self.menuBtnArray)
+        if (self.btnArray)
         {
-            [self.menuBtnArray addObject:button];
+            [self.btnArray addObject:button];
         }
     }
 }
@@ -178,15 +238,61 @@
     if(btn)
     {
         //设置按钮切换后的颜色图片变化
-        for (int i = 0; i < self.menuBtnArray.count; i++)
+        for (int i = 0; i < self.btnArray.count; i++)
         {
-            UIButton *temp = self.menuBtnArray[i];
+            UIButton *temp = self.btnArray[i];
             if (temp)
             {
                 [temp setBackgroundImage:[self imageWithColor:ColorHex(0x29315F)] forState:UIControlStateNormal];
             }
         }
         [btn setBackgroundImage:[self imageWithColor:ColorHex(0x3F6EF2)] forState:UIControlStateNormal];
+        
+        switch (btn.tag) {
+            case 0://
+            {
+//                [self createCommandView];
+            }
+                break;
+            case 1://
+            {
+            }
+                break;
+            case 2://
+            {
+            }
+                break;
+                
+            case 3://“
+            {
+            }
+                break;
+                
+            default:
+                break;
+        }
+    }
+}
+
+
+-(void)menuBtnClick:(APMenuButton *)btn
+{
+    if(btn && btn.lab)
+    {
+        //设置按钮切换后的颜色图片变化
+        for (int i = 0; i < self.menuBtnArray.count; i++)
+        {
+            APMenuButton *temp = self.menuBtnArray[i];
+            if (temp)
+            {
+                temp.lab.textColor = ColorHex(0x9DA2B5);
+                temp.iv.hidden = YES;
+//                [temp setBackgroundImage:[self imageWithColor:ColorHex(0x29315F)] forState:UIControlStateNormal];
+            }
+        }
+//        [btn setBackgroundImage:[self imageWithColor:ColorHex(0x3F6EF2)] forState:UIControlStateNormal];
+        btn.lab.textColor = ColorHex(0x3F6EF2);
+        btn.iv.hidden = NO;
         
         switch (btn.tag) {
             case 0://

@@ -8,7 +8,7 @@
 #import "APMonitorView.h"
 #import "AppDelegate.h"
 
-#define Monitor_getdatafromnet_clock (3)//定时秒 获取数据
+#define Monitor_getdatafromnet_clock (5)//定时秒 获取数据
 
 @implementation APMonitorView
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -173,7 +173,11 @@
                        NSString *lastStr = [arr lastObject];
                        APGroupNote *tempNode = weakSelf.data[row];
 
-                       if([@"AT+LightSource" isEqualToString:firstStr])//光源（快门）开关
+                       if([@"AT+System" isEqualToString:firstStr])//电源开关机
+                       {
+                           tempNode.supply_status = [lastStr containsString:@"On"]?@"1":@"2";
+                       }
+                       else if([@"AT+LightSource" isEqualToString:firstStr])//光源（快门）开关
                        {
                            tempNode.shutter_status = [lastStr containsString:@"On"]?@"1":@"2";
                        }
@@ -186,6 +190,11 @@
                        {
                            arr = [lastStr componentsSeparatedByString:@"\r"];
                            tempNode.machine_running_time = arr?arr[0]:lastStr;;
+                       }
+                       else if([@"AT+SignalChannel" isEqualToString:firstStr])//信源
+                       {
+                           arr = [lastStr componentsSeparatedByString:@"\r"];
+                           tempNode.signals = arr?arr[0]:lastStr;;
                        }
                        else if([@"AT+Temperature" isEqualToString:firstStr])//温度
                        {
@@ -202,7 +211,51 @@
                                }
                            }
                        }
-                       else if([@"appp" isEqualToString:firstStr])//整机信息
+                       else if([@"AT+deviceInfo" isEqualToString:firstStr])//S4整机信息
+                       {
+                           NSString* pattern=@"MachineSn:([^,]*()?)";
+
+                           NSRegularExpression *regex = [NSRegularExpression
+                                                             regularExpressionWithPattern:pattern
+                                                             options:NSRegularExpressionCaseInsensitive error:nil];
+
+
+                           NSArray *match = [regex matchesInString:message options:0 range:NSMakeRange(0, message.length)];
+                           
+                           for (NSTextCheckingResult* b in match)
+                           {
+                               NSRange resultRange = [b rangeAtIndex:0];
+                               //从urlString当中截取数据
+                               NSString *result=[message substringWithRange:resultRange];
+                               if (result)
+                               {
+                                   NSArray *tempArr = [result componentsSeparatedByString:@":"];
+                                   tempNode.device_id = [tempArr lastObject];
+                               }
+                           }
+                           
+                           pattern=@"(NtcEnv1:)[^,]*()?";
+
+                           regex = [NSRegularExpression
+                                                             regularExpressionWithPattern:pattern
+                                                             options:NSRegularExpressionCaseInsensitive error:nil];
+
+
+                           match = [regex matchesInString:message options:0 range:NSMakeRange(0, message.length)];
+                           
+                           for (NSTextCheckingResult* b in match)
+                           {
+                               NSRange resultRange = [b rangeAtIndex:0];
+                               //从urlString当中截取数据
+                               NSString *result=[message substringWithRange:resultRange];
+                               if (result)
+                               {
+                                   NSArray *tempArr = [result componentsSeparatedByString:@":"];
+                                   tempNode.temperature = [tempArr lastObject];
+                               }
+                           }
+                       }
+                       else if([@"appp" isEqualToString:firstStr])//s4mini整机信息
                        {
                            for (NSString *temp in [lastStr componentsSeparatedByString:@","])
                            {
