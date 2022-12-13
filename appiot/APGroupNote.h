@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic , assign) BOOL selected;//是否被选中
 @property (nonatomic) BOOL isDevice;
 @property (nonatomic) BOOL haveChild;
-@property (nonatomic) BOOL needMove;
+//@property (nonatomic) BOOL needMove;
 @property (nonatomic , strong) APGroupNote * grandfather;//祖父节点，
 @property (nonatomic , strong) APGroupNote * father;//父节点，
 
@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic , strong) NSString *port;//端口
 @property (nonatomic , strong) NSString *access_protocol;//连接协议  udp tcp mqtt
 @property (nonatomic , strong) NSString *model_id;//设备型号ID
-//@property (nonatomic , strong) NSString *signals;//信源
+@property (nonatomic , strong) NSString *model_name;//型号名
 
 //控制
 @property (nonatomic,strong)NSMutableDictionary *commandDict;

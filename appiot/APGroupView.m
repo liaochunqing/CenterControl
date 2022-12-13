@@ -84,7 +84,7 @@
         [self initData];
         
         //查询设备
-        FMResultSet *resultSet = [db executeQuery:@"SELECT * FROM log_sn"];
+        FMResultSet *resultSet = [db executeQuery:@"SELECT * FROM log_sn l,dev_model m WHERE l.model_id=m.id"];
           while ([resultSet next])
           {
               APGroupNote *node = [APGroupNote new];
@@ -106,6 +106,7 @@
               node.port = SafeStr([resultSet stringForColumn:@"port"]);
               node.access_protocol = SafeStr([resultSet stringForColumn:@"access_protocol"]);
               node.model_id = SafeStr([resultSet stringForColumn:@"model_id"]);
+              node.model_name = SafeStr([resultSet stringForColumn:@"model"]);
               NSString *errorcode = SafeStr([resultSet stringForColumn:@"new_error_code"]);
               if([node.name containsString:@"-L1+"])//测试代码,方便断点用
               {
