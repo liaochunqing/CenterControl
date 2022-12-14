@@ -90,6 +90,7 @@
         NSString *str = array[i];
         APMenuButton *button = [[APMenuButton alloc] init];
         button.lab.text = str;
+        button.tag = i;
         [button addTarget:self action:@selector(menuBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         [_menuView addSubview:button];
         [button mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -116,7 +117,7 @@
 }
 
 
-//右侧顶部菜单
+//
 - (void)createModelDevice
 {
     if (_baseView)
@@ -252,6 +253,8 @@
             case 0://
             {
 //                [self createCommandView];
+
+                
             }
                 break;
             case 1://
@@ -297,7 +300,22 @@
         switch (btn.tag) {
             case 0://
             {
-//                [self createCommandView];
+                if(_sceneView == nil)
+                {
+                    _sceneView = [[APSceneView alloc] init];
+                    [self addSubview:_sceneView];
+                    [_sceneView mas_makeConstraints:^(MASConstraintMaker *make) {
+                        make.top.mas_equalTo(_menuView.mas_bottom).offset(0);
+                        make.left.mas_equalTo(self.mas_left).offset(0);
+                        make.right.mas_equalTo(self.mas_right).offset(0);
+                        make.bottom.mas_equalTo(self.mas_bottom).offset(0);
+                    }];
+                }
+                else
+                {
+                    [self bringSubviewToFront:_sceneView];
+                }
+
             }
                 break;
             case 1://

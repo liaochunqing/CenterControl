@@ -40,14 +40,17 @@
     WS(weakSelf);
     _timer = [NSTimer scheduledTimerWithTimeInterval:Monitor_getdatafromnet_clock repeats:YES block:^(NSTimer * _Nonnull timer)
     {
-        NSArray *arrIndex = weakSelf.tableview.indexPathsForVisibleRows;
-        for (int i = 0; i<arrIndex.count; i++)
+        if (weakSelf.data && weakSelf.data.count)
         {
-            NSIndexPath *path = arrIndex[i];
-            int row = (int)path.row;
-            APGroupNote *node = weakSelf.data[row];
-            //socket连接机器获取最新信息
-            [weakSelf getDataFromNetwork:node row:row];
+            NSArray *arrIndex = weakSelf.tableview.indexPathsForVisibleRows;
+            for (int i = 0; i<arrIndex.count; i++)
+            {
+                NSIndexPath *path = arrIndex[i];
+                int row = (int)path.row;
+                APGroupNote *node = weakSelf.data[row];
+                //socket连接机器获取最新信息
+                [weakSelf getDataFromNetwork:node row:row];
+            }
         }
     }];
 
@@ -236,10 +239,7 @@
                            
                            pattern=@"(NtcEnv1:)[^,]*()?";
 
-                           regex = [NSRegularExpression
-                                                             regularExpressionWithPattern:pattern
-                                                             options:NSRegularExpressionCaseInsensitive error:nil];
-
+                           regex = [NSRegularExpression regularExpressionWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:nil];
 
                            match = [regex matchesInString:message options:0 range:NSMakeRange(0, message.length)];
                            

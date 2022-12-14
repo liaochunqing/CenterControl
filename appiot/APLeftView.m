@@ -97,15 +97,15 @@
 
 - (void)createScrollMenu
 {
-    UIView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, H_SCALE(70), Left_View_Width, H_SCALE(60))];
+    UIView *scrollView = [[UIScrollView alloc] init];//WithFrame:CGRectMake(0, H_SCALE(70), Left_View_Width, H_SCALE(60))];
     scrollView.backgroundColor = [UIColor clearColor];
     [self addSubview:scrollView];
-//    [scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.right.mas_equalTo(self.mas_right).offset(-Left_Gap);
-//        make.top.mas_equalTo(self.mas_top).offset(0);
-//        make.left.mas_equalTo(self.mas_left).offset(Left_Gap);
-//        make.height.mas_equalTo(H_SCALE(38));
-//    }];
+    [scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(self.mas_right).offset(0);
+        make.top.mas_equalTo(self.mas_top).offset(H_SCALE(70));
+        make.left.mas_equalTo(self.mas_left).offset(0);
+        make.height.mas_equalTo(H_SCALE(60));
+    }];
 
     NSArray *array = [NSArray arrayWithObjects:@"分组", @"机型", @"图纸",nil];
     CGFloat midGap = (Left_View_Width - 2*Left_Gap - array.count*Page_Btn_W)/(array.count - 1);
@@ -184,7 +184,7 @@
 
                 LFPopupMenu *menu = [[LFPopupMenu alloc] init];
                 menu.minWidth = W_SCALE(150);
-                WS(weakSelf);
+//                WS(weakSelf);
                 [menu configWithItems:array action:^(NSInteger index) {
                                        NSLog(@"点击了第%zi个",index);
                     

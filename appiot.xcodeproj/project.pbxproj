@@ -47,6 +47,7 @@
 		C6D010F82946BF67003674C9 /* APPasswordView.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D010F72946BF67003674C9 /* APPasswordView.m */; };
 		C6D010FB2948670C003674C9 /* APMenuButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D010FA2948670C003674C9 /* APMenuButton.m */; };
 		C6D010FF294874C2003674C9 /* remote.db in Resources */ = {isa = PBXBuildFile; fileRef = C6D010FE294874C2003674C9 /* remote.db */; };
+		C6D0110229495D93003674C9 /* APSceneView.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D0110129495D93003674C9 /* APSceneView.m */; };
 		CDAF7A201535A7BF8524ABBD /* Pods_appiot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB3765024A92663D80DC1163 /* Pods_appiot.framework */; };
 		E1FE5C87F1B352B5DF206E02 /* Pods_appiotTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87EB77647DEFF331311B61D6 /* Pods_appiotTests.framework */; };
 /* End PBXBuildFile section */
@@ -152,6 +153,8 @@
 		C6D010F92948670C003674C9 /* APMenuButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APMenuButton.h; sourceTree = "<group>"; };
 		C6D010FA2948670C003674C9 /* APMenuButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APMenuButton.m; sourceTree = "<group>"; };
 		C6D010FE294874C2003674C9 /* remote.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = remote.db; sourceTree = "<group>"; };
+		C6D0110029495D93003674C9 /* APSceneView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APSceneView.h; sourceTree = "<group>"; };
+		C6D0110129495D93003674C9 /* APSceneView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APSceneView.m; sourceTree = "<group>"; };
 		F110C31EB98C931C5089AE17 /* Pods_appiot_appiotUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_appiot_appiotUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -397,6 +400,8 @@
 				C6D010E729409743003674C9 /* APInstallView.m */,
 				C6D010F92948670C003674C9 /* APMenuButton.h */,
 				C6D010FA2948670C003674C9 /* APMenuButton.m */,
+				C6D0110029495D93003674C9 /* APSceneView.h */,
+				C6D0110129495D93003674C9 /* APSceneView.m */,
 			);
 			name = installView;
 			sourceTree = "<group>";
@@ -654,6 +659,7 @@
 				C6D010E829409743003674C9 /* APInstallView.m in Sources */,
 				C6C52855291B7DCF003F24C1 /* appiot.xcdatamodeld in Sources */,
 				C63306CF2935A88B0057DA83 /* APTcpSocket.m in Sources */,
+				C6D0110229495D93003674C9 /* APSceneView.m in Sources */,
 				C6D010DE293DCB61003674C9 /* APDevModel.m in Sources */,
 				C6C52849291B7DCF003F24C1 /* AppDelegate.m in Sources */,
 				C63306C8293059DF0057DA83 /* APDatabaseTool.m in Sources */,
