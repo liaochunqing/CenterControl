@@ -142,6 +142,21 @@
         make.width.mas_equalTo(W_SCALE(78));
     }];
     
+    
+    //创建一个开关对象
+    UISwitch *_mySwitch = [[UISwitch alloc]init];
+    _mySwitch.frame=CGRectMake(W_SCALE(540), H_SCALE(281), W_SCALE(54), H_SCALE(30));
+//    _mySwitch.on=YES;
+    [self addSubview:_mySwitch];
+    //设置开启状态的风格颜色
+    [_mySwitch setOnTintColor:ColorHex(0x0083FF)];
+//    //设置开关圆按钮的风格颜色
+//    [_mySwitch setThumbTintColor:[UIColor blueColor]];
+//    //设置整体风格颜色,按钮的白色是整个父布局的背景颜色
+//    [_mySwitch setTintColor:[UIColor greenColor]];
+    [_mySwitch addTarget:self action:@selector(swChange:) forControlEvents:UIControlEventValueChanged];
+
+    
     NSDictionary *dict1 = @{@"string":@"weiyi_up",
                            @"imageName":@"Group 11715",
                             @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(157), H_SCALE(119), W_SCALE(50.5), H_SCALE(50.5))],
@@ -198,6 +213,34 @@
         [button addTarget:self action:@selector(btnDirectionClick:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:button];
     }
+    
+    /******************************************************************/
+    APAdjustButton *weiyiAdjust = [APAdjustButton new];
+    [self addSubview:weiyiAdjust];
+    [weiyiAdjust mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.mas_left).offset(W_SCALE(300));
+        make.top.mas_equalTo(self.mas_top).offset(H_SCALE(138));
+        make.height.mas_equalTo(H_SCALE(100));
+        make.width.mas_equalTo(W_SCALE(80));
+    }];
+    
+    APAdjustButton *jujiaoAdjust = [APAdjustButton new];
+    [self addSubview:jujiaoAdjust];
+    [jujiaoAdjust mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.mas_left).offset(W_SCALE(681));
+        make.top.mas_equalTo(self.mas_top).offset(H_SCALE(60));
+        make.height.mas_equalTo(H_SCALE(100));
+        make.width.mas_equalTo(W_SCALE(80));
+    }];
+    
+    APAdjustButton *suofangAdjust = [APAdjustButton new];
+    [self addSubview:suofangAdjust];
+    [suofangAdjust mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.mas_left).offset(W_SCALE(681));
+        make.top.mas_equalTo(self.mas_top).offset(H_SCALE(170));
+        make.height.mas_equalTo(H_SCALE(100));
+        make.width.mas_equalTo(W_SCALE(80));
+    }];
 }
 //测试
 -(void)createTestView
@@ -308,7 +351,8 @@
         UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(x, y, btnW, btnH)];
         ViewBorderRadius(button, 3, 0.8, ColorHex(0xADACA8));
         [button setTitle:str forState:UIControlStateNormal];
-        button.titleLabel.font = [UIFont systemFontOfSize: 16];
+//        button.titleLabel.textColor = ColorHex(0x9699AC);
+        button.titleLabel.font = [UIFont systemFontOfSize: 14];
         button.tag = i;
         [button addTarget:self action:@selector(btnTestClick:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:button];
@@ -360,8 +404,11 @@
             {
                 tempIm.hidden = YES;
                 ViewBorderRadius(temp, 3, 0.8, ColorHex(0xADACA8));
+                [temp setTitleColor:ColorHex(0x9699AC) forState:UIControlStateNormal];
             }
         }
+        
+        [btn setTitleColor:ColorHex(0x3F6EF2) forState:UIControlStateNormal];
         ViewBorderRadius(btn, 3, 1, ColorHex(0x3F6EF2 ));
         UIImageView *im = _imageArray[btn.tag];
         if (im)
@@ -393,6 +440,19 @@
             default:
                 break;
         }
+    }
+}
+
+//参数传入开关对象本身
+- (void) swChange:(UISwitch*) sw
+{
+    if(sw.on==YES)
+    {
+//     NSLog(@"开关被打开");
+    }
+    else
+    {
+//     NSLog(@"开关被关闭");
     }
 }
 @end
