@@ -16,6 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic , strong) NSMutableArray *btnArray;
 @property (nonatomic , strong) NSMutableArray *imageArray;
 
+@property (nonatomic , strong) NSMutableArray *testDataArray;
+
 @property (nonatomic, strong)UIView *testBaseView;
 @property (nonatomic, strong)APAdjustButton *wyAdjustButton;
 @property (nonatomic, strong)APAdjustButton *jjAdjustButton;

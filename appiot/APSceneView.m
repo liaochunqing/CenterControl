@@ -321,7 +321,7 @@
     
     NSMutableArray *orgArray = [NSMutableArray arrayWithObjects:dict1, dict2, dict3, dict4,dict5,dict6,dict7,dict8, dict9, dict10, dict11,dict12,dict13,dict14,dict15,nil];
     
-    NSMutableArray *array = [NSMutableArray array];
+    _testDataArray = [NSMutableArray array];
     if(selectedArray && selectedArray.count)
     {
         APGroupNote *node = selectedArray[0];
@@ -333,7 +333,7 @@
                 NSString *str = dict[@"exec_code"];
                 if ([str compare:key options:NSCaseInsensitiveSearch] ==NSOrderedSame)
                 {
-                    [array addObject:dict];
+                    [_testDataArray addObject:dict];
                     [orgArray removeObject:dict];
                 }
             }
@@ -390,9 +390,9 @@
     CGFloat x = 2*Left_Gap;
     CGFloat y = H_SCALE(28);
 
-    for (int i = 0; i < array.count; i++)
+    for (int i = 0; i < _testDataArray.count; i++)
     {
-        NSDictionary *dic = array[i];
+        NSDictionary *dic = _testDataArray[i];
         if (dic == nil)
         {
             continue;
@@ -554,6 +554,13 @@
             im.hidden = NO;
         }
 
+        //发送指令
+        if (_testDataArray && _testDataArray.count > btn.tag)
+        {
+            NSDictionary *dic = _testDataArray[btn.tag];
+            NSString *key = dic[@"exec_code"];
+            [self sendMssageToDev:key];
+        }
 
         switch (btn.tag) {
             case 0://
