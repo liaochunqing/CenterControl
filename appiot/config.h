@@ -13,6 +13,7 @@
 #import "FMDB.h"
 #import "APTcpSocket.h"
 #import "APGroupNote.h"
+#import "APUdpSocket.h"
 
 #ifndef config_h
 #define config_h

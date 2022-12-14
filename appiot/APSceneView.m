@@ -33,7 +33,7 @@
 //    [kNotificationCenter addObserver:self selector:@selector(notifySelectedDevChanged:) name:Notification_Get_SelectedDev object:nil];
 
 
-    [self createTestView];
+//    [self createTestView];
     [self createCameraView];
 }
 
@@ -216,6 +216,7 @@
     
     /******************************************************************/
     APAdjustButton *weiyiAdjust = [APAdjustButton new];
+    _wyAdjustButton = weiyiAdjust;
     [self addSubview:weiyiAdjust];
     [weiyiAdjust mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.mas_left).offset(W_SCALE(300));
@@ -225,6 +226,7 @@
     }];
     
     APAdjustButton *jujiaoAdjust = [APAdjustButton new];
+    _jjAdjustButton = jujiaoAdjust;
     [self addSubview:jujiaoAdjust];
     [jujiaoAdjust mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.mas_left).offset(W_SCALE(681));
@@ -234,6 +236,7 @@
     }];
     
     APAdjustButton *suofangAdjust = [APAdjustButton new];
+    _sfAdjustButton = suofangAdjust;
     [self addSubview:suofangAdjust];
     [suofangAdjust mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.mas_left).offset(W_SCALE(681));
@@ -243,65 +246,99 @@
     }];
 }
 //测试
--(void)createTestView
+-(void)createTestView:(NSArray *)selectedArray
 {
+    _selectedArray = [NSMutableArray arrayWithArray:selectedArray];
     NSDictionary *dict1 = @{@"string":@"关",
                            @"color":ColorHex(0x1D2242),
+                            @"exec_code":@"scene-testChart-Off",
     };
     NSDictionary *dict2 = @{@"string":@"网格",
                            @"color":ColorHex(0x1D2242),
+                            @"exec_code":@"scene-testChart-Grid",
     };
     NSDictionary *dict3 = @{@"string":@"白",
                            @"color":ColorHex(0x1D2242),
+                            @"exec_code":@"scene-testChart-White",
     };
     NSDictionary *dict4 = @{@"string":@"红",
                            @"color":ColorHex(0x1D2242),
+                            @"exec_code":@"scene-testChart-Rad",
     };
     
     NSDictionary *dict5 = @{@"string":@"绿",
                            @"color":ColorHex(0x1D2242),
+                            @"exec_code":@"scene-testChart-Green",
     };
     
     NSDictionary *dict6 = @{@"string":@"蓝",
                            @"color":ColorHex(0x1D2242),
+                            @"exec_code":@"scene-testChart-Blue",
     };
     
     NSDictionary *dict7 = @{@"string":@"青",
                             @"color":ColorHex(0x1D2242),
+                            @"exec_code":@"scene-testChart-Cyan",
     };
     
     NSDictionary *dict8 = @{@"string":@"洋红",
                            @"color":ColorHex(0x1D2242),
+                            @"exec_code":@"scene-testChart-Radc",
     };
     NSDictionary *dict9 = @{@"string":@"黄",
                            @"color":ColorHex(0x1D2242),
+                            @"exec_code":@"scene-testChart-yellow",
     };
     NSDictionary *dict10 = @{@"string":@"黑",
                            @"color":ColorHex(0x1D2242),
+                             @"exec_code":@"scene-testChart-Black",
     };
     NSDictionary *dict11 = @{@"string":@"16灰阶",
                            @"color":ColorHex(0x1D2242),
+                             @"exec_code":@"scene-testChart-Grey16",
     };
     
     NSDictionary *dict12 = @{@"string":@"256灰阶",
                            @"color":ColorHex(0x1D2242),
+                             @"exec_code":@"scene-testChart-Grey256",
     };
     
     NSDictionary *dict13 = @{@"string":@"彩条",
                            @"color":ColorHex(0x1D2242),
+                             @"exec_code":@"scene-testChart-ColorBars",
     };
     
     NSDictionary *dict14 = @{@"string":@"rgb ramp",
                             @"color":ColorHex(0x1D2242),
+                             @"exec_code":@"scene-testChart-Grid1",
                              
     };
     NSDictionary *dict15 = @{@"string":@"棋盘格",
                             @"color":ColorHex(0x1D2242),
+                             @"exec_code":@"scene-testChart-CheckErboard",
     };
     
     
-    NSArray *array = [NSArray arrayWithObjects:dict1, dict2, dict3, dict4,dict5,dict6,dict7,dict8, dict9, dict10, dict11,dict12,dict13,dict14,dict15,nil];
-
+    NSMutableArray *orgArray = [NSMutableArray arrayWithObjects:dict1, dict2, dict3, dict4,dict5,dict6,dict7,dict8, dict9, dict10, dict11,dict12,dict13,dict14,dict15,nil];
+    
+    NSMutableArray *array = [NSMutableArray array];
+    if(selectedArray && selectedArray.count)
+    {
+        APGroupNote *node = selectedArray[0];
+        for (NSString *key in node.sceneDict)
+        {
+            for (int i = (int)orgArray.count - 1; i >= 0; i--)
+            {
+                NSDictionary *dict = orgArray[i];
+                NSString *str = dict[@"exec_code"];
+                if ([str compare:key options:NSCaseInsensitiveSearch] ==NSOrderedSame)
+                {
+                    [array addObject:dict];
+                    [orgArray removeObject:dict];
+                }
+            }
+        }
+    }
 
     _btnArray = [NSMutableArray array];
     _imageArray = [NSMutableArray array];
@@ -332,12 +369,26 @@
         make.width.mas_equalTo(150);
     }];
     
+    [_testBaseView removeFromSuperview];
+    _testBaseView = [[UIView alloc] init];
+//    _testBaseView.backgroundColor = [UIColor redColor];
+    [self addSubview:_testBaseView];
+    ViewRadius(view, 5);
+//    _testBaseView.backgroundColor = ColorHex(0x2D355C);
+//    self.testBaseView = view;
+    [_testBaseView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.mas_left).offset(0);
+        make.top.mas_equalTo(view.mas_bottom).offset(0);
+        make.right.mas_equalTo(self.mas_right).offset(0);
+        make.bottom.mas_equalTo(self.mas_bottom).offset(0);
+    }];
+    
     CGFloat btnW = W_SCALE(80);
     CGFloat btnH = H_SCALE(37);
     int col = 7;
     CGFloat midGap = ((view_width - 2*Left_Gap - 2*Left_Gap) - btnW*col) / (col-1);
     CGFloat x = 2*Left_Gap;
-    CGFloat y = H_SCALE(403);
+    CGFloat y = H_SCALE(28);
 
     for (int i = 0; i < array.count; i++)
     {
@@ -351,11 +402,11 @@
         UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(x, y, btnW, btnH)];
         ViewBorderRadius(button, 3, 0.8, ColorHex(0xADACA8));
         [button setTitle:str forState:UIControlStateNormal];
-//        button.titleLabel.textColor = ColorHex(0x9699AC);
+        [button setTitleColor:ColorHex(0x9699AC) forState:UIControlStateNormal];
         button.titleLabel.font = [UIFont systemFontOfSize: 14];
         button.tag = i;
         [button addTarget:self action:@selector(btnTestClick:) forControlEvents:UIControlEventTouchUpInside];
-        [self addSubview:button];
+        [_testBaseView addSubview:button];
         
         UIImageView *_iv = [[UIImageView alloc] init];
         _iv.image = [UIImage imageNamed:@"Group 11710"];
@@ -371,7 +422,7 @@
 //        int yu = i%col;
 //        int mod = i/col;
         x = 2*Left_Gap + (btnW + midGap) * ((i+1)%col);
-        y =  H_SCALE(403) +(btnH + W_SCALE(32)) * ((i+1)/col);
+        y =  H_SCALE(28) +(btnH + W_SCALE(32)) * ((i+1)/col);
         
         [_btnArray addObject:button];
         [_imageArray addObject:_iv];
@@ -381,13 +432,100 @@
 //自动居中按钮
 -(void)btnAutoCenterClick:(UIButton *)btn
 {
-    
+    NSString *key = @"scene-auto-center";
+    [self sendMssageToDev:key];
+}
+
+-(void)sendMssageToDev:(NSString *)key
+{
+    for (APGroupNote *node in _selectedArray)
+    {
+        NSData* sendData = node.sceneDict[key];
+
+        if ([@"tcp" compare:node.access_protocol options:NSCaseInsensitiveSearch |NSNumericSearch] ==NSOrderedSame)
+        {
+            NSLog(@"%@,ip=%@,port=%@,发送数据：%@",node.access_protocol,node.ip,node.port,sendData);
+
+            APTcpSocket *tcpManager = [APTcpSocket shareManager];
+            [tcpManager connectToHost:node.ip Port:[node.port intValue]];
+            [tcpManager sendData:sendData];
+        }
+        else if ([@"udp" compare:node.access_protocol options:NSCaseInsensitiveSearch |NSNumericSearch] ==NSOrderedSame)
+        {
+            NSLog(@"%@,ip=%@,port=%@,发送数据：%@",node.access_protocol,node.ip,node.port,sendData);
+            NSString *sss = [[NSString alloc] initWithData:sendData encoding:NSUTF8StringEncoding];
+
+            APUdpSocket *udpManager = [APUdpSocket sharedInstance];
+            udpManager.host = node.ip;//@"255.255.255.255";
+            udpManager.port = [node.port intValue];
+            [udpManager createClientUdpSocket];
+            [udpManager sendMessage:sendData];
+        }
+    }
 }
 
 //方向按钮
 -(void)btnDirectionClick:(UIButton *)btn
 {
-    
+    switch (btn.tag) {
+        case 0://位移上
+        {
+            NSString *key = _wyAdjustButton.microBtn.selected?@"scene-up-fine tuning":@"scene-up-coarse tuning";
+            [self sendMssageToDev:key];
+        }
+            break;
+        case 1://位移右
+        {
+            NSString *key = _wyAdjustButton.microBtn.selected?@"scene-right-fine tuning":@"scene-right-coarse tuning";
+            [self sendMssageToDev:key];
+        }
+            break;
+        case 2://位移下
+        {
+            NSString *key = _wyAdjustButton.microBtn.selected?@"scene-down-fine tuning":@"scene-down-coarse tuning";
+            [self sendMssageToDev:key];
+        }
+            break;
+            
+        case 3://位移左
+        {
+            NSString *key = _wyAdjustButton.microBtn.selected?@"scene-left-fine tuning":@"scene-left-coarse tuning";
+            [self sendMssageToDev:key];
+        }
+            break;
+            
+        case 4://聚焦左
+        {
+            NSString *key = _jjAdjustButton.microBtn.selected?@"scene-focusing-left-fine tuning":@"scene-focusing-left-coarse tuning";
+            [self sendMssageToDev:key];
+            
+        }
+            break;
+        case 5://聚焦右
+        {
+            NSString *key = _jjAdjustButton.microBtn.selected?@"scene-focusing-right-fine tuning":@"scene-focusing-right-coarse tuning";
+            [self sendMssageToDev:key];
+        }
+            break;
+        case 6://缩放左
+        {
+            NSString *key = _sfAdjustButton.microBtn.selected?@"scene-zoom-left-fine tuning":@"scene-zoom-left-coarse tuning";
+            [self sendMssageToDev:key];
+        }
+            break;
+            
+        case 7://缩放右
+        {
+            NSString *key = _sfAdjustButton.microBtn.selected?@"scene-zoom-right-fine tuning":@"scene-zoom-right-coarse tuning";
+            [self sendMssageToDev:key];
+        }
+            break;
+            
+        default:
+            break;
+    }
+            
+
 }
 
 
@@ -449,10 +587,14 @@
     if(sw.on==YES)
     {
 //     NSLog(@"开关被打开");
+        NSString *key = @"scene-shutter-On";
+        [self sendMssageToDev:key];
     }
     else
     {
 //     NSLog(@"开关被关闭");
+        NSString *key = @"scene-shutter-Off";
+        [self sendMssageToDev:key];
     }
 }
 @end

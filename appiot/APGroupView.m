@@ -140,11 +140,22 @@
             resultSet = [db executeQuery:sqlStr];
             while ([resultSet next])
             {
-                
                 NSString *key = SafeStr([resultSet stringForColumn:@"exec_code"]);
                 NSString *param = SafeStr([resultSet stringForColumn:@"parameter_value"]);
                 NSData *data = [self getSendDataFromParam:param node:node];
                 [node.monitorDict setValue:data forKey:key];
+            }
+            
+            // 获取安装调节界面的命令  scene
+            node.sceneDict = [NSMutableDictionary dictionary];
+            sqlStr = [NSString stringWithFormat:@"select l.parameter_value,i.exec_code from zk_command_mount m,zk_execlist_info i ,dev_execlist l where m.model_id=%@ and m.tab_code='scene' and  m.exec_info_id=i.id and m.dev_exec_id=l.id",node.model_id];
+            resultSet = [db executeQuery:sqlStr];
+            while ([resultSet next])
+            {
+                NSString *key = SafeStr([resultSet stringForColumn:@"exec_code"]);
+                NSString *param = SafeStr([resultSet stringForColumn:@"parameter_value"]);
+                NSData *data = [self getSendDataFromParam:param node:node];
+                [node.sceneDict setValue:data forKey:key];
             }
         }
         
@@ -262,7 +273,7 @@
         temp = [arr firstObject];
     }
     
-    if([node.name containsString:@"设备-L5"])//测试代码,方便断点用
+    if([node.model_id containsString:@"46"])//测试代码,方便断点用
     {
         int i = 0;
     }
@@ -872,7 +883,7 @@
     NSMutableIndexSet *set = [[NSMutableIndexSet alloc] init];//临时容器，存储将要删除的节点
 
     //需要帅选掉的
-    NSMutableArray *tempArray = [NSMutableArray array];
+//    NSMutableArray *tempArray = [NSMutableArray array];
     for (APGroupNote* node in selectedArr)
     {
         if(node.isDevice == NO)

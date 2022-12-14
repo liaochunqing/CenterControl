@@ -17,6 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic , strong) NSMutableArray *btnArray;
 @property (nonatomic , strong) NSMutableArray *menuBtnArray;
 
+@property (nonatomic)int selectedModelTag;
+
 @property(nonatomic,strong)APSceneView *sceneView;
 
 @property(nonatomic,strong)UIView *baseView;

@@ -112,8 +112,6 @@
             [self.menuBtnArray addObject:button];
         }
     }
-
-
 }
 
 
@@ -249,6 +247,12 @@
         }
         [btn setBackgroundImage:[self imageWithColor:ColorHex(0x3F6EF2)] forState:UIControlStateNormal];
         
+        _selectedModelTag = (int)btn.tag;
+        if(_sceneView && _sortData && _sortData.count)
+        {
+            [_sceneView createTestView:_sortData[_selectedModelTag]];
+        }
+
         switch (btn.tag) {
             case 0://
             {
@@ -297,6 +301,9 @@
         btn.lab.textColor = ColorHex(0x3F6EF2);
         btn.iv.hidden = NO;
         
+        [_sceneView removeFromSuperview];
+        _sceneView = nil;
+        
         switch (btn.tag) {
             case 0://
             {
@@ -310,6 +317,11 @@
                         make.right.mas_equalTo(self.mas_right).offset(0);
                         make.bottom.mas_equalTo(self.mas_bottom).offset(0);
                     }];
+                    
+                    if(_sceneView && _sortData && _sortData.count)
+                    {
+                        [_sceneView createTestView:_sortData[_selectedModelTag]];
+                    }
                 }
                 else
                 {
