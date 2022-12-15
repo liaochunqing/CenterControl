@@ -49,6 +49,7 @@
 		C6D010FF294874C2003674C9 /* remote.db in Resources */ = {isa = PBXBuildFile; fileRef = C6D010FE294874C2003674C9 /* remote.db */; };
 		C6D0110229495D93003674C9 /* APSceneView.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D0110129495D93003674C9 /* APSceneView.m */; };
 		C6D0110829499D69003674C9 /* APAdjustButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D0110729499D69003674C9 /* APAdjustButton.m */; };
+		C6ED8A2D294ABAF800C98D7B /* APConfigureView.m in Sources */ = {isa = PBXBuildFile; fileRef = C6ED8A2C294ABAF800C98D7B /* APConfigureView.m */; };
 		CDAF7A201535A7BF8524ABBD /* Pods_appiot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB3765024A92663D80DC1163 /* Pods_appiot.framework */; };
 		E1FE5C87F1B352B5DF206E02 /* Pods_appiotTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87EB77647DEFF331311B61D6 /* Pods_appiotTests.framework */; };
 /* End PBXBuildFile section */
@@ -158,6 +159,8 @@
 		C6D0110129495D93003674C9 /* APSceneView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APSceneView.m; sourceTree = "<group>"; };
 		C6D0110629499D69003674C9 /* APAdjustButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APAdjustButton.h; sourceTree = "<group>"; };
 		C6D0110729499D69003674C9 /* APAdjustButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APAdjustButton.m; sourceTree = "<group>"; };
+		C6ED8A2B294ABAF800C98D7B /* APConfigureView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APConfigureView.h; sourceTree = "<group>"; };
+		C6ED8A2C294ABAF800C98D7B /* APConfigureView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APConfigureView.m; sourceTree = "<group>"; };
 		F110C31EB98C931C5089AE17 /* Pods_appiot_appiotUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_appiot_appiotUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -403,6 +406,8 @@
 				C6D010E729409743003674C9 /* APInstallView.m */,
 				C6D0110029495D93003674C9 /* APSceneView.h */,
 				C6D0110129495D93003674C9 /* APSceneView.m */,
+				C6ED8A2B294ABAF800C98D7B /* APConfigureView.h */,
+				C6ED8A2C294ABAF800C98D7B /* APConfigureView.m */,
 				C6D010F92948670C003674C9 /* APMenuButton.h */,
 				C6D010FA2948670C003674C9 /* APMenuButton.m */,
 				C6D0110629499D69003674C9 /* APAdjustButton.h */,
@@ -684,6 +689,7 @@
 				C6CA8BBD292233B700F5AAC2 /* APBaseView.m in Sources */,
 				C6CA8BC02922345800F5AAC2 /* APCommandView.m in Sources */,
 				C6D010FB2948670C003674C9 /* APMenuButton.m in Sources */,
+				C6ED8A2D294ABAF800C98D7B /* APConfigureView.m in Sources */,
 				C63306B4292DCF050057DA83 /* APMonitorCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

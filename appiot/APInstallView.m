@@ -252,25 +252,29 @@
         {
             [_sceneView createTestView:_sortData[_selectedModelTag]];
         }
+        
+        if(_configureView != nil)
+        {
+            [_configureView removeFromSuperview];
+            _configureView = nil;
+            
+            _configureView = [[APConfigureView alloc] init];
+            [self addSubview:_configureView];
+            [_configureView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.top.mas_equalTo(_menuView.mas_bottom).offset(0);
+                make.left.mas_equalTo(self.mas_left).offset(0);
+                make.right.mas_equalTo(self.mas_right).offset(0);
+                make.bottom.mas_equalTo(self.mas_bottom).offset(0);
+            }];
+            
+            if(_configureView && _sortData && _sortData.count)
+            {
+                [_configureView setDefaultValue:_sortData[_selectedModelTag]];
+            }
+        }
 
         switch (btn.tag) {
             case 0://
-            {
-//                [self createCommandView];
-
-                
-            }
-                break;
-            case 1://
-            {
-            }
-                break;
-            case 2://
-            {
-            }
-                break;
-                
-            case 3://“
             {
             }
                 break;
@@ -301,8 +305,16 @@
         btn.lab.textColor = ColorHex(0x3F6EF2);
         btn.iv.hidden = NO;
         
-        [_sceneView removeFromSuperview];
-        _sceneView = nil;
+        if (_sceneView)
+        {
+            [_sceneView removeFromSuperview];
+            _sceneView = nil;
+        }
+        if (_configureView)
+        {
+            [_configureView removeFromSuperview];
+            _configureView = nil;
+        }
         
         switch (btn.tag) {
             case 0://
@@ -339,8 +351,28 @@
             }
                 break;
                 
-            case 3://“
+            case 5://“
             {
+                if(_configureView == nil)
+                {
+                    _configureView = [[APConfigureView alloc] init];
+                    [self addSubview:_configureView];
+                    [_configureView mas_makeConstraints:^(MASConstraintMaker *make) {
+                        make.top.mas_equalTo(_menuView.mas_bottom).offset(0);
+                        make.left.mas_equalTo(self.mas_left).offset(0);
+                        make.right.mas_equalTo(self.mas_right).offset(0);
+                        make.bottom.mas_equalTo(self.mas_bottom).offset(0);
+                    }];
+                    
+                    if(_configureView && _sortData && _sortData.count)
+                    {
+                        [_configureView setDefaultValue:_sortData[_selectedModelTag]];
+                    }
+                }
+                else
+                {
+                    [self bringSubviewToFront:_configureView];
+                }
             }
                 break;
                 

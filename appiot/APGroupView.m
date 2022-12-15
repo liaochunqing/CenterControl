@@ -146,7 +146,7 @@
                 [node.monitorDict setValue:data forKey:key];
             }
             
-            // 获取安装调节界面的命令  scene
+            // 获取安装调节界面的命令  （镜头调节）scene
             node.sceneDict = [NSMutableDictionary dictionary];
             sqlStr = [NSString stringWithFormat:@"select l.parameter_value,i.exec_code from zk_command_mount m,zk_execlist_info i ,dev_execlist l where m.model_id=%@ and m.tab_code='scene' and  m.exec_info_id=i.id and m.dev_exec_id=l.id",node.model_id];
             resultSet = [db executeQuery:sqlStr];
@@ -156,6 +156,18 @@
                 NSString *param = SafeStr([resultSet stringForColumn:@"parameter_value"]);
                 NSData *data = [self getSendDataFromParam:param node:node];
                 [node.sceneDict setValue:data forKey:key];
+            }
+            
+            // 获取安装调节界面的命令  （安装配置）install_config
+            node.installConfigDict = [NSMutableDictionary dictionary];
+            sqlStr = [NSString stringWithFormat:@"select l.parameter_value,i.exec_code from zk_command_mount m,zk_execlist_info i ,dev_execlist l where m.model_id=%@ and m.tab_code='install_config' and  m.exec_info_id=i.id and m.dev_exec_id=l.id",node.model_id];
+            resultSet = [db executeQuery:sqlStr];
+            while ([resultSet next])
+            {
+                NSString *key = SafeStr([resultSet stringForColumn:@"exec_code"]);
+                NSString *param = SafeStr([resultSet stringForColumn:@"parameter_value"]);
+                NSData *data = [self getSendDataFromParam:param node:node];
+                [node.installConfigDict setValue:data forKey:key];
             }
         }
         
@@ -972,7 +984,7 @@
     return YES;
 
 }
-#pragma mark *** UITableViewDelegate/UITableViewDataSource ***
+#pragma mark UITableViewDelegate/UITableViewDataSource
  
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {

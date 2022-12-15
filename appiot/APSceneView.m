@@ -561,35 +561,11 @@
             NSString *key = dic[@"exec_code"];
             [self sendMssageToDev:key];
         }
-
-        switch (btn.tag) {
-            case 0://
-            {
-//                [self createCommandView];
-            }
-                break;
-            case 1://
-            {
-            }
-                break;
-            case 2://
-            {
-            }
-                break;
-                
-            case 3://“
-            {
-            }
-                break;
-                
-            default:
-                break;
-        }
     }
 }
 
 //参数传入开关对象本身
-- (void) swChange:(UISwitch*) sw
+- (void)swChange:(UISwitch*) sw
 {
     if(sw.on==YES)
     {
