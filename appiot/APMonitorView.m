@@ -153,7 +153,6 @@
 {
     if ([@"tcp" compare:node.access_protocol options:NSCaseInsensitiveSearch |NSNumericSearch] ==NSOrderedSame)
     {
-//        NSData * sendData = node.monitorDict[Monitor_device_info];
         int i = 0;
         for (NSString * key in node.monitorDict)
         {
@@ -162,7 +161,6 @@
             
             _tcpManager = [APTcpSocket shareManager];
             [_tcpManager connectToHost:node.ip Port:[node.port intValue]];
-//            [_tcpManager sendData:tcpdata];
             [_tcpManager performSelector:@selector(sendData:) withObject:tcpdata afterDelay:0.2*i];
             WS(weakSelf);
     //

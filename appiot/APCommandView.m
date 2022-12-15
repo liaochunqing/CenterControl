@@ -357,11 +357,13 @@
     for (APGroupNote *node in _data)
     {
         NSData * sendData = node.commandDict[command];
-        
+        if (sendData == nil)
+            continue;
         
         if ([@"tcp" compare:node.access_protocol options:NSCaseInsensitiveSearch |NSNumericSearch] ==NSOrderedSame)
         {
             NSLog(@"%@,ip=%@,port=%@,发送数据：%@",node.access_protocol,node.ip,node.port,sendData);
+            NSString *sss = [[NSString alloc] initWithData:sendData encoding:NSUTF8StringEncoding];
 
             APTcpSocket *tcpManager = [APTcpSocket shareManager];
             [tcpManager connectToHost:node.ip Port:[node.port intValue]];
@@ -373,7 +375,7 @@
             NSString *sss = [[NSString alloc] initWithData:sendData encoding:NSUTF8StringEncoding];
 
             APUdpSocket *udpManager = [APUdpSocket sharedInstance];
-            udpManager.host = node.ip;//@"255.255.255.255";
+            udpManager.host = node.ip;
             udpManager.port = [node.port intValue];
             [udpManager createClientUdpSocket];
             [udpManager sendMessage:sendData];

@@ -441,6 +441,8 @@
     for (APGroupNote *node in _selectedArray)
     {
         NSData* sendData = node.sceneDict[key];
+        if (sendData == nil)
+            continue;
 
         if ([@"tcp" compare:node.access_protocol options:NSCaseInsensitiveSearch |NSNumericSearch] ==NSOrderedSame)
         {

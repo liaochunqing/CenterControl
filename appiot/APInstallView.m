@@ -315,6 +315,11 @@
             [_configureView removeFromSuperview];
             _configureView = nil;
         }
+        if (_imageView)
+        {
+            [_imageView removeFromSuperview];
+            _imageView = nil;
+        }
         
         switch (btn.tag) {
             case 0://
@@ -344,6 +349,22 @@
                 break;
             case 1://
             {
+                if(_imageView == nil)
+                {
+                    _imageView = [[APImageView alloc] init];
+                    [self addSubview:_imageView];
+                    [_imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+                        make.top.mas_equalTo(_menuView.mas_bottom).offset(0);
+                        make.left.mas_equalTo(self.mas_left).offset(0);
+                        make.right.mas_equalTo(self.mas_right).offset(0);
+                        make.bottom.mas_equalTo(self.mas_bottom).offset(0);
+                    }];
+                    
+                    if(_imageView && _sortData && _sortData.count)
+                    {
+//                        [_imageView createTestView:_sortData[_selectedModelTag]];
+                    }
+                }
             }
                 break;
             case 2://

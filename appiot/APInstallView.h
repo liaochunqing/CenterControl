@@ -9,6 +9,7 @@
 #import "APMenuButton.h"
 #import "APSceneView.h"
 #import "APConfigureView.h"
+#import "APImageView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -23,6 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic,strong)APSceneView *sceneView;
 @property(nonatomic,strong)APConfigureView *configureView;
+@property(nonatomic,strong)APImageView *imageView;
 
 
 @property(nonatomic,strong)UIView *baseView;

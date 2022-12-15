@@ -9,13 +9,6 @@
 
 @implementation APBaseView
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
-}
-*/
 
 //颜色转换为背景图片
 - (UIImage *)imageWithColor:(UIColor *)color
