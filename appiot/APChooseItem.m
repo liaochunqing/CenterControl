@@ -21,16 +21,6 @@
 
 -(void)createUI
 {
-//    UIView *baseview = [[UIView alloc] init];
-//    [self addSubview:baseview];
-//    [baseview mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.mas_equalTo(self.mas_top).offset(0);
-//        make.left.mas_equalTo(self.mas_left).offset(0);
-//        make.bottom.mas_equalTo(self.mas_bottom).offset(0);
-//        make.right.mas_equalTo(self.mas_right).offset(0);
-//    }];
-//    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(singleTapAction)];
-//    [baseview addGestureRecognizer:singleTap];
     [self createScaleView];
 }
 
@@ -88,9 +78,24 @@
     }];
 }
 
-
+-(UIView*)hitTest:(CGPoint)point withEvent:(UIEvent*)event
+{
+    UIView*view = [super hitTest:point withEvent:event];
+    if(view ==nil)
+    {
+        for(UIView*subView in self.subviews)
+        {
+            CGPoint myPoint = [subView convertPoint:point fromView:self];
+            if(CGRectContainsPoint(subView.bounds, myPoint))
+            {
+                return subView;
+            }
+        }
+    }
+    return view;
+}
 #pragma  mark 私有方法
--(void)setGroupTable
+-(void)setTableStatus
 {
     if (_tableView == nil)
     {
@@ -100,6 +105,8 @@
         _tableView.delegate = self;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _tableView.backgroundColor = [UIColor whiteColor];
+        _tableView.alpha = 1;
+
         ViewBorderRadius(_tableView, 5, 1, ColorHex(0xABBDD5 ));
         [self addSubview:_tableView];
         [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -108,19 +115,16 @@
             make.left.mas_equalTo(_field.mas_left).offset(0);
             make.height.mas_equalTo(h);
         }];
+        [self.superview bringSubviewToFront:self];
     }
     else
     {
-//        _groupTableView.hidden = !_groupTableView.hidden;
         [_tableView removeFromSuperview];
         _tableView = nil;
     }
     
-//    if (_groupTableView)
-    {
-        NSString *name = _tableView?@"Vector(1)" : @"Vector(2)";
-        _expendIm.image = [UIImage imageNamed:name];
-    }
+    NSString *name = _tableView?@"Vector(1)" : @"Vector(2)";
+    _expendIm.image = [UIImage imageNamed:name];
 }
 
 
@@ -150,7 +154,7 @@
 //写你要实现的：页面跳转的相关代码
 //    if (textField == _groupField)
     {
-        [self setGroupTable];
+        [self setTableStatus];
         return NO;
     }
     
@@ -212,6 +216,7 @@
     [cell.textLabel setTextColor:[UIColor blackColor]];
     cell.textLabel.font = [UIFont systemFontOfSize:14];
     cell.backgroundColor = [UIColor whiteColor];
+    cell.alpha = 1;
     //设置被选中颜色
     cell.selectedBackgroundView = [[UIView alloc] initWithFrame:cell.frame];
     cell.selectedBackgroundView.backgroundColor = ColorHex(0x29315F );//
@@ -236,15 +241,32 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 //    NSUInteger row = indexPath.row ;
-    //
-//    if (tableView == _groupTableView)
-    {
-        NSString *str = _dataArray[indexPath.row];
-        _field.text = SafeStr(str);
-        [self setGroupTable];
-//        [self sendDataToDevice:SafeStr(key)];
-    }
+    NSString *str = _dataArray[indexPath.row];
+    _field.text = SafeStr(str);
+    [self setTableStatus];
+    
+    self.cellClickBlock(SafeStr(str));
 }
 
 
+
+//
+//-(UIView*)hitTest:(CGPoint)point withEvent:(UIEvent*)event
+//{
+//    UIView *view = [super hitTest:point withEvent:event];
+//
+//    if (view == nil)
+//    {
+//          //将坐标由当前视图发送到 指定视图 fromView是无法响应的范围小父视图
+//
+//         CGPoint stationPoint = [_tableView convertPoint:point fromView:self];
+//
+//        if (CGRectContainsPoint(_tableView.bounds, stationPoint))
+//        {
+//                     view = _tableView;
+//        }
+//
+//    }
+//    return view;
+//}
 @end

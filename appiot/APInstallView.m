@@ -253,6 +253,11 @@
             [_sceneView createTestView:_sortData[_selectedModelTag]];
         }
         
+        if(_imageView && _sortData && _sortData.count)
+        {
+            [_imageView setDefaultValue:_sortData[_selectedModelTag]];
+        }
+        
         if(_configureView != nil)
         {
             [_configureView removeFromSuperview];
@@ -362,7 +367,7 @@
                     
                     if(_imageView && _sortData && _sortData.count)
                     {
-//                        [_imageView createTestView:_sortData[_selectedModelTag]];
+                        [_imageView setDefaultValue:_sortData[_selectedModelTag]];
                     }
                 }
             }

@@ -39,6 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,strong)NSMutableDictionary *monitorDict;
 @property (nonatomic,strong)NSMutableDictionary *sceneDict;
 @property (nonatomic,strong)NSMutableDictionary *installConfigDict;
+@property (nonatomic,strong)NSMutableDictionary *imageDict;
 
 //监测的属性
 @property (nonatomic , strong) NSString *signals;//信源
