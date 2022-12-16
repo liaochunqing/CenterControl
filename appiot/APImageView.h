@@ -7,11 +7,14 @@
 
 #import "APBaseView.h"
 #import "APSetNumberItem.h"
+#import "APChooseItem.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface APImageView : APBaseView
+@property (nonatomic,strong)NSMutableArray *selectedDevArray;//选中的设备
 
+@property(nonatomic,strong)NSMutableDictionary *sceneModeDict;
 
 -(void)setDefaultValue:(NSArray *)array;
 @end

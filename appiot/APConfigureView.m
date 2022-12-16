@@ -247,6 +247,63 @@
         }
     }
 }
+#pragma mark 对外接口
+-(void)setDefaultValue:(NSArray *)array
+{
+    if (array == nil || array.count == 0)
+        return;
+
+    _selectedDevArray = [NSMutableArray arrayWithArray:array];
+
+    //设置默认值
+    //1.获得数据库文件的路径
+    NSString *doc = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    NSString *dbfileName = [doc stringByAppendingPathComponent:DB_NAME];
+    //2.获得数据库
+    FMDatabase *db = [FMDatabase databaseWithPath:dbfileName];
+    //3.打开数据库
+    if ([db open])
+    {
+        //初始化数据容器
+        _groupData = [NSMutableArray array];
+        _modelData = [NSMutableArray array];
+
+        // 获取安装调节界面的命令  （安装配置）install_config
+        APGroupNote *node = array[0];
+        NSString* sqlStr = [NSString stringWithFormat:@"select l.exec_name,i.exec_code from zk_command_mount m,zk_execlist_info i ,dev_execlist l where m.model_id=%@ and m.tab_code='install_config' and  m.exec_info_id=i.id and m.dev_exec_id=l.id",node.model_id];
+        FMResultSet *resultSet = [db executeQuery:sqlStr];
+        while ([resultSet next])
+        {
+            NSString *exec_code = SafeStr([resultSet stringForColumn:@"exec_code"]);
+            NSString *exec_name = SafeStr([resultSet stringForColumn:@"exec_name"]);
+            if ([exec_code containsString:@"ImageScale-"])
+            {
+                NSDictionary *dict = [NSDictionary dictionaryWithObject:exec_name forKey:exec_code];
+                [_groupData addObject:dict];
+            }
+            else if ([exec_code containsString:@"wayToInstall-"])
+            {
+                NSDictionary *dict = [NSDictionary dictionaryWithObject:exec_name forKey:exec_code];
+                [_modelData addObject:dict];
+            }
+        }
+        //关闭数据库
+        [db close];
+    }
+
+    if(_groupData && _groupData.count)
+    {
+        [self createScaleView];
+        NSDictionary *dict = _groupData[0];
+        _groupField.text = [dict allValues][0] ;
+    }
+    if(_modelData && _modelData.count)
+    {
+        [self createInstallTypeView];
+        NSDictionary *dict = _modelData[0];
+        _modelField.text = [dict allValues][0] ;
+    }
+}
 
 #pragma  mark textfield delegate
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{

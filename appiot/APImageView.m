@@ -10,23 +10,141 @@
 @implementation APImageView
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
+        [self initData];
         [self createUI];
+        [self createChooseItems];
     }
     return self;
+}
+
+-(void)initData
+{
+    NSDictionary *dict = @{@"Standard":@"标准",@"Cinema":@"影院",@"REC709":@"REC709",@"DICOM":@"DICOM",@"LowLatency":@"低延迟",@"Customize":@"自定义",
+    };
+    _sceneModeDict = [NSMutableDictionary dictionaryWithDictionary:dict];
 }
 
 
 -(void)createUI
 {
+    CGFloat w = W_SCALE(385);
+    CGFloat h = H_SCALE(30);
+    CGFloat h_gap = H_SCALE(30);
 
-    APSetNumberItem *numberItem = [APSetNumberItem new];
-//    numberItem.backgroundColor = [UIColor redColor];
-    [self addSubview:numberItem];
-    [numberItem mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.mas_top).offset(top_Gap);
-        make.left.mas_equalTo(self.mas_left).offset(Left_Gap);
-        make.size.mas_equalTo(CGSizeMake(W_SCALE(385), H_SCALE(30)));
-    }];
+    NSDictionary *dict1 = @{@"string":@"亮度",
+                           @"imageName":@"Group 11715",
+                            @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(15), H_SCALE(25) , w,h)],
+    };
+    NSDictionary *dict2 = @{@"string":@"对比度",
+                            @"imageName":@"Group 11706",
+                             @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(15), H_SCALE(25)+(h+h_gap),w,h)],
+    };
+    NSDictionary *dict3 = @{@"string":@"饱和度",
+                            @"imageName":@"Group 11707",
+                             @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(15), H_SCALE(25)+(h+h_gap)*2, w,h)],
+    };
+    NSDictionary *dict4 = @{@"string":@"锐度",
+                            @"imageName":@"Group 11708",
+                             @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(15), H_SCALE(25)+(h+h_gap)*3, w,h)],
+    };
+    
+    NSDictionary *dict5 = @{@"string":@"红色增益",
+                            @"imageName":@"Group 11708",
+                             @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(15), H_SCALE(395), w,h)],
+    };
+    
+    NSDictionary *dict6 = @{@"string":@"绿色增益",
+                            @"imageName":@"Group 11706",
+                             @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(15), H_SCALE(395)+(h+h_gap), w,h)],
+    };
+    
+    NSDictionary *dict7 = @{@"string":@"蓝色增益",
+                            @"imageName":@"Group 11708",
+                             @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(15), H_SCALE(395)+(h+h_gap)*2, w,h)],
+    };
+    
+    
+    NSArray *array = [NSArray arrayWithObjects:dict1, dict2, dict3, dict4,dict5,dict6,dict7,nil];
+    for (int i = 0; i < array.count; i++)
+    {
+        NSDictionary *dic = array[i];
+        if (dic == nil)
+        {
+            continue;
+        }
+        NSString *str = dic[@"string"];
+//        NSString *imgStr = dic[@"imageName"];
+        CGRect rect = [dic[@"frame"] CGRectValue];
+        
+        APSetNumberItem *item = [[APSetNumberItem alloc] initWithFrame:rect];
+        item.label.text = str;
+        
+//        ViewRadius(button, 3);
+//        [button setBackgroundImage:[UIImage imageNamed:imgStr] forState:UIControlStateNormal];
+//        button.tag = i;
+//        [button addTarget:self action:@selector(btnDirectionClick:) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:item];
+    }
+}
+
+-(void)createChooseItems
+{
+    CGFloat w = W_SCALE(200);
+    CGFloat h = H_SCALE(30);
+    CGFloat h_gap = H_SCALE(30);
+    
+    NSDictionary *dict1 = @{@"string":@"场景模式",
+                           @"data":_sceneModeDict,
+                            @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(507), H_SCALE(25) , w,h)],
+    };
+    NSDictionary *dict2 = @{@"string":@"动态对比度",
+                            @"data":@"Group 11706",
+                             @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(507), H_SCALE(25)+(h+h_gap),w,h)],
+    };
+    NSDictionary *dict3 = @{@"string":@"对比度增强",
+                            @"data":@"Group 11707",
+                             @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(507), H_SCALE(25)+(h+h_gap)*2, w,h)],
+    };
+    NSDictionary *dict4 = @{@"string":@"画面比例",
+                            @"data":@"Group 11708",
+                             @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(507), H_SCALE(25)+(h+h_gap)*3, w,h)],
+    };
+    
+    NSDictionary *dict5 = @{@"string":@"gamma调节",
+                            @"data":@"Group 11708",
+                             @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(15), H_SCALE(275), w,h)],
+    };
+    
+    NSDictionary *dict6 = @{@"string":@"色温调节",
+                            @"data":@"Group 11706",
+                             @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(15), H_SCALE(275)+(h+h_gap), w,h)],
+    };
+    
+    NSArray *array = [NSArray arrayWithObjects:dict1, dict2, dict3, dict4,dict5,dict6,nil];
+    for (int i = 0; i < array.count; i++)
+    {
+        NSDictionary *dic = array[i];
+        if (dic == nil)
+        {
+            continue;
+        }
+        NSString *str = dic[@"string"];
+        NSDictionary* dict = dic[@"data"];
+        CGRect rect = [dic[@"frame"] CGRectValue];
+        
+        
+        
+        APChooseItem *item = [[APChooseItem alloc] initWithFrame:rect];
+        [self addSubview:item];
+        item.label.text = str;
+
+        if(dict && dict.count && [dict isKindOfClass:[NSDictionary class]])
+        {
+            NSArray *allvalue = [_sceneModeDict allValues];
+            NSArray *keys = [dict allKeys];
+            [item setDefaultValue:allvalue];
+        }
+    }
 }
 
 
@@ -63,7 +181,7 @@
     if (array == nil || array.count == 0)
         return;
 //
-//    _selectedDevArray = [NSMutableArray arrayWithArray:array];
+    _selectedDevArray = [NSMutableArray arrayWithArray:array];
 //
 //    //设置默认值
 //    //1.获得数据库文件的路径

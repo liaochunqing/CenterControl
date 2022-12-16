@@ -27,7 +27,7 @@
     UIColor *labelColor = ColorHex(0xA1A7C1);
     CGFloat textW = W_SCALE(72);
     CGFloat contentFontSize = 14;
-    UIColor *contentColor = [UIColor whiteColor];//ColorHex(0xA1A7C1);
+    UIColor *contentColor = ColorHex(0x9699AC);
     
     UILabel *fenzuLab = [[UILabel alloc] init];
     _label = fenzuLab;
@@ -47,6 +47,8 @@
     _slider.minimumValue = 0;
     _slider.maximumValue = 100;
     _slider.continuous = NO;
+    _slider.maximumTrackTintColor = [UIColor blackColor];
+
     [_slider addTarget:self action:@selector(sliderValueChange) forControlEvents:UIControlEventValueChanged];
     [self addSubview:_slider];
     [_slider mas_makeConstraints:^(MASConstraintMaker *make) {
