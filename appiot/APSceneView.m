@@ -13,6 +13,8 @@
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
+        self.backgroundColor = ColorHex(0x1D2242);
+
         [self createUI];
     }
     return self;

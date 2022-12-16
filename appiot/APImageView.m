@@ -10,10 +10,9 @@
 @implementation APImageView
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
-        [self initData];
-        [self createBaseView];
-        [self createUI];
-        [self createChooseItems];
+        self.backgroundColor = ColorHex(0x1D2242);
+
+        
     }
     return self;
 }
@@ -79,33 +78,40 @@
     CGFloat h_gap = H_SCALE(30);
 
     NSDictionary *dict1 = @{@"string":@"亮度",
+                            @"execcode":@"image-luminance",
                            @"imageName":@"Group 11715",
                             @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(15), H_SCALE(25) , w,h)],
     };
     NSDictionary *dict2 = @{@"string":@"对比度",
+                            @"execcode":@"image-contrast",
                             @"imageName":@"Group 11706",
                              @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(15), H_SCALE(25)+(h+h_gap),w,h)],
     };
     NSDictionary *dict3 = @{@"string":@"饱和度",
+                            @"execcode":@"image-saturability",
                             @"imageName":@"Group 11707",
                              @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(15), H_SCALE(25)+(h+h_gap)*2, w,h)],
     };
     NSDictionary *dict4 = @{@"string":@"锐度",
+                            @"execcode":@"image-acuity",
                             @"imageName":@"Group 11708",
                              @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(15), H_SCALE(25)+(h+h_gap)*3, w,h)],
     };
     
     NSDictionary *dict5 = @{@"string":@"红色增益",
+                            @"execcode":@"image-gain-red",
                             @"imageName":@"Group 11708",
                              @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(15), H_SCALE(395), w,h)],
     };
     
     NSDictionary *dict6 = @{@"string":@"绿色增益",
+                            @"execcode":@"image-gain-green",
                             @"imageName":@"Group 11706",
                              @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(15), H_SCALE(395)+(h+h_gap), w,h)],
     };
     
     NSDictionary *dict7 = @{@"string":@"蓝色增益",
+                            @"execcode":@"image-gain-blue",
                             @"imageName":@"Group 11708",
                              @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(15), H_SCALE(395)+(h+h_gap)*2, w,h)],
     };
@@ -120,17 +126,17 @@
             continue;
         }
         NSString *str = dic[@"string"];
-//        NSString *imgStr = dic[@"imageName"];
         CGRect rect = [dic[@"frame"] CGRectValue];
-        
+        __block NSString *code = dic[@"execcode"];
+
         APSetNumberItem *item = [[APSetNumberItem alloc] initWithFrame:rect];
         item.label.text = str;
-        
-//        ViewRadius(button, 3);
-//        [button setBackgroundImage:[UIImage imageNamed:imgStr] forState:UIControlStateNormal];
-//        button.tag = i;
-//        [button addTarget:self action:@selector(btnDirectionClick:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:item];
+        
+        WS(weakSelf);
+        [item setChangedBlock:^(NSString * _Nonnull str) {
+            [weakSelf sendDataToDevice:code value:str];
+        }];
     }
 }
 
@@ -291,56 +297,16 @@
         return;
 //
     _selectedDevArray = [NSMutableArray arrayWithArray:array];
-//
-//    //设置默认值
-//    //1.获得数据库文件的路径
-//    NSString *doc = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
-//    NSString *dbfileName = [doc stringByAppendingPathComponent:DB_NAME];
-//    //2.获得数据库
-//    FMDatabase *db = [FMDatabase databaseWithPath:dbfileName];
-//    //3.打开数据库
-//    if ([db open])
-//    {
-//        //初始化数据容器
-//        _groupData = [NSMutableArray array];
-//        _modelData = [NSMutableArray array];
-//
-//        // 获取安装调节界面的命令  （安装配置）install_config
-//        APGroupNote *node = array[0];
-//        NSString* sqlStr = [NSString stringWithFormat:@"select l.exec_name,i.exec_code from zk_command_mount m,zk_execlist_info i ,dev_execlist l where m.model_id=%@ and m.tab_code='install_config' and  m.exec_info_id=i.id and m.dev_exec_id=l.id",node.model_id];
-//        FMResultSet *resultSet = [db executeQuery:sqlStr];
-//        while ([resultSet next])
-//        {
-//            NSString *exec_code = SafeStr([resultSet stringForColumn:@"exec_code"]);
-//            NSString *exec_name = SafeStr([resultSet stringForColumn:@"exec_name"]);
-//            if ([exec_code containsString:@"ImageScale-"])
-//            {
-//                NSDictionary *dict = [NSDictionary dictionaryWithObject:exec_name forKey:exec_code];
-//                [_groupData addObject:dict];
-//            }
-//            else if ([exec_code containsString:@"wayToInstall-"])
-//            {
-//                NSDictionary *dict = [NSDictionary dictionaryWithObject:exec_name forKey:exec_code];
-//                [_modelData addObject:dict];
-//            }
-//        }
-//        //关闭数据库
-//        [db close];
-//    }
-//
-//    if(_groupData && _groupData.count)
-//    {
-//        [self createScaleView];
-//        NSDictionary *dict = _groupData[0];
-//        _groupField.text = [dict allValues][0] ;
-//    }
-//    if(_modelData && _modelData.count)
-//    {
-//        [self createInstallTypeView];
-//        NSDictionary *dict = _modelData[0];
-//        _modelField.text = [dict allValues][0] ;
-//    }
+    APGroupNote *node = _selectedDevArray[0];
+    if (node.imageDict.count != 0)
+    {
+        [self initData];
+        [self createBaseView];
+        [self createUI];
+        [self createChooseItems];
+    }
 }
+
 #pragma  mark button delegate
 -(void)singleTapAction
 {

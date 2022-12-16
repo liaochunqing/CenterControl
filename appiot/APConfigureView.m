@@ -12,9 +12,8 @@
 @implementation APConfigureView
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
-//        [self setFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+        self.backgroundColor = ColorHex(0x1D2242);
 
-//        self.protocolData = [NSMutableArray arrayWithObjects:@"TCP",@"UDP",@"MQTT", nil];
         [self createUI];
     }
     return self;
