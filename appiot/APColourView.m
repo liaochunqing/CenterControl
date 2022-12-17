@@ -44,7 +44,7 @@
     NSDictionary *dict1 = @{@"string":@"红色色调",
                             @"execcode":@"colour-red-tone",
                            @"imageName":@"Group 11715",
-                            @"frame":[NSValue valueWithCGRect:CGRectMake(x, H_SCALE(25) , w,h)],
+                            @"frame":[NSValue valueWithCGRect:CGRectMake(x, H_SCALE(25)+10 , w,h)],
     };
     NSDictionary *dict2 = @{@"string":@"红色饱和度",
                             @"execcode":@"colour-red-saturation",

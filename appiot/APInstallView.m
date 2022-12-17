@@ -252,28 +252,7 @@
     [self bringSubviewToFront:_sceneView];
 }
 
--(void)createConfigureView
-{
-    if (_configureView)
-    {
-        [_configureView removeFromSuperview];
-        _configureView = nil;
-    }
-    
-    _configureView = [[APConfigureView alloc] init];
-    [self addSubview:_configureView];
-    [_configureView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(_menuView.mas_bottom).offset(0);
-        make.left.mas_equalTo(self.mas_left).offset(0);
-        make.right.mas_equalTo(self.mas_right).offset(0);
-        make.bottom.mas_equalTo(self.mas_bottom).offset(0);
-    }];
-    
-    NSArray *array = _sortData.count > 0?_sortData[_selectedModelTag] : [NSArray array];
-    [_configureView setDefaultValue:array];
-    [self bringSubviewToFront:_configureView];
 
-}
 
 -(void)createImageView
 {
@@ -317,6 +296,52 @@
     NSArray *array = _sortData.count > 0?_sortData[_selectedModelTag] : [NSArray array];
     [_colourView setDefaultValue:array];
     [self bringSubviewToFront:_colourView];
+
+}
+
+-(void)createConfigureView
+{
+    if (_configureView)
+    {
+        [_configureView removeFromSuperview];
+        _configureView = nil;
+    }
+    
+    _configureView = [[APConfigureView alloc] init];
+    [self addSubview:_configureView];
+    [_configureView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(_menuView.mas_bottom).offset(0);
+        make.left.mas_equalTo(self.mas_left).offset(0);
+        make.right.mas_equalTo(self.mas_right).offset(0);
+        make.bottom.mas_equalTo(self.mas_bottom).offset(0);
+    }];
+    
+    NSArray *array = _sortData.count > 0?_sortData[_selectedModelTag] : [NSArray array];
+    [_configureView setDefaultValue:array];
+    [self bringSubviewToFront:_configureView];
+
+}
+
+-(void)createSetupView
+{
+    if (_setupView)
+    {
+        [_setupView removeFromSuperview];
+        _setupView = nil;
+    }
+    
+    _setupView = [[APSetupView alloc] init];
+    [self addSubview:_setupView];
+    [_setupView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(_menuView.mas_bottom).offset(0);
+        make.left.mas_equalTo(self.mas_left).offset(0);
+        make.right.mas_equalTo(self.mas_right).offset(0);
+        make.bottom.mas_equalTo(self.mas_bottom).offset(0);
+    }];
+    
+    NSArray *array = _sortData.count > 0?_sortData[_selectedModelTag] : [NSArray array];
+    [_setupView setDefaultValue:array];
+    [self bringSubviewToFront:_setupView];
 
 }
 
@@ -392,6 +417,11 @@
             case 5://“
             {
                 [self createConfigureView];
+            }
+                break;
+            case 7://“
+            {
+                [self createSetupView];
             }
                 break;
                 

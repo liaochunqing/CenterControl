@@ -193,6 +193,32 @@
                 NSData *data = [self getSendDataFromParam:param node:node];
                 [node.colourDict setValue:data forKey:key];
             }
+            
+            // 获取安装调节界面的命令  （ 设置）setup
+            node.setupDict = [NSMutableDictionary dictionary];
+            sqlStr = [NSString stringWithFormat:@"select l.parameter_value,i.exec_code from zk_command_mount m,zk_execlist_info i ,dev_execlist l where m.model_id=%@ and m.tab_code='setup' and  m.exec_info_id=i.id and m.dev_exec_id=l.id",node.model_id];
+            resultSet = [db executeQuery:sqlStr];
+            while ([resultSet next])
+            {
+                NSString *key = SafeStr([resultSet stringForColumn:@"exec_code"]);
+                NSString *param = SafeStr([resultSet stringForColumn:@"parameter_value"]);
+                NSData *data = [self getSendDataFromParam:param node:node];
+                [node.setupDict setValue:data forKey:key];
+            }
+            
+            // 获取安装调节界面的命令  （ 信号）signal
+            node.signalDict = [NSMutableDictionary dictionary];
+            sqlStr = [NSString stringWithFormat:@"select l.parameter_value,i.exec_code from zk_command_mount m,zk_execlist_info i ,dev_execlist l where m.model_id=%@ and m.tab_code='signal' and  m.exec_info_id=i.id and m.dev_exec_id=l.id",node.model_id];
+            resultSet = [db executeQuery:sqlStr];
+            while ([resultSet next])
+            {
+                NSString *key = SafeStr([resultSet stringForColumn:@"exec_code"]);
+                NSString *param = SafeStr([resultSet stringForColumn:@"parameter_value"]);
+                NSData *data = [self getSendDataFromParam:param node:node];
+                [node.signalDict setValue:data forKey:key];
+            }
+            
+            
         }
         
         //查询分组
