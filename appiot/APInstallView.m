@@ -227,6 +227,31 @@
             }
 }
 
+-(void)createSceneView
+{
+    if (_sceneView)
+    {
+        [_sceneView removeFromSuperview];
+        _sceneView = nil;
+    }
+    
+    _sceneView = [[APSceneView alloc] init];
+    [self addSubview:_sceneView];
+    [_sceneView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(_menuView.mas_bottom).offset(0);
+        make.left.mas_equalTo(self.mas_left).offset(0);
+        make.right.mas_equalTo(self.mas_right).offset(0);
+        make.bottom.mas_equalTo(self.mas_bottom).offset(0);
+    }];
+    
+    if(_sceneView && _sortData && _sortData.count)
+    {
+        [_sceneView createTestView:_sortData[_selectedModelTag]];
+    }
+    
+    [self bringSubviewToFront:_sceneView];
+}
+
 -(void)createConfigureView
 {
     if (_configureView)
@@ -272,30 +297,27 @@
     [self bringSubviewToFront:_imageView];
 
 }
-
--(void)createSceneView
+-(void)createColourView
 {
-    if (_sceneView)
+    if (_colourView)
     {
-        [_sceneView removeFromSuperview];
-        _sceneView = nil;
+        [_colourView removeFromSuperview];
+        _colourView = nil;
     }
     
-    _sceneView = [[APSceneView alloc] init];
-    [self addSubview:_sceneView];
-    [_sceneView mas_makeConstraints:^(MASConstraintMaker *make) {
+    _colourView = [[APColourView alloc] init];
+    [self addSubview:_colourView];
+    [_colourView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(_menuView.mas_bottom).offset(0);
         make.left.mas_equalTo(self.mas_left).offset(0);
         make.right.mas_equalTo(self.mas_right).offset(0);
         make.bottom.mas_equalTo(self.mas_bottom).offset(0);
     }];
     
-    if(_sceneView && _sortData && _sortData.count)
-    {
-        [_sceneView createTestView:_sortData[_selectedModelTag]];
-    }
-    
-    [self bringSubviewToFront:_sceneView];
+    NSArray *array = _sortData.count > 0?_sortData[_selectedModelTag] : [NSArray array];
+    [_colourView setDefaultValue:array];
+    [self bringSubviewToFront:_colourView];
+
 }
 
 #pragma mark 通知响应函数
@@ -324,35 +346,6 @@
         [btn setBackgroundImage:[self imageWithColor:ColorHex(0x3F6EF2)] forState:UIControlStateNormal];
         
         _selectedModelTag = (int)btn.tag;
-//        if(_sceneView && _sortData && _sortData.count)
-//        {
-//            [_sceneView createTestView:_sortData[_selectedModelTag]];
-//        }
-//        
-//        if(_imageView && _sortData && _sortData.count)
-//        {
-//            [_imageView setDefaultValue:_sortData[_selectedModelTag]];
-//        }
-//        
-//        if(_configureView != nil)
-//        {
-//            [_configureView removeFromSuperview];
-//            _configureView = nil;
-//            
-//            _configureView = [[APConfigureView alloc] init];
-//            [self addSubview:_configureView];
-//            [_configureView mas_makeConstraints:^(MASConstraintMaker *make) {
-//                make.top.mas_equalTo(_menuView.mas_bottom).offset(0);
-//                make.left.mas_equalTo(self.mas_left).offset(0);
-//                make.right.mas_equalTo(self.mas_right).offset(0);
-//                make.bottom.mas_equalTo(self.mas_bottom).offset(0);
-//            }];
-//            
-//            if(_configureView && _sortData && _sortData.count)
-//            {
-//                [_configureView setDefaultValue:_sortData[_selectedModelTag]];
-//            }
-//        }
 
         [self menuBtnClick:_menuBtnArray[_selectedMenuIndex]];
     }
@@ -392,6 +385,7 @@
                 break;
             case 2://
             {
+                [self createColourView];
             }
                 break;
                 

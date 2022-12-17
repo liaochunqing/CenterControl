@@ -53,6 +53,7 @@
 		C6ED8A30294B1B4900C98D7B /* APImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = C6ED8A2F294B1B4900C98D7B /* APImageView.m */; };
 		C6ED8A39294B1D3400C98D7B /* APSetNumberItem.m in Sources */ = {isa = PBXBuildFile; fileRef = C6ED8A38294B1D3400C98D7B /* APSetNumberItem.m */; };
 		C6ED8A3C294C0A8100C98D7B /* APChooseItem.m in Sources */ = {isa = PBXBuildFile; fileRef = C6ED8A3B294C0A8100C98D7B /* APChooseItem.m */; };
+		C6ED8A3F294D643100C98D7B /* APColourView.m in Sources */ = {isa = PBXBuildFile; fileRef = C6ED8A3E294D643100C98D7B /* APColourView.m */; };
 		CDAF7A201535A7BF8524ABBD /* Pods_appiot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB3765024A92663D80DC1163 /* Pods_appiot.framework */; };
 		E1FE5C87F1B352B5DF206E02 /* Pods_appiotTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87EB77647DEFF331311B61D6 /* Pods_appiotTests.framework */; };
 /* End PBXBuildFile section */
@@ -170,6 +171,8 @@
 		C6ED8A38294B1D3400C98D7B /* APSetNumberItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APSetNumberItem.m; sourceTree = "<group>"; };
 		C6ED8A3A294C0A8100C98D7B /* APChooseItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APChooseItem.h; sourceTree = "<group>"; };
 		C6ED8A3B294C0A8100C98D7B /* APChooseItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APChooseItem.m; sourceTree = "<group>"; };
+		C6ED8A3D294D643100C98D7B /* APColourView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APColourView.h; sourceTree = "<group>"; };
+		C6ED8A3E294D643100C98D7B /* APColourView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APColourView.m; sourceTree = "<group>"; };
 		F110C31EB98C931C5089AE17 /* Pods_appiot_appiotUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_appiot_appiotUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -417,6 +420,8 @@
 				C6D0110129495D93003674C9 /* APSceneView.m */,
 				C6ED8A2E294B1B4800C98D7B /* APImageView.h */,
 				C6ED8A2F294B1B4900C98D7B /* APImageView.m */,
+				C6ED8A3D294D643100C98D7B /* APColourView.h */,
+				C6ED8A3E294D643100C98D7B /* APColourView.m */,
 				C6ED8A2B294ABAF800C98D7B /* APConfigureView.h */,
 				C6ED8A2C294ABAF800C98D7B /* APConfigureView.m */,
 				C6D010F92948670C003674C9 /* APMenuButton.h */,
@@ -679,6 +684,7 @@
 				C6D010F2294303C7003674C9 /* APMoveDevAndGroupView.m in Sources */,
 				C6ED8A3C294C0A8100C98D7B /* APChooseItem.m in Sources */,
 				C63C82462925DD1200DBB3F6 /* APGroupTableView.m in Sources */,
+				C6ED8A3F294D643100C98D7B /* APColourView.m in Sources */,
 				C63306AD292B45B10057DA83 /* APUdpSocket.m in Sources */,
 				C63C82392924B48400DBB3F6 /* APGroupView.m in Sources */,
 				C6D010F82946BF67003674C9 /* APPasswordView.m in Sources */,
