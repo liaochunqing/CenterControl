@@ -244,10 +244,8 @@
         make.bottom.mas_equalTo(self.mas_bottom).offset(0);
     }];
     
-    if(_configureView && _sortData && _sortData.count)
-    {
-        [_configureView setDefaultValue:_sortData[_selectedModelTag]];
-    }
+    NSArray *array = _sortData.count > 0?_sortData[_selectedModelTag] : [NSArray array];
+    [_configureView setDefaultValue:array];
     [self bringSubviewToFront:_configureView];
 
 }
@@ -269,10 +267,8 @@
         make.bottom.mas_equalTo(self.mas_bottom).offset(0);
     }];
     
-    if(_imageView && _sortData && _sortData.count)
-    {
-        [_imageView setDefaultValue:_sortData[_selectedModelTag]];
-    }
+    NSArray *array = _sortData.count > 0?_sortData[_selectedModelTag] : [NSArray array];
+    [_imageView setDefaultValue:array];
     [self bringSubviewToFront:_imageView];
 
 }
@@ -298,6 +294,7 @@
     {
         [_sceneView createTestView:_sortData[_selectedModelTag]];
     }
+    
     [self bringSubviewToFront:_sceneView];
 }
 
@@ -374,10 +371,8 @@
             {
                 temp.lab.textColor = ColorHex(0x9DA2B5);
                 temp.iv.hidden = YES;
-//                [temp setBackgroundImage:[self imageWithColor:ColorHex(0x29315F)] forState:UIControlStateNormal];
             }
         }
-//        [btn setBackgroundImage:[self imageWithColor:ColorHex(0x3F6EF2)] forState:UIControlStateNormal];
         btn.lab.textColor = ColorHex(0x3F6EF2);
         btn.iv.hidden = NO;
         

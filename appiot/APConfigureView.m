@@ -249,12 +249,20 @@
 #pragma mark 对外接口
 -(void)setDefaultValue:(NSArray *)array
 {
-    if (array == nil || array.count == 0)
+    if (array == nil)
         return;
-
+//
     _selectedDevArray = [NSMutableArray arrayWithArray:array];
-
-    //设置默认值
+    
+    if (_selectedDevArray.count == 0)//没有选设备显示界面
+    {
+        [self createScaleView];
+        [self createInstallTypeView];
+        
+        return;;
+    }
+    
+    
     //1.获得数据库文件的路径
     NSString *doc = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
     NSString *dbfileName = [doc stringByAppendingPathComponent:DB_NAME];
@@ -268,7 +276,7 @@
         _modelData = [NSMutableArray array];
 
         // 获取安装调节界面的命令  （安装配置）install_config
-        APGroupNote *node = array[0];
+        APGroupNote *node = _selectedDevArray[0];
         NSString* sqlStr = [NSString stringWithFormat:@"select l.exec_name,i.exec_code from zk_command_mount m,zk_execlist_info i ,dev_execlist l where m.model_id=%@ and m.tab_code='install_config' and  m.exec_info_id=i.id and m.dev_exec_id=l.id",node.model_id];
         FMResultSet *resultSet = [db executeQuery:sqlStr];
         while ([resultSet next])

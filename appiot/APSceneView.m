@@ -247,9 +247,12 @@
         make.width.mas_equalTo(W_SCALE(80));
     }];
 }
+
+
 //测试
 -(void)createTestView:(NSArray *)selectedArray
 {
+    
     _selectedArray = [NSMutableArray arrayWithArray:selectedArray];
     NSDictionary *dict1 = @{@"string":@"关",
                            @"color":ColorHex(0x1D2242),

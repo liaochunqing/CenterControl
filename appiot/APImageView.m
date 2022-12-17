@@ -147,34 +147,34 @@
     CGFloat h_gap = H_SCALE(30);
     
     NSDictionary *dict1 = @{@"string":@"场景模式",
-                           @"data":_sceneModeArray,
+                            @"data":_sceneModeArray?_sceneModeArray:[NSArray array],
                             @"execcode":@"image-scene mode",
                             @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(507), H_SCALE(25) , w,h)],
     };
     NSDictionary *dict2 = @{@"string":@"动态对比度",
-                            @"data":_dynamicContrastArray,
+                            @"data":_dynamicContrastArray?_dynamicContrastArray:[NSArray array],
                             @"execcode":@"image-Dynamic contrast",
                              @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(507), H_SCALE(25)+(h+h_gap),w,h)],
     };
     NSDictionary *dict3 = @{@"string":@"对比度增强",
-                            @"data":_contrastEnhanceArray,
+                            @"data":_contrastEnhanceArray?_contrastEnhanceArray:[NSArray array],
                             @"execcode":@"image-contrastEnhance",
                              @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(507), H_SCALE(25)+(h+h_gap)*2, w,h)],
     };
     NSDictionary *dict4 = @{@"string":@"画面比例",
-                            @"data":_ImageScaleArray,
+                            @"data":_ImageScaleArray?_ImageScaleArray:[NSArray array],
                             @"execcode":@"image-ImageScale",
                              @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(507), H_SCALE(25)+(h+h_gap)*3, w,h)],
     };
     
     NSDictionary *dict5 = @{@"string":@"gamma调节",
-                            @"data":_gammaAdjustArray,
+                            @"data":_gammaAdjustArray?_gammaAdjustArray:[NSArray array],
                             @"execcode":@"image-gammaAdjust",
                              @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(15), H_SCALE(275), w,h)],
     };
     
     NSDictionary *dict6 = @{@"string":@"色温调节",
-                            @"data":_colorAdjustingArray,
+                            @"data":_colorAdjustingArray?_colorAdjustingArray:[NSArray array],
                             @"execcode":@"image-colorAdjusting",
                              @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(15), H_SCALE(275)+(h+h_gap), w,h)],
     };
@@ -189,7 +189,7 @@
             continue;
         }
         NSString *str = dic[@"string"];
-        __block NSArray* array = dic[@"data"];
+        __block NSArray* array = dic[@"data"]?dic[@"data"]:[NSArray array];
         CGRect rect = [dic[@"frame"] CGRectValue];
                 
         APChooseItem *item = [[APChooseItem alloc] initWithFrame:rect];
@@ -293,17 +293,28 @@
 #pragma mark 对外接口
 -(void)setDefaultValue:(NSArray *)array
 {
-    if (array == nil || array.count == 0)
+    if (array == nil)
         return;
 //
     _selectedDevArray = [NSMutableArray arrayWithArray:array];
-    APGroupNote *node = _selectedDevArray[0];
-    if (node.imageDict.count != 0)
+    
+    if (_selectedDevArray.count == 0)//没有选设备显示界面
     {
-        [self initData];
+//        [self initData];
         [self createBaseView];
         [self createUI];
         [self createChooseItems];
+    }
+    else//选择设备后，需要配置数据才显示界面
+    {
+        APGroupNote *node = _selectedDevArray[0];
+        if (node.imageDict.count != 0)
+        {
+            [self initData];
+            [self createBaseView];
+            [self createUI];
+            [self createChooseItems];
+        }
     }
 }
 

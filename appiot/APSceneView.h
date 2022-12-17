@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong)APAdjustButton *jjAdjustButton;
 @property (nonatomic, strong)APAdjustButton *sfAdjustButton;
 
--(void)createTestView:(NSArray *)selectedArray;
+-(void)createTestView:(NSArray *)array;
 @end
 
 NS_ASSUME_NONNULL_END
