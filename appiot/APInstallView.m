@@ -324,6 +324,31 @@
 
 }
 
+-(void)createSignalView
+{
+    if (_signalView)
+    {
+        [_signalView removeFromSuperview];
+        _signalView = nil;
+    }
+    
+    _signalView = [[APSignalView alloc] init];
+    [self addSubview:_signalView];
+    [_signalView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(_menuView.mas_bottom).offset(0);
+        make.left.mas_equalTo(self.mas_left).offset(0);
+        make.right.mas_equalTo(self.mas_right).offset(0);
+        make.bottom.mas_equalTo(self.mas_bottom).offset(0);
+    }];
+    
+    NSArray *array = _sortData.count > 0?_sortData[_selectedModelTag] : [NSArray array];
+    [_signalView setDefaultValue:array];
+    [self bringSubviewToFront:_signalView];
+
+}
+
+
+
 -(void)createSetupView
 {
     if (_setupView)
@@ -421,6 +446,13 @@
                 [self createConfigureView];
             }
                 break;
+                
+            case 6:
+            {
+                [self createSignalView];
+            }
+                break;
+                
             case 7://“
             {
                 [self createSetupView];

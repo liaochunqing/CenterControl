@@ -106,8 +106,8 @@
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _tableView.backgroundColor = [UIColor whiteColor];
         _tableView.alpha = 1;
-
-        ViewBorderRadius(_tableView, 5, 1, ColorHex(0xABBDD5 ));
+        ViewRadius(_tableView, 5);
+//        ViewBorderRadius(_tableView, 5, 1, ColorHex(0xABBDD5 ));
         [self addSubview:_tableView];
         [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.width.mas_equalTo(_field.frame.size.width);

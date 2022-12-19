@@ -33,6 +33,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,strong)NSMutableArray *powerItemArray;//
 @property (nonatomic,strong)NSMutableArray *menuItemArray;//
 
+@property (nonatomic,strong)UIView *menuBaseview;
+
 @end
 
 NS_ASSUME_NONNULL_END

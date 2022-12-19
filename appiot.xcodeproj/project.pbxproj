@@ -55,6 +55,7 @@
 		C6ED8A3C294C0A8100C98D7B /* APChooseItem.m in Sources */ = {isa = PBXBuildFile; fileRef = C6ED8A3B294C0A8100C98D7B /* APChooseItem.m */; };
 		C6ED8A3F294D643100C98D7B /* APColourView.m in Sources */ = {isa = PBXBuildFile; fileRef = C6ED8A3E294D643100C98D7B /* APColourView.m */; };
 		C6ED8A42294DAD5400C98D7B /* APSetupView.m in Sources */ = {isa = PBXBuildFile; fileRef = C6ED8A41294DAD5400C98D7B /* APSetupView.m */; };
+		C6ED8A45295054EF00C98D7B /* APSignalView.m in Sources */ = {isa = PBXBuildFile; fileRef = C6ED8A44295054EF00C98D7B /* APSignalView.m */; };
 		CDAF7A201535A7BF8524ABBD /* Pods_appiot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB3765024A92663D80DC1163 /* Pods_appiot.framework */; };
 		E1FE5C87F1B352B5DF206E02 /* Pods_appiotTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87EB77647DEFF331311B61D6 /* Pods_appiotTests.framework */; };
 /* End PBXBuildFile section */
@@ -176,6 +177,8 @@
 		C6ED8A3E294D643100C98D7B /* APColourView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APColourView.m; sourceTree = "<group>"; };
 		C6ED8A40294DAD5400C98D7B /* APSetupView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APSetupView.h; sourceTree = "<group>"; };
 		C6ED8A41294DAD5400C98D7B /* APSetupView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APSetupView.m; sourceTree = "<group>"; };
+		C6ED8A43295054EF00C98D7B /* APSignalView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APSignalView.h; sourceTree = "<group>"; };
+		C6ED8A44295054EF00C98D7B /* APSignalView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APSignalView.m; sourceTree = "<group>"; };
 		F110C31EB98C931C5089AE17 /* Pods_appiot_appiotUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_appiot_appiotUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -427,6 +430,8 @@
 				C6ED8A3E294D643100C98D7B /* APColourView.m */,
 				C6ED8A2B294ABAF800C98D7B /* APConfigureView.h */,
 				C6ED8A2C294ABAF800C98D7B /* APConfigureView.m */,
+				C6ED8A43295054EF00C98D7B /* APSignalView.h */,
+				C6ED8A44295054EF00C98D7B /* APSignalView.m */,
 				C6ED8A40294DAD5400C98D7B /* APSetupView.h */,
 				C6ED8A41294DAD5400C98D7B /* APSetupView.m */,
 				C6D010F92948670C003674C9 /* APMenuButton.h */,
@@ -717,6 +722,7 @@
 				C6D010F52946B96D003674C9 /* APVersionView.m in Sources */,
 				C6CA8BBD292233B700F5AAC2 /* APBaseView.m in Sources */,
 				C6CA8BC02922345800F5AAC2 /* APCommandView.m in Sources */,
+				C6ED8A45295054EF00C98D7B /* APSignalView.m in Sources */,
 				C6D010FB2948670C003674C9 /* APMenuButton.m in Sources */,
 				C6ED8A30294B1B4900C98D7B /* APImageView.m in Sources */,
 				C6ED8A2D294ABAF800C98D7B /* APConfigureView.m in Sources */,

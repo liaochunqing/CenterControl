@@ -12,9 +12,7 @@
     if (self = [super initWithFrame:frame]) {
         self.backgroundColor = ColorHex(0x1D2242);
         [self createBaseView];
-
         [self createTitleView];
-        
     }
     return self;
 }
@@ -84,8 +82,8 @@
                             [NSDictionary dictionaryWithObject:@"隐藏" forKey:@"Hide"],
                              nil];
 
-    _muteArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"开" forKey:@"On"],
-                     [NSDictionary dictionaryWithObject:@"关" forKey:@"Off"],
+    _muteArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"静音关" forKey:@"Off"],
+                     [NSDictionary dictionaryWithObject:@"静音开" forKey:@"On"],
                      nil];
 }
 
@@ -315,7 +313,7 @@
     
 //    NSDictionary *dict6 = @{@"string":@"静音",
 //                            @"data":_muteArray?_muteArray:[NSArray array],
-//                            @"execcode":@"setup-running mode",
+//                            @"execcode":@"setup-mute2",
 //    };
     NSArray *temp = [NSArray arrayWithObjects:dict1, dict2, dict3, dict4,dict5,nil];
     NSMutableArray *dataArray = [NSMutableArray array];
@@ -344,6 +342,7 @@
     _muteArray = [NSMutableArray array];
     
     UIView *baseview = [[UIView alloc] init];
+    _menuBaseview = baseview;
     UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(singleTapAction)];
     [baseview addGestureRecognizer:singleTap];
     [self addSubview:baseview];
@@ -413,6 +412,91 @@
 
 }
 
+
+-(void)createUsallyView
+{
+    
+    UIView *baseview1 = [[UIView alloc] init];//WithFrame:CGRectMake(15, W_SCALE(525), 500, 300)];
+//    baseview .backgroundColor = [UIColor redColor];
+    [self addSubview:baseview1];
+    [baseview1 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.mas_top).offset(W_SCALE(545));
+        make.left.mas_equalTo(self.mas_left).offset(Left_Gap);
+        make.right.mas_equalTo(self.mas_right).offset(0);
+        make.bottom.mas_equalTo(self.mas_bottom).offset(0);
+    }];
+    
+    UILabel *lab = [[UILabel alloc] init];
+    [baseview1 addSubview:lab];
+    lab.text = @"数据同步";
+    lab.font = [UIFont systemFontOfSize:16];
+    lab.textColor = ColorHex(0xA1A7C1);
+    [lab mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(baseview1.mas_left).offset(0);
+        make.top.mas_equalTo(baseview1.mas_top).offset(top_Gap);
+        make.height.mas_equalTo(H_SCALE(25));
+        make.width.mas_equalTo(W_SCALE(125));
+    }];
+    
+    UILabel *syslab = [[UILabel alloc] init];
+    [baseview1 addSubview:syslab];
+    syslab.text = @"系统升级";
+    syslab.font = [UIFont systemFontOfSize:16];
+    syslab.textColor = ColorHex(0xA1A7C1);
+    [syslab mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(baseview1.mas_left).offset(0);
+        make.top.mas_equalTo(lab.mas_bottom).offset(top_Gap);
+        make.height.mas_equalTo(H_SCALE(25));
+        make.width.mas_equalTo(W_SCALE(85));
+    }];
+    
+    UIButton *button = [[UIButton alloc] init];
+    ViewRadius(button, 5);
+    [button setTitle:@"立即升级" forState:UIControlStateNormal];
+    button.titleLabel.font = [UIFont systemFontOfSize:14];
+    [button setBackgroundImage:[self imageWithColor:ColorHex(0x2589EE)] forState:UIControlStateNormal];
+    [button setBackgroundImage:[self imageWithColor:ColorHex(0x7877A9)] forState:UIControlStateHighlighted];
+//    [button addTarget:self action:@selector(btnAutoCenterClick:) forControlEvents:UIControlEventTouchUpInside];
+    [baseview1 addSubview:button];
+    [button mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(syslab.mas_right).offset(Left_Gap);
+        make.top.mas_equalTo(lab.mas_bottom).offset(top_Gap);
+        make.height.mas_equalTo(H_SCALE(30));
+        make.width.mas_equalTo(W_SCALE(78));
+    }];
+}
+
+-(void)createMuteAndVolumeView:(NSArray *)allkeys y:(CGFloat)y
+{
+    CGFloat w = W_SCALE(200);
+    CGFloat h = H_SCALE(30);
+    // 将搜索的结果存放到数组中
+    NSPredicate *searchPredicate = [NSPredicate predicateWithFormat:@"SELF == %@", @"setup-volume-up"];
+    NSArray *aa = [allkeys filteredArrayUsingPredicate:searchPredicate] ;
+    if (aa && aa.count>0)
+    {
+        UIView *baseview = [[UIView alloc] init];
+//        UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(singleTapAction)];
+//        [baseview addGestureRecognizer:singleTap];
+        [_menuBaseview addSubview:baseview];
+        [baseview mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(_menuBaseview.mas_top).offset(y);
+            make.left.mas_equalTo(_menuBaseview.mas_left).offset(0);
+            make.height.mas_equalTo(h);
+            make.width.mas_equalTo(w);
+        }];
+    }
+    
+    // 将搜索的结果存放到数组中
+    searchPredicate = [NSPredicate predicateWithFormat:@"SELF == %@", @"setup-mute2"];
+    NSArray *bb = [allkeys filteredArrayUsingPredicate:searchPredicate] ;
+    if (bb && bb.count>0)
+    {
+        
+    }
+}
+
+
 -(void)sendDataToDevice:(NSString *)key value:(NSString *)value
 {
     if (_selectedDevArray && _selectedDevArray.count)
@@ -465,6 +549,7 @@
     {
         [self createPowerItem];
         [self createMenuItem];
+        [self createUsallyView];
     }
     else//选择设备后，需要配置数据才显示界面
     {
@@ -474,6 +559,7 @@
             [self initData];
             [self createPowerItem];
             [self createMenuItem];
+            [self createUsallyView];
         }
     }
 }
