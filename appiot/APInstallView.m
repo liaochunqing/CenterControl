@@ -127,19 +127,21 @@
     {
         [_baseView removeFromSuperview];
     }
-    _baseView = [UIView new];
+    _baseView = [UIScrollView new];
     [self addSubview:_baseView];
     [_baseView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.mas_top).offset(top_Gap);
         make.left.mas_equalTo(self.mas_left).offset( Left_Gap + title_width + Left_Gap);
         make.right.mas_equalTo(self.mas_right).offset(0);
-        make.height.mas_equalTo(btn_height);
+        make.height.mas_equalTo(btn_height+15);
     }];
     
     
     self.btnArray = [NSMutableArray array];
 //    CGFloat w = W_SCALE(102);
     CGFloat midGap = Left_Gap;
+    _baseView.contentSize = CGSizeMake(_sortData.count * btn_width + midGap * (_sortData.count - 1), 0);
+
     int x = 0;
     for (int i = 0; i < _sortData.count; i++)
     {

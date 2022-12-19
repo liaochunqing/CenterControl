@@ -51,6 +51,42 @@
                              [NSDictionary dictionaryWithObject:@"ECO1" forKey:@"ECO1"],
                              [NSDictionary dictionaryWithObject:@"ECO2" forKey:@"ECO2"],
                              nil];
+    
+    
+    /**************************菜单设置数据***************/
+    
+    
+    _languegArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"中文" forKey:@"zhongwen"],
+                             [NSDictionary dictionaryWithObject:@"英文" forKey:@"english"],
+                             nil];
+    
+    _locationArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"居中" forKey:@"Center"],
+                             [NSDictionary dictionaryWithObject:@"左上" forKey:@"UperLeft"],
+                      [NSDictionary dictionaryWithObject:@"右上" forKey:@"UperRight"],
+                      [NSDictionary dictionaryWithObject:@"左下" forKey:@"BottomLeft"],
+                      [NSDictionary dictionaryWithObject:@"右下" forKey:@"BottomRight"],
+                             nil];
+    
+    _nosigalArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"开" forKey:@"On"],
+                     [NSDictionary dictionaryWithObject:@"关" forKey:@"Off"],
+                     nil];
+    
+    _quitArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"关" forKey:@"Off"],
+                             [NSDictionary dictionaryWithObject:@"5s" forKey:@"Second5"],
+                             [NSDictionary dictionaryWithObject:@"10s" forKey:@"Second10"],
+                             [NSDictionary dictionaryWithObject:@"20s" forKey:@"Second15"],
+                             [NSDictionary dictionaryWithObject:@"30s" forKey:@"Second30"],
+                            [NSDictionary dictionaryWithObject:@"45s" forKey:@"Second45"],
+                            [NSDictionary dictionaryWithObject:@"60s" forKey:@"Second60"],
+                             nil];
+    
+    _hidenArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"显示" forKey:@"Show"],
+                            [NSDictionary dictionaryWithObject:@"隐藏" forKey:@"Hide"],
+                             nil];
+
+    _muteArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"开" forKey:@"On"],
+                     [NSDictionary dictionaryWithObject:@"关" forKey:@"Off"],
+                     nil];
 }
 
 -(void)createBaseView
@@ -143,11 +179,11 @@
     };
     
     NSArray *temp = [NSArray arrayWithObjects:dict1, dict2, dict3, dict4,dict5,nil];
-    NSMutableArray *array = [NSMutableArray array];
+    NSMutableArray *dataArray = [NSMutableArray array];
     
     if (_selectedDevArray.count == 0)
     {
-        array = [NSMutableArray arrayWithArray:temp];
+        dataArray = [NSMutableArray arrayWithArray:temp];
     }
     else
     {
@@ -161,7 +197,7 @@
             NSArray *aa = [searchArray filteredArrayUsingPredicate:searchPredicate] ;
             if (aa && aa.count>0)
             {
-                [array addObject:d];
+                [dataArray addObject:d];
             }
         }
     }
@@ -171,6 +207,8 @@
     _powerItemArray = [NSMutableArray array];
     
     UIView *baseview = [[UIView alloc] init];
+    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(singleTapAction)];
+    [baseview addGestureRecognizer:singleTap];
     [self addSubview:baseview];
     [baseview mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.mas_top).offset(W_SCALE(35)+2*top_Gap);
@@ -184,13 +222,13 @@
     CGFloat h = H_SCALE(30);
 //    CGFloat y = Left_Gap;
     CGFloat h_gap = H_SCALE(30);
-    for (int i = 0; i < array.count; i++)
+    for (int i = 0; i < dataArray.count; i++)
     {
-        NSDictionary *dic = array[i];
+        NSDictionary *dic = dataArray[i];
         if (dic == nil) continue;
         
         NSString *str = dic[@"string"];
-        __block NSArray* array = dic[@"data"]?dic[@"data"]:[NSArray array];
+        __block NSArray* temparray = dic[@"data"]?dic[@"data"]:[NSArray array];
                 
         APChooseItem *item = [[APChooseItem alloc] init];
         [baseview addSubview:item];
@@ -208,9 +246,21 @@
             make.width.mas_equalTo(h);
         }];
         
+        if(i == dataArray.count -1)
+        {
+            APSetNumberItem *ci = [[APSetNumberItem alloc] init];
+            [baseview addSubview:ci];
+            ci.label.text = @"自定义";
+            [ci mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.mas_equalTo(baseview.mas_left).offset(0);
+                make.bottom.mas_equalTo(baseview.mas_bottom).offset(-30);
+                make.size.mas_equalTo(CGSizeMake(W_SCALE(365), H_SCALE(30)));
+            }];
+        }
+        
 
         NSMutableArray *temp = [NSMutableArray array];
-        for (NSDictionary *dict in array) {
+        for (NSDictionary *dict in temparray) {
             NSString *string = [dict allValues][0];
             [temp addObject:string];
         }
@@ -220,7 +270,7 @@
         WS(weakSelf);
         [item setCellClickBlock:^(NSString * _Nonnull str) {
               
-            for (NSDictionary *dict in array) {
+            for (NSDictionary *dict in temparray) {
                 NSString *temp = [dict allValues][0];
                 if ([str isEqualToString:temp])
                 {
@@ -231,6 +281,136 @@
             }
         }];
     }
+}
+
+-(void)createMenuItem
+{
+    
+    NSDictionary *dict1 = @{@"string":@"菜单语言",
+                            @"data":_languegArray?_languegArray:[NSArray array],
+                            @"execcode":@"setup-The menu",
+//                            @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(507), H_SCALE(25) , w,h)],
+    };
+    NSDictionary *dict2 = @{@"string":@"菜单位置",
+                            @"data":_locationArray?_locationArray:[NSArray array],
+                            @"execcode":@"setup-The menu location",
+//                             @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(507), H_SCALE(25)+(h+h_gap),w,h)],
+    };
+    NSDictionary *dict3 = @{@"string":@"无信号提示",
+                            @"data":_nosigalArray?_nosigalArray:[NSArray array],
+                            @"execcode":@"setup-No signal prompt",
+//                             @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(507), H_SCALE(25)+(h+h_gap)*2, w,h)],
+    };
+    NSDictionary *dict4 = @{@"string":@"菜单自动退出",
+                            @"data":_quitArray?_quitArray:[NSArray array],
+                            @"execcode":@"setup-The menu automatically exits",
+//                             @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(507), H_SCALE(25)+(h+h_gap)*3, w,h)],
+    };
+    
+    NSDictionary *dict5 = @{@"string":@"菜单状态",
+                            @"data":_hidenArray?_hidenArray:[NSArray array],
+                            @"execcode":@"setup-The hidden menu",
+//                             @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(15), H_SCALE(275), w,h)],
+    };
+    
+//    NSDictionary *dict6 = @{@"string":@"静音",
+//                            @"data":_muteArray?_muteArray:[NSArray array],
+//                            @"execcode":@"setup-running mode",
+//    };
+    NSArray *temp = [NSArray arrayWithObjects:dict1, dict2, dict3, dict4,dict5,nil];
+    NSMutableArray *dataArray = [NSMutableArray array];
+    
+    if (_selectedDevArray.count == 0)
+    {
+        dataArray = [NSMutableArray arrayWithArray:temp];
+    }
+    else
+    {
+        APGroupNote *node = _selectedDevArray[0];
+        NSArray *searchArray = [node.setupDict allKeys];
+        for (NSDictionary *d in temp)
+        {
+            NSString *str = d[@"execcode"];
+            // 将搜索的结果存放到数组中
+            NSPredicate *searchPredicate = [NSPredicate predicateWithFormat:@"SELF == %@", str];
+            NSArray *aa = [searchArray filteredArrayUsingPredicate:searchPredicate] ;
+            if (aa && aa.count>0)
+            {
+                [dataArray addObject:d];
+            }
+        }
+    }
+    
+    _muteArray = [NSMutableArray array];
+    
+    UIView *baseview = [[UIView alloc] init];
+    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(singleTapAction)];
+    [baseview addGestureRecognizer:singleTap];
+    [self addSubview:baseview];
+    [baseview mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.mas_top).offset(W_SCALE(35)+2*top_Gap);
+        make.left.mas_equalTo(self.mas_left).offset(W_SCALE(436)+Left_Gap);
+        make.height.mas_equalTo(H_SCALE(399));
+        make.width.mas_equalTo(W_SCALE(382));
+    }];
+    
+    
+    CGFloat w = W_SCALE(200);
+    CGFloat h = H_SCALE(30);
+    CGFloat h_gap = H_SCALE(30);
+    for (int i = 0; i < dataArray.count; i++)
+    {
+        NSDictionary *dic = dataArray[i];
+        if (dic == nil) continue;
+        
+        NSString *str = dic[@"string"];
+        __block NSArray* temparray = dic[@"data"]?dic[@"data"]:[NSArray array];
+                
+        APChooseItem *item = [[APChooseItem alloc] init];
+        [baseview addSubview:item];
+        [_powerItemArray addObject:item];
+        item.label.text = str;
+        item.tag = i;
+        [item.field mas_updateConstraints:^(MASConstraintMaker *make) {
+                    make.width.mas_equalTo(145);
+        }];
+        
+        [item mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(baseview.mas_top).offset(Left_Gap + (h+h_gap)*i);
+            make.left.mas_equalTo(baseview.mas_left).offset(0);
+            make.height.mas_equalTo(w);
+            make.width.mas_equalTo(h);
+        }];
+        
+        if(str.length >= 6)
+        {
+            item.label.font = [UIFont systemFontOfSize:13];
+        }
+        
+
+        NSMutableArray *temp = [NSMutableArray array];
+        for (NSDictionary *dict in temparray) {
+            NSString *string = [dict allValues][0];
+            [temp addObject:string];
+        }
+        [item setDefaultValue:temp];
+        __block NSString *code = dic[@"execcode"];
+
+        WS(weakSelf);
+        [item setCellClickBlock:^(NSString * _Nonnull str) {
+              
+            for (NSDictionary *dict in temparray) {
+                NSString *temp = [dict allValues][0];
+                if ([str isEqualToString:temp])
+                {
+                    NSString *value = [dict allKeys][0];
+                    [weakSelf sendDataToDevice:code value:value];
+                    break;;
+                }
+            }
+        }];
+    }
+
 }
 
 -(void)sendDataToDevice:(NSString *)key value:(NSString *)value
@@ -284,6 +464,7 @@
     if (_selectedDevArray.count == 0)//没有选设备显示界面
     {
         [self createPowerItem];
+        [self createMenuItem];
     }
     else//选择设备后，需要配置数据才显示界面
     {
@@ -292,6 +473,7 @@
         {
             [self initData];
             [self createPowerItem];
+            [self createMenuItem];
         }
     }
 }

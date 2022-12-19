@@ -245,7 +245,11 @@
     _field.text = SafeStr(str);
     [self setTableStatus];
     
-    self.cellClickBlock(SafeStr(str));
+    if (self.cellClickBlock)
+    {
+        self.cellClickBlock(SafeStr(str));
+
+    }
 }
 
 

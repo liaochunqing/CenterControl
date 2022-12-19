@@ -330,12 +330,26 @@
     if(selectedArray && selectedArray.count)
     {
         APGroupNote *node = selectedArray[0];
-        for (NSString *key in node.sceneDict)
+        
+//            for (int i = (int)orgArray.count - 1; i >= 0; i--)
+//            {
+//                NSDictionary *dict = orgArray[i];
+//                NSString *str = dict[@"exec_code"];
+//                if ([str compare:key options:NSCaseInsensitiveSearch] ==NSOrderedSame)
+//                {
+//                    [_testDataArray addObject:dict];
+//                    [orgArray removeObject:dict];
+//                }
+//            }
+        
+        
+        for (int i = (int)orgArray.count - 1; i >= 0; i--)
         {
-            for (int i = (int)orgArray.count - 1; i >= 0; i--)
+            NSDictionary *dict = orgArray[i];
+            NSString *str = dict[@"exec_code"];
+            
+            for (NSString *key in node.sceneDict)
             {
-                NSDictionary *dict = orgArray[i];
-                NSString *str = dict[@"exec_code"];
                 if ([str compare:key options:NSCaseInsensitiveSearch] ==NSOrderedSame)
                 {
                     [_testDataArray addObject:dict];
@@ -344,6 +358,7 @@
             }
         }
     }
+    
 
     _btnArray = [NSMutableArray array];
     _imageArray = [NSMutableArray array];
@@ -395,6 +410,7 @@
     CGFloat x = 2*Left_Gap;
     CGFloat y = H_SCALE(28);
 
+    _testDataArray = (NSMutableArray*)[[_testDataArray reverseObjectEnumerator] allObjects];
     for (int i = 0; i < _testDataArray.count; i++)
     {
         NSDictionary *dic = _testDataArray[i];

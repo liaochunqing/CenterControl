@@ -90,7 +90,10 @@
 {
 //    NSLog(@"%d",(int)_slider.value);
     _field.text = [NSString stringWithFormat:@"%d",(int)_slider.value];
-    self.changedBlock(SafeStr(_field.text));
+    if (self.changedBlock)
+    {
+        self.changedBlock(SafeStr(_field.text));
+    }
 }
 
 #pragma  mark textfield delegate
@@ -109,7 +112,10 @@
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
     [textField resignFirstResponder];
-    self.changedBlock(SafeStr(_field.text));
+    if (self.changedBlock)
+    {
+        self.changedBlock(SafeStr(_field.text));
+    }
 }
 
 
