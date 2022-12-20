@@ -127,11 +127,6 @@
     _expendIm.image = [UIImage imageNamed:name];
 }
 
-
--(void)sendDataToDevice:(NSString *)key
-{
-
-}
 #pragma mark 对外接口
 -(void)setDefaultValue:(NSArray *)array
 {
@@ -177,25 +172,6 @@
     return YES;
 }
 
-#pragma  mark button delegate
-//-(void)singleTapAction
-//{
-//    if(_groupTableView)
-//    {
-//        [_groupTableView removeFromSuperview];
-//        _groupTableView = nil;
-//        NSString *name = _groupTableView?@"Vector(1)" : @"Vector(2)";
-//        _groupExpendIm.image = [UIImage imageNamed:name];
-//    }
-//
-//    if(_modelTableView)
-//    {
-//        [_modelTableView removeFromSuperview];
-//        _modelTableView = nil;
-//        NSString *name = _modelTableView?@"Vector(1)" : @"Vector(2)";
-//        _modelExpendIm.image = [UIImage imageNamed:name];
-//    }
-//}
 
 #pragma mark *** UITableViewDelegate/UITableViewDataSource ***
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -252,25 +228,4 @@
     }
 }
 
-
-
-//
-//-(UIView*)hitTest:(CGPoint)point withEvent:(UIEvent*)event
-//{
-//    UIView *view = [super hitTest:point withEvent:event];
-//
-//    if (view == nil)
-//    {
-//          //将坐标由当前视图发送到 指定视图 fromView是无法响应的范围小父视图
-//
-//         CGPoint stationPoint = [_tableView convertPoint:point fromView:self];
-//
-//        if (CGRectContainsPoint(_tableView.bounds, stationPoint))
-//        {
-//                     view = _tableView;
-//        }
-//
-//    }
-//    return view;
-//}
 @end

@@ -13,6 +13,7 @@
 #import "APColourView.h"
 #import "APSetupView.h"
 #import "APSignalView.h"
+#import "APConfigView.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -34,6 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,strong)APColourView *colourView;
 @property(nonatomic,strong)APSignalView *signalView;
 @property(nonatomic,strong)APSetupView *setupView;
+@property(nonatomic,strong)APConfigView *configView;
 
 
 @property(nonatomic,strong)UIScrollView *baseView;

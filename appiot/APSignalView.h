@@ -6,6 +6,7 @@
 //
 
 #import "APBaseView.h"
+#import "APRadioItem.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -24,13 +25,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic,strong)NSMutableArray *yxmsArray;//
 
-//菜单设置
-@property (nonatomic,strong)NSMutableArray *languegArray;//
-@property (nonatomic,strong)NSMutableArray *locationArray;//
-@property(nonatomic,strong)NSMutableArray *nosigalArray;//
-@property(nonatomic,strong)NSMutableArray *quitArray;//
-@property(nonatomic,strong)NSMutableArray *hidenArray;//
-@property(nonatomic,strong)NSMutableArray *muteArray;//
+//3d设置
+@property (nonatomic,strong)NSMutableArray *moshiArray;//
+@property (nonatomic,strong)NSMutableArray *geshiArray;//
+@property(nonatomic,strong)NSMutableArray *tongbuArray;//
+@property(nonatomic,strong)NSMutableArray *zyyysArray;//
+@property(nonatomic,strong)NSMutableArray *zyyfzArray;//
+@property(nonatomic,strong)NSMutableArray *acsjArray;//
+
+//hdmi
+@property(nonatomic,strong)NSMutableArray *cskjArray;//
+@property(nonatomic,strong)NSMutableArray *xhdpfwArray;//
 @end
 
 NS_ASSUME_NONNULL_END
