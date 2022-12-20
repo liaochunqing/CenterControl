@@ -88,6 +88,11 @@
                 [self.menuBtnArray addObject:button];
             }
             
+            if (i == 2 || i==4 || i==5)
+            {
+                button.enabled = NO;
+            }
+            
             if(i == 0)//默认选中第一个
             {
 //                [button setSelected:YES];

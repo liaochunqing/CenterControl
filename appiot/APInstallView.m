@@ -15,6 +15,7 @@
 @implementation APInstallView
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
+        _selectedMenuIndex = 0;
         [self createUI];
     }
     return self;
@@ -58,6 +59,12 @@
 
 -(void)createMenuView
 {
+    if (_menuView)
+    {
+        [_menuView removeFromSuperview];
+        _menuView = nil;
+    }
+    
     _menuView = [UIView new];
     [self addSubview:_menuView];
     [_menuView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -108,7 +115,8 @@
         
         x += w + midGap;
         
-        if(i == 0)//默认选中第一个
+//        int selectIndex = _selectedMenuIndex == 0?
+        if(i == _selectedMenuIndex)//默认选中第一个
         {
             [button sendActionsForControlEvents:UIControlEventTouchUpInside];//代码点击
         }
@@ -126,6 +134,7 @@
     if (_baseView)
     {
         [_baseView removeFromSuperview];
+        _baseView = nil;
     }
     _baseView = [UIScrollView new];
     [self addSubview:_baseView];
@@ -202,6 +211,11 @@
         {
             [self sort:_data];
             [self createModelDevice];
+        }
+        
+        if (_data.count == 0)
+        {
+            [self createMenuView];
         }
     }
 }

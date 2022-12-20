@@ -255,10 +255,10 @@
             {
                 if(self.groupView == nil)
                 {
-                    CGFloat x = 0;
+//                    CGFloat x = 0;
                     CGFloat y = H_SCALE(141);
-                    CGFloat w = Left_View_Width;
-                    CGFloat h = SCREEN_HEIGHT - y;
+//                    CGFloat w = Left_View_Width;
+//                    CGFloat h = SCREEN_HEIGHT - y;
                     
                     self.groupView = [[APGroupView alloc] init];
                     [self addSubview:self.groupView];

@@ -509,7 +509,18 @@
     }];
     
     [self.btnLeft setImage:[UIImage imageNamed:@"Ellipse 4"] forState:UIControlStateNormal];
-    [self.btnLeft addTarget:self action:@selector(allSelectbtnClick:) forControlEvents:UIControlEventTouchUpInside];
+//    [self.btnLeft addTarget:self action:@selector(allSelectbtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    
+    //放大隐藏按钮
+    UIButton *btn = [UIButton new];
+//    btn.backgroundColor = [UIColor redColor];
+    [btn addTarget:self action:@selector(allSelectbtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:btn];
+    [btn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(W_SCALE(150), Group_Btn_W));
+        make.top.mas_equalTo(self.mas_top).offset(top);
+        make.left.equalTo(self.mas_left).offset(0);
+    }];
     
     //全选标题
     _allSelectLabel = [[UILabel alloc] init];
@@ -1283,7 +1294,7 @@
 
 -(void)allSelectbtnClick:(UIButton *)btn
 {
-    if (btn == self.btnLeft)
+//    if (btn == self.btnLeft)
     {
         
         self.btnLeft.selected = !self.btnLeft.selected;
