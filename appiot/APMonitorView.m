@@ -8,7 +8,7 @@
 #import "APMonitorView.h"
 #import "AppDelegate.h"
 
-#define Monitor_getdatafromnet_clock (5)//定时秒 获取数据
+#define Monitor_getdatafromnet_clock (8)//定时秒 获取数据
 
 @implementation APMonitorView
 - (instancetype)initWithFrame:(CGRect)frame {

@@ -11,10 +11,14 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface APViewController : APBaseViewController
+@interface APViewController : APBaseViewController<UITextFieldDelegate>
 @property(nonatomic,strong)APLeftView *leftView;
 @property(nonatomic,strong)APCenterView *centerView;
 
+@property(nonatomic,strong)UIView *loginView;
+
+@property(nonatomic,strong)UITextField *nameField;
+@property(nonatomic,strong)UITextField *pwField;
 
 @end
 

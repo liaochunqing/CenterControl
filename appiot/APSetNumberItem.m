@@ -64,7 +64,7 @@
     _field.textColor =contentColor;
     _field.textAlignment = NSTextAlignmentCenter;
     _field.font = [UIFont systemFontOfSize:contentFontSize];
-    _field.keyboardType = UIKeyboardTypePhonePad;
+    _field.keyboardType = UIKeyboardTypeDecimalPad;//UIKeyboardTypePhonePad;
     ViewBorderRadius(_field, 5, 1, ColorHex(0xADACA8));
     [self addSubview:_field];
     NSString *holderText = @"0";
