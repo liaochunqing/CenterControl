@@ -10,6 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 typedef void(^SocketReturnMessage)(NSString *message);
+typedef void(^SocketDidConnected)(NSString *message);
 
 @interface APTcpSocket : NSObject<GCDAsyncSocketDelegate>
 /*
@@ -17,16 +18,15 @@ typedef void(^SocketReturnMessage)(NSString *message);
  */
 @property (nonatomic,strong) GCDAsyncSocket *__nullable socket;
 @property (nonatomic, strong) NSMutableDictionary *socketDict;
-
-/*
- *主机端口
- */
+@property (nonatomic,strong)NSData *senddata;
+@property (nonatomic,strong)NSString *ip;
 @property (nonatomic,assign) NSUInteger port;
 
 /*
  *创建SocketReturnMessage类型的block对象
  */
 @property (nonatomic,copy) SocketReturnMessage socketMessageBlock;
+@property (nonatomic,copy) SocketDidConnected didConnectedBlock;
 
 
 /*
@@ -38,6 +38,7 @@ typedef void(^SocketReturnMessage)(NSString *message);
  *连接服务/主机的方法
  */
 - (void)connectToHost:(NSString *)host Port:(NSUInteger)port;
+- (void)connectToHost;
 
 //发送数据
 -(void)sendData:(NSData *)contents;

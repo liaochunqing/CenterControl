@@ -27,27 +27,45 @@
     
     [self setFrame:CGRectMake(x, y, w, h)];
     self.backgroundColor = ColorHex(0x161635);
+    _sockArray = [NSMutableArray array];
+    
+    //监听设备选中的通知
+    [kNotificationCenter addObserver:self selector:@selector(notifySelectedDevChanged:) name:Notification_Get_SelectedDev object:nil];
     
     [self createSwitchView];
     [self createTestView];
     [self createMonitorView];
     [self getSelectedDev];
-    
+
 }
--(void)refreshSelectedList:(NSArray *)arr
+-(void)notifySelectedDevChanged:(NSNotification *)notification
 {
-//    if (!arr) return;
+    NSArray *arr = notification.userInfo[@"array"];
+    if (!arr) return;
     
-//    if (_data && _data.count)
-//    {
-//        [_data removeAllObjects];
-//    }
-//    else
-//    {
-//        _data =[NSMutableArray array];
-//    }
-//
-//    _data = [NSMutableArray arrayWithArray:arr];
+    if (_data && _data.count)
+    {
+        [_data removeAllObjects];
+    }
+    else
+    {
+        _data =[NSMutableArray array];
+    }
+    _data = [NSMutableArray arrayWithArray:arr];
+
+    if (_data.count)
+    {
+        APTcpSocket *tcpManager = [APTcpSocket shareManager];
+        if (tcpManager.socketDict)
+            for (NSString *key in tcpManager.socketDict)
+            {
+                GCDAsyncSocket *sk = tcpManager.socketDict[key];
+                if (sk && sk.isConnected)
+                {
+                    [sk disconnect];
+                }
+            }
+    }
 }
 
 -(void)getSelectedDev
@@ -58,7 +76,7 @@
     {
         NSArray *temp = [vc getSelectedDevice];
         if (!temp) return;
-        
+
         if (_data && _data.count)
         {
             [_data removeAllObjects];
@@ -354,6 +372,7 @@
 
 -(void)sendMessage:(NSString *)command
 {
+    int i = 0;
     for (APGroupNote *node in _data)
     {
         NSData * sendData = node.commandDict[command];
@@ -365,9 +384,21 @@
             NSLog(@"%@,ip=%@,port=%@,发送数据：%@",node.access_protocol,node.ip,node.port,sendData);
             NSString *sss = [[NSString alloc] initWithData:sendData encoding:NSUTF8StringEncoding];
 
-            APTcpSocket *tcpManager = [APTcpSocket shareManager];
-            [tcpManager connectToHost:node.ip Port:[node.port intValue]];
-            [tcpManager sendData:sendData];
+            APTcpSocket *tcpManager;
+            if (node.tcpSocket == nil)
+            {
+                tcpManager = [APTcpSocket new];
+                node.tcpSocket = tcpManager;
+            }
+            node.tcpSocket.senddata = sendData;
+//            [_sockArray addObject:tcpManager];
+            [node.tcpSocket connectToHost:node.ip Port:[node.port intValue]];
+            WS(weakSelf);
+            [node.tcpSocket setDidConnectedBlock:^(NSString * _Nonnull message) {
+//                            [weakSelf.sockArray addObject:tcpManager];
+            }];
+//            [tcpManager sendData:sendData];
+//            [tcpManager performSelector:@selector(sendData:) withObject:sendData afterDelay:0.2 * i];
         }
         else if ([@"udp" compare:node.access_protocol options:NSCaseInsensitiveSearch |NSNumericSearch] ==NSOrderedSame)
         {
@@ -380,6 +411,7 @@
             [udpManager createClientUdpSocket];
             [udpManager sendMessage:sendData];
         }
+        i++;
     }
 }
 
@@ -387,7 +419,7 @@
 
 -(void)btnTestClick:(UIButton *)btn
 {
-    [self getSelectedDev];
+//    [self getSelectedDev];
     
     if(_data.count == 0)
     {
@@ -459,7 +491,7 @@
 
 -(void)btnSwithClick:(UIButton *)btn
 {
-    [self getSelectedDev];
+//    [self getSelectedDev];
 
     if(_data.count == 0)
     {
@@ -516,7 +548,7 @@
 
 -(void)btnRefreshClick:(UIButton *)btn
 {
-    [self getSelectedDev];
+//    [self getSelectedDev];
 
     if(btn)
     {

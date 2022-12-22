@@ -21,27 +21,6 @@ static APTcpSocket *shareManager = nil;
     return shareManager;
 }
 
-#pragma mark连接服务器
-- (void)connectToHost:(NSString *)host Port:(NSUInteger)port
-{
-    if (_socketDict == nil)
-    {
-        _socketDict = [NSMutableDictionary dictionary];
-    }
-    //从缓存获取已经连接的socket
-    [self getSocketFromCashWith:host port:port];
-
-    if (self.socket == nil || [self.socket isDisconnected])
-    {
-        dispatch_queue_t queue = dispatch_queue_create("tcpqueue", NULL);
-        self.socket = [[GCDAsyncSocket alloc] initWithDelegate:shareManager delegateQueue:queue socketQueue:nil];
-//        self.socket = [[GCDAsyncSocket alloc] initWithDelegate:shareManager delegateQueue:dispatch_get_main_queue()];
-    }
-    NSError *error = nil;
-    [self.socket connectToHost:host onPort:(uint16_t)port withTimeout:ConnectTime error:&error];
-
-}
-
 //从缓存获取已经连接的socket
 -(void)getSocketFromCashWith:(NSString *)host port:(NSUInteger)port
 {
@@ -62,12 +41,55 @@ static APTcpSocket *shareManager = nil;
     }
 }
 
+#pragma mark连接服务器
+- (void)connectToHost:(NSString *)host Port:(NSUInteger)port
+{
+
+    if (self.socket == nil || [self.socket isDisconnected])
+    {
+        dispatch_queue_t queue = dispatch_queue_create("tcpqueue", NULL);
+        self.socket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:queue socketQueue:nil];
+//        self.socket = [[GCDAsyncSocket alloc] initWithDelegate:shareManager delegateQueue:dispatch_get_main_queue()];
+    }
+    
+    if (self.socket && self.socket.isConnected)
+    {
+        [self sendData:nil];
+        return;
+    }
+
+    [self.socket connectToHost:host onPort:(uint16_t)port withTimeout:ConnectTime error:nil];
+
+}
+
+- (void)connectToHost
+{
+
+    if (self.socket == nil || [self.socket isDisconnected])
+    {
+        dispatch_queue_t queue = dispatch_queue_create("tcpqueue", NULL);
+        self.socket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:queue socketQueue:nil];
+//        self.socket = [[GCDAsyncSocket alloc] initWithDelegate:shareManager delegateQueue:dispatch_get_main_queue()];
+    }
+    
+    if (self.socket && self.socket.isConnected)
+    {
+        [self sendData:nil];
+        return;
+    }
+
+    [self.socket connectToHost:self.ip onPort:(uint16_t)self.port withTimeout:ConnectTime error:nil];
+
+}
 #pragma mark 发送数据
 -(void)sendData:(NSData *)contents
 {
-    [self.socket writeData:contents withTimeout:-1 tag:0];
-    NSLog(@"%p发送：%@",self.socket, contents);
-    [self.socket readDataWithTimeout:-1 tag:0];
+    if (self.socket && self.socket.isConnected)
+    {
+        [self.socket writeData:self.senddata withTimeout:-1 tag:0];
+        NSLog(@"%p发送：%@",self.socket, self.senddata);
+        [self.socket readDataWithTimeout:-1 tag:0];
+    }
 }
 
 #pragma mark 已连接到服务器
@@ -75,11 +97,10 @@ static APTcpSocket *shareManager = nil;
 {
     NSString *message = [NSString stringWithFormat:@"sock:%p,Host:%@,Port:%d",sock,host,port];
     NSLog(@"连接成功%@",message);
-    //保存socket
-    if(_socketDict)
+    [self sendData:nil];
+    if (self.didConnectedBlock)
     {
-        NSString *key = [NSString stringWithFormat:@"%@+%d",host,port];
-        [_socketDict setObject:sock forKey:SafeStr(key)];
+        self.didConnectedBlock(message);
     }
     
     // 读取数据
@@ -89,7 +110,7 @@ static APTcpSocket *shareManager = nil;
 #pragma mark 已经向服务器发送数据
 - (void)socket:(GCDAsyncSocket *)sock didWriteDataWithTag:(long)tag
 {
-    NSString *message = [NSString stringWithFormat:@"发送数据成功:%p,%ld",sock,tag];
+    NSString *message = [NSString stringWithFormat:@"%@发送数据成功",sock];
     NSLog(@"%@",message);
 }
 
@@ -99,7 +120,7 @@ static APTcpSocket *shareManager = nil;
 {
     NSString *receiverStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 //    NSDictionary *dic = [APTool dictionaryWithJsonString:receiverStr];
-    NSLog(@"收到数据: %@",receiverStr);
+    NSLog(@"%@收到数据: %@",sock,receiverStr);
     
     dispatch_async(dispatch_get_main_queue(), ^{
        // UI更新代码

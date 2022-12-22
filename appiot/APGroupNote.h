@@ -6,7 +6,9 @@
 //
 
 #import <Foundation/Foundation.h>
+
 #include "config.h"
+@class APTcpSocket;
 NS_ASSUME_NONNULL_BEGIN
 
 @interface APGroupNote : NSObject
@@ -26,6 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 //@property (nonatomic) BOOL needMove;
 @property (nonatomic , strong) APGroupNote * grandfather;//祖父节点，
 @property (nonatomic , strong) APGroupNote * father;//父节点，
+@property (nonatomic, strong) APTcpSocket *tcpSocket;//tcp管理器
 
 //连接属性
 @property (nonatomic , strong) NSString *ip;//

@@ -34,6 +34,7 @@
     NSString *str = @"";
     UIColor *color = ColorHex(0xCCCCCC);
     NSString *imgName = @"";
+    UIColor *detailColor = ColorHex(0xABBDD5);
 
     //第一行
     UIView *firtRow = [[UIView alloc] init];
@@ -69,6 +70,7 @@
     //错误码
     UILabel *errorcode = [[UILabel alloc] init];
     [firtRow addSubview:errorcode];
+//    ViewBorderRadius(errorcode, 3, 0.7, detailColor);
     errorcode.text = node.error_code.length?node.error_code:@"--";//
     errorcode.font = [UIFont systemFontOfSize:16];
     errorcode.textColor = ColorHex(0xCCCCCC);
@@ -77,7 +79,7 @@
     [errorcode mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(firtRow);
         make.left.mas_equalTo(namelab.mas_right).offset(midGap);
-        make.size.mas_equalTo(CGSizeMake(W_SCALE(200), H_SCALE(30)));
+        make.size.mas_equalTo(CGSizeMake(W_SCALE(65), H_SCALE(30)));
     }];
     
 
@@ -187,7 +189,7 @@
     [self.contentView addSubview:iplab];
     iplab.text = [NSString stringWithFormat:@"ip:%@",node.ip];
     iplab.font = [UIFont systemFontOfSize:fontsize];
-    iplab.textColor = ColorHex(0xABBDD5);
+    iplab.textColor = detailColor;
     [iplab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(namelab.mas_bottom).offset(top_Gap);
         make.left.mas_equalTo(namelab.mas_left).offset(0);
@@ -199,7 +201,7 @@
     [self.contentView addSubview:singallab];
     singallab.text = [NSString stringWithFormat:@"信源:%@",node.signals];;
     singallab.font = [UIFont systemFontOfSize:fontsize];
-    singallab.textColor = ColorHex(0xABBDD5);
+    singallab.textColor = detailColor;
     [singallab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(iplab.mas_bottom).offset(top_Gap);
         make.left.mas_equalTo(namelab.mas_left).offset(0);
@@ -209,9 +211,9 @@
     //温度
     UILabel *templab = [[UILabel alloc] init];
     [self.contentView addSubview:templab];
-    templab.text = [NSString stringWithFormat:@"温度:%@",node.temperature];;
+    templab.text = [NSString stringWithFormat:@"环境温度(°C):%@",node.temperature];;
     templab.font = [UIFont systemFontOfSize:fontsize];
-    templab.textColor = ColorHex(0xABBDD5);
+    templab.textColor = detailColor;
     [templab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(singallab.mas_bottom).offset(top_Gap);
         make.left.mas_equalTo(namelab.mas_left).offset(0);
@@ -224,9 +226,9 @@
     [self.contentView addSubview:idlab];
     idlab.text = [NSString stringWithFormat:@"ID:%@",node.device_id.length?node.device_id:@"--"];;
     idlab.font = [UIFont systemFontOfSize:fontsize];
-    idlab.textColor = ColorHex(0xABBDD5);
+    idlab.textColor = detailColor;
     [idlab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(namelab.mas_bottom).offset(top_Gap);
+        make.top.mas_equalTo(iplab.mas_bottom).offset(top_Gap);
         make.left.mas_equalTo(self.contentView.mas_left).offset(left);
         make.size.mas_equalTo(CGSizeMake(w, H_SCALE(17)));
     }];
@@ -236,8 +238,9 @@
     [self.contentView addSubview:timelab];
     timelab.text = [NSString stringWithFormat:@"整机/光源时间(h):%@/%@",node.machine_running_time,node.light_running_time];//@"整机/光源时间（h）：1000000/56795";
     timelab.font = [UIFont systemFontOfSize:fontsize];
-    timelab.textColor = ColorHex(0xABBDD5);
+    timelab.textColor = detailColor;
     [timelab mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.mas_equalTo(idlab.mas_bottom).offset(top_Gap);
         make.top.mas_equalTo(idlab.mas_bottom).offset(top_Gap);
         make.left.mas_equalTo(self.contentView.mas_left).offset(left);
         make.size.mas_equalTo(CGSizeMake(W_SCALE(280), H_SCALE(17)));

@@ -46,7 +46,6 @@
 		C6D010F52946B96D003674C9 /* APVersionView.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D010F42946B96D003674C9 /* APVersionView.m */; };
 		C6D010F82946BF67003674C9 /* APPasswordView.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D010F72946BF67003674C9 /* APPasswordView.m */; };
 		C6D010FB2948670C003674C9 /* APMenuButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D010FA2948670C003674C9 /* APMenuButton.m */; };
-		C6D010FF294874C2003674C9 /* remote.db in Resources */ = {isa = PBXBuildFile; fileRef = C6D010FE294874C2003674C9 /* remote.db */; };
 		C6D0110229495D93003674C9 /* APSceneView.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D0110129495D93003674C9 /* APSceneView.m */; };
 		C6D0110829499D69003674C9 /* APAdjustButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D0110729499D69003674C9 /* APAdjustButton.m */; };
 		C6ED8A2D294ABAF800C98D7B /* APConfigureView.m in Sources */ = {isa = PBXBuildFile; fileRef = C6ED8A2C294ABAF800C98D7B /* APConfigureView.m */; };
@@ -58,6 +57,7 @@
 		C6ED8A45295054EF00C98D7B /* APSignalView.m in Sources */ = {isa = PBXBuildFile; fileRef = C6ED8A44295054EF00C98D7B /* APSignalView.m */; };
 		C6ED8A4829515D7600C98D7B /* APRadioItem.m in Sources */ = {isa = PBXBuildFile; fileRef = C6ED8A4729515D7600C98D7B /* APRadioItem.m */; };
 		C6ED8A4B2951886E00C98D7B /* APConfigView.m in Sources */ = {isa = PBXBuildFile; fileRef = C6ED8A4A2951886E00C98D7B /* APConfigView.m */; };
+		C6ED8A4D2953E9D700C98D7B /* remote.db in Resources */ = {isa = PBXBuildFile; fileRef = C6ED8A4C2953E9D700C98D7B /* remote.db */; };
 		CDAF7A201535A7BF8524ABBD /* Pods_appiot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB3765024A92663D80DC1163 /* Pods_appiot.framework */; };
 		E1FE5C87F1B352B5DF206E02 /* Pods_appiotTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87EB77647DEFF331311B61D6 /* Pods_appiotTests.framework */; };
 /* End PBXBuildFile section */
@@ -162,7 +162,6 @@
 		C6D010F72946BF67003674C9 /* APPasswordView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APPasswordView.m; sourceTree = "<group>"; };
 		C6D010F92948670C003674C9 /* APMenuButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APMenuButton.h; sourceTree = "<group>"; };
 		C6D010FA2948670C003674C9 /* APMenuButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APMenuButton.m; sourceTree = "<group>"; };
-		C6D010FE294874C2003674C9 /* remote.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = remote.db; sourceTree = "<group>"; };
 		C6D0110029495D93003674C9 /* APSceneView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APSceneView.h; sourceTree = "<group>"; };
 		C6D0110129495D93003674C9 /* APSceneView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APSceneView.m; sourceTree = "<group>"; };
 		C6D0110629499D69003674C9 /* APAdjustButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APAdjustButton.h; sourceTree = "<group>"; };
@@ -185,6 +184,7 @@
 		C6ED8A4729515D7600C98D7B /* APRadioItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APRadioItem.m; sourceTree = "<group>"; };
 		C6ED8A492951886E00C98D7B /* APConfigView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APConfigView.h; sourceTree = "<group>"; };
 		C6ED8A4A2951886E00C98D7B /* APConfigView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APConfigView.m; sourceTree = "<group>"; };
+		C6ED8A4C2953E9D700C98D7B /* remote.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = remote.db; sourceTree = "<group>"; };
 		F110C31EB98C931C5089AE17 /* Pods_appiot_appiotUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_appiot_appiotUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -321,7 +321,7 @@
 				C6CA8BB129220E1A00F5AAC2 /* APViewController.h */,
 				C6CA8BB229220E1A00F5AAC2 /* APViewController.m */,
 				C6C5288C291CFC92003F24C1 /* config.h */,
-				C6D010FE294874C2003674C9 /* remote.db */,
+				C6ED8A4C2953E9D700C98D7B /* remote.db */,
 				C6C52858291B7DD1003F24C1 /* LaunchScreen.storyboard */,
 				C6C52856291B7DD1003F24C1 /* Assets.xcassets */,
 				C6C5285B291B7DD1003F24C1 /* Info.plist */,
@@ -566,7 +566,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C6C5285A291B7DD1003F24C1 /* LaunchScreen.storyboard in Resources */,
-				C6D010FF294874C2003674C9 /* remote.db in Resources */,
+				C6ED8A4D2953E9D700C98D7B /* remote.db in Resources */,
 				C6C52857291B7DD1003F24C1 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
