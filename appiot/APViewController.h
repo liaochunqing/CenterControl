@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,strong)APLeftView *leftView;
 @property(nonatomic,strong)APCenterView *centerView;
 
+@property(nonatomic,strong)UIImageView *bkView;
 @property(nonatomic,strong)UIView *loginView;
 
 @property(nonatomic,strong)UITextField *nameField;

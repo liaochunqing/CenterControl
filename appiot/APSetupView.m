@@ -204,16 +204,16 @@
     
     _powerItemArray = [NSMutableArray array];
     
-    UIView *baseview = [[UIView alloc] init];
-    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(singleTapAction)];
-    [baseview addGestureRecognizer:singleTap];
-    [self addSubview:baseview];
-    [baseview mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.mas_top).offset(W_SCALE(35)+2*top_Gap);
-        make.left.mas_equalTo(self.mas_left).offset(Left_Gap);
-        make.height.mas_equalTo(H_SCALE(399));
-        make.width.mas_equalTo(W_SCALE(382));
-    }];
+//    UIView *baseview = [[UIView alloc] init];
+//    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(singleTapAction)];
+//    [baseview addGestureRecognizer:singleTap];
+//    [self addSubview:baseview];
+//    [baseview mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.mas_equalTo(self.mas_top).offset(W_SCALE(35)+2*top_Gap);
+//        make.left.mas_equalTo(self.mas_left).offset(Left_Gap);
+//        make.height.mas_equalTo(H_SCALE(399));
+//        make.width.mas_equalTo(W_SCALE(382));
+//    }];
     
     
     CGFloat w = W_SCALE(200);
@@ -229,7 +229,7 @@
         __block NSArray* temparray = dic[@"data"]?dic[@"data"]:[NSArray array];
                 
         APChooseItem *item = [[APChooseItem alloc] init];
-        [baseview addSubview:item];
+        [self addSubview:item];
         [_powerItemArray addObject:item];
         item.label.text = str;
         item.tag = i;
@@ -238,8 +238,8 @@
         }];
         
         [item mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(baseview.mas_top).offset(Left_Gap + (h+h_gap)*i);
-            make.left.mas_equalTo(baseview.mas_left).offset(0);
+            make.top.mas_equalTo(self.mas_top).offset(W_SCALE(35)+3*top_Gap + (h+h_gap)*i);
+            make.left.mas_equalTo(self.mas_left).offset(Left_Gap);
             make.height.mas_equalTo(w);
             make.width.mas_equalTo(h);
         }];
@@ -247,11 +247,11 @@
         if(i == dataArray.count -1)
         {
             APSetNumberItem *ci = [[APSetNumberItem alloc] init];
-            [baseview addSubview:ci];
+            [self addSubview:ci];
             ci.label.text = @"自定义";
             [ci mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.mas_equalTo(baseview.mas_left).offset(0);
-                make.bottom.mas_equalTo(baseview.mas_bottom).offset(-30);
+                make.left.mas_equalTo(self.mas_left).offset(Left_Gap);
+                make.top .mas_equalTo(self.mas_top).offset(W_SCALE(35)+3*top_Gap + (h+h_gap)*(i+1));
                 make.size.mas_equalTo(CGSizeMake(W_SCALE(365), H_SCALE(30)));
             }];
         }
@@ -341,17 +341,17 @@
     
     _muteArray = [NSMutableArray array];
     
-    UIView *baseview = [[UIView alloc] init];
-    _menuBaseview = baseview;
-    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(singleTapAction)];
-    [baseview addGestureRecognizer:singleTap];
-    [self addSubview:baseview];
-    [baseview mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.mas_top).offset(W_SCALE(35)+2*top_Gap);
-        make.left.mas_equalTo(self.mas_left).offset(W_SCALE(436)+Left_Gap);
-        make.height.mas_equalTo(H_SCALE(399));
-        make.width.mas_equalTo(W_SCALE(382));
-    }];
+//    UIView *baseview = [[UIView alloc] init];
+//    _menuBaseview = baseview;
+//    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(singleTapAction)];
+//    [baseview addGestureRecognizer:singleTap];
+//    [self addSubview:baseview];
+//    [baseview mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.mas_equalTo(self.mas_top).offset(W_SCALE(35)+2*top_Gap);
+//        make.left.mas_equalTo(self.mas_left).offset(W_SCALE(436)+Left_Gap);
+//        make.height.mas_equalTo(H_SCALE(399));
+//        make.width.mas_equalTo(W_SCALE(382));
+//    }];
     
     
     CGFloat w = W_SCALE(200);
@@ -366,7 +366,7 @@
         __block NSArray* temparray = dic[@"data"]?dic[@"data"]:[NSArray array];
                 
         APChooseItem *item = [[APChooseItem alloc] init];
-        [baseview addSubview:item];
+        [self addSubview:item];
         [_powerItemArray addObject:item];
         item.label.text = str;
         item.tag = i;
@@ -375,8 +375,8 @@
         }];
         
         [item mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(baseview.mas_top).offset(Left_Gap + (h+h_gap)*i);
-            make.left.mas_equalTo(baseview.mas_left).offset(0);
+            make.top.mas_equalTo(self.mas_top).offset(W_SCALE(35)+3*top_Gap + (h+h_gap)*i);
+            make.left.mas_equalTo(self.mas_left).offset(W_SCALE(450)+Left_Gap);
             make.height.mas_equalTo(w);
             make.width.mas_equalTo(h);
         }];

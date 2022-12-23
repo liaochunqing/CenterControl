@@ -6,7 +6,7 @@
 //
 
 #import "APViewController.h"
-
+#import "AppDelegate.h"
 
 
 @interface APViewController ()
@@ -19,15 +19,29 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = ColorHex(0x8E8E92);
+    
+#if 1//是否需要登录界面
     [self createLoginView];
-//    [self creatLeftView];
-//    [self creatCenterView];
+#else
+    [self creatLeftView];
+    [self creatCenterView];
+#endif
 }
 
 -(void)createLoginView
 {
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardDidHide:)
+                                                 name:UIKeyboardWillHideNotification  object:nil];
+    
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardDidShow:)
+                                                 name:UIKeyboardWillShowNotification  object:nil];
+    
     UIImageView *im = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
-    _loginView = im;
+    _bkView = im;
     im.image = [UIImage imageNamed:@"login"];
     im.userInteractionEnabled = YES;
     [self.view addSubview:im];
@@ -36,6 +50,7 @@
     baseview.backgroundColor = [UIColor whiteColor];
     ViewRadius(baseview, 10);
     [im addSubview:baseview];
+    _loginView = baseview;
     
     
     UIImageView *icon = [[UIImageView alloc] init];
@@ -83,7 +98,8 @@
     
     _nameField = [UITextField new];
     _nameField.delegate = self;
-    _nameField.textColor = [UIColor whiteColor];
+    _nameField.keyboardType = UIKeyboardTypeEmailAddress;
+    _nameField.textColor = [UIColor blackColor];
     _nameField.textAlignment = NSTextAlignmentLeft;
     _nameField.font = [UIFont systemFontOfSize:fontSize];
 //    _nameField.placeholder = @"请输入账号";
@@ -119,7 +135,9 @@
     
     _pwField = [UITextField new];
     _pwField.delegate = self;
-    _pwField.textColor = [UIColor whiteColor];
+    _pwField.keyboardType = UIKeyboardTypeEmailAddress;
+    _pwField.secureTextEntry = YES;
+    _pwField.textColor = [UIColor blackColor];
     _pwField.textAlignment = NSTextAlignmentLeft;
     _pwField.font = [UIFont systemFontOfSize:fontSize];
 //    _pwField.placeholder = @"请输入密码";
@@ -172,7 +190,7 @@
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
 
 //写你要实现的：页面跳转的相关代码
-
+    
     return YES;
 }
 //开始编辑输入框的时候，软键盘出现，执行此事件
@@ -184,35 +202,13 @@
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
     [textField resignFirstResponder];
-//    if (self.changedBlock)
-//    {
-//        self.changedBlock(SafeStr(_field.text));
-//    }
+    
 }
 
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-//    NSCharacterSet *characterSet = [NSCharacterSet characterSetWithCharactersInString:@"0123456789\b"];
-//    string = [string stringByReplacingOccurrencesOfString:@" " withString:@""];
-//    if ([string rangeOfCharacterFromSet:[characterSet invertedSet]].location != NSNotFound)
-//    {
-//        return NO;
-//    }
-//
-//    NSString * searchText = [textField.text stringByReplacingCharactersInRange:range withString:string]; //得到输入框的内容
-//
-//    return YES;
-    
-//    NSString *text = [textField.text stringByReplacingCharactersInRange:range withString:string];
-//        NSString *regexStr = @"^\\d{0,3}$";
-//
-//        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"self matches %@", regexStr];
-//        if([predicate evaluateWithObject:text] && [text integerValue] <= 100){
-//            [_slider setValue:text.intValue animated:YES];
-//            return YES;
-//        }
-//        return NO;
+
     return YES;
 }
 
@@ -220,13 +216,63 @@
 #pragma button响应函数
 -(void)btnClick:(UIButton *)btn
 {
-    if (_loginView)
+    if (([_pwField.text isEqualToString:@"admin"] && [_nameField.text isEqualToString:@"admin"])
+         || ([_pwField.text isEqualToString:@""] && [_nameField.text isEqualToString:@""]))
     {
-        [_loginView removeFromSuperview];
+        if (_bkView)
+        {
+            [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+            [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+
+            [_bkView removeFromSuperview];
+        }
+        
+        [self creatLeftView];
+        [self creatCenterView];
     }
-    
-    [self creatLeftView];
-    [self creatCenterView];
+    else
+    {
+        NSString *t = @"提示";
+        NSString *m = @"账号或密码不正确";
+        UIAlertController  *alert = [UIAlertController alertControllerWithTitle:t message:m preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *action2= [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+                }];
+//                    [action2 setValue:[UIColor blueColor] forKey:@"titleTextColor"];
+        //修改title
+//        [[APTool shareInstance] setAlterviewTitleWith:alert title:t color:[UIColor blackColor]];
+//        [[APTool shareInstance] setAlterviewMessageWith:alert message:m color:[UIColor blackColor]];
+//        [[APTool shareInstance] setAlterviewBackgroundColor:alert color:[UIColor whiteColor]];
+
+//                    ViewRadius(alert, 5);
+        [alert addAction:action2];
+        AppDelegate *appDelegate = kAppDelegate;
+        UIViewController *vc = appDelegate.mainVC;
+        [vc presentViewController:alert animated:YES completion:nil];
+    }
 }
 
+-(void)keyboardDidShow:(NSNotification *)aNotification
+{
+    WS(weakSelf);
+    [UIView animateWithDuration:0.3 animations:^{
+        CGRect frame = weakSelf.loginView.frame;
+        frame.origin.y = H_SCALE(98-200);
+        [weakSelf.loginView setFrame:frame];
+    } completion:^(BOOL finished) {
+        
+    }];
+}
+
+
+-(void)keyboardDidHide:(NSNotification *)aNotification
+{
+    WS(weakSelf);
+    [UIView animateWithDuration:0.3 animations:^{
+        CGRect frame = weakSelf.loginView.frame;
+        frame.origin.y = H_SCALE(98);
+        [weakSelf.loginView setFrame:frame];
+    } completion:^(BOOL finished) {
+        
+    }];
+}
 @end
