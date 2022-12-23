@@ -770,6 +770,13 @@
         NSArray *tempArray = [self getSelectedDevAndGroup];
         for (APGroupNote *node in tempArray)
         {
+            //释放node上的socket
+            if(node.tcpSocket && node.tcpSocket.socket && node.tcpSocket.socket.isConnected)
+            {
+                [node.tcpSocket.socket disconnect];
+                node.tcpSocket.socket = nil;
+            }
+            
             NSString *tableName = node.isDevice? @"log_sn" : @"zk_group";
             NSString *field =  node.isDevice? @"gsn" : @"id";
             NSString *keyStr = node.nodeId;

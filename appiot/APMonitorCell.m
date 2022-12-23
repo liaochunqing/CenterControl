@@ -87,13 +87,13 @@
 
     if(node.connect.intValue == 1)
     {
-        str = @"RS232已连接";
+        str = @"网络已连接";
         color = ColorHex(0xEC00CF );
         imgName =@"Group 11726";
     }
     else
     {
-        str = @"RS232未连接";
+        str = @"网络未连接";
         color = ColorHex(0xCCCCCC);
         imgName =@"Group 11727";
     }
@@ -152,6 +152,12 @@
     if(node.supply_status.intValue == 1)
     {
         str = @"开机";
+        color = ColorHex(0x12D4B2 );
+        imgName =@"Group 11724";
+    }
+    else if (node.supply_status.intValue == 0)
+    {
+        str = @"待机";
         color = ColorHex(0x12D4B2 );
         imgName =@"Group 11724";
     }

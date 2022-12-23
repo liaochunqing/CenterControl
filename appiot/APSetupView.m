@@ -519,9 +519,20 @@
             {
                 NSLog(@"%@,ip=%@,port=%@,发送数据：%@",node.access_protocol,node.ip,node.port,sendData);
 
-                APTcpSocket *tcpManager = [APTcpSocket shareManager];
-                [tcpManager connectToHost:node.ip Port:[node.port intValue]];
-                [tcpManager sendData:filanData];
+//                APTcpSocket *tcpManager = [APTcpSocket shareManager];
+//                [tcpManager connectToHost:node.ip Port:[node.port intValue]];
+//                [tcpManager sendData:filanData];
+                
+                APTcpSocket *tcpManager;
+                if (node.tcpSocket == nil)
+                {
+                    tcpManager = [APTcpSocket new];
+                    node.tcpSocket = tcpManager;
+                }
+                node.tcpSocket.senddata = [NSData dataWithData:filanData];
+                node.tcpSocket.ip = node.ip;
+                node.tcpSocket.port = node.port.intValue;
+                [node.tcpSocket connectToHost];
             }
             else if ([@"udp" compare:node.access_protocol options:NSCaseInsensitiveSearch |NSNumericSearch] ==NSOrderedSame)
             {

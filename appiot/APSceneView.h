@@ -23,6 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong)APAdjustButton *jjAdjustButton;
 @property (nonatomic, strong)APAdjustButton *sfAdjustButton;
 
+@property (nonatomic)BOOL isSpecial;//是否特殊配置的指令
+
 -(void)createTestView:(NSArray *)array;
 @end
 

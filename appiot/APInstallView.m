@@ -66,6 +66,7 @@
     }
     
     _menuView = [UIView new];
+
     [self addSubview:_menuView];
     [_menuView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.mas_top).offset(btn_height + top_Gap);
@@ -76,13 +77,13 @@
     
     
     UIImageView *line = [[UIImageView alloc] init];
-    line.backgroundColor = ColorHex(0x8E8E92);
+    line.backgroundColor = ColorHex(0x484D6A);
     [_menuView addSubview:line];
     [line mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(_menuView.mas_left).offset(0);
-        make.right.mas_equalTo(_menuView.mas_right).offset(0);
+        make.left.mas_equalTo(_menuView.mas_left).offset(Left_Gap);
+        make.right.mas_equalTo(_menuView.mas_right).offset(-Left_Gap);
         make.bottom.mas_equalTo(_menuView.mas_bottom).offset(0);
-        make.height.mas_equalTo(0.5);
+        make.height.mas_equalTo(0.7);
     }];
     
     NSArray *array = [NSArray arrayWithObjects:@"镜头调节", @"图像调节", @"色彩调节", @"画面剪裁", @"畸变校正", @"安装配置",@"信号",@"设置",@"连接控制",nil];

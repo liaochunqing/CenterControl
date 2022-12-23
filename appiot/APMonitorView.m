@@ -42,25 +42,6 @@
     _timer = [NSTimer scheduledTimerWithTimeInterval:Monitor_getdatafromnet_clock repeats:YES block:^(NSTimer * _Nonnull timer)
     {
         [weakSelf doTimer];
-//        if (weakSelf.data && weakSelf.data.count)
-//        {
-//            NSArray *arrIndex = weakSelf.tableview.indexPathsForVisibleRows;
-//            for (int i = 0; i<arrIndex.count; i++)
-//            {
-//                NSIndexPath *path = arrIndex[i];
-//                int row = (int)path.row;
-//                APGroupNote *node = weakSelf.data[row];
-//                //socket连接机器获取最新信息
-//                [weakSelf getDataFromNetwork:node row:row];
-//
-//
-//                dispatch_async(dispatch_get_main_queue(), ^{
-//                   // UI更新代码
-//                    NSArray *rowArray = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:row inSection:0]];
-//                    [weakSelf.tableview reloadRowsAtIndexPaths:rowArray withRowAnimation:UITableViewRowAnimationFade];
-//                });
-//            }
-//        }
     }];
 }
 
@@ -73,18 +54,34 @@
         {
             NSIndexPath *path = arrIndex[i];
             int row = (int)path.row;
-//            APGroupNote *node = self.data[row];
-            //socket连接机器获取最新信息
+            NSNumber *number = [NSNumber numberWithInt:row];
+                //socket连接机器获取最新信息
             [self getDataFromNetwork:[NSNumber numberWithInt:row]];
 //            [self performSelector:@selector(getDataFromNetwork:) withObject:[NSNumber numberWithInt:row] afterDelay:i];
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-               // UI更新代码
-                NSArray *rowArray = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:row inSection:0]];
-                [self.tableview reloadRowsAtIndexPaths:rowArray withRowAnimation:UITableViewRowAnimationFade];
-            });
+            [self performSelector:@selector(refreshCell:) withObject:number afterDelay:1];
         }
     }
+}
+
+-(void)refreshCell:(NSNumber *)number
+{
+    int row = [number intValue];
+    WS(weakSelf);
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        if(weakSelf.data  && weakSelf.data.count > row)
+        {
+            // UI更新代码
+             NSArray *rowArray = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:row inSection:0]];
+             [weakSelf.tableview reloadRowsAtIndexPaths:rowArray withRowAnimation:UITableViewRowAnimationFade];
+             
+             APGroupNote *node = weakSelf.data[row];
+             //在每次更新完列表cell后，把值重置
+             node.connect = @"2";
+             node.supply_status = @"2";
+             node.shutter_status = @"2";
+        }
+    });
 }
 
 
@@ -185,7 +182,8 @@
     int row = [number intValue];
     if(self.data == nil || self.data.count <= row) return;
     APGroupNote *node = self.data[row];
-    WS(weakSelf);
+
+//    WS(weakSelf);
     if ([@"tcp" compare:node.access_protocol options:NSCaseInsensitiveSearch |NSNumericSearch] ==NSOrderedSame)
     {
         int i = 0;
@@ -219,6 +217,9 @@
 
 //                       APGroupNote *tempNode = weakSelf.data[row];
 
+                       //网络已经连接
+                       node.connect = @"1";
+                       
                        if(bt4 == 0x25 && bt5 == 0x00)//电源开关
                        {
                            node.supply_status = @"1";
@@ -252,6 +253,7 @@
     if(self.data == nil || self.data.count <= row) return;
     APGroupNote *node = self.data[row];
     NSData* tcpdata = node.monitorDict[key];
+    WS(weakSelf);
 
     NSString *sss = [[NSString alloc] initWithData:tcpdata encoding:NSUTF8StringEncoding];
 
@@ -266,8 +268,7 @@
     node.tcpSocket.ip = node.ip;
     node.tcpSocket.port = node.port.intValue;
     [node.tcpSocket connectToHost];
-//    [node.tcpSocket performSelector:@selector(connectToHost:) withObject:node afterDelay:0.2*i];
-    WS(weakSelf);
+//    [node.tcpSocket performSelector:@selector(connectToHost:) withObject:node afterDelay:0.2*i];    WS(weakSelf);
     [node.tcpSocket setSocketMessageBlock:^(NSString * _Nonnull message) {
            if(message)
            {
@@ -280,10 +281,26 @@
                NSString *lastStr = [arr lastObject];
 //                       APGroupNote *tempNode = weakSelf.data[row];
                NSLog(@"第%d行设备：%@收到数据:\n%@",(int)row,tempNode.name,message);
+               
+               //网络已经连接
+               tempNode.connect = @"1";
+               tempNode.supply_status = @"1";
 
                if([@"AT+System" isEqualToString:firstStr])//电源开关机
                {
-                   tempNode.supply_status = [lastStr containsString:@"On"]?@"1":@"2";
+                   //on是开机 off待机 其他关机
+                   if([lastStr containsString:@"On"])
+                   {
+                       tempNode.supply_status = @"1";
+                   }
+                   else if ([lastStr containsString:@"Off"])
+                   {
+                       tempNode.supply_status = @"0";
+                   }
+                   else
+                   {
+                       tempNode.supply_status = @"3";
+                   }
                }
                else if([@"AT+LightSource" isEqualToString:firstStr])//光源（快门）开关
                {

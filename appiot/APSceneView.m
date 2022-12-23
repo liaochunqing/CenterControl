@@ -255,71 +255,71 @@
     
     _selectedArray = [NSMutableArray arrayWithArray:selectedArray];
     NSDictionary *dict1 = @{@"string":@"关",
-                           @"color":ColorHex(0x1D2242),
+                           @"parameter_value":@"Off",
                             @"exec_code":@"scene-testChart-Off",
     };
     NSDictionary *dict2 = @{@"string":@"网格",
-                           @"color":ColorHex(0x1D2242),
+                            @"parameter_value":@"Grid",
                             @"exec_code":@"scene-testChart-Grid",
     };
     NSDictionary *dict3 = @{@"string":@"白",
-                           @"color":ColorHex(0x1D2242),
+                            @"parameter_value":@"White",
                             @"exec_code":@"scene-testChart-White",
     };
     NSDictionary *dict4 = @{@"string":@"红",
-                           @"color":ColorHex(0x1D2242),
+                            @"parameter_value":@"Red",
                             @"exec_code":@"scene-testChart-Rad",
     };
     
     NSDictionary *dict5 = @{@"string":@"绿",
-                           @"color":ColorHex(0x1D2242),
+                            @"parameter_value":@"Green",
                             @"exec_code":@"scene-testChart-Green",
     };
     
     NSDictionary *dict6 = @{@"string":@"蓝",
-                           @"color":ColorHex(0x1D2242),
+                            @"parameter_value":@"Blue",
                             @"exec_code":@"scene-testChart-Blue",
     };
     
     NSDictionary *dict7 = @{@"string":@"青",
-                            @"color":ColorHex(0x1D2242),
+                            @"parameter_value":@"Cyan",
                             @"exec_code":@"scene-testChart-Cyan",
     };
     
     NSDictionary *dict8 = @{@"string":@"洋红",
-                           @"color":ColorHex(0x1D2242),
+                            @"parameter_value":@"Megenta",
                             @"exec_code":@"scene-testChart-Radc",
     };
     NSDictionary *dict9 = @{@"string":@"黄",
-                           @"color":ColorHex(0x1D2242),
+                            @"parameter_value":@"Yellow",
                             @"exec_code":@"scene-testChart-yellow",
     };
     NSDictionary *dict10 = @{@"string":@"黑",
-                           @"color":ColorHex(0x1D2242),
+                             @"parameter_value":@"Black",
                              @"exec_code":@"scene-testChart-Black",
     };
     NSDictionary *dict11 = @{@"string":@"16灰阶",
-                           @"color":ColorHex(0x1D2242),
+                             @"parameter_value":@"Grey16",
                              @"exec_code":@"scene-testChart-Grey16",
     };
     
     NSDictionary *dict12 = @{@"string":@"256灰阶",
-                           @"color":ColorHex(0x1D2242),
+                             @"parameter_value":@"Grey256",
                              @"exec_code":@"scene-testChart-Grey256",
     };
     
     NSDictionary *dict13 = @{@"string":@"彩条",
-                           @"color":ColorHex(0x1D2242),
+                             @"parameter_value":@"ColorBars",
                              @"exec_code":@"scene-testChart-ColorBars",
     };
     
     NSDictionary *dict14 = @{@"string":@"rgb ramp",
-                            @"color":ColorHex(0x1D2242),
+                             @"parameter_value":@"RGBRamps",
                              @"exec_code":@"scene-testChart-Grid1",
                              
     };
     NSDictionary *dict15 = @{@"string":@"棋盘格",
-                            @"color":ColorHex(0x1D2242),
+                             @"parameter_value":@"CheckErboard",
                              @"exec_code":@"scene-testChart-CheckErboard",
     };
     
@@ -330,32 +330,36 @@
     if(selectedArray && selectedArray.count)
     {
         APGroupNote *node = selectedArray[0];
+        _isSpecial = NO;
         
-//            for (int i = (int)orgArray.count - 1; i >= 0; i--)
-//            {
-//                NSDictionary *dict = orgArray[i];
-//                NSString *str = dict[@"exec_code"];
-//                if ([str compare:key options:NSCaseInsensitiveSearch] ==NSOrderedSame)
-//                {
-//                    [_testDataArray addObject:dict];
-//                    [orgArray removeObject:dict];
-//                }
-//            }
-        
-        
-        for (int i = (int)orgArray.count - 1; i >= 0; i--)
+        for (NSString *key in node.sceneDict)
         {
-            NSDictionary *dict = orgArray[i];
-            NSString *str = dict[@"exec_code"];
-            
-            for (NSString *key in node.sceneDict)
+            if ([@"scene-testChart" isEqualToString:key])
             {
-                if ([str compare:key options:NSCaseInsensitiveSearch] ==NSOrderedSame)
+                _testDataArray = [NSMutableArray arrayWithArray:orgArray];
+                _isSpecial = YES;
+                break;
+            }
+        }
+//
+        if (_isSpecial == NO)
+        {
+            for (int i = (int)orgArray.count - 1; i >= 0; i--)
+            {
+                NSDictionary *dict = orgArray[i];
+                NSString *str = dict[@"exec_code"];
+                
+                for (NSString *key in node.sceneDict)
                 {
-                    [_testDataArray addObject:dict];
-                    [orgArray removeObject:dict];
+                    if ([str compare:key options:NSCaseInsensitiveSearch] ==NSOrderedSame)
+                    {
+                        [_testDataArray addObject:dict];
+                        [orgArray removeObject:dict];
+                    }
                 }
             }
+            
+            _testDataArray = (NSMutableArray*)[[_testDataArray reverseObjectEnumerator] allObjects];
         }
     }
     
@@ -410,7 +414,6 @@
     CGFloat x = 2*Left_Gap;
     CGFloat y = H_SCALE(28);
 
-    _testDataArray = (NSMutableArray*)[[_testDataArray reverseObjectEnumerator] allObjects];
     for (int i = 0; i < _testDataArray.count; i++)
     {
         NSDictionary *dic = _testDataArray[i];
@@ -469,9 +472,19 @@
         {
             NSLog(@"%@,ip=%@,port=%@,发送数据：%@",node.access_protocol,node.ip,node.port,sendData);
 
-            APTcpSocket *tcpManager = [APTcpSocket shareManager];
-            [tcpManager connectToHost:node.ip Port:[node.port intValue]];
-            [tcpManager sendData:sendData];
+//            APTcpSocket *tcpManager = [APTcpSocket shareManager];
+//            [tcpManager connectToHost:node.ip Port:[node.port intValue]];
+//            [tcpManager sendData:sendData];
+            APTcpSocket *tcpManager;
+            if (node.tcpSocket == nil)
+            {
+                tcpManager = [APTcpSocket new];
+                node.tcpSocket = tcpManager;
+            }
+            node.tcpSocket.senddata = [NSData dataWithData:sendData];
+            node.tcpSocket.ip = node.ip;
+            node.tcpSocket.port = node.port.intValue;
+            [node.tcpSocket connectToHost];
         }
         else if ([@"udp" compare:node.access_protocol options:NSCaseInsensitiveSearch |NSNumericSearch] ==NSOrderedSame)
         {
@@ -487,6 +500,52 @@
     }
 }
 
+
+-(void)sendMssageToDev:(NSString *)key value:(NSString *)value
+{
+    for (APGroupNote *node in _selectedArray)
+    {
+        NSData* sendData = node.sceneDict[key];
+        if (sendData == nil)
+            continue;
+        
+        NSString *str = [[NSString alloc] initWithData:sendData encoding:NSUTF8StringEncoding];
+        NSString *finalStr = [SafeStr(str) stringByReplacingOccurrencesOfString:@"\r\n" withString:@""];
+        finalStr = [NSString stringWithFormat:@"%@%@\r\n",finalStr,SafeStr(value)];
+        finalStr = [[APTool shareInstance] hexStringFromString:finalStr];
+        NSData *filanData = [[APTool shareInstance] convertHexStrToData:finalStr];
+
+        if ([@"tcp" compare:node.access_protocol options:NSCaseInsensitiveSearch |NSNumericSearch] ==NSOrderedSame)
+        {
+            NSLog(@"%@,ip=%@,port=%@,发送数据：%@",node.access_protocol,node.ip,node.port,sendData);
+
+//            APTcpSocket *tcpManager = [APTcpSocket shareManager];
+//            [tcpManager connectToHost:node.ip Port:[node.port intValue]];
+//            [tcpManager sendData:sendData];
+            APTcpSocket *tcpManager;
+            if (node.tcpSocket == nil)
+            {
+                tcpManager = [APTcpSocket new];
+                node.tcpSocket = tcpManager;
+            }
+            node.tcpSocket.senddata = [NSData dataWithData:filanData];
+            node.tcpSocket.ip = node.ip;
+            node.tcpSocket.port = node.port.intValue;
+            [node.tcpSocket connectToHost];
+        }
+        else if ([@"udp" compare:node.access_protocol options:NSCaseInsensitiveSearch |NSNumericSearch] ==NSOrderedSame)
+        {
+            NSLog(@"%@,ip=%@,port=%@,发送数据：%@",node.access_protocol,node.ip,node.port,sendData);
+            NSString *sss = [[NSString alloc] initWithData:sendData encoding:NSUTF8StringEncoding];
+
+            APUdpSocket *udpManager = [APUdpSocket sharedInstance];
+            udpManager.host = node.ip;//@"255.255.255.255";
+            udpManager.port = [node.port intValue];
+            [udpManager createClientUdpSocket];
+            [udpManager sendMessage:sendData];
+        }
+    }
+}
 //方向按钮
 -(void)btnDirectionClick:(UIButton *)btn
 {
@@ -582,7 +641,17 @@
         {
             NSDictionary *dic = _testDataArray[btn.tag];
             NSString *key = dic[@"exec_code"];
-            [self sendMssageToDev:key];
+            NSString *value = dic[@"parameter_value"];
+            if(_isSpecial)
+            {
+                [self sendMssageToDev:@"scene-testChart" value:value];
+
+            }
+            else
+            {
+                [self sendMssageToDev:key];
+
+            }
         }
     }
 }
