@@ -41,7 +41,7 @@
     [_baseview mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(self);
 //        make.centerY.mas_equalTo(self);
-        make.top.mas_equalTo(self.mas_top).offset(H_SCALE(120));
+        make.top.mas_equalTo(self.mas_top).offset(H_SCALE(160));
         make.size.mas_equalTo(CGSizeMake(W_SCALE(400), H_SCALE(250)));
     }];
  
@@ -150,15 +150,16 @@
     UIButton *okbtn = [UIButton new];
     [_baseview addSubview:okbtn];
 //    [okbtn setBackgroundColor:[UIColor blueColor] forState:UIControlStateNormal];
-    okbtn.backgroundColor = [UIColor blueColor];
-    ViewBorderRadius(okbtn, 5, 0.8, [UIColor grayColor]);
+    okbtn.backgroundColor = ColorHex(0x007AFF);
+//    ViewBorderRadius(okbtn, 5, 0.8, [UIColor grayColor]);
+    ViewRadius(okbtn, 5);
     [okbtn setTitle:@"确定" forState:UIControlStateNormal];
     okbtn.tag = 0;
     [okbtn addTarget:self action:@selector(newDevBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     [okbtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(W_SCALE(100), H_SCALE(40)));
+        make.size.mas_equalTo(CGSizeMake(W_SCALE(90), H_SCALE(33)));
         make.bottom.mas_equalTo(_baseview.mas_bottom).offset(-top_Gap);
-        make.right.mas_equalTo(_baseview.mas_right).offset(-W_SCALE(55));
+        make.right.mas_equalTo(_baseview.mas_right).offset(-W_SCALE(70));
     }];
 
     UIButton *cancelbtn = [UIButton new];
@@ -169,9 +170,9 @@
     cancelbtn.tag = 1;
     [cancelbtn addTarget:self action:@selector(newDevBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     [cancelbtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(W_SCALE(100), H_SCALE(40)));
+        make.size.mas_equalTo(CGSizeMake(W_SCALE(90), H_SCALE(33)));
         make.bottom.mas_equalTo(_baseview.mas_bottom).offset(-top_Gap);
-        make.left.mas_equalTo(_baseview.mas_left).offset(W_SCALE(55));
+        make.left.mas_equalTo(_baseview.mas_left).offset(W_SCALE(70));
     }];
     
 }

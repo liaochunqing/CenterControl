@@ -81,10 +81,18 @@
     _groupField.textColor =contentColor;
     _groupField.textAlignment = NSTextAlignmentCenter;
     _groupField.font = [UIFont systemFontOfSize:contentFontSize];
-    _groupField.placeholder = @"请选择投影机的分组";
+//    _groupField.placeholder = @"请选择投影机的分组";
     ViewBorderRadius(_groupField, 5, 1, ColorHex(0xABBDD5 ));
     [_baseview addSubview:_groupField];
-
+    NSString *holderText = @"请选择投影机的分组(可不选)";
+    NSMutableAttributedString *placeholder = [[NSMutableAttributedString alloc] initWithString:holderText];
+    [placeholder addAttribute:NSForegroundColorAttributeName
+                            value:ColorHex(0xABBDD5 )
+                            range:NSMakeRange(0, holderText.length)];
+    [placeholder addAttribute:NSFontAttributeName
+                            value:[UIFont systemFontOfSize:labelFontSize]
+                            range:NSMakeRange(0, holderText.length)];
+    _groupField.attributedPlaceholder = placeholder;
     [_groupField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(namelab.mas_bottom).offset(top_Gap);
         make.right.mas_equalTo(_baseview.mas_right).offset(-Left_Gap);
@@ -188,10 +196,10 @@
     
     _idField = [UITextField new];
     _idField.delegate = self;
-    _idField.textColor = contentColor;
+    _idField.textColor = [UIColor grayColor];//contentColor;
     _idField.textAlignment = NSTextAlignmentCenter;
     _idField.keyboardType = UIKeyboardTypePhonePad;
-
+    _idField.enabled = FALSE;
     _idField.font = [UIFont systemFontOfSize:contentFontSize];
     _idField.placeholder = @"请输入投影机的ID";
     ViewBorderRadius(_idField, 5, 1, ColorHex(0xABBDD5 ));
@@ -598,7 +606,7 @@
 }
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-    if (textField == _idField)
+    if (textField == _idField || _portField == textField)
     {
         NSCharacterSet*cs;
         cs = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789"] invertedSet];
@@ -617,7 +625,30 @@
                      
                 }
     }
- 
+    else if (textField == _ipField)
+    {
+        NSString* ipEntered;
+            if (![string isEqualToString:@""]) {
+
+                ipEntered=[NSString stringWithFormat:@"%@%@",[textField.text substringToIndex: range.location],string];
+            }
+
+            NSString* validIPRegEx = @"^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])[.]){0,3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])?$";
+            NSPredicate * emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", validIPRegEx];
+            if ([string isEqualToString:@""]) {
+
+                return YES;
+            }
+            else if ([emailTest evaluateWithObject:ipEntered]){
+
+                return YES;
+
+            }
+            else{
+
+                return NO;
+            }
+    }
     
     return YES;
 }
@@ -652,8 +683,7 @@
 {
     if(btn.tag == 0)//确定
     {
-        if(_groupField.text.length == 0 ||
-           _nameField.text.length == 0 ||
+        if(_nameField.text.length == 0 ||
            _idField.text.length == 0 ||
            _protocolField.text.length == 0 ||
            _ipField.text.length == 0 ||

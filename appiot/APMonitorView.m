@@ -155,7 +155,7 @@
     
     UILabel *cuo = [[UILabel alloc] init];
     [view addSubview:cuo];
-    cuo.text = @"错误码";
+    cuo.text = @"报错码";
     cuo.font = [UIFont systemFontOfSize:16];
     cuo.textColor = ColorHex(0xABBDD5);
     [cuo mas_makeConstraints:^(MASConstraintMaker *make) {

@@ -40,7 +40,7 @@
         make.left.mas_equalTo(self.mas_left).offset(0);
         make.right.mas_equalTo(self.mas_right).offset(0);
         make.bottom.mas_equalTo(self.mas_bottom).offset(0);
-        make.height.mas_equalTo(3);
+        make.height.mas_equalTo(4);
     }];
 }
 

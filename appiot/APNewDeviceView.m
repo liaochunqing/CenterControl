@@ -84,7 +84,7 @@
     _groupField.font = [UIFont systemFontOfSize:contentFontSize];
 //    _groupField.placeholder = @"请选择投影机的分组";
     
-    NSString *holderText = @"请选择投影机的分组";
+    NSString *holderText = @"请选择投影机的分组(可不选)";
     NSMutableAttributedString *placeholder = [[NSMutableAttributedString alloc] initWithString:holderText];
     [placeholder addAttribute:NSForegroundColorAttributeName
                             value:ColorHex(0xABBDD5 )
@@ -641,7 +641,7 @@
 
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-    if (textField == _idField)
+    if (textField == _idField || textField == _portField)
     {
         NSCharacterSet*cs;
         cs = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789"] invertedSet];
@@ -720,8 +720,8 @@
 {
     if(btn.tag == 0)//确定
     {
-        if(_groupField.text.length == 0 ||
-           _nameField.text.length == 0 ||
+        //
+        if(_nameField.text.length == 0 ||
            _idField.text.length == 0 ||
            _protocolField.text.length == 0 ||
            _ipField.text.length == 0 ||
@@ -737,6 +737,30 @@
 
             [alert show];
             return;
+        }
+        
+        //id合格检测
+        AppDelegate *appDelegate = kAppDelegate;
+        APGroupView *vc = appDelegate.mainVC.leftView.groupView;
+        if (vc && [vc isKindOfClass:[APGroupView class]])
+        {
+            if (vc.data)
+            {
+                for (APGroupNote *node in vc.data)
+                {
+                    if([node.nodeId isEqualToString:_deviceInfo.nodeId])
+                    {
+                        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"提示"
+                                                                        message:@"id已被使用"
+                                                                       delegate:nil
+                                                              cancelButtonTitle:@"确定"
+                                                              otherButtonTitles:nil];
+
+                        [alert show];
+                        return;
+                    }
+                }
+            }
         }
         
         self.okBtnClickBlock(0);

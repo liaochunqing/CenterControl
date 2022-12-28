@@ -20,7 +20,7 @@
 {
     [self setBackgroundImage:[self imageWithColor:ColorHex(0x1D2242)] forState:UIControlStateNormal];
 //    [self setBackgroundImage:[self imageWithColor:ColorHex(0x151935)] forState:UIControlStateSelected];
-    [self setBackgroundImage:[self imageWithColor:ColorHex(0x7877A9)] forState:UIControlStateHighlighted];
+    [self setBackgroundImage:[self imageWithColor:ColorHexAlpha(0x606082, 0.5)] forState:UIControlStateHighlighted];
 
     
     self.iv = [[UIImageView alloc] init];

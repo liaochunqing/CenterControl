@@ -80,8 +80,8 @@
     line.backgroundColor = ColorHex(0x484D6A);
     [_menuView addSubview:line];
     [line mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(_menuView.mas_left).offset(Left_Gap);
-        make.right.mas_equalTo(_menuView.mas_right).offset(-Left_Gap);
+        make.left.mas_equalTo(_menuView.mas_left).offset(0);
+        make.right.mas_equalTo(_menuView.mas_right).offset(-0);
         make.bottom.mas_equalTo(_menuView.mas_bottom).offset(0);
         make.height.mas_equalTo(0.7);
     }];

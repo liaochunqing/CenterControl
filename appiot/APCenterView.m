@@ -170,7 +170,7 @@
             
         }
         ViewBorder(btn, 0, ColorHex(0x375BCD ));
-        [btn setBackgroundImage:[self imageWithColor:ColorHex(0x43ACF9)] forState:UIControlStateNormal];
+        [btn setBackgroundImage:[self imageWithColor:ColorHex(0x3F6EF2)] forState:UIControlStateNormal];
         
         
         if(self.monitorView != nil)

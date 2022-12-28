@@ -175,27 +175,34 @@
 {
     NSDictionary *dict1 = @{@"string":@"关",
                            @"color":ColorHex(0x494E67),
+                            @"textColor":ColorHex(0xABBDD5)
     };
     NSDictionary *dict2 = @{@"string":@"网格",
                            @"color":ColorHex(0x344B67),
+                            @"textColor":ColorHex(0x96EFFF)
     };
     NSDictionary *dict3 = @{@"string":@"红",
                            @"color":ColorHex(0x491B34),
+                            @"textColor":[UIColor redColor]
     };
     NSDictionary *dict4 = @{@"string":@"绿",
                            @"color":ColorHex(0x164E34),
+                            @"textColor":[UIColor greenColor]
     };
     
     NSDictionary *dict5 = @{@"string":@"蓝",
                            @"color":ColorHex(0x1D3066),
+                            @"textColor":[UIColor blueColor]
     };
     
     NSDictionary *dict6 = @{@"string":@"白",
                            @"color":ColorHex(0x494E67),
+                            @"textColor":[UIColor whiteColor]
     };
     
     NSDictionary *dict7 = @{@"string":@"黑",
                             @"color":[UIColor darkGrayColor],//ColorHex(0x493C39),
+                            @"textColor":[UIColor blackColor]
     };
     
     
@@ -233,11 +240,12 @@
             continue;
         }
         NSString *str = dic[@"string"];
+        
 
         UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(x, H_SCALE(70), btnW, btnH)];
         ViewRadius(button, 5);
         [button setBackgroundImage:[self imageWithColor:dic[@"color"]] forState:UIControlStateNormal];
-        [button setBackgroundImage:[self imageWithColor:ColorHex(0x7877A9)] forState:UIControlStateHighlighted];
+        [button setBackgroundImage:[self imageWithColor:ColorHex(0x494E67)] forState:UIControlStateHighlighted];
         
 //        [button setBackgroundImage:[UIImage getColorImageWithColor:dic[@"color"]] forState:UIControlStateNormal];
 //        [button setBackgroundImage:[UIImage getColorImageWithColor:ColorHex(0x7877A9)] forState:UIControlStateHighlighted];
@@ -247,6 +255,8 @@
             [button setTitle:str forState:UIControlStateNormal];
             button.titleLabel.font = [UIFont systemFontOfSize: 16];
         }
+        [button setTitleColor:dic[@"textColor"] forState:UIControlStateNormal];
+
         
         button.tag = i;
         [button addTarget:self action:@selector(btnTestClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -431,9 +441,9 @@
 
         
         //修改title
-        [[APTool shareInstance] setAlterviewTitleWith:alert title:t color:[UIColor blackColor]];
-        [[APTool shareInstance] setAlterviewMessageWith:alert message:m color:[UIColor blackColor]];
-        [[APTool shareInstance] setAlterviewBackgroundColor:alert color:[UIColor whiteColor]];
+//        [[APTool shareInstance] setAlterviewTitleWith:alert title:t color:[UIColor blackColor]];
+//        [[APTool shareInstance] setAlterviewMessageWith:alert message:m color:[UIColor blackColor]];
+//        [[APTool shareInstance] setAlterviewBackgroundColor:alert color:[UIColor whiteColor]];
 //        ViewRadius(alert, 5);
 
         [alert addAction:action2];
@@ -504,9 +514,9 @@
 
         [alert addAction:action2];
         //修改title
-        [[APTool shareInstance] setAlterviewTitleWith:alert title:t color:[UIColor blackColor]];
-        [[APTool shareInstance] setAlterviewMessageWith:alert message:m color:[UIColor blackColor]];
-        [[APTool shareInstance] setAlterviewBackgroundColor:alert color:[UIColor whiteColor]];
+//        [[APTool shareInstance] setAlterviewTitleWith:alert title:t color:[UIColor blackColor]];
+//        [[APTool shareInstance] setAlterviewMessageWith:alert message:m color:[UIColor blackColor]];
+//        [[APTool shareInstance] setAlterviewBackgroundColor:alert color:[UIColor whiteColor]];
         
         AppDelegate *appDelegate = kAppDelegate;
         UIViewController *vc = appDelegate.mainVC;

@@ -60,7 +60,7 @@
     UILabel *fenzuLab = [[UILabel alloc] init];
     _titleLab = fenzuLab;
     [_baseview addSubview:fenzuLab];
-    fenzuLab.text = [NSString stringWithFormat:@"已选择%d个设备",(int)_selectedData.count];
+    fenzuLab.text = [NSString stringWithFormat:@"已选择%d个投影机",(int)_selectedData.count];
     fenzuLab.font = [UIFont systemFontOfSize:labelFontSize];
     fenzuLab.textColor = labelColor;
     [fenzuLab mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -95,7 +95,7 @@
             make.right.mas_equalTo(_baseview.mas_right).offset(0);
             make.top.mas_equalTo(line.mas_bottom).offset(5);
             make.left.mas_equalTo(_baseview.mas_left).offset(0);
-            make.bottom.mas_equalTo(_baseview.mas_bottom).offset(-2*top_Gap- W_SCALE(55));
+            make.bottom.mas_equalTo(_baseview.mas_bottom).offset(-2*top_Gap- W_SCALE(33));
         }];
     }
     /************************************分割线****************************************************/
@@ -112,15 +112,19 @@
     
     UIButton *okbtn = [UIButton new];
     [_baseview addSubview:okbtn];
-    okbtn.backgroundColor = ColorHex(0x3F6EF2);
-    ViewBorderRadius(okbtn, 5, 0.8, [UIColor grayColor]);
+//    okbtn.backgroundColor = ColorHex(0x007AFF);
+    //    ViewBorderRadius(okbtn, 5, 0.8, [UIColor grayColor]);
+        ViewRadius(okbtn, 5);
     [okbtn setTitle:@"移动至此" forState:UIControlStateNormal];
+    okbtn.enabled = NO;
+    okbtn.backgroundColor = ColorHex(0xABBDD5);
     okbtn.tag = 0;
+    _moveBtn = okbtn;
     [okbtn addTarget:self action:@selector(newDevBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     [okbtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(W_SCALE(100), H_SCALE(40)));
+        make.size.mas_equalTo(CGSizeMake(W_SCALE(90), H_SCALE(33)));
         make.bottom.mas_equalTo(_baseview.mas_bottom).offset(-top_Gap);
-        make.right.mas_equalTo(_baseview.mas_right).offset(-W_SCALE(55));
+        make.right.mas_equalTo(_baseview.mas_right).offset(-W_SCALE(70));
     }];
 
     UIButton *cancelbtn = [UIButton new];
@@ -131,9 +135,9 @@
     cancelbtn.tag = 1;
     [cancelbtn addTarget:self action:@selector(newDevBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     [cancelbtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(W_SCALE(100), H_SCALE(40)));
+        make.size.mas_equalTo(CGSizeMake(W_SCALE(90), H_SCALE(33)));
         make.bottom.mas_equalTo(_baseview.mas_bottom).offset(-top_Gap);
-        make.left.mas_equalTo(_baseview.mas_left).offset(W_SCALE(55));
+        make.left.mas_equalTo(_baseview.mas_left).offset(W_SCALE(70));
     }];
     
 }
@@ -246,7 +250,7 @@
     cell.backgroundColor = [UIColor whiteColor];
     //设置被选中颜色
     cell.selectedBackgroundView = [[UIView alloc] initWithFrame:cell.frame];
-    cell.selectedBackgroundView.backgroundColor = ColorHex(0x29315F );//
+    cell.selectedBackgroundView.backgroundColor = ColorHexAlpha(0x29315F, 0.2);//
     cell.imageView.image = [UIImage imageNamed:@"Group 11674"];
     if (tableView == _groupTableView)
     {
@@ -290,6 +294,8 @@
     {
         APGroupNote *node = _groupData[newRow];
         _movetoGroupNode.nodeId = node.nodeId;
+        _moveBtn.enabled = YES;
+        _moveBtn.backgroundColor = ColorHex(0x007AFF);
     }
 }
 

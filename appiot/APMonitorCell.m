@@ -193,7 +193,7 @@
     //ip
     UILabel *iplab = [[UILabel alloc] init];
     [self.contentView addSubview:iplab];
-    iplab.text = [NSString stringWithFormat:@"ip:%@",node.ip];
+    iplab.text = [NSString stringWithFormat:@"IP:%@",node.ip];
     iplab.font = [UIFont systemFontOfSize:fontsize];
     iplab.textColor = detailColor;
     [iplab mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -202,6 +202,7 @@
         make.size.mas_equalTo(CGSizeMake(w, H_SCALE(17)));
     }];
     
+    CGFloat gap = W_SCALE(8);
     //信号源
     UILabel *singallab = [[UILabel alloc] init];
     [self.contentView addSubview:singallab];
@@ -209,7 +210,7 @@
     singallab.font = [UIFont systemFontOfSize:fontsize];
     singallab.textColor = detailColor;
     [singallab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(iplab.mas_bottom).offset(top_Gap);
+        make.top.mas_equalTo(iplab.mas_bottom).offset(gap);
         make.left.mas_equalTo(namelab.mas_left).offset(0);
         make.size.mas_equalTo(CGSizeMake(w, H_SCALE(17)));
     }];
@@ -221,7 +222,7 @@
     templab.font = [UIFont systemFontOfSize:fontsize];
     templab.textColor = detailColor;
     [templab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(singallab.mas_bottom).offset(top_Gap);
+        make.top.mas_equalTo(singallab.mas_bottom).offset(gap);
         make.left.mas_equalTo(namelab.mas_left).offset(0);
         make.size.mas_equalTo(CGSizeMake(w, H_SCALE(17)));
     }];
@@ -234,7 +235,7 @@
     idlab.font = [UIFont systemFontOfSize:fontsize];
     idlab.textColor = detailColor;
     [idlab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(iplab.mas_bottom).offset(top_Gap);
+        make.top.mas_equalTo(iplab.mas_bottom).offset(gap);
         make.left.mas_equalTo(self.contentView.mas_left).offset(left);
         make.size.mas_equalTo(CGSizeMake(w, H_SCALE(17)));
     }];
@@ -247,7 +248,7 @@
     timelab.textColor = detailColor;
     [timelab mas_makeConstraints:^(MASConstraintMaker *make) {
 //        make.top.mas_equalTo(idlab.mas_bottom).offset(top_Gap);
-        make.top.mas_equalTo(idlab.mas_bottom).offset(top_Gap);
+        make.top.mas_equalTo(idlab.mas_bottom).offset(gap);
         make.left.mas_equalTo(self.contentView.mas_left).offset(left);
         make.size.mas_equalTo(CGSizeMake(W_SCALE(280), H_SCALE(17)));
     }];

@@ -99,7 +99,7 @@
               node.machine_running_time = SafeStr([resultSet stringForColumn:@"machine_running_time"]);
               node.light_running_time = SafeStr([resultSet stringForColumn:@"light_running_time"]);
               node.connect = SafeStr([resultSet stringForColumn:@"connect"]);
-              node.supply_status = SafeStr([resultSet stringForColumn:@"supply_status"]);
+              node.supply_status = @"2";//SafeStr([resultSet stringForColumn:@"supply_status"]);
               node.shutter_status = SafeStr([resultSet stringForColumn:@"shutter_status"]);
               node.error_code = SafeStr([resultSet stringForColumn:@"new_error_code"]);
               node.device_id = SafeStr([resultSet stringForColumn:@"device_id"]);
@@ -870,7 +870,7 @@
     BOOL isOver = NO;
     CGPoint panPoint = [p locationInView:[UIApplication sharedApplication].windows[0]];
     CGRect frame = CGRectMake(panPoint.x, panPoint.y, HEIGHT, WIDTH);
-    NSLog(@"%f--panPoint.x-%f-panPoint.y-", panPoint.x, panPoint.y);
+//    NSLog(@"%f--panPoint.x-%f-panPoint.y-", panPoint.x, panPoint.y);
     if(p.state == UIGestureRecognizerStateChanged){
         _floatButton.center = CGPointMake(panPoint.x, panPoint.y);
     }

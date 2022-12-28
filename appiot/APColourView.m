@@ -187,7 +187,9 @@
         APSetNumberItem *item = [[APSetNumberItem alloc] initWithFrame:rect];
         item.label.text = str;
         item.label.font = [UIFont systemFontOfSize:13.5];
-
+        
+        item.slider.minimumValue = 0;
+        item.slider.maximumValue = 255;
         [self addSubview:item];
         
         if ([@"红" isEqualToString:SafeStr(str)])

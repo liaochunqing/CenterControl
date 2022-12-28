@@ -19,6 +19,7 @@ typedef void(^ClickBlock)(BOOL index);
 @property (nonatomic,strong)UILabel *titleLab;
 
 @property (nonatomic,strong)NSIndexPath *lastPath;
+@property (nonatomic,strong)UIButton *moveBtn;
 
 @property (nonatomic,strong)APGroupNote *movetoGroupNode;
 
