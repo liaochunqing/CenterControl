@@ -32,6 +32,7 @@
     
     CGFloat lineH = H_SCALE(35);//行高
     CGFloat labelW = W_SCALE(96);//左侧标题控件的宽度
+    CGFloat labelLeft = W_SCALE(30);//左侧控件与父控件的左侧距离
     CGFloat labelFontSize = 14;
     UIColor *labelColor = ColorHex(0x434343);
     CGFloat textLeft = labelW + 2*Left_Gap;//右侧控件与父控件的左侧距离
@@ -70,8 +71,8 @@
     fenzuLab.font = [UIFont systemFontOfSize:labelFontSize];
     fenzuLab.textColor = labelColor;
     [fenzuLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(namelab.mas_bottom).offset(top_Gap);
-        make.left.mas_equalTo(_baseview.mas_left).offset(Left_Gap);
+        make.top.mas_equalTo(namelab.mas_bottom).offset(W_SCALE(30));
+        make.left.mas_equalTo(_baseview.mas_left).offset(labelLeft);
         make.size.mas_equalTo(CGSizeMake(labelW, lineH));
     }];
     
@@ -81,13 +82,23 @@
     _groupField.textColor =contentColor;
     _groupField.textAlignment = NSTextAlignmentCenter;
     _groupField.font = [UIFont systemFontOfSize:contentFontSize];
-    _groupField.placeholder = @"请选择投影机的分组";
+//    _groupField.placeholder = @"请选择投影机的分组";
+    
+    NSString *holderText = @"请选择投影机的分组";
+    NSMutableAttributedString *placeholder = [[NSMutableAttributedString alloc] initWithString:holderText];
+    [placeholder addAttribute:NSForegroundColorAttributeName
+                            value:ColorHex(0xABBDD5 )
+                            range:NSMakeRange(0, holderText.length)];
+    [placeholder addAttribute:NSFontAttributeName
+                            value:[UIFont systemFontOfSize:labelFontSize]
+                            range:NSMakeRange(0, holderText.length)];
+    _groupField.attributedPlaceholder = placeholder;
     ViewBorderRadius(_groupField, 5, 1, ColorHex(0xABBDD5 ));
     [_baseview addSubview:_groupField];
 
     [_groupField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(namelab.mas_bottom).offset(top_Gap);
-        make.right.mas_equalTo(_baseview.mas_right).offset(-Left_Gap);
+        make.top.mas_equalTo(namelab.mas_bottom).offset(W_SCALE(30));
+        make.right.mas_equalTo(_baseview.mas_right).offset(-W_SCALE(30));
         make.left.mas_equalTo(_baseview.mas_left).offset(textLeft);
         make.height.mas_equalTo(lineH);
     }];
@@ -113,7 +124,7 @@
     devname.textColor = labelColor;
     [devname mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(fenzuLab.mas_bottom).offset(top_Gap);
-        make.left.mas_equalTo(_baseview.mas_left).offset(Left_Gap);
+        make.left.mas_equalTo(_baseview.mas_left).offset(labelLeft);
         make.size.mas_equalTo(CGSizeMake(labelW, lineH));
     }];
     
@@ -123,13 +134,22 @@
     _nameField.textAlignment = NSTextAlignmentCenter;
 
     _nameField.font = [UIFont systemFontOfSize:contentFontSize];
-    _nameField.placeholder = @"请输入投影机名称";
+//    _nameField.placeholder = @"请输入投影机名称";
+    holderText = @"请输入投影机名称";
+    placeholder = [[NSMutableAttributedString alloc] initWithString:holderText];
+    [placeholder addAttribute:NSForegroundColorAttributeName
+                            value:ColorHex(0xABBDD5 )
+                            range:NSMakeRange(0, holderText.length)];
+    [placeholder addAttribute:NSFontAttributeName
+                            value:[UIFont systemFontOfSize:labelFontSize]
+                            range:NSMakeRange(0, holderText.length)];
+    _nameField.attributedPlaceholder = placeholder;
     ViewBorderRadius(_nameField, 5, 1, ColorHex(0xABBDD5 ));
     [_baseview addSubview:_nameField];
 
     [_nameField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(fenzuLab.mas_bottom).offset(top_Gap);
-        make.right.mas_equalTo(_baseview.mas_right).offset(-Left_Gap);
+        make.right.mas_equalTo(_baseview.mas_right).offset(-W_SCALE(30));
         make.left.mas_equalTo(_baseview.mas_left).offset(textLeft);
         make.height.mas_equalTo(lineH);
     }];
@@ -141,7 +161,7 @@
     jixingLab.textColor = labelColor;
     [jixingLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(devname.mas_bottom).offset(top_Gap);
-        make.left.mas_equalTo(_baseview.mas_left).offset(Left_Gap);
+        make.left.mas_equalTo(_baseview.mas_left).offset(labelLeft);
         make.size.mas_equalTo(CGSizeMake(labelW, lineH));
     }];
     
@@ -152,13 +172,23 @@
     _modelField.textAlignment = NSTextAlignmentCenter;
 
     _modelField.font = [UIFont systemFontOfSize:contentFontSize];
-    _modelField.placeholder = @"请选择机型";
+//    _modelField.placeholder = @"请选择机型";
+    
+    holderText = @"请选择机型";
+    placeholder = [[NSMutableAttributedString alloc] initWithString:holderText];
+    [placeholder addAttribute:NSForegroundColorAttributeName
+                            value:ColorHex(0xABBDD5 )
+                            range:NSMakeRange(0, holderText.length)];
+    [placeholder addAttribute:NSFontAttributeName
+                            value:[UIFont systemFontOfSize:labelFontSize]
+                            range:NSMakeRange(0, holderText.length)];
+    _modelField.attributedPlaceholder = placeholder;
     ViewBorderRadius(_modelField, 5, 1, ColorHex(0xABBDD5 ));
     [_baseview addSubview:_modelField];
 
     [_modelField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(devname.mas_bottom).offset(top_Gap);
-        make.right.mas_equalTo(_baseview.mas_right).offset(-Left_Gap);
+        make.right.mas_equalTo(_baseview.mas_right).offset(-W_SCALE(30));
         make.left.mas_equalTo(_baseview.mas_left).offset(textLeft);
         make.height.mas_equalTo(lineH);
     }];
@@ -182,7 +212,7 @@
     devid.textColor = labelColor;
     [devid mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(jixingLab.mas_bottom).offset(top_Gap);
-        make.left.mas_equalTo(_baseview.mas_left).offset(Left_Gap);
+        make.left.mas_equalTo(_baseview.mas_left).offset(labelLeft);
         make.size.mas_equalTo(CGSizeMake(labelW, lineH));
     }];
     
@@ -190,15 +220,25 @@
     _idField.delegate = self;
     _idField.textColor = contentColor;
     _idField.textAlignment = NSTextAlignmentCenter;
-
+    _idField.keyboardType = UIKeyboardTypePhonePad;
     _idField.font = [UIFont systemFontOfSize:contentFontSize];
-    _idField.placeholder = @"请输入投影机的ID";
+//    _idField.placeholder = @"请输入投影机的ID";
+    
+    holderText = @"请输入投影机的ID";
+    placeholder = [[NSMutableAttributedString alloc] initWithString:holderText];
+    [placeholder addAttribute:NSForegroundColorAttributeName
+                            value:ColorHex(0xABBDD5 )
+                            range:NSMakeRange(0, holderText.length)];
+    [placeholder addAttribute:NSFontAttributeName
+                            value:[UIFont systemFontOfSize:labelFontSize]
+                            range:NSMakeRange(0, holderText.length)];
+    _idField.attributedPlaceholder = placeholder;
     ViewBorderRadius(_idField, 5, 1, ColorHex(0xABBDD5 ));
     [_baseview addSubview:_idField];
 
     [_idField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(jixingLab.mas_bottom).offset(top_Gap);
-        make.right.mas_equalTo(_baseview.mas_right).offset(-Left_Gap);
+        make.right.mas_equalTo(_baseview.mas_right).offset(-W_SCALE(30));
         make.left.mas_equalTo(_baseview.mas_left).offset(textLeft);
         make.height.mas_equalTo(lineH);
     }];
@@ -211,8 +251,8 @@
     netlab.font = [UIFont boldSystemFontOfSize:16];
     netlab.textColor = ColorHex(0x1D2242);
     [netlab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(_idField.mas_bottom).offset(top_Gap + top_Gap);
-        make.left.mas_equalTo(_baseview.mas_left).offset(Left_Gap);
+        make.top.mas_equalTo(_idField.mas_bottom).offset(W_SCALE(45));
+        make.left.mas_equalTo(_baseview.mas_left).offset(labelLeft);
         make.size.mas_equalTo(CGSizeMake(W_SCALE(176), H_SCALE(22)));
     }];
     
@@ -224,7 +264,7 @@
     protocolLab.textColor = labelColor;
     [protocolLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(netlab.mas_bottom).offset(top_Gap);
-        make.left.mas_equalTo(_baseview.mas_left).offset(Left_Gap);
+        make.left.mas_equalTo(_baseview.mas_left).offset(labelLeft);
         make.size.mas_equalTo(CGSizeMake(labelW, lineH));
     }];
     
@@ -234,13 +274,23 @@
     _protocolField.textColor =contentColor;
     _protocolField.textAlignment = NSTextAlignmentCenter;
     _protocolField.font = [UIFont systemFontOfSize:contentFontSize];
-    _protocolField.placeholder = @"请选择投影机的接入协议";
+//    _protocolField.placeholder = @"请选择接入协议";
+    
+    holderText = @"请选择接入协议";
+    placeholder = [[NSMutableAttributedString alloc] initWithString:holderText];
+    [placeholder addAttribute:NSForegroundColorAttributeName
+                            value:ColorHex(0xABBDD5 )
+                            range:NSMakeRange(0, holderText.length)];
+    [placeholder addAttribute:NSFontAttributeName
+                            value:[UIFont systemFontOfSize:labelFontSize]
+                            range:NSMakeRange(0, holderText.length)];
+    _protocolField.attributedPlaceholder = placeholder;
     ViewBorderRadius(_protocolField, 5, 1, ColorHex(0xABBDD5 ));
     [_baseview addSubview:_protocolField];
 
     [_protocolField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(netlab.mas_bottom).offset(top_Gap);
-        make.right.mas_equalTo(_baseview.mas_right).offset(-Left_Gap);
+        make.right.mas_equalTo(_baseview.mas_right).offset(-W_SCALE(30));
         make.left.mas_equalTo(_baseview.mas_left).offset(textLeft);
         make.height.mas_equalTo(lineH);
     }];
@@ -265,7 +315,7 @@
     iplab.textColor = labelColor;
     [iplab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(protocolLab.mas_bottom).offset(top_Gap);
-        make.left.mas_equalTo(_baseview.mas_left).offset(Left_Gap);
+        make.left.mas_equalTo(_baseview.mas_left).offset(labelLeft);
         make.size.mas_equalTo(CGSizeMake(labelW, lineH));
     }];
     
@@ -276,13 +326,23 @@
     _ipField.keyboardType = UIKeyboardTypeDecimalPad;
 
     _ipField.font = [UIFont systemFontOfSize:contentFontSize];
-    _ipField.placeholder = @"请输入投影机的ip";
+//    _ipField.placeholder = @"请输入投影机的ip";
+    
+    holderText = @"请输入投影机的ip";
+    placeholder = [[NSMutableAttributedString alloc] initWithString:holderText];
+    [placeholder addAttribute:NSForegroundColorAttributeName
+                            value:ColorHex(0xABBDD5 )
+                            range:NSMakeRange(0, holderText.length)];
+    [placeholder addAttribute:NSFontAttributeName
+                            value:[UIFont systemFontOfSize:labelFontSize]
+                            range:NSMakeRange(0, holderText.length)];
+    _ipField.attributedPlaceholder = placeholder;
     ViewBorderRadius(_ipField, 5, 1, ColorHex(0xABBDD5 ));
     [_baseview addSubview:_ipField];
 
     [_ipField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(protocolLab.mas_bottom).offset(top_Gap);
-        make.right.mas_equalTo(_baseview.mas_right).offset(-Left_Gap);
+        make.right.mas_equalTo(_baseview.mas_right).offset(-W_SCALE(30));
         make.left.mas_equalTo(_baseview.mas_left).offset(textLeft);
         make.height.mas_equalTo(lineH);
     }];
@@ -294,7 +354,7 @@
     portLab.textColor = labelColor;
     [portLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(iplab.mas_bottom).offset(top_Gap);
-        make.left.mas_equalTo(_baseview.mas_left).offset(Left_Gap);
+        make.left.mas_equalTo(_baseview.mas_left).offset(labelLeft);
         make.size.mas_equalTo(CGSizeMake(labelW, lineH));
     }];
     
@@ -304,13 +364,23 @@
     _portField.textAlignment = NSTextAlignmentCenter;
     _portField.keyboardType = UIKeyboardTypeDecimalPad;
     _portField.font = [UIFont systemFontOfSize:contentFontSize];
-    _portField.placeholder = @"请输入投影机的端口";
+//    _portField.placeholder = @"请输入投影机的端口";
+    
+    holderText = @"请输入投影机的端口";
+    placeholder = [[NSMutableAttributedString alloc] initWithString:holderText];
+    [placeholder addAttribute:NSForegroundColorAttributeName
+                            value:ColorHex(0xABBDD5 )
+                            range:NSMakeRange(0, holderText.length)];
+    [placeholder addAttribute:NSFontAttributeName
+                            value:[UIFont systemFontOfSize:labelFontSize]
+                            range:NSMakeRange(0, holderText.length)];
+    _portField.attributedPlaceholder = placeholder;
     ViewBorderRadius(_portField, 5, 1, ColorHex(0xABBDD5 ));
     [_baseview addSubview:_portField];
 
     [_portField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(iplab.mas_bottom).offset(top_Gap);
-        make.right.mas_equalTo(_baseview.mas_right).offset(-Left_Gap);
+        make.right.mas_equalTo(_baseview.mas_right).offset(-W_SCALE(30));
         make.left.mas_equalTo(_baseview.mas_left).offset(textLeft);
         make.height.mas_equalTo(lineH);
     }];
@@ -320,15 +390,16 @@
     UIButton *okbtn = [UIButton new];
     [_baseview addSubview:okbtn];
 //    [okbtn setBackgroundColor:[UIColor blueColor] forState:UIControlStateNormal];
-    okbtn.backgroundColor = [UIColor blueColor];
-    ViewBorderRadius(okbtn, 5, 0.8, [UIColor grayColor]);
+    okbtn.backgroundColor = ColorHex(0x007AFF);
+//    ViewBorderRadius(okbtn, 5, 0.8, [UIColor grayColor]);
+    ViewRadius(okbtn, 5);
     [okbtn setTitle:@"确定" forState:UIControlStateNormal];
     okbtn.tag = 0;
     [okbtn addTarget:self action:@selector(newDevBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     [okbtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(W_SCALE(100), H_SCALE(40)));
+        make.size.mas_equalTo(CGSizeMake(W_SCALE(90), H_SCALE(33)));
         make.bottom.mas_equalTo(_baseview.mas_bottom).offset(-top_Gap);
-        make.right.mas_equalTo(_baseview.mas_right).offset(-W_SCALE(55));
+        make.right.mas_equalTo(_baseview.mas_right).offset(-W_SCALE(75));
     }];
 
     UIButton *cancelbtn = [UIButton new];
@@ -339,9 +410,9 @@
     cancelbtn.tag = 1;
     [cancelbtn addTarget:self action:@selector(newDevBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     [cancelbtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(W_SCALE(100), H_SCALE(40)));
+        make.size.mas_equalTo(CGSizeMake(W_SCALE(90), H_SCALE(33)));
         make.bottom.mas_equalTo(_baseview.mas_bottom).offset(-top_Gap);
-        make.left.mas_equalTo(_baseview.mas_left).offset(W_SCALE(55));
+        make.left.mas_equalTo(_baseview.mas_left).offset(W_SCALE(75));
     }];
     
 }
@@ -562,10 +633,59 @@
 }
 
 
-//当用户按下return键或者按回车键，keyboard消失
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
+    return YES;
+}
+
+-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    if (textField == _idField)
+    {
+        NSCharacterSet*cs;
+        cs = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789"] invertedSet];
+        NSString*filtered = [[string componentsSeparatedByCharactersInSet:cs] componentsJoinedByString:@""];
+        BOOL basicTest = [string isEqualToString:filtered];
+        if(!basicTest) {
+             
+//                UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"提示"
+//                                                                message:@"请输入数字"
+//                                                               delegate:nil
+//                                                      cancelButtonTitle:@"确定"
+//                                                      otherButtonTitles:nil];
+//
+//                [alert show];
+            return NO;
+                     
+                }
+    }
+    else if (textField == _ipField)
+    {
+        NSString* ipEntered;
+            if (![string isEqualToString:@""]) {
+
+                ipEntered=[NSString stringWithFormat:@"%@%@",[textField.text substringToIndex: range.location],string];
+            }
+
+            NSString* validIPRegEx = @"^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])[.]){0,3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])?$";
+            NSPredicate * emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", validIPRegEx];
+            if ([string isEqualToString:@""]) {
+
+                return YES;
+            }
+            else if ([emailTest evaluateWithObject:ipEntered]){
+
+                return YES;
+
+            }
+            else{
+
+                return NO;
+            }
+    }
+ 
+    
     return YES;
 }
 
@@ -600,6 +720,25 @@
 {
     if(btn.tag == 0)//确定
     {
+        if(_groupField.text.length == 0 ||
+           _nameField.text.length == 0 ||
+           _idField.text.length == 0 ||
+           _protocolField.text.length == 0 ||
+           _ipField.text.length == 0 ||
+           _portField.text.length == 0 ||
+           _modelField.text.length == 0)
+        {
+                    
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"提示"
+                                                            message:@"请补全信息"
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"确定"
+                                                  otherButtonTitles:nil];
+
+            [alert show];
+            return;
+        }
+        
         self.okBtnClickBlock(0);
         [self writeDB];
     }

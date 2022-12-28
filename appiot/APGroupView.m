@@ -108,7 +108,8 @@
               node.model_id = SafeStr([resultSet stringForColumn:@"model_id"]);
               node.model_name = SafeStr([resultSet stringForColumn:@"model"]);
               NSString *errorcode = SafeStr([resultSet stringForColumn:@"new_error_code"]);
-              if([node.name containsString:@"-L1+"])//测试代码,方便断点用
+              
+              if([node.name containsString:@"测试机1"])//测试代码,方便断点用
               {
                   int i = 0;
               }
@@ -232,7 +233,7 @@
             node.name = SafeStr([resultSet stringForColumn:@"group_name"]);
             node.parentId = SafeStr([resultSet stringForColumn:@"pid"]);
             node.nodeId = SafeStr([resultSet stringForColumn:@"id"]);
-            if([node.name containsString:@"Cheshi"])//测试代码,方便断点用
+            if([node.name containsString:@"测试机1"])//测试代码,方便断点用
             {
                 int i = 0;
             }
@@ -1360,6 +1361,8 @@
 {
     if(btn)
     {
+        [_floatButton setImage:[UIImage imageNamed:@"devnewicom"] forState:UIControlStateNormal];
+
         LFPopupMenuItem *item1 = [LFPopupMenuItem createWithTitle:@"新建投影机" image:[UIImage imageNamed:@"icon_menu_record_normal"]];
             LFPopupMenuItem *item2 = [LFPopupMenuItem createWithTitle:@"新建分组" image:[UIImage imageNamed:@"icon_menu_shoot_normal"]];
 //            LFPopupMenuItem *item3 = [LFPopupMenuItem createWithTitle:@"相册" image:[UIImage imageNamed:@"icon_menu_album_normal"]];
@@ -1427,6 +1430,11 @@
         }];
             
         [menu showArrowToView:self.floatButton];
+        
+        [menu setDismissComplete:^{
+            [weakSelf.floatButton setImage:[UIImage imageNamed:@"Group 11697"] forState:UIControlStateNormal];
+
+        }];
     }
 }
 @end

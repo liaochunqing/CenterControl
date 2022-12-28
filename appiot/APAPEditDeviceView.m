@@ -190,6 +190,7 @@
     _idField.delegate = self;
     _idField.textColor = contentColor;
     _idField.textAlignment = NSTextAlignmentCenter;
+    _idField.keyboardType = UIKeyboardTypePhonePad;
 
     _idField.font = [UIFont systemFontOfSize:contentFontSize];
     _idField.placeholder = @"请输入投影机的ID";
@@ -211,7 +212,7 @@
     netlab.font = [UIFont boldSystemFontOfSize:16];
     netlab.textColor = ColorHex(0x1D2242);
     [netlab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(_idField.mas_bottom).offset(top_Gap + top_Gap);
+        make.top.mas_equalTo(_idField.mas_bottom).offset(W_SCALE(45));
         make.left.mas_equalTo(_baseview.mas_left).offset(Left_Gap);
         make.size.mas_equalTo(CGSizeMake(W_SCALE(176), H_SCALE(22)));
     }];
@@ -318,16 +319,16 @@
     
     UIButton *okbtn = [UIButton new];
     [_baseview addSubview:okbtn];
-//    [okbtn setBackgroundColor:[UIColor blueColor] forState:UIControlStateNormal];
-    okbtn.backgroundColor = [UIColor blueColor];
-    ViewBorderRadius(okbtn, 5, 0.8, [UIColor grayColor]);
+    okbtn.backgroundColor = ColorHex(0x007AFF);
+//    ViewBorderRadius(okbtn, 5, 0.8, [UIColor grayColor]);
+    ViewRadius(okbtn, 5);
     [okbtn setTitle:@"确定" forState:UIControlStateNormal];
     okbtn.tag = 0;
     [okbtn addTarget:self action:@selector(newDevBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     [okbtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(W_SCALE(100), H_SCALE(40)));
+        make.size.mas_equalTo(CGSizeMake(W_SCALE(90), H_SCALE(33)));
         make.bottom.mas_equalTo(_baseview.mas_bottom).offset(-top_Gap);
-        make.right.mas_equalTo(_baseview.mas_right).offset(-W_SCALE(55));
+        make.right.mas_equalTo(_baseview.mas_right).offset(-W_SCALE(70));
     }];
 
     UIButton *cancelbtn = [UIButton new];
@@ -338,9 +339,9 @@
     cancelbtn.tag = 1;
     [cancelbtn addTarget:self action:@selector(newDevBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     [cancelbtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(W_SCALE(100), H_SCALE(40)));
+        make.size.mas_equalTo(CGSizeMake(W_SCALE(90), H_SCALE(33)));
         make.bottom.mas_equalTo(_baseview.mas_bottom).offset(-top_Gap);
-        make.left.mas_equalTo(_baseview.mas_left).offset(W_SCALE(55));
+        make.left.mas_equalTo(_baseview.mas_left).offset(W_SCALE(70));
     }];
     
 }
@@ -352,10 +353,10 @@
     //设置默认值
     _groupField.text = _deviceInfo.father?_deviceInfo.father.name:@"";
     _nameField.text = SafeStr(_deviceInfo.name);
-    _idField.text = _deviceInfo.nodeId;
+    _idField.text = SafeStr(_deviceInfo.nodeId);
     _protocolField.text = SafeStr(_deviceInfo.access_protocol);
     _ipField.text = SafeStr(_deviceInfo.ip);
-    _portField.text = _deviceInfo.port;
+    _portField.text = SafeStr(_deviceInfo.port);
     
     for (APDevModel *model in _modelData)
     {
@@ -595,7 +596,31 @@
     [textField resignFirstResponder];
     return YES;
 }
-
+-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    if (textField == _idField)
+    {
+        NSCharacterSet*cs;
+        cs = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789"] invertedSet];
+        NSString*filtered = [[string componentsSeparatedByCharactersInSet:cs] componentsJoinedByString:@""];
+        BOOL basicTest = [string isEqualToString:filtered];
+        if(!basicTest) {
+             
+//                UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"提示"
+//                                                                message:@"请输入数字"
+//                                                               delegate:nil
+//                                                      cancelButtonTitle:@"确定"
+//                                                      otherButtonTitles:nil];
+//
+//                [alert show];
+            return NO;
+                     
+                }
+    }
+ 
+    
+    return YES;
+}
 #pragma  mark button delegate
 -(void)singleTapAction
 {
@@ -627,6 +652,25 @@
 {
     if(btn.tag == 0)//确定
     {
+        if(_groupField.text.length == 0 ||
+           _nameField.text.length == 0 ||
+           _idField.text.length == 0 ||
+           _protocolField.text.length == 0 ||
+           _ipField.text.length == 0 ||
+           _portField.text.length == 0 ||
+           _modelField.text.length == 0)
+        {
+                    
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"提示"
+                                                            message:@"请补全信息"
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"确定"
+                                                  otherButtonTitles:nil];
+
+            [alert show];
+            return;
+        }
+        
         self.okBtnClickBlock(0);
         [self writeDB];
     }

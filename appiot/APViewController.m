@@ -20,7 +20,7 @@
     // Do any additional setup after loading the view.
     self.view.backgroundColor = ColorHex(0x8E8E92);
     
-#if 1//是否需要登录界面
+#if 0//是否需要登录界面
     [self createLoginView];
 #else
     [self creatLeftView];

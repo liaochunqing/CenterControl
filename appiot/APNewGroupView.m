@@ -78,7 +78,7 @@
 //    _groupField.placeholder = @"请选择要加入的分组";
     ViewBorderRadius(_groupField, 5, 1, ColorHex(0xABBDD5 ));
     [_baseview addSubview:_groupField];
-    NSString *holderText = @"请选择要加入的分组";
+    NSString *holderText = @"请选择要加入的分组(可不选)";
     NSMutableAttributedString *placeholder = [[NSMutableAttributedString alloc] initWithString:holderText];
     [placeholder addAttribute:NSForegroundColorAttributeName
                             value:ColorHex(0xABBDD5 )
@@ -198,11 +198,11 @@
         }];
         
         //添加一条数据
-        APGroupNote *node = [APGroupNote new];
-        node.nodeId = @"0";
-        node.name = @"空";
-        if (_groupData.count)
-            [_groupData insertObject:node atIndex:0];
+//        APGroupNote *node = [APGroupNote new];
+//        node.nodeId = @"0";
+//        node.name = @"空";
+//        if (_groupData.count)
+//            [_groupData insertObject:node atIndex:0];
     }
     else
     {
@@ -230,10 +230,10 @@
     //3.打开数据库
     if ([db open])
     {
-        int x = arc4random() % 2000 + 1000;//生成2000-3000的随机数作为id
+        int x = arc4random() % 20000 + 10000;//生成2000-3000的随机数作为id
 
         NSString *ID = [NSString stringWithFormat:@"%d",x];
-        NSString *sqlStr = [NSString stringWithFormat:@"insert into zk_group (id,group_name,pid) values ('%@','%@','%@')",ID, _groupInfo.name, _groupInfo.parentId];
+        NSString *sqlStr = [NSString stringWithFormat:@"insert into zk_group (id,group_name,pid) values ('%@','%@','%@')",ID, _groupInfo.name, _groupInfo.parentId.length?_groupInfo.parentId:@"0"];
         BOOL ret = [db executeUpdate:sqlStr];
         if  (ret)
         {
@@ -304,6 +304,19 @@
 {
     if(btn.tag == 0)//确定
     {
+        if(_nameField.text.length == 0)
+        {
+                    
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"提示"
+                                                            message:@"分组名称不能为空"
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"确定"
+                                                  otherButtonTitles:nil];
+
+            [alert show];
+            return;
+        }
+        
         self.okBtnClickBlock(0);
         [self writeDB];
     }
