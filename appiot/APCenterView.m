@@ -73,8 +73,7 @@
             NSString *str = array[i];
             UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(x, 0, Center_Btn_Width, Center_Btn_Heigth)];
             [view addSubview:button];
-            ViewBorderRadius(button, 8, 2, ColorHex(0x375BCD ));
-//            ViewRadius(button, 8);
+            
             [button setTitle:str forState:UIControlStateNormal];
             button.titleLabel.font = [UIFont systemFontOfSize: 16.0];
             [button setTitleColor:ColorHex(0xFFFFFF ) forState:UIControlStateNormal];
@@ -91,6 +90,12 @@
             if (i == 2 || i==4 || i==5)
             {
                 button.enabled = NO;
+                button.backgroundColor = [UIColor grayColor];
+                ViewRadius(button, 8);
+            }
+            else
+            {
+                ViewBorderRadius(button, 8, 2, ColorHex(0x375BCD ));
             }
             
             if(i == 0)//默认选中第一个
@@ -161,7 +166,7 @@
         for (int i = 0; i < self.menuBtnArray.count; i++)
         {
             UIButton *temp = self.menuBtnArray[i];
-            if (temp)
+            if (temp && temp.enabled)
             {
                 [temp setBackgroundImage:[self imageWithColor:[UIColor clearColor]] forState:UIControlStateNormal];
                 //清除边框

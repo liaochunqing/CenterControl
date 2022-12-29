@@ -36,7 +36,7 @@
     [self cteateSearchView];
     [self createButton];
     [self createTableview];
-    [self createBottomView];
+    [self createBottomView:[self getSelectedDevAndGroup]];
     
     [self refrashAllselectTitle];
     
@@ -75,6 +75,18 @@
     //1.获得数据库文件的路径
     NSString *doc = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
     NSString *dbfileName = [doc stringByAppendingPathComponent:DB_NAME];
+    //导入外部数据库.db文件
+    NSFileManager *fm = [NSFileManager defaultManager];
+    if ([fm fileExistsAtPath:dbfileName] == NO)
+    {
+        BOOL ok;
+//        ok = [fm removeItemAtPath:dbfileName error:nil];
+//                NSLog(@"删除成功");
+        //拷贝数据库文件到指定目录
+        NSString *backPath = [[NSBundle mainBundle] pathForResource:@"remote" ofType:@"db"];
+         ok = [fm copyItemAtPath:backPath toPath:dbfileName error:nil];
+        NSLog(@"%d",ok);
+    }
     //2.获得数据库
     FMDatabase *db = [FMDatabase databaseWithPath:dbfileName];
     //3.打开数据库
@@ -419,43 +431,88 @@
 
 }
 
--(void)createBottomView
+-(void)createBottomView:(NSArray *)selectedArr
 {
-    self.bottomView = [[UIView alloc] init];
-    [self addSubview:self.bottomView];
-    self.bottomView.userInteractionEnabled = YES;
-    self.bottomView.backgroundColor = ColorHex(0x1D2242 );
-//    self.bottomView.hidden = YES;
-    [self.bottomView setFrame:CGRectMake(0, self.frame.size.height, Left_View_Width, Bottom_View_Height)];
+    if(selectedArr == nil) return;
     
-//    [self.bottomView mas_updateConstraints:^(MASConstraintMaker *make) {
-//        make.right.mas_equalTo(self.mas_right).offset(0);
-//        make.top.mas_equalTo(self.mas_top).offset(H_SCALE(90));
-//        make.left.mas_equalTo(self.mas_left).offset(0);
-//        make.bottom.mas_equalTo(self.mas_bottom).offset(0);
-//    }];
+    if (self.bottomView == nil)
+    {
+        self.bottomView = [[UIView alloc] init];
+        [self addSubview:self.bottomView];
+        self.bottomView.tag = 0;//表示拥有子button的个数
+        self.bottomView.userInteractionEnabled = YES;
+        self.bottomView.backgroundColor = ColorHex(0x1D2242 );
+    //    self.bottomView.hidden = YES;
+        [self.bottomView setFrame:CGRectMake(0, self.frame.size.height, Left_View_Width, Bottom_View_Height)];
+        
+//        [self.bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.right.mas_equalTo(self.mas_right).offset(0);
+//            make.height.mas_equalTo(Bottom_View_Height);
+//            make.left.mas_equalTo(self.mas_left).offset(0);
+//            make.top.mas_equalTo(self.mas_bottom).offset(-Bottom_View_Height);
+//        }];
+    }
     
-    NSDictionary *dict1 = @{@"string":@"编辑",
-                           @"imageName":@"Group 11531",
-    };
-    NSDictionary *dict2 = @{@"string":@"删除",
-                           @"imageName":@"Group 11533",
-    };
-    NSDictionary *dict3 = @{@"string":@"移动",
-                           @"imageName":@"Group 11532",
-    };
-    NSDictionary *dict4 = @{@"string":@"更多",
-                           @"imageName":@"Group 11531",
-    };
+    NSMutableArray *array = [NSMutableArray array];
+
     
-    
-    NSArray *array = [NSArray arrayWithObjects:dict1, dict2, dict3, dict4,nil];
+    if ((self.bottomView.tag == 2 && selectedArr.count == 1)
+        || selectedArr.count == 0)
+    {
+        
+        self.bottomView.tag = 4;
+        for (UIView *subview in self.bottomView.subviews)
+        {
+            [subview removeFromSuperview];
+        }
+        
+        NSDictionary *dict1 = @{@"string":@"编辑",
+                               @"imageName":@"edit",
+        };
+        NSDictionary *dict2 = @{@"string":@"删除",
+                               @"imageName":@"Group 11533",
+        };
+        NSDictionary *dict3 = @{@"string":@"移动",
+                               @"imageName":@"Group 11532",
+        };
+        NSDictionary *dict4 = @{@"string":@"重命名",
+                               @"imageName":@"Group 11531",
+        };
+        
+        [array addObject:dict3];
+        [array addObject:dict2];
+        [array addObject:dict1];
+        [array addObject:dict4];
+    }
+    else if ((self.bottomView.tag == 2 && selectedArr.count != 1)
+             || (self.bottomView.tag == 4 && selectedArr.count == 1))
+    {
+        return;
+    }
+    else
+    {
+        self.bottomView.tag = 2;
+        for (UIView *subview in self.bottomView.subviews)
+        {
+            [subview removeFromSuperview];
+        }
+        
+        NSDictionary *dict2 = @{@"string":@"删除",
+                               @"imageName":@"Group 11533",
+        };
+        NSDictionary *dict3 = @{@"string":@"移动",
+                               @"imageName":@"Group 11532",
+        };
+        
+        [array addObject:dict3];
+        [array addObject:dict2];
+    }
     
     CGFloat btnW = W_SCALE(50);
     CGFloat btnH = H_SCALE(60);
     CGFloat edgeGap = 2*Left_Gap;
-    CGFloat x = edgeGap;
-    CGFloat midGap = (Left_View_Width - 2*edgeGap - array.count*btnW)/(array.count - 1);
+    CGFloat midGap = (Left_View_Width  - array.count*btnW)/(array.count + 1);
+    CGFloat x = midGap;
 
     for (int i = 0; i < array.count; i++)
     {
@@ -487,10 +544,8 @@
         button.tag = i;
         [button addTarget:self action:@selector(btnBottomClick:) forControlEvents:UIControlEventTouchUpInside];
 
-        x += btnW + midGap;
+        x = x + btnW + midGap;
     }
-    
-
 }
 
 -(void)createButton
@@ -672,34 +727,26 @@
 
 -(void)deleteSelectedNode
 {
-//    NSMutableIndexSet *set = [[NSMutableIndexSet alloc] init];//临时容器，存储将要删除的节点
-//    BOOL haveGroup = NO;
-//
-//    //收集删除节点
-//    for (int i = 0; i < _data.count; i++)
-//    {
-//        APGroupNote *first = _data[i];
-//        if (first.selected)
-//        {
-//            [set addIndex:i];
-//            if(first.isDevice)
-//            {
-//            }
-//            else//把分组的子节点选出来
-//            {
-//                haveGroup = YES;
-//                for (int j = 0; j < _data.count; j++)
-//                {
-//                    APGroupNote *temp = _data[j];
-//                    if ([temp.parentId isEqualToString:first.nodeId] || (temp.father && ([temp.father.parentId isEqualToString:first.nodeId])))
-//                    {
-//                        [set addIndex:j];
-//                    }
-//                }
-//            }
-//        }
-//
-//    }
+    NSArray *temp1 = [self getSelectedDevAndGroup];
+    if(temp1.count == 0)
+    {
+        NSString *t = @"提示";
+        NSString *m = @"请选择要删除的设备或者分组";
+        UIAlertController  *alert = [UIAlertController alertControllerWithTitle:t message:m preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *action2= [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+                }];
+//                    [action2 setValue:[UIColor blueColor] forKey:@"titleTextColor"];
+        //修改title
+//                    [[APTool shareInstance] setAlterviewTitleWith:alert title:t color:[UIColor blackColor]];
+//                    [[APTool shareInstance] setAlterviewMessageWith:alert message:m color:[UIColor blackColor]];
+//                    [[APTool shareInstance] setAlterviewBackgroundColor:alert color:[UIColor whiteColor]];
+
+//                    ViewRadius(alert, 5);
+        [alert addAction:action2];
+        AppDelegate *appDelegate = kAppDelegate;
+        UIViewController *vc = appDelegate.mainVC;
+        [vc presentViewController:alert animated:YES completion:nil];
+    }
 
     NSMutableArray *deleteArray = [NSMutableArray array];//临时容器，存储将要删除的节点
     BOOL haveGroup = NO;
@@ -727,7 +774,6 @@
                 }
             }
         }
-        
     }
     
     //删除节点刷新列表
@@ -903,6 +949,8 @@
     [self refrashAllselectTitle];
     [self notifyDevSelectedChanged];
     [_tableview reloadData];
+    [self createBottomView:[self getSelectedDevAndGroup]];
+
 }
 
 -(NSArray *)getSelectedDevice
@@ -1168,6 +1216,8 @@
     }
     
     [self notifyDevSelectedChanged];
+    [self createBottomView:[self getSelectedDevAndGroup]];
+
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
@@ -1175,128 +1225,121 @@
 }
 
 #pragma mark button响应
--(void)btnBottomClick:(UIButton *)btn
+-(void)btnBottomClick:(APBottomButton *)btn
 {
-    if(btn)
+    NSString *string = btn.lab.text;
+    if ([@"编辑" isEqualToString:string])//按钮编辑
+    {
+        NSArray *temp = [self getSelectedDevice];
+        if(temp.count != 1)
+        {
+            NSString *t = @"提示";
+            NSString *m = @"请选中需要编辑的设备";
+            UIAlertController  *alert = [UIAlertController alertControllerWithTitle:t message:m preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *action2= [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+                    }];
+//                    [action2 setValue:[UIColor blueColor] forKey:@"titleTextColor"];
+            //修改title
+//                    [[APTool shareInstance] setAlterviewTitleWith:alert title:t color:[UIColor blackColor]];
+//                    [[APTool shareInstance] setAlterviewMessageWith:alert message:m color:[UIColor blackColor]];
+//                    [[APTool shareInstance] setAlterviewBackgroundColor:alert color:[UIColor whiteColor]];
+
+//                    ViewRadius(alert, 5);
+            [alert addAction:action2];
+            AppDelegate *appDelegate = kAppDelegate;
+            UIViewController *vc = appDelegate.mainVC;
+            [vc presentViewController:alert animated:YES completion:nil];
+        }
+        else
+        {
+            [_editDevView removeFromSuperview];
+            _editDevView = nil;
+            _editDevView = [[APAPEditDeviceView alloc] init];
+            AppDelegate *appDelegate = kAppDelegate;
+            UIViewController *vc = appDelegate.mainVC;
+            [vc.view addSubview:_editDevView];
+            [vc.view bringSubviewToFront:_editDevView];
+            _editDevView.groupData = [NSMutableArray arrayWithArray:self.groupData];
+            _editDevView.modelData = [NSMutableArray arrayWithArray:self.modelData];
+            _editDevView.deviceInfo = temp[0];
+            [_editDevView setDefaultValue];
+            //ok按钮
+            WS(weakSelf);
+            [_editDevView setOkBtnClickBlock:^(BOOL index) {
+                [weakSelf.editDevView removeFromSuperview];
+                                weakSelf.floatButton.hidden = NO;
+
+            }];
+            //取消按钮
+            [_editDevView setCancelBtnClickBlock:^(BOOL index) {
+                [weakSelf.editDevView removeFromSuperview];
+
+                weakSelf.floatButton.hidden = NO;
+
+            }];
+            
+            self.floatButton.hidden = YES;
+        }
+    }
+    else if ([@"删除" isEqualToString:string])//删除
+    {
+        [self deleteSelectedNode];
+    }
+    else if ([@"移动" isEqualToString:string])//移动
+    {
+        NSArray *temp = [self getSelectedDevAndGroup];
+        if(temp.count == 0)
+        {
+            NSString *t = @"提示";
+            NSString *m = @"请选择要移动的设备或者分组";
+            UIAlertController  *alert = [UIAlertController alertControllerWithTitle:t message:m preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *action2= [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+                    }];
+//                    [action2 setValue:[UIColor blueColor] forKey:@"titleTextColor"];
+            //修改title
+//                    [[APTool shareInstance] setAlterviewTitleWith:alert title:t color:[UIColor blackColor]];
+//                    [[APTool shareInstance] setAlterviewMessageWith:alert message:m color:[UIColor blackColor]];
+//                    [[APTool shareInstance] setAlterviewBackgroundColor:alert color:[UIColor whiteColor]];
+
+//                    ViewRadius(alert, 5);
+            [alert addAction:action2];
+            AppDelegate *appDelegate = kAppDelegate;
+            UIViewController *vc = appDelegate.mainVC;
+            [vc presentViewController:alert animated:YES completion:nil];
+        }
+        else
+        {
+            [_moveView removeFromSuperview];
+            _moveView = nil;
+            _moveView = [[APMoveDevAndGroupView alloc] init];
+            AppDelegate *appDelegate = kAppDelegate;
+            UIViewController *vc = appDelegate.mainVC;
+            [vc.view addSubview:_moveView];
+            [vc.view bringSubviewToFront:_moveView];
+            _moveView.groupData = [NSMutableArray arrayWithArray:self.groupData];
+            _moveView.selectedData = [NSMutableArray arrayWithArray:[self getNeedMoveDevAndGroup]];
+            [_moveView setDefaultValue];
+
+            //ok按钮
+            WS(weakSelf);
+            [_moveView setOkBtnClickBlock:^(BOOL index) {
+                [weakSelf.editDevView removeFromSuperview];
+                weakSelf.floatButton.hidden = NO;
+                [weakSelf refreshTable];
+
+            }];
+            //取消按钮
+            [_moveView setCancelBtnClickBlock:^(BOOL index) {
+                [weakSelf.editDevView removeFromSuperview];
+                weakSelf.floatButton.hidden = NO;
+            }];
+            
+            self.floatButton.hidden = YES;
+        }
+    }
+    else if ([@"重命名" isEqualToString:string])//重命名
     {
         
-        switch (btn.tag) {
-            case 0://按钮编辑
-            {
-                NSArray *temp = [self getSelectedDevice];
-                if(temp.count != 1)
-                {
-                    NSString *t = @"提示";
-                    NSString *m = @"只能编辑一台设备";
-                    UIAlertController  *alert = [UIAlertController alertControllerWithTitle:t message:m preferredStyle:UIAlertControllerStyleAlert];
-                    UIAlertAction *action2= [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-                            }];
-//                    [action2 setValue:[UIColor blueColor] forKey:@"titleTextColor"];
-                    //修改title
-                    [[APTool shareInstance] setAlterviewTitleWith:alert title:t color:[UIColor blackColor]];
-                    [[APTool shareInstance] setAlterviewMessageWith:alert message:m color:[UIColor blackColor]];
-                    [[APTool shareInstance] setAlterviewBackgroundColor:alert color:[UIColor whiteColor]];
-
-//                    ViewRadius(alert, 5);
-                    [alert addAction:action2];
-                    AppDelegate *appDelegate = kAppDelegate;
-                    UIViewController *vc = appDelegate.mainVC;
-                    [vc presentViewController:alert animated:YES completion:nil];
-                }
-                else
-                {
-                    [_editDevView removeFromSuperview];
-                    _editDevView = nil;
-                    _editDevView = [[APAPEditDeviceView alloc] init];
-                    AppDelegate *appDelegate = kAppDelegate;
-                    UIViewController *vc = appDelegate.mainVC;
-                    [vc.view addSubview:_editDevView];
-                    [vc.view bringSubviewToFront:_editDevView];
-                    _editDevView.groupData = [NSMutableArray arrayWithArray:self.groupData];
-                    _editDevView.modelData = [NSMutableArray arrayWithArray:self.modelData];
-                    _editDevView.deviceInfo = temp[0];
-                    [_editDevView setDefaultValue];
-                    //ok按钮
-                    WS(weakSelf);
-                    [_editDevView setOkBtnClickBlock:^(BOOL index) {
-                        [weakSelf.editDevView removeFromSuperview];
-                                        weakSelf.floatButton.hidden = NO;
-
-                    }];
-                    //取消按钮
-                    [_editDevView setCancelBtnClickBlock:^(BOOL index) {
-                        [weakSelf.editDevView removeFromSuperview];
-
-                        weakSelf.floatButton.hidden = NO;
-
-                    }];
-                    
-                    self.floatButton.hidden = YES;
-                }
-            }
-                break;
-            case 1://删除
-            {
-                [self deleteSelectedNode];
-            }
-                break;
-            case 2://移动
-            {
-                NSArray *temp = [self getSelectedDevAndGroup];
-                if(temp.count == 0)
-                {
-                    NSString *t = @"提示";
-                    NSString *m = @"请选择要移动的设备或者分组";
-                    UIAlertController  *alert = [UIAlertController alertControllerWithTitle:t message:m preferredStyle:UIAlertControllerStyleAlert];
-                    UIAlertAction *action2= [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-                            }];
-//                    [action2 setValue:[UIColor blueColor] forKey:@"titleTextColor"];
-                    //修改title
-                    [[APTool shareInstance] setAlterviewTitleWith:alert title:t color:[UIColor blackColor]];
-                    [[APTool shareInstance] setAlterviewMessageWith:alert message:m color:[UIColor blackColor]];
-                    [[APTool shareInstance] setAlterviewBackgroundColor:alert color:[UIColor whiteColor]];
-
-//                    ViewRadius(alert, 5);
-                    [alert addAction:action2];
-                    AppDelegate *appDelegate = kAppDelegate;
-                    UIViewController *vc = appDelegate.mainVC;
-                    [vc presentViewController:alert animated:YES completion:nil];
-                }
-                else
-                {
-                    [_moveView removeFromSuperview];
-                    _moveView = nil;
-                    _moveView = [[APMoveDevAndGroupView alloc] init];
-                    AppDelegate *appDelegate = kAppDelegate;
-                    UIViewController *vc = appDelegate.mainVC;
-                    [vc.view addSubview:_moveView];
-                    [vc.view bringSubviewToFront:_moveView];
-                    _moveView.groupData = [NSMutableArray arrayWithArray:self.groupData];
-                    _moveView.selectedData = [NSMutableArray arrayWithArray:[self getNeedMoveDevAndGroup]];
-                    [_moveView setDefaultValue];
-
-                    //ok按钮
-                    WS(weakSelf);
-                    [_moveView setOkBtnClickBlock:^(BOOL index) {
-                        [weakSelf.editDevView removeFromSuperview];
-                        weakSelf.floatButton.hidden = NO;
-                        [weakSelf refreshTable];
-
-                    }];
-                    //取消按钮
-                    [_moveView setCancelBtnClickBlock:^(BOOL index) {
-                        [weakSelf.editDevView removeFromSuperview];
-                        weakSelf.floatButton.hidden = NO;
-                    }];
-                    
-                    self.floatButton.hidden = YES;
-                }
-              }
-                break;
-                
-            default:
-                break;
-        }
     }
 }
 
@@ -1312,6 +1355,8 @@
         [self selectedAllWithSelected:self.btnLeft.selected];
         [self refrashAllselectTitle];
         [self notifyDevSelectedChanged];
+        [self createBottomView:[self getSelectedDevAndGroup]];
+
     }
 }
 -(void)editBtnClick:(UIButton *)btn

@@ -36,7 +36,7 @@
         return;
     };
 
-    CGFloat midGap = W_SCALE(17);//cell各个图标文字中间的间隙
+    CGFloat midGap = W_SCALE(23);//cell各个图标文字中间的间隙
     
     CGFloat expendX = Left_Gap  + midGap* (node.depth);
     CGFloat expendW = W_SCALE(25);

@@ -131,6 +131,11 @@
         [self addSubview:view];
         ViewRadius(view, 5);
         view.backgroundColor = ColorHex(0x2D355C);
+        
+        if(i == 2)
+        {
+            _usallyTitleview = view;
+        }
 
         UILabel *lab = [[UILabel alloc] init];
         [view addSubview:lab];
@@ -417,13 +422,14 @@
 {
     
     UIView *baseview1 = [[UIView alloc] init];//WithFrame:CGRectMake(15, W_SCALE(525), 500, 300)];
-//    baseview .backgroundColor = [UIColor redColor];
+//    baseview1.backgroundColor = [UIColor redColor];
     [self addSubview:baseview1];
     [baseview1 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.mas_top).offset(W_SCALE(545));
+        make.top.mas_equalTo(_usallyTitleview.mas_bottom).offset(top_Gap);
         make.left.mas_equalTo(self.mas_left).offset(Left_Gap);
-        make.right.mas_equalTo(self.mas_right).offset(0);
+        make.right.mas_equalTo(self.mas_right).offset(-Left_Gap);
         make.bottom.mas_equalTo(self.mas_bottom).offset(0);
+//        make.height.mas_equalTo(H_SCALE(140));
     }];
     
     UILabel *lab = [[UILabel alloc] init];

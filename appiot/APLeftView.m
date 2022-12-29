@@ -283,38 +283,23 @@
             case 2://按钮“图纸”
             {
                 //1.获得数据库文件的路径
-                    NSString *doc = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
-                    NSLog(@"%@", doc);
-                    NSString *dbfileName = [doc stringByAppendingPathComponent:@"CentralControl.db"];
-                NSFileManager *fm = [NSFileManager defaultManager];
-                
-                //导入外部数据库.db文件
-    //                if ([fm fileExistsAtPath:dbfileName] == NO)
-                {
-                    BOOL ok;
-                    ok = [fm removeItemAtPath:dbfileName error:nil];
-                            NSLog(@"删除成功");
-                    //拷贝数据库文件到指定目录
-                    NSString *backPath = [[NSBundle mainBundle] pathForResource:@"remote" ofType:@"db"];
-                     ok = [fm copyItemAtPath:backPath toPath:dbfileName error:nil];
-                    NSLog(@"%d",ok);
-                }
-                    //2.获得数据库
-                    FMDatabase *collectionDatabase = [FMDatabase databaseWithPath:dbfileName];
-    
-                    //3.打开数据库
-                    if ([collectionDatabase open])
-                    {
-                        FMResultSet *resultSet = [collectionDatabase executeQuery:@"SELECT * FROM log_sn where device_name='s4mini开发专用'"];
-                        // 2.遍历结果
-                        // 遍历结果集
-                          while ([resultSet next])
-                          {
-                              NSString *dicNameData = [resultSet stringForColumn:@"ip"]; // 将查询的字符串转换成字典
-                              NSLog(@"dicNameData = %@",dicNameData);
-                          }
-                        [collectionDatabase close];
-                    }
+//                    NSString *doc = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+//                    NSLog(@"%@", doc);
+//                    NSString *dbfileName = [doc stringByAppendingPathComponent:@"CentralControl.db"];
+//                NSFileManager *fm = [NSFileManager defaultManager];
+//
+//                //导入外部数据库.db文件
+//    //                if ([fm fileExistsAtPath:dbfileName] == NO)
+//                {
+//                    BOOL ok;
+//                    ok = [fm removeItemAtPath:dbfileName error:nil];
+//                            NSLog(@"删除成功");
+//                    //拷贝数据库文件到指定目录
+//                    NSString *backPath = [[NSBundle mainBundle] pathForResource:@"remote" ofType:@"db"];
+//                     ok = [fm copyItemAtPath:backPath toPath:dbfileName error:nil];
+//                    NSLog(@"%d",ok);
+//                }
+                    
             }
                 break;
                 
