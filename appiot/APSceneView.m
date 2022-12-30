@@ -322,9 +322,14 @@
                              @"parameter_value":@"CheckErboard",
                              @"exec_code":@"scene-testChart-CheckErboard",
     };
+    NSDictionary *dict16 = @{@"string":@"切换测试图",
+                             @"parameter_value":@"",
+                             @"exec_code":@"scene-testSwitch",
+    };
     
     
-    NSMutableArray *orgArray = [NSMutableArray arrayWithObjects:dict1, dict2, dict3, dict4,dict5,dict6,dict7,dict8, dict9, dict10, dict11,dict12,dict13,dict14,dict15,nil];
+    
+    NSMutableArray *orgArray = [NSMutableArray arrayWithObjects:dict1, dict2, dict3, dict4,dict5,dict6,dict7,dict8, dict9, dict10, dict11,dict12,dict13,dict14,dict15,dict16,nil];
     
     _testDataArray = [NSMutableArray array];
     if(selectedArray && selectedArray.count)
@@ -336,12 +341,12 @@
         {
             if ([@"scene-testChart" isEqualToString:key])
             {
+                [orgArray removeObject:dict16];
                 _testDataArray = [NSMutableArray arrayWithArray:orgArray];
                 _isSpecial = YES;
                 break;
             }
         }
-//
         if (_isSpecial == NO)
         {
             for (int i = (int)orgArray.count - 1; i >= 0; i--)
@@ -398,8 +403,6 @@
 //    _testBaseView.backgroundColor = [UIColor redColor];
     [self addSubview:_testBaseView];
     ViewRadius(view, 5);
-//    _testBaseView.backgroundColor = ColorHex(0x2D355C);
-//    self.testBaseView = view;
     [_testBaseView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.mas_left).offset(0);
         make.top.mas_equalTo(view.mas_bottom).offset(0);
@@ -429,8 +432,24 @@
         [button setTitleColor:ColorHex(0x9699AC) forState:UIControlStateNormal];
         button.titleLabel.font = [UIFont systemFontOfSize: 14];
         button.tag = i;
-        [button addTarget:self action:@selector(btnTestClick:) forControlEvents:UIControlEventTouchUpInside];
         [_testBaseView addSubview:button];
+        
+        if([@"scene-testSwitch" isEqualToString:dic[@"exec_code"]])//切换测试图按钮，特殊处理
+        {
+            [button setBackgroundImage:[self imageWithColor:ColorHex(0x2589EE)] forState:UIControlStateNormal];
+            [button setBackgroundImage:[self imageWithColor:ColorHex(0x7877A9)] forState:UIControlStateHighlighted];
+            [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            ViewBorderRadius(button, 5, 0.001, ColorHex(0xADACA8));
+//            button.tag = 1000;
+            CGRect frame = button.frame;
+            frame.size.width = W_SCALE(110);
+            [button setFrame:frame];
+            [button addTarget:self action:@selector(btnTestSwichClick:) forControlEvents:UIControlEventTouchUpInside];
+        }
+        else
+        {
+            [button addTarget:self action:@selector(btnTestClick:) forControlEvents:UIControlEventTouchUpInside];
+        }
         
         UIImageView *_iv = [[UIImageView alloc] init];
         _iv.image = [UIImage imageNamed:@"Group 11710"];
@@ -655,6 +674,30 @@
         }
     }
 }
+
+-(void)btnTestSwichClick:(UIButton *)btn
+{
+    if(btn)
+    {
+        //发送指令
+        if (_testDataArray && _testDataArray.count > btn.tag)
+        {
+            NSDictionary *dic = _testDataArray[btn.tag];
+            NSString *key = dic[@"exec_code"];
+            NSString *value = dic[@"parameter_value"];
+            if(_isSpecial)
+            {
+                [self sendMssageToDev:@"scene-testChart" value:value];
+
+            }
+            else
+            {
+                [self sendMssageToDev:key];
+            }
+        }
+    }
+}
+
 
 //参数传入开关对象本身
 - (void)swChange:(UISwitch*) sw

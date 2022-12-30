@@ -189,7 +189,7 @@
         item.label.font = [UIFont systemFontOfSize:13.5];
         
         item.slider.minimumValue = 0;
-        item.slider.maximumValue = 255;
+        item.slider.maximumValue = 199;
         [self addSubview:item];
         
         if ([@"红" isEqualToString:SafeStr(str)])

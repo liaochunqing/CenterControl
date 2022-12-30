@@ -510,7 +510,7 @@
     
     CGFloat btnW = W_SCALE(50);
     CGFloat btnH = H_SCALE(60);
-    CGFloat edgeGap = 2*Left_Gap;
+//    CGFloat edgeGap = 2*Left_Gap;
     CGFloat midGap = (Left_View_Width  - array.count*btnW)/(array.count + 1);
     CGFloat x = midGap;
 
