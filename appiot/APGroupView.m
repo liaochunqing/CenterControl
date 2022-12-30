@@ -1339,7 +1339,48 @@
     }
     else if ([@"重命名" isEqualToString:string])//重命名
     {
-        
+        NSArray *temp = [self getSelectedDevice];
+
+        if(temp.count == 0)
+        {
+            NSString *t = @"提示";
+            NSString *m = @"未选中";
+            UIAlertController  *alert = [UIAlertController alertControllerWithTitle:t message:m preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *action2= [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+                    }];
+            [alert addAction:action2];
+            AppDelegate *appDelegate = kAppDelegate;
+            UIViewController *vc = appDelegate.mainVC;
+            [vc presentViewController:alert animated:YES completion:nil];
+        }
+        else
+        {
+            
+            [_renameView removeFromSuperview];
+            _renameView = nil;
+            _renameView = [[APRenameView alloc] init];
+            AppDelegate *appDelegate = kAppDelegate;
+            UIViewController *vc = appDelegate.mainVC;
+            [vc.view addSubview:_renameView];
+            [vc.view bringSubviewToFront:_renameView];
+            [_renameView setDefaultValue:temp[0]];
+            
+            //ok按钮
+            WS(weakSelf);
+            [_renameView setOkBtnClickBlock:^(BOOL index) {
+                [weakSelf.renameView removeFromSuperview];
+                weakSelf.floatButton.hidden = NO;
+                [weakSelf refreshTable];
+                
+            }];
+            //取消按钮
+            [_renameView setCancelBtnClickBlock:^(BOOL index) {
+                [weakSelf.renameView removeFromSuperview];
+                weakSelf.floatButton.hidden = NO;
+            }];
+            
+            self.floatButton.hidden = YES;
+        }
     }
 }
 
@@ -1379,8 +1420,13 @@
 //                    self.bottomView.hidden = NO;
                     [self.bottomView.superview layoutIfNeeded];//强制绘制
                 }];
-                
             }
+//            [self.bottomView mas_updateConstraints:^(MASConstraintMaker *make) {
+//                            make.right.mas_equalTo(self.mas_right).offset(0);
+//                make.left.mas_equalTo(self.mas_left).offset(0);
+//                make.bottom.mas_equalTo(self.mas_bottom).offset(0);
+//                make.height.mas_equalTo(Bottom_View_Height);
+//            }];
         }
         else
         {
@@ -1397,6 +1443,13 @@
                     [self.bottomView setFrame:CGRectMake(0, self.frame.size.height, w, Bottom_View_Height)];
                     [self.bottomView.superview layoutIfNeeded]; // 强制绘制
                 }];
+                
+//                [self.bottomView mas_updateConstraints:^(MASConstraintMaker *make) {
+//                                make.right.mas_equalTo(self.mas_right).offset(0);
+//                    make.left.mas_equalTo(self.mas_left).offset(0);
+//                    make.top.mas_equalTo(self.mas_bottom).offset(0);
+//                    make.height.mas_equalTo(Bottom_View_Height);
+//                }];
             }
         }
     }

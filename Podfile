@@ -12,6 +12,7 @@ target 'appiot' do
   pod 'MBProgressHUD'
   pod 'FMDB','~>2.6.0'
   pod 'LFKit/Component/LFPopupMenu'
+  pod 'IQKeyboardManager','~>6.5.0'
   
   target 'appiotTests' do
     inherit! :search_paths

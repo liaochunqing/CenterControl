@@ -14,6 +14,8 @@
 #import "APTcpSocket.h"
 #import "APGroupNote.h"
 #import "APUdpSocket.h"
+#import<IQKeyboardManager/IQKeyboardManager.h>
+
 
 #ifndef config_h
 #define config_h

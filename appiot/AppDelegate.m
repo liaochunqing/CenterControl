@@ -20,17 +20,23 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    
-    
+
     //初始化当前window并设置其大小
     self.mainVC = [[APViewController alloc] init];
-    
     self.window = [[UIWindow alloc] initWithFrame: [UIScreen mainScreen].bounds];
     self.window.rootViewController = self.mainVC;
-    
     [self.window makeKeyAndVisible];
     
 
+    //第三方键盘初始化
+    IQKeyboardManager *keyBoardManager = [IQKeyboardManager sharedManager];
+    keyBoardManager.enable=YES;
+    keyBoardManager.shouldToolbarUsesTextFieldTintColor = YES;
+    keyBoardManager.toolbarManageBehaviour = IQAutoToolbarBySubviews;
+    keyBoardManager.enableAutoToolbar=YES;
+    keyBoardManager.shouldShowToolbarPlaceholder = NO;
+    keyBoardManager.keyboardDistanceFromTextField = 10;
+    keyBoardManager.shouldResignOnTouchOutside = YES;
 
     return YES;
 }
