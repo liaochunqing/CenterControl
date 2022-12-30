@@ -148,9 +148,8 @@
     
     
     self.btnArray = [NSMutableArray array];
-//    CGFloat w = W_SCALE(102);
-    CGFloat midGap = Left_Gap;
-    _baseView.contentSize = CGSizeMake(_sortData.count * btn_width + midGap * (_sortData.count - 1), 0);
+    CGFloat totalW = 0;
+    CGFloat midGap = 2*Left_Gap;
 
     int x = 0;
     for (int i = 0; i < _sortData.count; i++)
@@ -158,12 +157,17 @@
         NSArray *array = _sortData[i];
         APGroupNote *node = array[0];
         UIButton *button = [[UIButton alloc] init];
-        ViewRadius(button, 12);
+        ViewRadius(button, 10);
         NSString *str = [NSString stringWithFormat:@"%@(%d台)",node.model_name,(int)array.count];
         [button setTitle:str forState:UIControlStateNormal];
         button.titleLabel.font = [UIFont systemFontOfSize: 15.0];
         [button setTitleColor:ColorHex(0xFFFFFF ) forState:UIControlStateNormal];
         button.tag = i;
+        NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:15]};
+        CGFloat length = [str boundingRectWithSize:CGSizeMake(320, btn_height) options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil].size.width;
+        
+        CGFloat w = length + W_SCALE(22);
+            
         [button setBackgroundImage:[self imageWithColor:ColorHex(0x29315F)] forState:UIControlStateNormal];
 //      [button setBackgroundImage:[self imageWithColor:[UIColor grayColor]] forState:UIControlStateSelected];
         [button addTarget:self action:@selector(btnDevClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -171,10 +175,10 @@
         [button mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(_baseView.mas_top).offset(0);
             make.left.mas_equalTo(_baseView.mas_left).offset(x);
-            make.size.mas_equalTo(CGSizeMake(btn_width, btn_height));
+            make.size.mas_equalTo(CGSizeMake(w, btn_height));
         }];
-        x += btn_width + midGap;
-        
+        x += w + midGap;
+        totalW += w;
         if(i == 0)//默认选中第一个
         {
             [button sendActionsForControlEvents:UIControlEventTouchUpInside];//代码点击
@@ -184,6 +188,9 @@
             [self.btnArray addObject:button];
         }
     }
+    
+    _baseView.contentSize = CGSizeMake(Left_Gap + totalW + midGap * (_sortData.count - 1), 0);
+
 }
 
 #pragma mark 私有方法

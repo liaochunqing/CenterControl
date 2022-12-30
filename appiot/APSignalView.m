@@ -297,7 +297,7 @@
 
 -(void)createVGA
 {
-    CGFloat x = Left_Gap;
+//    CGFloat x = Left_Gap;
     CGFloat w = W_SCALE(365);
     CGFloat h = H_SCALE(30);
     CGFloat h_gap = H_SCALE(28.5);
@@ -353,7 +353,7 @@
         if (dic == nil) continue;
         
         NSString *str = dic[@"string"];
-        CGRect rect = [dic[@"frame"] CGRectValue];
+//        CGRect rect = [dic[@"frame"] CGRectValue];
         __block NSString *code = dic[@"execcode"];
 
         APSetNumberItem *item = [[APSetNumberItem alloc] init];

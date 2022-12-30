@@ -46,10 +46,13 @@
     _slider.value = 0;
     _slider.minimumValue = 0;
     _slider.maximumValue = 100;
-    _slider.continuous = NO;
+//    _slider.continuous = NO;
     _slider.maximumTrackTintColor = [UIColor blackColor];
 
     [_slider addTarget:self action:@selector(sliderValueChange) forControlEvents:UIControlEventValueChanged];
+    [_slider addTarget:self action:@selector(sliderTouchUp) forControlEvents:UIControlEventTouchUpInside];
+//    [_slider addTarget:self action:@selector(sliderValueChange2) forControlEvents:UIControlEventTouchUpOutside];
+
     [self addSubview:_slider];
     [_slider mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.mas_top).offset(0);
@@ -90,6 +93,10 @@
 {
 //    NSLog(@"%d",(int)_slider.value);
     _field.text = [NSString stringWithFormat:@"%d",(int)_slider.value];
+}
+-(void)sliderTouchUp
+{
+//    NSLog(@"%d",(int)_slider.value);
     if (self.changedBlock)
     {
         self.changedBlock(SafeStr(_field.text));
