@@ -57,6 +57,15 @@
         make.size.mas_equalTo(CGSizeMake(W_SCALE(176), H_SCALE(22)));
     }];
     
+    UIImageView *im = [[UIImageView alloc] init];
+    im.image = [UIImage imageNamed:@"dev"];
+    [_baseview addSubview:im];
+    [im mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(namelab.mas_bottom).offset(3*Left_Gap);
+        make.centerX.mas_equalTo(_baseview);
+        make.size.mas_equalTo(CGSizeMake(W_SCALE(85), H_SCALE(30)));
+    }];
+    
     /*************************************************投影机名称*********************************************/
     
     _nameField = [UITextField new];
@@ -77,11 +86,13 @@
                             range:NSMakeRange(0, holderText1.length)];
     _nameField.attributedPlaceholder = placeholder1;
 //    ViewBorderRadius(_nameField, 5, 1, ColorHex(0xABBDD5 ));
+    ViewRadius(_nameField, 3);
     [_baseview addSubview:_nameField];
 
     [_nameField mas_makeConstraints:^(MASConstraintMaker *make) {
 //        make.top.mas_equalTo(namelab.mas_bottom).offset(top_Gap);
-        make.centerY.mas_equalTo(_baseview);
+//        make.centerY.mas_equalTo(_baseview);
+        make.top.mas_equalTo(im.mas_bottom).offset(2*Left_Gap);
         make.right.mas_equalTo(_baseview.mas_right).offset(-Left_Gap);
         make.left.mas_equalTo(_baseview.mas_left).offset(Left_Gap);
         make.height.mas_equalTo(lineH);
