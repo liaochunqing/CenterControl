@@ -37,9 +37,9 @@
     
     _ImageScaleArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"本征" forKey:@"Native"],
                              [NSDictionary dictionaryWithObject:@"填充" forKey:@"Fill"],
+                        [NSDictionary dictionaryWithObject:@"16_6" forKey:@"Scale16_6"],
                              [NSDictionary dictionaryWithObject:@"16_9" forKey:@"Scale16_9"],
                              [NSDictionary dictionaryWithObject:@"16_10" forKey:@"Scale16_10"],
-                             [NSDictionary dictionaryWithObject:@"16_6" forKey:@"Scale16_6"],
                              [NSDictionary dictionaryWithObject:@"4_3" forKey:@"Scale4_3"],
                              nil];
     _gammaAdjustArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"1_0" forKey:@"1_0"],
@@ -50,9 +50,10 @@
                              nil];
 
     _colorAdjustingArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"标准" forKey:@"Standard"],
-                            [NSDictionary dictionaryWithObject:@"自定义" forKey:@"Customize"],
                              [NSDictionary dictionaryWithObject:@"暖色" forKey:@"Warm"],
                              [NSDictionary dictionaryWithObject:@"冷色" forKey:@"Cool"],
+                            [NSDictionary dictionaryWithObject:@"自定义" forKey:@"Customize"],
+
                              nil];
 }
 

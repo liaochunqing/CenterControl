@@ -22,10 +22,10 @@
     
     _djmsDevArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"低功耗" forKey:@"LowPower"],
                              [NSDictionary dictionaryWithObject:@"联网" forKey:@"NetworkStandby"],
-                             [NSDictionary dictionaryWithObject:@"REC709" forKey:@"REC709"],
-                             [NSDictionary dictionaryWithObject:@"DICOM" forKey:@"DICOM"],
-                             [NSDictionary dictionaryWithObject:@"低延迟" forKey:@"LowLatency"],
-                             [NSDictionary dictionaryWithObject:@"自定义" forKey:@"Customize"],
+//                             [NSDictionary dictionaryWithObject:@"REC709" forKey:@"REC709"],
+//                             [NSDictionary dictionaryWithObject:@"DICOM" forKey:@"DICOM"],
+//                             [NSDictionary dictionaryWithObject:@"低延迟" forKey:@"LowLatency"],
+//                             [NSDictionary dictionaryWithObject:@"自定义" forKey:@"Customize"],
                              nil];
     
     _ghbmsArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"开" forKey:@"On"],
@@ -41,13 +41,14 @@
                              [NSDictionary dictionaryWithObject:@"5分钟" forKey:@"min5"],
                              [NSDictionary dictionaryWithObject:@"10分钟" forKey:@"min10"],
                              [NSDictionary dictionaryWithObject:@"15分钟" forKey:@"min15"],
-                             [NSDictionary dictionaryWithObject:@"15分钟" forKey:@"min30"],
+                             [NSDictionary dictionaryWithObject:@"30分钟" forKey:@"min30"],
                              nil];
 
     _yxmsArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"标准模式" forKey:@"Standard"],
-                            [NSDictionary dictionaryWithObject:@"自定义" forKey:@"Customize"],
                              [NSDictionary dictionaryWithObject:@"ECO1" forKey:@"ECO1"],
                              [NSDictionary dictionaryWithObject:@"ECO2" forKey:@"ECO2"],
+                  [NSDictionary dictionaryWithObject:@"自定义" forKey:@"Customize"],
+
                              nil];
     
     
