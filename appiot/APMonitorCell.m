@@ -58,7 +58,7 @@
     
     UILabel *namelab = [[UILabel alloc] init];
     [firtRow addSubview:namelab];
-    namelab.text = node.name;//@"投影机10086 展厅10086";
+    namelab.text = [NSString stringWithFormat:@"%@  %@",node.name,node.father?node.father.name:@""];//@"投影机10086 展厅10086";
     namelab.font = [UIFont systemFontOfSize:16];
     namelab.textColor = ColorHex(0xCCCCCC);
     [namelab mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -193,7 +193,7 @@
     //ip
     UILabel *iplab = [[UILabel alloc] init];
     [self.contentView addSubview:iplab];
-    iplab.text = [NSString stringWithFormat:@"IP:%@",node.ip];
+    iplab.text = [NSString stringWithFormat:@"IP : %@",node.ip];
     iplab.font = [UIFont systemFontOfSize:fontsize];
     iplab.textColor = detailColor;
     [iplab mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -206,7 +206,7 @@
     //信号源
     UILabel *singallab = [[UILabel alloc] init];
     [self.contentView addSubview:singallab];
-    singallab.text = [NSString stringWithFormat:@"信源:%@",node.signals];;
+    singallab.text = [NSString stringWithFormat:@"信源 : %@",node.signals];;
     singallab.font = [UIFont systemFontOfSize:fontsize];
     singallab.textColor = detailColor;
     [singallab mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -218,7 +218,7 @@
     //温度
     UILabel *templab = [[UILabel alloc] init];
     [self.contentView addSubview:templab];
-    templab.text = [NSString stringWithFormat:@"环境温度(°C):%@",node.temperature];;
+    templab.text = [NSString stringWithFormat:@"环境温度(°C) : %@",node.temperature];;
     templab.font = [UIFont systemFontOfSize:fontsize];
     templab.textColor = detailColor;
     [templab mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -231,7 +231,7 @@
     //ID
     UILabel *idlab = [[UILabel alloc] init];
     [self.contentView addSubview:idlab];
-    idlab.text = [NSString stringWithFormat:@"ID:%@",node.device_id.length?node.device_id:@"--"];;
+    idlab.text = [NSString stringWithFormat:@"ID : %@",node.device_id.length?node.device_id:@"--"];;
     idlab.font = [UIFont systemFontOfSize:fontsize];
     idlab.textColor = detailColor;
     [idlab mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -243,7 +243,7 @@
     //时间比
     UILabel *timelab = [[UILabel alloc] init];
     [self.contentView addSubview:timelab];
-    timelab.text = [NSString stringWithFormat:@"整机/光源时间(h):%@/%@",node.machine_running_time,node.light_running_time];//@"整机/光源时间（h）：1000000/56795";
+    timelab.text = [NSString stringWithFormat:@"整机/光源时间(h) : %@/%@",node.machine_running_time,node.light_running_time];//@"整机/光源时间（h）：1000000/56795";
     timelab.font = [UIFont systemFontOfSize:fontsize];
     timelab.textColor = detailColor;
     [timelab mas_makeConstraints:^(MASConstraintMaker *make) {

@@ -132,6 +132,9 @@
 
         APSetNumberItem *item = [[APSetNumberItem alloc] initWithFrame:rect];
         item.label.text = str;
+        
+        item.slider.minimumValue = 0;
+        item.slider.maximumValue = 199;
         [self addSubview:item];
         
         WS(weakSelf);

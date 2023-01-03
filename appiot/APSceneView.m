@@ -705,14 +705,16 @@
     if(sw.on==YES)
     {
 //     NSLog(@"开关被打开");
-        NSString *key = @"scene-shutter-On";
-        [self sendMssageToDev:key];
+        NSString *key = @"scene-shutter";
+//        [self sendMssageToDev:key];
+        [self sendMssageToDev:key value:@"On"];
     }
     else
     {
 //     NSLog(@"开关被关闭");
-        NSString *key = @"scene-shutter-Off";
-        [self sendMssageToDev:key];
+        NSString *key = @"scene-shutter";
+//        [self sendMssageToDev:key];
+        [self sendMssageToDev:key value:@"Off"];
     }
 }
 @end
