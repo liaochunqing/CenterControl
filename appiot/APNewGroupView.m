@@ -60,7 +60,7 @@
     
     UILabel *fenzuLab = [[UILabel alloc] init];
     [_baseview addSubview:fenzuLab];
-    fenzuLab.text = @"加入分组";
+    fenzuLab.text = @"  加入分组";
     fenzuLab.font = [UIFont systemFontOfSize:labelFontSize];
     fenzuLab.textColor = labelColor;
     [fenzuLab mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -111,9 +111,11 @@
     //投影机名字
     UILabel *devname = [[UILabel alloc] init];
     [_baseview addSubview:devname];
-    devname.text = @"新建分组名称";
+    devname.text = @"* 新建分组名称";
     devname.font = [UIFont systemFontOfSize:labelFontSize];
     devname.textColor = labelColor;
+    [[APTool shareInstance] fontColorLabel:devname FontNumber:[UIFont systemFontOfSize:labelFontSize] AndRange:NSMakeRange(0, 1) AndColor:[UIColor redColor]];
+
     [devname mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(fenzuLab.mas_bottom).offset(top_Gap);
         make.left.mas_equalTo(_baseview.mas_left).offset(Left_Gap);

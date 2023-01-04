@@ -274,12 +274,11 @@
 //    NSUInteger row = indexPath.row ;
     NSInteger newRow = [indexPath row];
 
-    NSInteger oldRow = (self .lastPath !=nil)?[self .lastPath row]:-1;
+    NSInteger oldRow = (self.lastPath !=nil)?[self.lastPath row]:-1;
+    UITableViewCell *newCell = [tableView cellForRowAtIndexPath:indexPath];
 
     if (newRow != oldRow)
     {
-        
-        UITableViewCell *newCell = [tableView cellForRowAtIndexPath:indexPath];
         
         newCell.accessoryType = UITableViewCellAccessoryCheckmark;
         
@@ -289,13 +288,22 @@
         
         self.lastPath = indexPath;
     }
+    else
+    {        
+        newCell.accessoryType = newCell.accessoryType == UITableViewCellAccessoryCheckmark?UITableViewCellAccessoryNone:UITableViewCellAccessoryCheckmark;
+    }
     //
-    if (tableView == _groupTableView)
+    if (newCell.accessoryType == UITableViewCellAccessoryCheckmark)
     {
         APGroupNote *node = _groupData[newRow];
         _movetoGroupNode.nodeId = node.nodeId;
         _moveBtn.enabled = YES;
         _moveBtn.backgroundColor = ColorHex(0x007AFF);
+    }
+    else if (newCell.accessoryType == UITableViewCellAccessoryNone)
+    {
+        _moveBtn.enabled = NO;
+        _moveBtn.backgroundColor = ColorHex(0xABBDD5);
     }
 }
 

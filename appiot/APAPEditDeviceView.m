@@ -66,7 +66,7 @@
     
     UILabel *fenzuLab = [[UILabel alloc] init];
     [_baseview addSubview:fenzuLab];
-    fenzuLab.text = @"投影机分组";
+    fenzuLab.text = @"  投影机分组";
     fenzuLab.font = [UIFont systemFontOfSize:labelFontSize];
     fenzuLab.textColor = labelColor;
     [fenzuLab mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -116,9 +116,11 @@
     //投影机名字
     UILabel *devname = [[UILabel alloc] init];
     [_baseview addSubview:devname];
-    devname.text = @"投影机名称";
+    devname.text = @"* 投影机名称";
     devname.font = [UIFont systemFontOfSize:labelFontSize];
     devname.textColor = labelColor;
+    [[APTool shareInstance] fontColorLabel:devname FontNumber:[UIFont systemFontOfSize:labelFontSize] AndRange:NSMakeRange(0, 1) AndColor:[UIColor redColor]];
+
     [devname mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(fenzuLab.mas_bottom).offset(top_Gap);
         make.left.mas_equalTo(_baseview.mas_left).offset(Left_Gap);
@@ -144,9 +146,11 @@
  /**************************************************机型*********************************************/
     UILabel *jixingLab = [[UILabel alloc] init];
     [_baseview addSubview:jixingLab];
-    jixingLab.text = @"机型";
+    jixingLab.text = @"* 机型";
     jixingLab.font = [UIFont systemFontOfSize:labelFontSize];
     jixingLab.textColor = labelColor;
+    [[APTool shareInstance] fontColorLabel:jixingLab FontNumber:[UIFont systemFontOfSize:labelFontSize] AndRange:NSMakeRange(0, 1) AndColor:[UIColor redColor]];
+
     [jixingLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(devname.mas_bottom).offset(top_Gap);
         make.left.mas_equalTo(_baseview.mas_left).offset(Left_Gap);
@@ -185,9 +189,11 @@
     /*************************************************投影机ID*********************************************/
     UILabel *devid = [[UILabel alloc] init];
     [_baseview addSubview:devid];
-    devid.text = @"投影机ID";
+    devid.text = @"* 投影机ID";
     devid.font = [UIFont systemFontOfSize:labelFontSize];
     devid.textColor = labelColor;
+    [[APTool shareInstance] fontColorLabel:devid FontNumber:[UIFont systemFontOfSize:labelFontSize] AndRange:NSMakeRange(0, 1) AndColor:[UIColor redColor]];
+
     [devid mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(jixingLab.mas_bottom).offset(top_Gap);
         make.left.mas_equalTo(_baseview.mas_left).offset(Left_Gap);
@@ -228,9 +234,11 @@
     /*************************接入协议**********************************/
     UILabel *protocolLab = [[UILabel alloc] init];
     [_baseview addSubview:protocolLab];
-    protocolLab.text = @"接入协议";
+    protocolLab.text = @"* 接入协议";
     protocolLab.font = [UIFont systemFontOfSize:labelFontSize];
     protocolLab.textColor = labelColor;
+    [[APTool shareInstance] fontColorLabel:protocolLab FontNumber:[UIFont systemFontOfSize:labelFontSize] AndRange:NSMakeRange(0, 1) AndColor:[UIColor redColor]];
+
     [protocolLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(netlab.mas_bottom).offset(top_Gap);
         make.left.mas_equalTo(_baseview.mas_left).offset(Left_Gap);
@@ -269,9 +277,11 @@
     /*************************IP**********************************/
     UILabel *iplab = [[UILabel alloc] init];
     [_baseview addSubview:iplab];
-    iplab.text = @"IP地址";
+    iplab.text = @"* IP地址";
     iplab.font = [UIFont systemFontOfSize:labelFontSize];
     iplab.textColor = labelColor;
+    [[APTool shareInstance] fontColorLabel:iplab FontNumber:[UIFont systemFontOfSize:labelFontSize] AndRange:NSMakeRange(0, 1) AndColor:[UIColor redColor]];
+
     [iplab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(protocolLab.mas_bottom).offset(top_Gap);
         make.left.mas_equalTo(_baseview.mas_left).offset(Left_Gap);
@@ -298,9 +308,11 @@
     /*************************端口**********************************/
     UILabel *portLab = [[UILabel alloc] init];
     [_baseview addSubview:portLab];
-    portLab.text = @"端口";
+    portLab.text = @"* 端口";
     portLab.font = [UIFont systemFontOfSize:labelFontSize];
     portLab.textColor = labelColor;
+    [[APTool shareInstance] fontColorLabel:portLab FontNumber:[UIFont systemFontOfSize:labelFontSize] AndRange:NSMakeRange(0, 1) AndColor:[UIColor redColor]];
+
     [portLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(iplab.mas_bottom).offset(top_Gap);
         make.left.mas_equalTo(_baseview.mas_left).offset(Left_Gap);

@@ -153,4 +153,26 @@
     }
     return dic;
 }
+
+//设置不同字体颜色
+
+-(void)fontColorLabel:(UILabel *)label FontNumber:(UIFont *)font AndRange:(NSRange)range AndColor:(UIColor *)vaColor
+
+{
+
+    NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:label.text];
+
+    //设置字号
+
+    [str addAttribute:NSFontAttributeName value:font range:range];
+
+    //设置文字颜色
+
+    [str addAttribute:NSForegroundColorAttributeName value:vaColor range:range];
+
+    label.attributedText = str;
+
+    
+
+}
 @end

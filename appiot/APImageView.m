@@ -37,13 +37,13 @@
     
     _ImageScaleArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"本征" forKey:@"Native"],
                              [NSDictionary dictionaryWithObject:@"填充" forKey:@"Fill"],
+                        [NSDictionary dictionaryWithObject:@"4_3" forKey:@"Scale4_3"],
                         [NSDictionary dictionaryWithObject:@"16_6" forKey:@"Scale16_6"],
                              [NSDictionary dictionaryWithObject:@"16_9" forKey:@"Scale16_9"],
                              [NSDictionary dictionaryWithObject:@"16_10" forKey:@"Scale16_10"],
-                             [NSDictionary dictionaryWithObject:@"4_3" forKey:@"Scale4_3"],
                              nil];
     _gammaAdjustArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"1_0" forKey:@"1_0"],
-                             [NSDictionary dictionaryWithObject:@"1.8" forKey:@"1.8"],
+                             [NSDictionary dictionaryWithObject:@"1_8" forKey:@"1_8"],
                              [NSDictionary dictionaryWithObject:@"2_0" forKey:@"2_0"],
                              [NSDictionary dictionaryWithObject:@"2_2" forKey:@"2_2"],
                              [NSDictionary dictionaryWithObject:@"2_6" forKey:@"2_6"],

@@ -35,6 +35,10 @@ NS_ASSUME_NONNULL_BEGIN
 -(void)setAlterviewMessageWith:(UIAlertController *)alert message:(NSString*)str color:(UIColor *)color;
 //UIAlertController 背景颜色设置
 -(void)setAlterviewBackgroundColor:(UIAlertController *)alert color:(UIColor*)color;
+
+
+//设置不同字体颜色
+-(void)fontColorLabel:(UILabel *)label FontNumber:(UIFont *)font AndRange:(NSRange)range AndColor:(UIColor *)vaColor;
 @end
 
 NS_ASSUME_NONNULL_END

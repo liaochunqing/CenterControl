@@ -83,8 +83,8 @@
                             [NSDictionary dictionaryWithObject:@"隐藏" forKey:@"Hide"],
                              nil];
 
-    _muteArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"静音关" forKey:@"Off"],
-                     [NSDictionary dictionaryWithObject:@"静音开" forKey:@"On"],
+    _muteArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"静音开" forKey:@"Mute"],
+                     [NSDictionary dictionaryWithObject:@"静音关" forKey:@"UnMute"],
                      nil];
 }
 
@@ -113,7 +113,7 @@
                              @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(436), top_Gap,w,h)],
     };
     NSDictionary *dict3 = @{@"string":@"通用",
-                             @"frame":[NSValue valueWithCGRect:CGRectMake(Left_Gap, H_SCALE(459), W_SCALE(797),h)],
+                             @"frame":[NSValue valueWithCGRect:CGRectMake(Left_Gap, H_SCALE(480), W_SCALE(797),h)],
     };
     
     NSArray *array = [NSArray arrayWithObjects:dict1, dict2, dict3,nil];
@@ -317,11 +317,17 @@
 //                             @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(15), H_SCALE(275), w,h)],
     };
     
-//    NSDictionary *dict6 = @{@"string":@"静音",
-//                            @"data":_muteArray?_muteArray:[NSArray array],
-//                            @"execcode":@"setup-mute2",
-//    };
-    NSArray *temp = [NSArray arrayWithObjects:dict1, dict2, dict3, dict4,dict5,nil];
+    NSDictionary *dict6 = @{@"string":@"静音",
+                            @"data":_muteArray?_muteArray:[NSArray array],
+                            @"execcode":@"setup-mute",
+    };
+    
+    NSDictionary *dict7 = @{@"string":@"音量",
+                            @"data":[NSArray array],
+                            @"execcode":@"setup-volume-down",
+    };
+    
+    NSArray *temp = [NSArray arrayWithObjects:dict1, dict2, dict3, dict4,dict5,dict6,dict7,nil];
     NSMutableArray *dataArray = [NSMutableArray array];
     
     if (_selectedDevArray.count == 0)
@@ -345,21 +351,6 @@
         }
     }
     
-    _muteArray = [NSMutableArray array];
-    
-//    UIView *baseview = [[UIView alloc] init];
-//    _menuBaseview = baseview;
-//    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(singleTapAction)];
-//    [baseview addGestureRecognizer:singleTap];
-//    [self addSubview:baseview];
-//    [baseview mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.mas_equalTo(self.mas_top).offset(W_SCALE(35)+2*top_Gap);
-//        make.left.mas_equalTo(self.mas_left).offset(W_SCALE(436)+Left_Gap);
-//        make.height.mas_equalTo(H_SCALE(399));
-//        make.width.mas_equalTo(W_SCALE(382));
-//    }];
-    
-    
     CGFloat w = W_SCALE(200);
     CGFloat h = H_SCALE(30);
     CGFloat h_gap = H_SCALE(30);
@@ -370,6 +361,49 @@
         
         NSString *str = dic[@"string"];
         __block NSArray* temparray = dic[@"data"]?dic[@"data"]:[NSArray array];
+        
+        //音量
+        if([dic[@"execcode"] isEqualToString:@"setup-volume-down"])
+        {
+            UILabel *lab = [[UILabel alloc] init];
+            [self addSubview:lab];
+            lab.text = str;
+            lab.font = [UIFont systemFontOfSize:16];
+            lab.textColor = ColorHex(0xA1A7C1);
+            [lab mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.mas_equalTo(self.mas_left).offset(W_SCALE(450)+Left_Gap);
+                make.top.mas_equalTo(self.mas_top).offset(W_SCALE(35)+3*top_Gap + (h+h_gap)*i);
+                make.height.mas_equalTo(H_SCALE(30));
+                make.width.mas_equalTo(W_SCALE(96));
+            }];
+            
+            UIButton *button = [[UIButton alloc] init];
+            ViewRadius(button, 3);
+            [button setBackgroundImage:[UIImage imageNamed:@"Group 11711"] forState:UIControlStateNormal];
+//            button.tag = i;
+            [button addTarget:self action:@selector(volumeBtnDownClick:) forControlEvents:UIControlEventTouchUpInside];
+            [self addSubview:button];
+            [button mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.mas_equalTo(lab.mas_right).offset(Left_Gap);
+                make.centerY.mas_equalTo(lab);
+                make.height.mas_equalTo(H_SCALE(40));
+                make.width.mas_equalTo(W_SCALE(40));
+            }];
+            
+            UIButton *button2 = [[UIButton alloc] init];
+            ViewRadius(button2, 3);
+            [button2 setBackgroundImage:[UIImage imageNamed:@"Group 11712"] forState:UIControlStateNormal];
+//            button2.tag = i;
+            [button2 addTarget:self action:@selector(volumeBtnUpClick:) forControlEvents:UIControlEventTouchUpInside];
+            [self addSubview:button2];
+            [button2 mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.mas_equalTo(button.mas_right).offset(Left_Gap);
+                make.centerY.mas_equalTo(lab);
+                make.height.mas_equalTo(H_SCALE(40));
+                make.width.mas_equalTo(W_SCALE(40));
+            }];
+            continue;
+        }
                 
         APChooseItem *item = [[APChooseItem alloc] init];
         [self addSubview:item];
@@ -440,7 +474,7 @@
     lab.textColor = ColorHex(0xA1A7C1);
     [lab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(baseview1.mas_left).offset(0);
-        make.top.mas_equalTo(baseview1.mas_top).offset(top_Gap);
+        make.top.mas_equalTo(baseview1.mas_top).offset(0);
         make.height.mas_equalTo(H_SCALE(25));
         make.width.mas_equalTo(W_SCALE(125));
     }];
@@ -555,6 +589,45 @@
         }
     }
 }
+
+
+-(void)sendMssageToDev:(NSString *)key
+{
+    for (APGroupNote *node in _selectedDevArray)
+    {
+        NSData* sendData = node.setupDict[key];
+        if (sendData == nil)
+            continue;
+
+        if ([@"tcp" compare:node.access_protocol options:NSCaseInsensitiveSearch |NSNumericSearch] ==NSOrderedSame)
+        {
+            NSLog(@"%@,ip=%@,port=%@,发送数据：%@",node.access_protocol,node.ip,node.port,sendData);
+
+            APTcpSocket *tcpManager;
+            if (node.tcpSocket == nil)
+            {
+                tcpManager = [APTcpSocket new];
+                node.tcpSocket = tcpManager;
+            }
+            node.tcpSocket.senddata = [NSData dataWithData:sendData];
+            node.tcpSocket.ip = node.ip;
+            node.tcpSocket.port = node.port.intValue;
+            [node.tcpSocket connectToHost];
+        }
+        else if ([@"udp" compare:node.access_protocol options:NSCaseInsensitiveSearch |NSNumericSearch] ==NSOrderedSame)
+        {
+            NSLog(@"%@,ip=%@,port=%@,发送数据：%@",node.access_protocol,node.ip,node.port,sendData);
+            NSString *sss = [[NSString alloc] initWithData:sendData encoding:NSUTF8StringEncoding];
+
+            APUdpSocket *udpManager = [APUdpSocket sharedInstance];
+            udpManager.host = node.ip;//@"255.255.255.255";
+            udpManager.port = [node.port intValue];
+            [udpManager createClientUdpSocket];
+            [udpManager sendMessage:sendData];
+        }
+    }
+}
+
 #pragma mark 对外接口
 -(void)setDefaultValue:(NSArray *)array
 {
@@ -597,4 +670,13 @@
     }
 }
 
+-(void)volumeBtnDownClick:(UIButton *)btn
+{
+    [self sendMssageToDev:@"setup-volume-down"];
+}
+
+-(void)volumeBtnUpClick:(UIButton *)btn
+{
+    [self sendMssageToDev:@"setup-volume-up"];
+}
 @end
