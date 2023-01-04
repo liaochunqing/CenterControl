@@ -11,11 +11,14 @@
 #define title_width W_SCALE(120)
 #define btn_height (H_SCALE(33))
 #define btn_width W_SCALE(100)
+#define menu_height W_SCALE(65)
+
 
 @implementation APInstallView
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         _selectedMenuIndex = 0;
+        _viewDict = [NSMutableDictionary dictionary];
         [self createUI];
     }
     return self;
@@ -72,7 +75,7 @@
         make.top.mas_equalTo(self.mas_top).offset(btn_height + top_Gap);
         make.left.mas_equalTo(self.mas_left).offset(0);
         make.right.mas_equalTo(self.mas_right).offset(0);
-        make.height.mas_equalTo(H_SCALE(65));
+        make.height.mas_equalTo(menu_height);
     }];
     
     
@@ -251,143 +254,186 @@
             }
 }
 
+-(id)getView:(NSString *)viewString
+{
+    APGroupNote *node = nil;
+    if(_sortData && _sortData.count)
+    {
+        NSArray * temp = _sortData[_selectedModelTag];
+        node = temp.count? temp[0]:nil;
+    }
+    NSString *key = [NSString stringWithFormat:@"%@+%@",viewString,node?node.model_id:@""];
+    UIView *view = _viewDict[key];
+    
+    return view;
+}
+
+-(void)sortView:(NSString *)viewString view:(id)view
+{
+    APGroupNote *node = nil;
+    if(_sortData && _sortData.count)
+    {
+        NSArray * temp = _sortData[_selectedModelTag];
+        node = temp.count? temp[0]:nil;
+    }
+    NSString *key = [NSString stringWithFormat:@"%@+%@",viewString,node?node.model_id:@""];
+//    UIView *view = _viewDict[key];
+    
+    [_viewDict setValue:view forKey:key];
+}
+
 -(void)createSceneView
 {
-    if (_sceneView)
+//    if (_sceneView)
+//    {
+//        [_sceneView removeFromSuperview];
+//        _sceneView = nil;
+//    }
+//    APGroupNote *node = nil;
+//    if(_sortData && _sortData.count)
+//    {
+//        NSArray * temp = _sortData[_selectedModelTag];
+//        node = temp.count? temp[0]:nil;
+//    }
+//    NSString *key = [NSString stringWithFormat:@"%@+%@",@"scene",node?node.model_id:@""];
+    APSceneView *view = [self getView:@"scene"];
+    
+    if(view == nil)
     {
-        [_sceneView removeFromSuperview];
-        _sceneView = nil;
+        view = [[APSceneView alloc] init];
+//        _sceneView = view;
+        [self addSubview:view];
+        [view mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(self.mas_top).offset(btn_height + top_Gap + menu_height);
+            make.left.mas_equalTo(self.mas_left).offset(0);
+            make.right.mas_equalTo(self.mas_right).offset(0);
+            make.bottom.mas_equalTo(self.mas_bottom).offset(0);
+        }];
+        
+//        [_viewDict setValue:view forKey:key];
+        [self sortView:@"scene" view:view];
+        if(view && _sortData && _sortData.count)
+        {
+            [view createTestView:_sortData[_selectedModelTag]];
+        }
     }
     
-    _sceneView = [[APSceneView alloc] init];
-    [self addSubview:_sceneView];
-    [_sceneView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(_menuView.mas_bottom).offset(0);
-        make.left.mas_equalTo(self.mas_left).offset(0);
-        make.right.mas_equalTo(self.mas_right).offset(0);
-        make.bottom.mas_equalTo(self.mas_bottom).offset(0);
-    }];
     
-    if(_sceneView && _sortData && _sortData.count)
-    {
-        [_sceneView createTestView:_sortData[_selectedModelTag]];
-    }
-    
-    [self bringSubviewToFront:_sceneView];
+    [self bringSubviewToFront:view];
 }
 
 
 
 -(void)createImageView
 {
-    if (_imageView)
+//    if (_imageView)
+//    {
+//        [_imageView removeFromSuperview];
+//        _imageView = nil;
+//    }
+    APImageView *view = [self getView:@"image"];
+    
+    if (view == nil)
     {
-        [_imageView removeFromSuperview];
-        _imageView = nil;
+        view = [[APImageView alloc] init];
+        [self addSubview:view];
+        [view mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(_menuView.mas_bottom).offset(0);
+            make.left.mas_equalTo(self.mas_left).offset(0);
+            make.right.mas_equalTo(self.mas_right).offset(0);
+            make.bottom.mas_equalTo(self.mas_bottom).offset(0);
+        }];
+        
+        [self sortView:@"image" view:view];
+
+        NSArray *array = _sortData.count > 0?_sortData[_selectedModelTag] : [NSArray array];
+        [view setDefaultValue:array];
     }
-    
-    _imageView = [[APImageView alloc] init];
-    [self addSubview:_imageView];
-    [_imageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(_menuView.mas_bottom).offset(0);
-        make.left.mas_equalTo(self.mas_left).offset(0);
-        make.right.mas_equalTo(self.mas_right).offset(0);
-        make.bottom.mas_equalTo(self.mas_bottom).offset(0);
-    }];
-    
-    NSArray *array = _sortData.count > 0?_sortData[_selectedModelTag] : [NSArray array];
-    [_imageView setDefaultValue:array];
-    [self bringSubviewToFront:_imageView];
+    [self bringSubviewToFront:view];
 
 }
 -(void)createColourView
 {
-    if (_colourView)
+//    if (_colourView)
+//    {
+//        [_colourView removeFromSuperview];
+//        _colourView = nil;
+//    }
+    APColourView *view = [self getView:@"colour"];
+    
+    if (view == nil)
     {
-        [_colourView removeFromSuperview];
-        _colourView = nil;
+        view = [[APColourView alloc] init];
+        [self addSubview:view];
+        [view mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(_menuView.mas_bottom).offset(0);
+            make.left.mas_equalTo(self.mas_left).offset(0);
+            make.right.mas_equalTo(self.mas_right).offset(0);
+            make.bottom.mas_equalTo(self.mas_bottom).offset(0);
+        }];
+        [self sortView:@"colour" view:view];
+
+        NSArray *array = _sortData.count > 0?_sortData[_selectedModelTag] : [NSArray array];
+        [view setDefaultValue:array];
     }
-    
-    _colourView = [[APColourView alloc] init];
-    [self addSubview:_colourView];
-    [_colourView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(_menuView.mas_bottom).offset(0);
-        make.left.mas_equalTo(self.mas_left).offset(0);
-        make.right.mas_equalTo(self.mas_right).offset(0);
-        make.bottom.mas_equalTo(self.mas_bottom).offset(0);
-    }];
-    
-    NSArray *array = _sortData.count > 0?_sortData[_selectedModelTag] : [NSArray array];
-    [_colourView setDefaultValue:array];
-    [self bringSubviewToFront:_colourView];
+    [self bringSubviewToFront:view];
 
 }
 
-//-(void)createConfigureView
-//{
-//    if (_configureView)
-//    {
-//        [_configureView removeFromSuperview];
-//        _configureView = nil;
-//    }
-//
-//    _configureView = [[APConfigureView alloc] init];
-//    [self addSubview:_configureView];
-//    [_configureView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.mas_equalTo(_menuView.mas_bottom).offset(0);
-//        make.left.mas_equalTo(self.mas_left).offset(0);
-//        make.right.mas_equalTo(self.mas_right).offset(0);
-//        make.bottom.mas_equalTo(self.mas_bottom).offset(0);
-//    }];
-//
-//    NSArray *array = _sortData.count > 0?_sortData[_selectedModelTag] : [NSArray array];
-//    [_configureView setDefaultValue:array];
-//    [self bringSubviewToFront:_configureView];
-//
-//}
+
 -(void)createConfigView
 {
-    if (_configView)
+//    if (_configView)
+//    {
+//        [_configView removeFromSuperview];
+//        _configView = nil;
+//    }
+    APConfigView *view = [self getView:@"install_config"];
+    
+    if (view == nil)
     {
-        [_configView removeFromSuperview];
-        _configView = nil;
+        view = [[APConfigView alloc] init];
+        [self addSubview:view];
+        [view mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(_menuView.mas_bottom).offset(0);
+            make.left.mas_equalTo(self.mas_left).offset(0);
+            make.right.mas_equalTo(self.mas_right).offset(0);
+            make.bottom.mas_equalTo(self.mas_bottom).offset(0);
+        }];
+        [self sortView:@"install_config" view:view];
+
+        NSArray *array = _sortData.count > 0?_sortData[_selectedModelTag] : [NSArray array];
+        [view setDefaultValue:array];
     }
-    
-    _configView = [[APConfigView alloc] init];
-    [self addSubview:_configView];
-    [_configView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(_menuView.mas_bottom).offset(0);
-        make.left.mas_equalTo(self.mas_left).offset(0);
-        make.right.mas_equalTo(self.mas_right).offset(0);
-        make.bottom.mas_equalTo(self.mas_bottom).offset(0);
-    }];
-    
-    NSArray *array = _sortData.count > 0?_sortData[_selectedModelTag] : [NSArray array];
-    [_configView setDefaultValue:array];
-    [self bringSubviewToFront:_configView];
+    [self bringSubviewToFront:view];
 
 }
 
 -(void)createSignalView
 {
-    if (_signalView)
+//    if (_signalView)
+//    {
+//        [_signalView removeFromSuperview];
+//        _signalView = nil;
+//    }
+    APSignalView *view = [self getView:@"signal"];
+    
+    if(view == nil)
     {
-        [_signalView removeFromSuperview];
-        _signalView = nil;
+        view = [[APSignalView alloc] init];
+        [self addSubview:view];
+        [view mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(_menuView.mas_bottom).offset(0);
+            make.left.mas_equalTo(self.mas_left).offset(0);
+            make.right.mas_equalTo(self.mas_right).offset(0);
+            make.bottom.mas_equalTo(self.mas_bottom).offset(0);
+        }];
+        [self sortView:@"signal" view:view];
+
+        NSArray *array = _sortData.count > 0?_sortData[_selectedModelTag] : [NSArray array];
+        [view setDefaultValue:array];
     }
-    
-    _signalView = [[APSignalView alloc] init];
-    [self addSubview:_signalView];
-    [_signalView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(_menuView.mas_bottom).offset(0);
-        make.left.mas_equalTo(self.mas_left).offset(0);
-        make.right.mas_equalTo(self.mas_right).offset(0);
-        make.bottom.mas_equalTo(self.mas_bottom).offset(0);
-    }];
-    
-    NSArray *array = _sortData.count > 0?_sortData[_selectedModelTag] : [NSArray array];
-    [_signalView setDefaultValue:array];
-    [self bringSubviewToFront:_signalView];
+    [self bringSubviewToFront:view];
 
 }
 
@@ -395,24 +441,30 @@
 
 -(void)createSetupView
 {
-    if (_setupView)
+//    if (_setupView)
+//    {
+//        [_setupView removeFromSuperview];
+//        _setupView = nil;
+//    }
+    
+    APSetupView *view = [self getView:@"setup"];
+    
+    if(view == nil)
     {
-        [_setupView removeFromSuperview];
-        _setupView = nil;
+        view = [[APSetupView alloc] init];
+        [self addSubview:view];
+        [view mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(_menuView.mas_bottom).offset(0);
+            make.left.mas_equalTo(self.mas_left).offset(0);
+            make.right.mas_equalTo(self.mas_right).offset(0);
+            make.bottom.mas_equalTo(self.mas_bottom).offset(0);
+        }];
+        [self sortView:@"setup" view:view];
+
+        NSArray *array = _sortData.count > 0?_sortData[_selectedModelTag] : [NSArray array];
+        [view setDefaultValue:array];
     }
-    
-    _setupView = [[APSetupView alloc] init];
-    [self addSubview:_setupView];
-    [_setupView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(_menuView.mas_bottom).offset(0);
-        make.left.mas_equalTo(self.mas_left).offset(0);
-        make.right.mas_equalTo(self.mas_right).offset(0);
-        make.bottom.mas_equalTo(self.mas_bottom).offset(0);
-    }];
-    
-    NSArray *array = _sortData.count > 0?_sortData[_selectedModelTag] : [NSArray array];
-    [_setupView setDefaultValue:array];
-    [self bringSubviewToFront:_setupView];
+    [self bringSubviewToFront:view];
 
 }
 

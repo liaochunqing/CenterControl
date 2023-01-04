@@ -24,18 +24,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic , strong) NSMutableArray *btnArray;
 @property (nonatomic , strong) NSMutableArray *menuBtnArray;
+@property (nonatomic , strong) NSMutableDictionary *viewDict;
 
 @property (nonatomic)int selectedModelTag;//被选中按钮的机型（modelid）
 @property (nonatomic)int selectedMenuIndex;//被选中菜单（）
 
 
-@property(nonatomic,strong)APSceneView *sceneView;
-@property(nonatomic,strong)APConfigureView *configureView;
-@property(nonatomic,strong)APImageView *imageView;
-@property(nonatomic,strong)APColourView *colourView;
-@property(nonatomic,strong)APSignalView *signalView;
-@property(nonatomic,strong)APSetupView *setupView;
-@property(nonatomic,strong)APConfigView *configView;
+//@property(nonatomic,strong)APSceneView *sceneView;
+//@property(nonatomic,strong)APConfigureView *configureView;
+//@property(nonatomic,strong)APImageView *imageView;
+//@property(nonatomic,strong)APColourView *colourView;
+//@property(nonatomic,strong)APSignalView *signalView;
+//@property(nonatomic,strong)APSetupView *setupView;
+//@property(nonatomic,strong)APConfigView *configView;
 
 
 @property(nonatomic,strong)UIScrollView *baseView;

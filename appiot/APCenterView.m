@@ -100,7 +100,6 @@
             
             if(i == 0)//默认选中第一个
             {
-//                [button setSelected:YES];
                 [button sendActionsForControlEvents:UIControlEventTouchUpInside];//代码点击
             }
             
@@ -121,24 +120,6 @@
     else
     {
         [self bringSubviewToFront:self.commandView];
-    }
-}
-
--(void)creatCenterChuangeView
-{
-    if(self.centerChangeView == nil)
-    {
-        CGFloat x = 0;
-        CGFloat y = Center_Top_Gap + Center_Btn_Heigth + top_Gap;
-        CGFloat w = Center_View_Width;
-        CGFloat h = SCREEN_HEIGHT - y;
-        self.centerChangeView  = [[UIView alloc] initWithFrame:CGRectMake(x, y, w, h)];
-        self.centerChangeView.backgroundColor = ColorHex(0x161635);
-        [self addSubview:self.centerChangeView];
-    }
-    else
-    {
-        [self bringSubviewToFront:self.centerChangeView];
     }
 }
 
@@ -208,7 +189,6 @@
                 break;
             case 2://按钮“”
             {
-                [self creatCenterChuangeView];
             }
                 break;
                 
