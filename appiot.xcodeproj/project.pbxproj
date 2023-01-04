@@ -24,6 +24,7 @@
 		C63C82462925DD1200DBB3F6 /* APGroupTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = C63C82452925DD1200DBB3F6 /* APGroupTableView.m */; };
 		C63C82492925FF5500DBB3F6 /* APGroupCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C63C82482925FF5500DBB3F6 /* APGroupCell.m */; };
 		C68F7A9E295EC4A40021C689 /* APRenameView.m in Sources */ = {isa = PBXBuildFile; fileRef = C68F7A9D295EC4A40021C689 /* APRenameView.m */; };
+		C68F7AA129656C2B0021C689 /* APRenameGroupView.m in Sources */ = {isa = PBXBuildFile; fileRef = C68F7AA029656C2B0021C689 /* APRenameGroupView.m */; };
 		C6C52849291B7DCF003F24C1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C6C52848291B7DCF003F24C1 /* AppDelegate.m */; };
 		C6C52855291B7DCF003F24C1 /* appiot.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C6C52853291B7DCF003F24C1 /* appiot.xcdatamodeld */; };
 		C6C52857291B7DD1003F24C1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C6C52856291B7DD1003F24C1 /* Assets.xcassets */; };
@@ -121,6 +122,8 @@
 		C63C82482925FF5500DBB3F6 /* APGroupCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APGroupCell.m; sourceTree = "<group>"; };
 		C68F7A9C295EC4A40021C689 /* APRenameView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APRenameView.h; sourceTree = "<group>"; };
 		C68F7A9D295EC4A40021C689 /* APRenameView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APRenameView.m; sourceTree = "<group>"; };
+		C68F7A9F29656C2B0021C689 /* APRenameGroupView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APRenameGroupView.h; sourceTree = "<group>"; };
+		C68F7AA029656C2B0021C689 /* APRenameGroupView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APRenameGroupView.m; sourceTree = "<group>"; };
 		C6C52844291B7DCF003F24C1 /* appiot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = appiot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6C52847291B7DCF003F24C1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		C6C52848291B7DCF003F24C1 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -384,6 +387,8 @@
 				C6D010EE2941E399003674C9 /* APNewGroupView.m */,
 				C68F7A9C295EC4A40021C689 /* APRenameView.h */,
 				C68F7A9D295EC4A40021C689 /* APRenameView.m */,
+				C68F7A9F29656C2B0021C689 /* APRenameGroupView.h */,
+				C68F7AA029656C2B0021C689 /* APRenameGroupView.m */,
 				C6D010F0294303C7003674C9 /* APMoveDevAndGroupView.h */,
 				C6D010F1294303C7003674C9 /* APMoveDevAndGroupView.m */,
 				C6D010F32946B96D003674C9 /* APVersionView.h */,
@@ -721,6 +726,7 @@
 				C6D0110829499D69003674C9 /* APAdjustButton.m in Sources */,
 				C6D010DE293DCB61003674C9 /* APDevModel.m in Sources */,
 				C6C52849291B7DCF003F24C1 /* AppDelegate.m in Sources */,
+				C68F7AA129656C2B0021C689 /* APRenameGroupView.m in Sources */,
 				C63306C8293059DF0057DA83 /* APDatabaseTool.m in Sources */,
 				C6D010D9293D855E003674C9 /* APNewDeviceView.m in Sources */,
 				C6ED8A42294DAD5400C98D7B /* APSetupView.m in Sources */,

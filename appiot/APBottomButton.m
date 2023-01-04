@@ -41,7 +41,7 @@
     [self.lab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(self);
         make.bottom.mas_equalTo(self.mas_bottom).offset(-5);
-        make.size.mas_equalTo(CGSizeMake(50, 22));
+        make.size.mas_equalTo(CGSizeMake(120, 22));
     }];
 }
 

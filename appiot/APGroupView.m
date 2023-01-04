@@ -454,13 +454,20 @@
     }
     
     NSMutableArray *array = [NSMutableArray array];
-
+    int groupNumber = 0;
+    int devNumber = 0;
+    for (APGroupNote *node in selectedArr)
+    {
+        node.isDevice == YES ? devNumber++ : groupNumber++;
+    }
     
-    if ((self.bottomView.tag == 2 && selectedArr.count == 1)
-        || selectedArr.count == 0)
+//    if ((self.bottomView.tag == 2 && selectedArr.count == 1)
+//        || selectedArr.count == 0)
+    if((devNumber == 1 && groupNumber == 0)||
+       (devNumber == 0 && groupNumber == 0))
     {
         
-        self.bottomView.tag = 4;
+//        self.bottomView.tag = 4;
         for (UIView *subview in self.bottomView.subviews)
         {
             [subview removeFromSuperview];
@@ -484,14 +491,14 @@
         [array addObject:dict1];
         [array addObject:dict4];
     }
-    else if ((self.bottomView.tag == 2 && selectedArr.count != 1)
-             || (self.bottomView.tag == 4 && selectedArr.count == 1))
-    {
-        return;
-    }
+//    else if ((self.bottomView.tag == 2 && selectedArr.count != 1)
+//             || (self.bottomView.tag == 4 && selectedArr.count == 1))
+//    {
+//        return;
+//    }
     else
     {
-        self.bottomView.tag = 2;
+//        self.bottomView.tag = 2;
         for (UIView *subview in self.bottomView.subviews)
         {
             [subview removeFromSuperview];
@@ -504,8 +511,18 @@
                                @"imageName":@"Group 11532",
         };
         
+        NSDictionary *dict4 = @{@"string":@"重命名分组",
+                               @"imageName":@"Group 11531",
+        };
+        
         [array addObject:dict3];
         [array addObject:dict2];
+        
+        
+        if (groupNumber == 1)
+        {
+            [array addObject:dict4];
+        }
     }
     
     CGFloat btnW = W_SCALE(50);
@@ -523,7 +540,12 @@
         }
         NSString *str = dic[@"string"];
         NSString *strImage = dic[@"imageName"];
-        APBottomButton *button = [[APBottomButton alloc] initWithFrame:CGRectMake(x, (Bottom_View_Height-btnH)/2, btnW, btnH)];
+        CGFloat w = btnW;
+        if ([str isEqualToString:@"重命名分组"])
+        {
+            w = btnW+W_SCALE(15);
+        }
+        APBottomButton *button = [[APBottomButton alloc] initWithFrame:CGRectMake(x, (Bottom_View_Height-btnH)/2, w, btnH)];
 //        [button setBackgroundImage:[self imageWithColor:ColorHex(0x7877A9)] forState:UIControlStateHighlighted];
 //        button.backgroundColor = [UIColor redColor];
         [self.bottomView addSubview:button];
@@ -1376,6 +1398,60 @@
             //取消按钮
             [_renameView setCancelBtnClickBlock:^(BOOL index) {
                 [weakSelf.renameView removeFromSuperview];
+                weakSelf.floatButton.hidden = NO;
+            }];
+            
+            self.floatButton.hidden = YES;
+        }
+        
+    }
+    else if ([@"重命名分组" isEqualToString:string])//重命名分组
+    {
+        NSArray *temp = [self getSelectedDevAndGroup];
+        
+        if(temp.count == 0)
+        {
+            NSString *t = @"提示";
+            NSString *m = @"未选中";
+            UIAlertController  *alert = [UIAlertController alertControllerWithTitle:t message:m preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *action2= [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+            }];
+            [alert addAction:action2];
+            AppDelegate *appDelegate = kAppDelegate;
+            UIViewController *vc = appDelegate.mainVC;
+            [vc presentViewController:alert animated:YES completion:nil];
+        }
+        else
+        {
+            APGroupNote *tempNode = [APGroupNote new];
+            for (APGroupNote *node in temp)
+            {
+                if(node.isDevice == NO)
+                {
+                    tempNode = node;
+                }
+            }
+            
+            [_renameGroupView removeFromSuperview];
+            _renameGroupView = nil;
+            _renameGroupView = [[APRenameGroupView alloc] init];
+            AppDelegate *appDelegate = kAppDelegate;
+            UIViewController *vc = appDelegate.mainVC;
+            [vc.view addSubview:_renameGroupView];
+            [vc.view bringSubviewToFront:_renameGroupView];
+            [_renameGroupView setDefaultValue:tempNode];
+            
+            //ok按钮
+            WS(weakSelf);
+            [_renameGroupView setOkBtnClickBlock:^(BOOL index) {
+                [weakSelf.renameGroupView removeFromSuperview];
+                weakSelf.floatButton.hidden = NO;
+                [weakSelf refreshTable];
+                
+            }];
+            //取消按钮
+            [_renameGroupView setCancelBtnClickBlock:^(BOOL index) {
+                [weakSelf.renameGroupView removeFromSuperview];
                 weakSelf.floatButton.hidden = NO;
             }];
             

@@ -18,6 +18,7 @@
 #import "APNewGroupView.h"
 #import "APMoveDevAndGroupView.h"
 #import "APRenameView.h"
+#import "APRenameGroupView.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -49,6 +50,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,strong)APAPEditDeviceView *editDevView;
 @property(nonatomic,strong)APMoveDevAndGroupView *moveView;
 @property(nonatomic,strong)APRenameView *renameView;
+@property(nonatomic,strong)APRenameGroupView *renameGroupView;
 
 -(NSArray *)getSelectedDevice;
 -(void)refreshTable;
