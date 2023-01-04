@@ -543,7 +543,7 @@
         CGFloat w = btnW;
         if ([str isEqualToString:@"重命名分组"])
         {
-            w = btnW+W_SCALE(15);
+            w = btnW+W_SCALE(20);
         }
         APBottomButton *button = [[APBottomButton alloc] initWithFrame:CGRectMake(x, (Bottom_View_Height-btnH)/2, w, btnH)];
 //        [button setBackgroundImage:[self imageWithColor:ColorHex(0x7877A9)] forState:UIControlStateHighlighted];
