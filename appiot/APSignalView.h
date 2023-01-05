@@ -19,11 +19,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,strong)NSMutableArray *xhxzArray;//
 @property(nonatomic,strong)NSMutableArray *kbpArray;//
 @property(nonatomic,strong)NSMutableArray *zdssArray;//
-
 @property (nonatomic,strong)NSMutableArray *itemArray;//
-
-
 @property(nonatomic,strong)NSMutableArray *yxmsArray;//
+
+//VGA
+@property(nonatomic,strong)NSMutableArray *VGAitemArray;//储存器
+
 
 //3d设置
 @property (nonatomic,strong)NSMutableArray *moshiArray;//
@@ -36,6 +37,8 @@ NS_ASSUME_NONNULL_BEGIN
 //hdmi
 @property(nonatomic,strong)NSMutableArray *cskjArray;//
 @property(nonatomic,strong)NSMutableArray *xhdpfwArray;//
+@property(nonatomic,strong)NSMutableArray *HDMIitemArray;//储存器
+
 @end
 
 NS_ASSUME_NONNULL_END

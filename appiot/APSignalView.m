@@ -285,12 +285,72 @@
                 NSString *temp = [dict allValues][0];
                 if ([str isEqualToString:temp])
                 {
-                    NSString *value = [dict allKeys][0];
-                    [weakSelf sendDataToDevice:code value:value];
-                    break;;
+                    APGroupNote *node = weakSelf.selectedDevArray[0];
+                    if ([node.model_id isEqualToString:@"88"]
+                        || [node.model_id isEqualToString:@"86"]
+                        || [node.model_id isEqualToString:@"46"])
+                    {
+                        NSString *key = [NSString stringWithFormat:@"%@-%@",code,str];
+                        [weakSelf sendDataToDevice:key];
+                    }
+                    else
+                    {
+                        NSString *value = [dict allKeys][0];
+                        [weakSelf sendDataToDevice:code value:value];
+                    }
+                    
+                    [weakSelf setVGAEnable:code value:str];
+                    [weakSelf enableHDMI:code value:str];
+                    break;
                 }
             }
         }];
+    }
+}
+
+-(BOOL)enableHDMI:(NSString *)code value:(NSString *)value
+{
+    if ([code isEqualToString:@"signal-Source select"] )
+    {
+        if ( [value containsString:@"HDMI"])
+        {
+            [self createHDMI];
+            return YES;
+        }
+        else
+        {
+            for (APRadioItem *item in _HDMIitemArray) {
+                [item removeFromSuperview];
+            }
+        }
+    }
+    
+    return NO;
+}
+
+-(void)setVGAEnable:(NSString *)code value:(NSString *)value
+{
+    if ([code isEqualToString:@"signal-Source select"] )
+    {
+        if ( [value containsString:@"RGB"] ||  [value containsString:@"VGA"])
+        {
+            for (APSetNumberItem *item in self.VGAitemArray)
+            {
+                item.field.enabled = YES;
+                item.slider.enabled = YES;
+                item.slider.thumbTintColor = [UIColor whiteColor];
+            }
+            
+        }
+        else
+        {
+            for (APSetNumberItem *item in self.VGAitemArray)
+            {
+                item.field.enabled = NO;
+                item.slider.enabled = NO;
+                item.slider.thumbTintColor = [UIColor grayColor];
+            }
+        }
     }
 }
 
@@ -347,6 +407,7 @@
         }
     }
     
+    _VGAitemArray = [NSMutableArray array];
     for (int i = 0; i < dataArray.count; i++)
     {
         NSDictionary *dic = dataArray[i];
@@ -359,7 +420,11 @@
         APSetNumberItem *item = [[APSetNumberItem alloc] init];
         item.label.text = str;
         item.label.font = [UIFont systemFontOfSize:13.5];
+        item.field.enabled = NO;
+        item.slider.enabled = NO;
+        item.slider.thumbTintColor = [UIColor grayColor];
         [self addSubview:item];
+        [_VGAitemArray addObject:item];
         [item mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.mas_top).offset(Titleview_y + Titleview_h + top_Gap + (h+h_gap)*i);
             make.left.mas_equalTo(self.mas_left).offset(Left_Gap);
@@ -524,7 +589,9 @@
             }
         }
         
-        
+    
+    _HDMIitemArray = [NSMutableArray array];
+    
         CGFloat w = W_SCALE(200);
         CGFloat h = H_SCALE(30);
         CGFloat h_gap = H_SCALE(20);
@@ -537,8 +604,10 @@
             __block NSArray* temparray = dic[@"data"]?dic[@"data"]:[NSArray array];
                     
             APRadioItem *item = [[APRadioItem alloc] init];
+            
             [self addSubview:item];
-//            [_itemArray addObject:item];
+            
+            [_HDMIitemArray addObject:item];
 //            item.label.text = str;
             if(str.length >= 6)
             {
@@ -579,6 +648,50 @@
         }
 }
 
+-(void)sendDataToDevice:(NSString *)key
+{
+    if (_selectedDevArray && _selectedDevArray.count)
+    {
+        for (APGroupNote *node in _selectedDevArray)
+        {
+            NSData* sendData = node.signalDict[key];
+            
+            if (sendData == nil)
+                continue;
+            
+            if ([@"tcp" compare:node.access_protocol options:NSCaseInsensitiveSearch |NSNumericSearch] ==NSOrderedSame)
+            {
+                NSLog(@"%@,ip=%@,port=%@,发送数据：%@",node.access_protocol,node.ip,node.port,sendData);
+
+//                APTcpSocket *tcpManager = [APTcpSocket shareManager];
+//                [tcpManager connectToHost:node.ip Port:[node.port intValue]];
+//                [tcpManager sendData:filanData];
+                
+                APTcpSocket *tcpManager;
+                if (node.tcpSocket == nil)
+                {
+                    tcpManager = [APTcpSocket new];
+                    node.tcpSocket = tcpManager;
+                }
+                node.tcpSocket.senddata = [NSData dataWithData:sendData];
+                node.tcpSocket.ip = node.ip;
+                node.tcpSocket.port = node.port.intValue;
+                [node.tcpSocket connectToHost];
+            }
+            else if ([@"udp" compare:node.access_protocol options:NSCaseInsensitiveSearch |NSNumericSearch] ==NSOrderedSame)
+            {
+                NSLog(@"%@,ip=%@,port=%@,发送数据：%@",node.access_protocol,node.ip,node.port,sendData);
+                NSString *sss = [[NSString alloc] initWithData:sendData encoding:NSUTF8StringEncoding];
+
+                APUdpSocket *udpManager = [APUdpSocket sharedInstance];
+                udpManager.host = node.ip;//@"255.255.255.255";
+                udpManager.port = [node.port intValue];
+                [udpManager createClientUdpSocket];
+                [udpManager sendMessage:sendData];
+            }
+        }
+    }
+}
 -(void)sendDataToDevice:(NSString *)key value:(NSString *)value
 {
     if (_selectedDevArray && _selectedDevArray.count)
@@ -654,7 +767,7 @@
             [self createTopItem];
             [self createVGA];
             [self create3D];
-            [self createHDMI];
+//            [self createHDMI];
         }
     }
 }

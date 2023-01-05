@@ -32,7 +32,7 @@ typedef void(^SocketDidConnected)(NSString *message);
 /*
  *初始化方法
  */
-+ (APTcpSocket *)shareManager;
+//+ (APTcpSocket *)shareManager;
 
 /*
  *连接服务/主机的方法

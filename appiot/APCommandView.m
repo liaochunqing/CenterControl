@@ -55,16 +55,16 @@
 
     if (_data.count)
     {
-        APTcpSocket *tcpManager = [APTcpSocket shareManager];
-        if (tcpManager.socketDict)
-            for (NSString *key in tcpManager.socketDict)
-            {
-                GCDAsyncSocket *sk = tcpManager.socketDict[key];
-                if (sk && sk.isConnected)
-                {
-                    [sk disconnect];
-                }
-            }
+//        APTcpSocket *tcpManager = [APTcpSocket shareManager];
+//        if (tcpManager.socketDict)
+//            for (NSString *key in tcpManager.socketDict)
+//            {
+//                GCDAsyncSocket *sk = tcpManager.socketDict[key];
+//                if (sk && sk.isConnected)
+//                {
+//                    [sk disconnect];
+//                }
+//            }
     }
 }
 

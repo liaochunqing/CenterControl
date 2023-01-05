@@ -22,6 +22,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,strong)NSMutableArray *gammaAdjustArray;//gamma调节
 @property(nonatomic,strong)NSMutableArray *colorAdjustingArray;//色温调节
 
+@property(nonatomic,strong)NSMutableArray *itemArray;//储存器
+
 -(void)setDefaultValue:(NSArray *)array;
 @end
 

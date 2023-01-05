@@ -11,15 +11,15 @@ static APTcpSocket *shareManager = nil;
 
 
 @implementation APTcpSocket
-#pragma mark 伪单例模式
-+ (APTcpSocket *)shareManager
-{
-    static dispatch_once_t onecToken;
-    dispatch_once(&onecToken, ^{
-        shareManager = [[APTcpSocket alloc] init];
-    });
-    return shareManager;
-}
+//#pragma mark 伪单例模式
+//+ (APTcpSocket *)shareManager
+//{
+//    static dispatch_once_t onecToken;
+//    dispatch_once(&onecToken, ^{
+//        shareManager = [[APTcpSocket alloc] init];
+//    });
+//    return shareManager;
+//}
 
 //从缓存获取已经连接的socket
 -(void)getSocketFromCashWith:(NSString *)host port:(NSUInteger)port

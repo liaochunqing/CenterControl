@@ -36,6 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,strong)UIView *menuBaseview;
 @property (nonatomic,strong)UIView *usallyTitleview;
 
+@property (nonatomic,strong)APSetNumberItem *customizeItem;
 @end
 
 NS_ASSUME_NONNULL_END

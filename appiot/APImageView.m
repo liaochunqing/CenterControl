@@ -117,7 +117,7 @@
                              @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(15), H_SCALE(395)+(h+h_gap)*2, w,h)],
     };
     
-    
+    _itemArray = [NSMutableArray array];
     NSArray *array = [NSArray arrayWithObjects:dict1, dict2, dict3, dict4,dict5,dict6,dict7,nil];
     for (int i = 0; i < array.count; i++)
     {
@@ -136,11 +136,20 @@
         item.slider.minimumValue = 0;
         item.slider.maximumValue = 199;
         [self addSubview:item];
-        
+        [_itemArray addObject:item];
         WS(weakSelf);
         [item setChangedBlock:^(NSString * _Nonnull str) {
             [weakSelf sendDataToDevice:code value:str];
         }];
+        
+        if([str isEqualToString:@"红色增益"]
+           || [str isEqualToString:@"绿色增益"]
+           || [str isEqualToString:@"蓝色增益"])
+        {
+            item.field.enabled = NO;
+            item.slider.enabled = NO;
+            item.slider.thumbTintColor = [UIColor grayColor];
+        }
     }
 }
 
@@ -219,11 +228,49 @@
                 {
                     NSString *value = [dict allKeys][0];
                     [weakSelf sendDataToDevice:code value:value];
-                    break;;
+                    [weakSelf setItemEnable:code value:value];
+                    break;
                 }
             }
         }];
 
+    }
+}
+
+-(void)setItemEnable:(NSString *)code value:(NSString *)value
+{
+    if ([code isEqualToString:@"image-colorAdjusting"] )
+    {
+        if ( [value isEqualToString:@"Customize"])
+        {
+            for (APSetNumberItem *item in self.itemArray)
+            {
+                if([item.label.text isEqualToString:@"红色增益"]
+                   || [item.label.text isEqualToString:@"绿色增益"]
+                   || [item.label.text isEqualToString:@"蓝色增益"])
+                {
+                    item.field.enabled = YES;
+                    item.slider.enabled = YES;
+                    item.slider.thumbTintColor = [UIColor whiteColor];
+                }
+                
+            }
+            
+        }
+        else
+        {
+            for (APSetNumberItem *item in self.itemArray)
+            {
+                if([item.label.text isEqualToString:@"红色增益"]
+                   || [item.label.text isEqualToString:@"绿色增益"]
+                   || [item.label.text isEqualToString:@"蓝色增益"])
+                {
+                    item.field.enabled = NO;
+                    item.slider.enabled = NO;
+                    item.slider.thumbTintColor = [UIColor grayColor];
+                }
+            }
+        }
     }
 }
 

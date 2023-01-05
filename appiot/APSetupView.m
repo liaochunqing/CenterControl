@@ -252,10 +252,12 @@
         
         if(i == dataArray.count -1)
         {
-            APSetNumberItem *ci = [[APSetNumberItem alloc] init];
-            [self addSubview:ci];
-            ci.label.text = @"自定义";
-            [ci mas_makeConstraints:^(MASConstraintMaker *make) {
+            _customizeItem = [[APSetNumberItem alloc] init];
+            [self addSubview:_customizeItem];
+            _customizeItem.label.text = @"自定义";
+            _customizeItem.slider.enabled = NO;
+            _customizeItem.field.enabled = NO;
+            [_customizeItem mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.mas_equalTo(self.mas_left).offset(Left_Gap);
                 make.top .mas_equalTo(self.mas_top).offset(W_SCALE(35)+3*top_Gap + (h+h_gap)*(i+1));
                 make.size.mas_equalTo(CGSizeMake(W_SCALE(365), H_SCALE(30)));
@@ -280,6 +282,21 @@
                 {
                     NSString *value = [dict allKeys][0];
                     [weakSelf sendDataToDevice:code value:value];
+                    if ([code isEqualToString:@"setup-running mode"] )
+                    {
+                        if ( [value isEqualToString:@"Customize"])
+                        {
+                            weakSelf.customizeItem.field.enabled = YES;
+                            weakSelf.customizeItem.slider.enabled = YES;
+                            weakSelf.customizeItem.slider.thumbTintColor = [UIColor whiteColor];
+                        }
+                        else
+                        {
+                            weakSelf.customizeItem.field.enabled = NO;
+                            weakSelf.customizeItem.slider.enabled = NO;
+                            weakSelf.customizeItem.slider.thumbTintColor = [UIColor grayColor];
+                        }
+                    }
                     break;;
                 }
             }
