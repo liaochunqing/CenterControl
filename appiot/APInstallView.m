@@ -17,8 +17,8 @@
 @implementation APInstallView
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
-        _selectedMenuIndex = 0;
-        _viewDict = [NSMutableDictionary dictionary];
+//        _selectedMenuIndex = 0;
+//        _viewDict = [NSMutableDictionary dictionary];
         [self createUI];
     }
     return self;
@@ -69,6 +69,8 @@
     }
     
     _menuView = [UIView new];
+    _selectedMenuIndex = 0;
+    _viewDict = [NSMutableDictionary dictionary];
 
     [self addSubview:_menuView];
     [_menuView mas_makeConstraints:^(MASConstraintMaker *make) {

@@ -123,8 +123,11 @@
         _tableView = nil;
     }
     
-    NSString *name = _tableView?@"Vector(1)" : @"Vector(2)";
-    _expendIm.image = [UIImage imageNamed:name];
+    if (_dataArray && _dataArray.count > 0)
+    {
+        NSString *name = _tableView?@"Vector(1)" : @"Vector(2)";
+        _expendIm.image = [UIImage imageNamed:name];
+    }
 }
 
 #pragma mark 对外接口
