@@ -59,11 +59,11 @@
 //
     
     _hmblArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"本征" forKey:@"Native"],
-                  [NSDictionary dictionaryWithObject:@"填充" forKey:@"Fill"],
-                  [NSDictionary dictionaryWithObject:@"16_9" forKey:@"Scale16_9"],
-                  [NSDictionary dictionaryWithObject:@"16_10" forKey:@"Scale16_10"],
-                  [NSDictionary dictionaryWithObject:@"16_6" forKey:@"Scale16_6"],
-                  [NSDictionary dictionaryWithObject:@"4_3" forKey:@"Scale4_3"],
+//                  [NSDictionary dictionaryWithObject:@"填充" forKey:@"Fill"],
+                  [NSDictionary dictionaryWithObject:@"4_3" forKey:@"4_3"],
+                  [NSDictionary dictionaryWithObject:@"16_6" forKey:@"16_6"],
+                  [NSDictionary dictionaryWithObject:@"16_9" forKey:@"16_9"],
+                  [NSDictionary dictionaryWithObject:@"16_10" forKey:@"16_10"],
                   nil];
     
     _azfsArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"吊顶背投" forKey:@"CeilingRear"],
