@@ -21,56 +21,96 @@
 }
 
 
+-(NSArray *)resolveValue:(NSString *)parameter_value
+{
+    NSMutableArray *returnArray = [NSMutableArray array];
+
+    NSString* pattern=@"(?<=,value:\"\\{)(.*?)(?=\\}\")";
+    NSRegularExpression *regex = [NSRegularExpression
+                                      regularExpressionWithPattern:pattern
+                                      options:NSRegularExpressionCaseInsensitive error:nil];
+
+
+    NSArray *match = [regex matchesInString:parameter_value options:0 range:NSMakeRange(0, parameter_value.length)];
+    for (NSTextCheckingResult* b in match)
+    {
+        NSRange resultRange = [b rangeAtIndex:0];
+        //从urlString当中截取数据
+        NSString *result=[parameter_value substringWithRange:resultRange];
+        if (result)
+        {
+            NSArray *tempArr = [result componentsSeparatedByString:@","];
+            for (NSString *str  in tempArr)
+            {
+                NSArray *tempArr = [str componentsSeparatedByString:@":"];
+                if(tempArr.count > 1)
+                {
+                    NSString *first = [tempArr firstObject];
+                    
+                    first = [first stringByReplacingOccurrencesOfString:@"\"" withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [first length])];
+                    
+                    NSString *last = [tempArr lastObject];
+                    last = [last stringByReplacingOccurrencesOfString:@"\"" withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [last length])];
+
+                    NSDictionary *dict = [NSDictionary dictionaryWithObject:last forKey:first];
+                    [returnArray addObject:dict];
+                }
+            }
+        }
+    }
+    return returnArray;
+}
+
+
 -(void)initData
 {
-//    _xhxzArray = [NSMutableArray array];
-//
-//    //1.获得数据库文件的路径
-//    NSString *doc = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
-//    NSString *dbfileName = [doc stringByAppendingPathComponent:DB_NAME];
-//    //2.获得数据库
-//    FMDatabase *db = [FMDatabase databaseWithPath:dbfileName];
-//    //3.打开数据库
-//    if ([db open])
-//    {
-//        //初始化数据容器
-//        //        _groupData = [NSMutableArray array];
-//        //        _modelData = [NSMutableArray array];
-//
-//        // 获取安装调节界面的命令  （安装配置）install_config
-//        APGroupNote *node = _selectedDevArray[0];
-//        NSString* sqlStr = [NSString stringWithFormat:@"select l.exec_name,i.exec_code ,l.parameter_value from zk_command_mount m,zk_execlist_info i ,dev_execlist l where m.model_id=%@ and m.tab_code='signal' and  m.exec_info_id=i.id and m.dev_exec_id=l.id",node.model_id];
-//        FMResultSet *resultSet = [db executeQuery:sqlStr];
-//        while ([resultSet next])
-//        {
-//            NSString *exec_code = SafeStr([resultSet stringForColumn:@"exec_code"]);
-//            NSString *exec_name = SafeStr([resultSet stringForColumn:@"exec_name"]);
-//            NSString *parameter_value = SafeStr([resultSet stringForColumn:@"parameter_value"]);
-//
-//            if ([exec_code containsString:@"signal-Source select-"])
-//            {
-//                NSDictionary *dict = [NSDictionary dictionaryWithObject:exec_name forKey:parameter_value];
-//                [_xhxzArray addObject:dict];
-//            }
-//        }
-//        //关闭数据库
-//        [db close];
-//    }
-//
+    _hmblArray = [NSMutableArray array];
+    _azfsArray = [NSMutableArray array];
+    //1.获得数据库文件的路径
+    NSString *doc = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    NSString *dbfileName = [doc stringByAppendingPathComponent:DB_NAME];
+    //2.获得数据库
+    FMDatabase *db = [FMDatabase databaseWithPath:dbfileName];
+    //3.打开数据库
+    if ([db open])
+    {
+        // 获取安装调节界面的命令  （安装配置）install_config
+        APGroupNote *node = _selectedDevArray[0];
+        NSString* sqlStr = [NSString stringWithFormat:@"select l.exec_name,i.exec_code ,l.parameter_value from zk_command_mount m,zk_execlist_info i ,dev_execlist l where m.model_id=%@ and m.tab_code='install_config' and  m.exec_info_id=i.id and m.dev_exec_id=l.id",node.model_id];
+        FMResultSet *resultSet = [db executeQuery:sqlStr];
+        while ([resultSet next])
+        {
+            NSString *exec_code = SafeStr([resultSet stringForColumn:@"exec_code"]);
+            NSString *exec_name = SafeStr([resultSet stringForColumn:@"exec_name"]);
+            NSString *parameter_value = SafeStr([resultSet stringForColumn:@"parameter_value"]);
+
+            if ([exec_code isEqualToString:@"installDeploy-ImageScale"])//3d模式
+            {
+                [_hmblArray addObjectsFromArray:[self resolveValue:parameter_value]];
+            }
+            else if ([exec_code isEqualToString:@"installDeploy-wayToInstall"])//3d格式
+            {
+                [_azfsArray addObjectsFromArray:[self resolveValue:parameter_value]];
+            }
+        }
+        //关闭数据库
+        [db close];
+    }
+
     
-    _hmblArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"本征" forKey:@"Native"],
-//                  [NSDictionary dictionaryWithObject:@"填充" forKey:@"Fill"],
-                  [NSDictionary dictionaryWithObject:@"4_3" forKey:@"4_3"],
-                  [NSDictionary dictionaryWithObject:@"16_6" forKey:@"16_6"],
-                  [NSDictionary dictionaryWithObject:@"16_9" forKey:@"16_9"],
-                  [NSDictionary dictionaryWithObject:@"16_10" forKey:@"16_10"],
-                  nil];
-    
-    _azfsArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"吊顶背投" forKey:@"CeilingRear"],
-                 [NSDictionary dictionaryWithObject:@"吊顶正投" forKey:@"CeilingFront"],
-                 [NSDictionary dictionaryWithObject:@"桌面背投" forKey:@"TableRear"],
-                 [NSDictionary dictionaryWithObject:@"桌面正投" forKey:@"TableFront"],
-                 nil];
+//    _hmblArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"本征" forKey:@"Native"],
+////                  [NSDictionary dictionaryWithObject:@"填充" forKey:@"Fill"],
+//                  [NSDictionary dictionaryWithObject:@"4_3" forKey:@"4_3"],
+//                  [NSDictionary dictionaryWithObject:@"16_6" forKey:@"16_6"],
+//                  [NSDictionary dictionaryWithObject:@"16_9" forKey:@"16_9"],
+//                  [NSDictionary dictionaryWithObject:@"16_10" forKey:@"16_10"],
+//                  nil];
+//
+//    _azfsArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"吊顶背投" forKey:@"CeilingRear"],
+//                 [NSDictionary dictionaryWithObject:@"吊顶正投" forKey:@"CeilingFront"],
+//                 [NSDictionary dictionaryWithObject:@"桌面背投" forKey:@"TableRear"],
+//                 [NSDictionary dictionaryWithObject:@"桌面正投" forKey:@"TableFront"],
+//                 nil];
     
     
     _tyjidArray = [NSMutableArray array];

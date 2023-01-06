@@ -19,13 +19,81 @@
 
 -(void)initData
 {
+    _djmsDevArray = [NSMutableArray array];
+    _ghbmsArray = [NSMutableArray array];
+    _kjszArray = [NSMutableArray array];
+    _zjdjArray = [NSMutableArray array];
+    _yxmsArray = [NSMutableArray array];
     
+    _languegArray = [NSMutableArray array];
+    _locationArray = [NSMutableArray array];
+    _nosigalArray = [NSMutableArray array];
+    _quitArray = [NSMutableArray array];
+    _hidenArray = [NSMutableArray array];
+    _muteArray = [NSMutableArray array];
+    //1.获得数据库文件的路径
+    NSString *doc = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    NSString *dbfileName = [doc stringByAppendingPathComponent:DB_NAME];
+    //2.获得数据库
+    FMDatabase *db = [FMDatabase databaseWithPath:dbfileName];
+    //3.打开数据库
+    if ([db open])
+    {
+        // 获取安装调节界面的命令  （安装配置）install_config
+        APGroupNote *node = _selectedDevArray[0];
+        NSString* sqlStr = [NSString stringWithFormat:@"select l.exec_name,i.exec_code ,l.parameter_value from zk_command_mount m,zk_execlist_info i ,dev_execlist l where m.model_id=%@ and m.tab_code='setup' and  m.exec_info_id=i.id and m.dev_exec_id=l.id",node.model_id];
+        FMResultSet *resultSet = [db executeQuery:sqlStr];
+        while ([resultSet next])
+        {
+            NSString *exec_code = SafeStr([resultSet stringForColumn:@"exec_code"]);
+            NSString *exec_name = SafeStr([resultSet stringForColumn:@"exec_name"]);
+            NSString *parameter_value = SafeStr([resultSet stringForColumn:@"parameter_value"]);
+
+            if ([exec_code isEqualToString:@"setup-standby mode"])//
+            {
+                [_djmsDevArray addObjectsFromArray:[self resolveValue:parameter_value]];
+            }
+            else if ([exec_code isEqualToString:@"setup-power-on setting"])//
+            {
+                [_kjszArray addObjectsFromArray:[self resolveValue:parameter_value]];
+            }
+            else if ([exec_code isEqualToString:@"setup-High altitude model"])//
+            {
+                [_ghbmsArray addObjectsFromArray:[self resolveValue:parameter_value]];
+            }
+            else if ([exec_code isEqualToString:@"setup-running mode"])//
+            {
+                [_yxmsArray addObjectsFromArray:[self resolveValue:parameter_value]];
+            }
+            else if ([exec_code isEqualToString:@"setup-The menu automatically exits"])//
+            {
+                [_quitArray addObjectsFromArray:[self resolveValue:parameter_value]];
+            }
+            else if ([exec_code isEqualToString:@"setup-The menu location"])//
+            {
+                [_locationArray addObjectsFromArray:[self resolveValue:parameter_value]];
+            }
+            else if ([exec_code isEqualToString:@"setup-No signal prompt"])//
+            {
+                [ _nosigalArray addObjectsFromArray:[self resolveValue:parameter_value]];
+            }
+            else if ([exec_code isEqualToString:@"setup-Automatic standby"])//
+            {
+                [_zjdjArray addObjectsFromArray:[self resolveValue:parameter_value]];
+            }
+            else if ([exec_code isEqualToString:@"setup-The hidden menu"])//
+            {
+                [_hidenArray addObjectsFromArray:[self resolveValue:parameter_value]];
+            }
+        }
+        //关闭数据库
+        [db close];
+    }
+    
+    
+#if 0
     _djmsDevArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"低功耗" forKey:@"LowPower"],
                              [NSDictionary dictionaryWithObject:@"联网" forKey:@"NetworkStandby"],
-//                             [NSDictionary dictionaryWithObject:@"REC709" forKey:@"REC709"],
-//                             [NSDictionary dictionaryWithObject:@"DICOM" forKey:@"DICOM"],
-//                             [NSDictionary dictionaryWithObject:@"低延迟" forKey:@"LowLatency"],
-//                             [NSDictionary dictionaryWithObject:@"自定义" forKey:@"Customize"],
                              nil];
     
     _ghbmsArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"开" forKey:@"On"],
@@ -82,6 +150,7 @@
     _hidenArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"显示" forKey:@"Show"],
                             [NSDictionary dictionaryWithObject:@"隐藏" forKey:@"Hide"],
                              nil];
+#endif
 
     _muteArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"静音开" forKey:@"Mute"],
                      [NSDictionary dictionaryWithObject:@"静音关" forKey:@"UnMute"],
@@ -206,21 +275,7 @@
         }
     }
     
-    
-    
     _powerItemArray = [NSMutableArray array];
-    
-//    UIView *baseview = [[UIView alloc] init];
-//    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(singleTapAction)];
-//    [baseview addGestureRecognizer:singleTap];
-//    [self addSubview:baseview];
-//    [baseview mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.mas_equalTo(self.mas_top).offset(W_SCALE(35)+2*top_Gap);
-//        make.left.mas_equalTo(self.mas_left).offset(Left_Gap);
-//        make.height.mas_equalTo(H_SCALE(399));
-//        make.width.mas_equalTo(W_SCALE(382));
-//    }];
-    
     
     CGFloat w = W_SCALE(200);
     CGFloat h = H_SCALE(30);

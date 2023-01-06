@@ -24,12 +24,55 @@
     }
     return self;
 }
-
+//
+//-(NSArray *)resolveValue:(NSString *)parameter_value
+//{
+//    NSMutableArray *returnArray = [NSMutableArray array];
+//
+//    NSString* pattern=@"(?<=,value:\"\\{)(.*?)(?=\\}\")";
+//    NSRegularExpression *regex = [NSRegularExpression
+//                                      regularExpressionWithPattern:pattern
+//                                      options:NSRegularExpressionCaseInsensitive error:nil];
+//
+//
+//    NSArray *match = [regex matchesInString:parameter_value options:0 range:NSMakeRange(0, parameter_value.length)];
+//    for (NSTextCheckingResult* b in match)
+//    {
+//        NSRange resultRange = [b rangeAtIndex:0];
+//        //从urlString当中截取数据
+//        NSString *result=[parameter_value substringWithRange:resultRange];
+//        if (result)
+//        {
+//            NSArray *tempArr = [result componentsSeparatedByString:@","];
+//            for (NSString *str  in tempArr)
+//            {
+//                NSArray *tempArr = [str componentsSeparatedByString:@":"];
+//                if(tempArr.count > 1)
+//                {
+//                    NSString *first = [tempArr firstObject];
+//                    
+//                    first = [first stringByReplacingOccurrencesOfString:@"\"" withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [first length])];
+//                    
+//                    NSString *last = [tempArr lastObject];
+//                    last = [last stringByReplacingOccurrencesOfString:@"\"" withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [last length])];
+//
+//                    NSDictionary *dict = [NSDictionary dictionaryWithObject:last forKey:first];
+//                    [returnArray addObject:dict];
+//                }
+//            }
+//        }
+//    }
+//    return returnArray;
+//}
 
 -(void)initData
 {
     _xhxzArray = [NSMutableArray array];
-
+    _moshiArray = [NSMutableArray array];
+    _geshiArray = [NSMutableArray array];
+    _tongbuArray = [NSMutableArray array];
+    _kjmrArray= [NSMutableArray array];
+    _kbpArray= [NSMutableArray array];
     //1.获得数据库文件的路径
     NSString *doc = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
     NSString *dbfileName = [doc stringByAppendingPathComponent:DB_NAME];
@@ -38,10 +81,6 @@
     //3.打开数据库
     if ([db open])
     {
-        //初始化数据容器
-//        _groupData = [NSMutableArray array];
-//        _modelData = [NSMutableArray array];
-
         // 获取安装调节界面的命令  （安装配置）install_config
         APGroupNote *node = _selectedDevArray[0];
         NSString* sqlStr = [NSString stringWithFormat:@"select l.exec_name,i.exec_code ,l.parameter_value from zk_command_mount m,zk_execlist_info i ,dev_execlist l where m.model_id=%@ and m.tab_code='signal' and  m.exec_info_id=i.id and m.dev_exec_id=l.id",node.model_id];
@@ -57,20 +96,40 @@
                 NSDictionary *dict = [NSDictionary dictionaryWithObject:exec_name forKey:parameter_value];
                 [_xhxzArray addObject:dict];
             }
+            else if ([exec_code isEqualToString:@"signal-3D mode"])//3d模式
+            {
+                [_moshiArray addObjectsFromArray:[self resolveValue:parameter_value]];
+            }
+            else if ([exec_code isEqualToString:@"signal-format"])//3d格式
+            {
+                [_geshiArray addObjectsFromArray:[self resolveValue:parameter_value]];
+            }
+            else if ([exec_code isEqualToString:@"signal-Synchronization delay adjustment"])//同步延时
+            {
+                [_tongbuArray addObjectsFromArray:[self resolveValue:parameter_value]];
+            }
+            else if ([exec_code isEqualToString:@"signal-TheDefaultBoot"])//开机默认
+            {
+                [_kjmrArray addObjectsFromArray:[self resolveValue:parameter_value]];
+            }
+            else if ([exec_code isEqualToString:@"signal-A blank screen"])//空白屏
+            {
+                [_kbpArray addObjectsFromArray:[self resolveValue:parameter_value]];
+            }
         }
         //关闭数据库
         [db close];
     }
 
     
-    _kjmrArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"记忆" forKey:@"Memory"],
-                             [NSDictionary dictionaryWithObject:@"HDMI" forKey:@"HDMI:1"],
-                             [NSDictionary dictionaryWithObject:@"DVI" forKey:@"DVI:1"],
-                             [NSDictionary dictionaryWithObject:@"HDBaseT" forKey:@"HDBaseT:1"],
-                             [NSDictionary dictionaryWithObject:@"RGB1" forKey:@"RGB1:1"],
-                             [NSDictionary dictionaryWithObject:@"RGB2" forKey:@"RGB2:1"],
-                                [NSDictionary dictionaryWithObject:@"Video" forKey:@"Video:1"],
-                             nil];
+//    _kjmrArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"记忆" forKey:@"Memory"],
+//                             [NSDictionary dictionaryWithObject:@"HDMI" forKey:@"HDMI:1"],
+//                             [NSDictionary dictionaryWithObject:@"DVI" forKey:@"DVI:1"],
+//                             [NSDictionary dictionaryWithObject:@"HDBaseT" forKey:@"HDBaseT:1"],
+//                             [NSDictionary dictionaryWithObject:@"RGB1" forKey:@"RGB1:1"],
+//                             [NSDictionary dictionaryWithObject:@"RGB2" forKey:@"RGB2:1"],
+//                                [NSDictionary dictionaryWithObject:@"Video" forKey:@"Video:1"],
+//                             nil];
 
     
     _kbpArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"黑" forKey:@"Black"],
@@ -86,25 +145,25 @@
                                 [NSDictionary dictionaryWithObject:@"关" forKey:@"Off"],
                              nil];
 
-    _moshiArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"退出3D模式" forKey:@"Off"],
-                            [NSDictionary dictionaryWithObject:@"垂直同步半分离" forKey:@"VsyncSeparatedHalf"],
-                             [NSDictionary dictionaryWithObject:@"垂直同步全分离" forKey:@"VsyncSeparatedFull"],
-                             [NSDictionary dictionaryWithObject:@"垂直半封装" forKey:@"VertPackedHalf"],
-                   [NSDictionary dictionaryWithObject:@"垂直全封装" forKey:@"VertPackedFull"],
-                    [NSDictionary dictionaryWithObject:@"水平半封装" forKey:@"HorizPackedHalf"],
-                    [NSDictionary dictionaryWithObject:@"水平全封装" forKey:@"HorizPackedFull"],
-                             nil];
+//    _moshiArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"退出3D模式" forKey:@"Off"],
+//                            [NSDictionary dictionaryWithObject:@"垂直同步半分离" forKey:@"VsyncSeparatedHalf"],
+//                             [NSDictionary dictionaryWithObject:@"垂直同步全分离" forKey:@"VsyncSeparatedFull"],
+//                             [NSDictionary dictionaryWithObject:@"垂直半封装" forKey:@"VertPackedHalf"],
+//                   [NSDictionary dictionaryWithObject:@"垂直全封装" forKey:@"VertPackedFull"],
+//                    [NSDictionary dictionaryWithObject:@"水平半封装" forKey:@"HorizPackedHalf"],
+//                    [NSDictionary dictionaryWithObject:@"水平全封装" forKey:@"HorizPackedFull"],
+//                             nil];
     
     
     
-    _geshiArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"左右" forKey:@"LRFlip"],
-                             [NSDictionary dictionaryWithObject:@"上下" forKey:@"UDFlip"],
-                   [NSDictionary dictionaryWithObject:@"帧序列" forKey:@"FrameSeq"],
-                             nil];
+//    _geshiArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"左右" forKey:@"LRFlip"],
+//                             [NSDictionary dictionaryWithObject:@"上下" forKey:@"UDFlip"],
+//                   [NSDictionary dictionaryWithObject:@"帧序列" forKey:@"FrameSeq"],
+//                             nil];
 
-    _tongbuArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"使用外接同步" forKey:@"External"],
-                             [NSDictionary dictionaryWithObject:@"内部信号配置" forKey:@"Internal"],
-                             nil];
+//    _tongbuArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"使用外接同步" forKey:@"External"],
+//                             [NSDictionary dictionaryWithObject:@"内部信号配置" forKey:@"Internal"],
+//                             nil];
 
     _zyyfzArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"开" forKey:@"On"],
                      [NSDictionary dictionaryWithObject:@"关" forKey:@"Off"],

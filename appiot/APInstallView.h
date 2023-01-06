@@ -8,7 +8,7 @@
 #import "APBaseView.h"
 #import "APMenuButton.h"
 #import "APSceneView.h"
-#import "APConfigureView.h"
+//#import "APConfigureView.h"
 #import "APImageView.h"
 #import "APColourView.h"
 #import "APSetupView.h"

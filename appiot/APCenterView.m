@@ -29,31 +29,6 @@
     
     [self createMenu];
     
-//    NSString *message = @"AT+deviceInfo#System#On,LightSource#On,RunTime#3,Temperature#NtcDmd1:38,NtcCw1:64,NtcBlueLaser1:59,NtcBlueLaser2:54,NtcXpr1:54,NtcEnv1:24,NtcPowerSupply:51,,ProductInformation#ModelName:AL_DFQ730,BrandName:APPO,MachineSn:EP002051000017";
-//    NSString* pattern=@"MachineSn:([^,]*()?)";
-////                           NSString *pattern = @"[^a-zA-Z0-9\u4e00-\u9fa5]";//正则取反
-//    NSError *error = nil;
-//
-//    // use regular expression to replace the emoji
-//    NSRegularExpression *regex = [NSRegularExpression
-//                                      regularExpressionWithPattern:pattern
-//                                      options:NSRegularExpressionCaseInsensitive error:&error];
-//    if(error != nil){
-//        NSLog(@"ERror: %@",error);
-//    }
-//
-//    NSArray *match = [regex matchesInString:message options:0 range:NSMakeRange(0, message.length)];
-//    
-//    for (NSTextCheckingResult* b in match)
-//        {
-//            NSRange resultRange = [b rangeAtIndex:0];
-//
-//            //从urlString当中截取数据
-//
-//            NSString *result=[message substringWithRange:resultRange];
-//            //输出结果
-//            NSLog(@"%@",result);
-//        }
 }
 
 

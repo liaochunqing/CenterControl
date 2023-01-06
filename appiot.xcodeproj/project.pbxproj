@@ -50,7 +50,6 @@
 		C6D010FB2948670C003674C9 /* APMenuButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D010FA2948670C003674C9 /* APMenuButton.m */; };
 		C6D0110229495D93003674C9 /* APSceneView.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D0110129495D93003674C9 /* APSceneView.m */; };
 		C6D0110829499D69003674C9 /* APAdjustButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D0110729499D69003674C9 /* APAdjustButton.m */; };
-		C6ED8A2D294ABAF800C98D7B /* APConfigureView.m in Sources */ = {isa = PBXBuildFile; fileRef = C6ED8A2C294ABAF800C98D7B /* APConfigureView.m */; };
 		C6ED8A30294B1B4900C98D7B /* APImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = C6ED8A2F294B1B4900C98D7B /* APImageView.m */; };
 		C6ED8A39294B1D3400C98D7B /* APSetNumberItem.m in Sources */ = {isa = PBXBuildFile; fileRef = C6ED8A38294B1D3400C98D7B /* APSetNumberItem.m */; };
 		C6ED8A3C294C0A8100C98D7B /* APChooseItem.m in Sources */ = {isa = PBXBuildFile; fileRef = C6ED8A3B294C0A8100C98D7B /* APChooseItem.m */; };
@@ -172,8 +171,6 @@
 		C6D0110129495D93003674C9 /* APSceneView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APSceneView.m; sourceTree = "<group>"; };
 		C6D0110629499D69003674C9 /* APAdjustButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APAdjustButton.h; sourceTree = "<group>"; };
 		C6D0110729499D69003674C9 /* APAdjustButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APAdjustButton.m; sourceTree = "<group>"; };
-		C6ED8A2B294ABAF800C98D7B /* APConfigureView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APConfigureView.h; sourceTree = "<group>"; };
-		C6ED8A2C294ABAF800C98D7B /* APConfigureView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APConfigureView.m; sourceTree = "<group>"; };
 		C6ED8A2E294B1B4800C98D7B /* APImageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APImageView.h; sourceTree = "<group>"; };
 		C6ED8A2F294B1B4900C98D7B /* APImageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APImageView.m; sourceTree = "<group>"; };
 		C6ED8A37294B1D3400C98D7B /* APSetNumberItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APSetNumberItem.h; sourceTree = "<group>"; };
@@ -444,8 +441,6 @@
 				C6ED8A2F294B1B4900C98D7B /* APImageView.m */,
 				C6ED8A3D294D643100C98D7B /* APColourView.h */,
 				C6ED8A3E294D643100C98D7B /* APColourView.m */,
-				C6ED8A2B294ABAF800C98D7B /* APConfigureView.h */,
-				C6ED8A2C294ABAF800C98D7B /* APConfigureView.m */,
 				C6ED8A492951886E00C98D7B /* APConfigView.h */,
 				C6ED8A4A2951886E00C98D7B /* APConfigView.m */,
 				C6ED8A43295054EF00C98D7B /* APSignalView.h */,
@@ -749,7 +744,6 @@
 				C6ED8A45295054EF00C98D7B /* APSignalView.m in Sources */,
 				C6D010FB2948670C003674C9 /* APMenuButton.m in Sources */,
 				C6ED8A30294B1B4900C98D7B /* APImageView.m in Sources */,
-				C6ED8A2D294ABAF800C98D7B /* APConfigureView.m in Sources */,
 				C63306B4292DCF050057DA83 /* APMonitorCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

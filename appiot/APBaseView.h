@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface APBaseView : UIView
 - (UIImage *)imageWithColor:(UIColor *)color;
-
+-(NSArray *)resolveValue:(NSString *)parameter_value;
 @end
 
 NS_ASSUME_NONNULL_END

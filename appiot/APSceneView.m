@@ -577,7 +577,7 @@
             break;
         case 1://位移右
         {
-            NSString *key = _wyAdjustButton.microBtn.selected?@"scene-right-fine tuning":@"scene-right-coarse tuning";
+            NSString *key = _wyAdjustButton.microBtn.selected?@"scene-right-fine tuning":@"scene-right-fine tuning";
             [self sendMssageToDev:key];
         }
             break;

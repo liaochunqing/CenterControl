@@ -19,13 +19,58 @@
 
 -(void)initData
 {
-    _sceneModeArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"标准" forKey:@"Standard"],
-                             [NSDictionary dictionaryWithObject:@"影院" forKey:@"Cinema"],
-                             [NSDictionary dictionaryWithObject:@"REC709" forKey:@"REC709"],
-                             [NSDictionary dictionaryWithObject:@"DICOM" forKey:@"DICOM"],
-                             [NSDictionary dictionaryWithObject:@"低延迟" forKey:@"LowLatency"],
-                             [NSDictionary dictionaryWithObject:@"自定义" forKey:@"Customize"],
-                             nil];
+    
+    _ImageScaleArray = [NSMutableArray array];
+    _gammaAdjustArray = [NSMutableArray array];
+    _colorAdjustingArray = [NSMutableArray array];
+    _sceneModeArray = [NSMutableArray array];
+    //1.获得数据库文件的路径
+    NSString *doc = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    NSString *dbfileName = [doc stringByAppendingPathComponent:DB_NAME];
+    //2.获得数据库
+    FMDatabase *db = [FMDatabase databaseWithPath:dbfileName];
+    //3.打开数据库
+    if ([db open])
+    {
+        // 获取安装调节界面的命令  （安装配置）install_config
+        APGroupNote *node = _selectedDevArray[0];
+        NSString* sqlStr = [NSString stringWithFormat:@"select l.exec_name,i.exec_code ,l.parameter_value from zk_command_mount m,zk_execlist_info i ,dev_execlist l where m.model_id=%@ and m.tab_code='image' and  m.exec_info_id=i.id and m.dev_exec_id=l.id",node.model_id];
+        FMResultSet *resultSet = [db executeQuery:sqlStr];
+        while ([resultSet next])
+        {
+            NSString *exec_code = SafeStr([resultSet stringForColumn:@"exec_code"]);
+            NSString *exec_name = SafeStr([resultSet stringForColumn:@"exec_name"]);
+            NSString *parameter_value = SafeStr([resultSet stringForColumn:@"parameter_value"]);
+
+            if ([exec_code isEqualToString:@"image-gammaAdjust"])//
+            {
+                [_gammaAdjustArray addObjectsFromArray:[self resolveValue:parameter_value]];
+            }
+            else if ([exec_code isEqualToString:@"image-colorAdjusting"])//
+            {
+                [_colorAdjustingArray addObjectsFromArray:[self resolveValue:parameter_value]];
+            }
+            else if ([exec_code isEqualToString:@"image-ImageScale"])//
+            {
+                [_ImageScaleArray addObjectsFromArray:[self resolveValue:parameter_value]];
+            }
+            else if ([exec_code isEqualToString:@"image-scene mode"])//
+            {
+                [_sceneModeArray addObjectsFromArray:[self resolveValue:parameter_value]];
+            }
+        }
+        //关闭数据库
+        [db close];
+    }
+    
+    
+//    _sceneModeArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"标准" forKey:@"Standard"],
+//                             [NSDictionary dictionaryWithObject:@"影院" forKey:@"Cinema"],
+//                             [NSDictionary dictionaryWithObject:@"REC709" forKey:@"REC709"],
+//                             [NSDictionary dictionaryWithObject:@"DICOM" forKey:@"DICOM"],
+//                             [NSDictionary dictionaryWithObject:@"低延迟" forKey:@"LowLatency"],
+//                             [NSDictionary dictionaryWithObject:@"自定义" forKey:@"Customize"],
+//                             nil];
     
     _dynamicContrastArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"开" forKey:@"On"],
                              [NSDictionary dictionaryWithObject:@"关" forKey:@"Off"],
@@ -35,26 +80,26 @@
                              [NSDictionary dictionaryWithObject:@"关" forKey:@"Off"],
                              nil];
     
-    _ImageScaleArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"本征" forKey:@"Native"],
-                             [NSDictionary dictionaryWithObject:@"填充" forKey:@"Fill"],
-                        [NSDictionary dictionaryWithObject:@"4_3" forKey:@"Scale4_3"],
-                        [NSDictionary dictionaryWithObject:@"16_6" forKey:@"Scale16_6"],
-                             [NSDictionary dictionaryWithObject:@"16_9" forKey:@"Scale16_9"],
-                             [NSDictionary dictionaryWithObject:@"16_10" forKey:@"Scale16_10"],
-                             nil];
-    _gammaAdjustArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"1_0" forKey:@"1_0"],
-                             [NSDictionary dictionaryWithObject:@"1_8" forKey:@"1_8"],
-                             [NSDictionary dictionaryWithObject:@"2_0" forKey:@"2_0"],
-                             [NSDictionary dictionaryWithObject:@"2_2" forKey:@"2_2"],
-                             [NSDictionary dictionaryWithObject:@"2_6" forKey:@"2_6"],
-                             nil];
+//    _ImageScaleArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"本征" forKey:@"Native"],
+//                             [NSDictionary dictionaryWithObject:@"填充" forKey:@"Fill"],
+//                        [NSDictionary dictionaryWithObject:@"4_3" forKey:@"Scale4_3"],
+//                        [NSDictionary dictionaryWithObject:@"16_6" forKey:@"Scale16_6"],
+//                             [NSDictionary dictionaryWithObject:@"16_9" forKey:@"Scale16_9"],
+//                             [NSDictionary dictionaryWithObject:@"16_10" forKey:@"Scale16_10"],
+//                             nil];
+//    _gammaAdjustArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"1_0" forKey:@"1_0"],
+//                             [NSDictionary dictionaryWithObject:@"1_8" forKey:@"1_8"],
+//                             [NSDictionary dictionaryWithObject:@"2_0" forKey:@"2_0"],
+//                             [NSDictionary dictionaryWithObject:@"2_2" forKey:@"2_2"],
+//                             [NSDictionary dictionaryWithObject:@"2_6" forKey:@"2_6"],
+//                             nil];
 
-    _colorAdjustingArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"标准" forKey:@"Standard"],
-                             [NSDictionary dictionaryWithObject:@"暖色" forKey:@"Warm"],
-                             [NSDictionary dictionaryWithObject:@"冷色" forKey:@"Cool"],
-                            [NSDictionary dictionaryWithObject:@"自定义" forKey:@"Customize"],
-
-                             nil];
+//    _colorAdjustingArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"标准" forKey:@"Standard"],
+//                             [NSDictionary dictionaryWithObject:@"暖色" forKey:@"Warm"],
+//                             [NSDictionary dictionaryWithObject:@"冷色" forKey:@"Cool"],
+//                            [NSDictionary dictionaryWithObject:@"自定义" forKey:@"Customize"],
+//
+//                             nil];
 }
 
 -(void)createBaseView
