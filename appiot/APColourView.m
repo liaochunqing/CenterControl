@@ -188,8 +188,19 @@
         item.label.text = str;
         item.label.font = [UIFont systemFontOfSize:13.5];
         
-        item.slider.minimumValue = 0;
-        item.slider.maximumValue = 199;
+        if([str containsString:@"色调"])
+        {
+            item.slider.minimumValue = -100;
+            item.slider.maximumValue = 99;
+            item.slider.value = item.slider.minimumValue;
+            item.field.text = [NSString stringWithFormat:@"%d",(int)item.slider.minimumValue];
+        }
+        else
+        {
+            item.slider.minimumValue = 0;
+            item.slider.maximumValue = 199;
+        }
+        
         [self addSubview:item];
         
         if ([@"红" isEqualToString:SafeStr(str)])
