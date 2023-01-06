@@ -27,7 +27,8 @@
     
     [self setFrame:CGRectMake(x, y, w, h)];
     self.backgroundColor = ColorHex(0x161635);
-    _sockArray = [NSMutableArray array];
+    
+    [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(setDeviceStatus) userInfo:nil repeats:YES];
     
     //监听设备选中的通知
     [kNotificationCenter addObserver:self selector:@selector(notifySelectedDevChanged:) name:Notification_Get_SelectedDev object:nil];
@@ -55,16 +56,6 @@
 
     if (_data.count)
     {
-//        APTcpSocket *tcpManager = [APTcpSocket shareManager];
-//        if (tcpManager.socketDict)
-//            for (NSString *key in tcpManager.socketDict)
-//            {
-//                GCDAsyncSocket *sk = tcpManager.socketDict[key];
-//                if (sk && sk.isConnected)
-//                {
-//                    [sk disconnect];
-//                }
-//            }
     }
 }
 
@@ -341,6 +332,8 @@
 //    CGFloat midGap = 20;
     CGFloat x = Left_Gap;
     CGFloat y = H_SCALE(70);
+    _itemArray = [NSMutableArray array];
+
     for (int i = 0; i < array.count; i++)
     {
         NSDictionary *dic = array[i];
@@ -351,9 +344,11 @@
 
         APMonitorItem *item = [[APMonitorItem alloc] initWithFrame:CGRectMake(x, y, btnW, btnH)];
         ViewRadius(item, 5);
+        item.tag = i;
 //        [button setBackgroundImage:[self imageWithColor:dic[@"color"]] forState:UIControlStateNormal];
 //        [button setBackgroundImage:[self imageWithColor:ColorHex(0x7877A9)] forState:UIControlStateHighlighted];
         [view addSubview:item];
+        [_itemArray addObject:item];
         NSString *str = dic[@"string"];
         NSString *number = dic[@"number"];
         [item.iv setImage:[UIImage imageNamed:dic[@"imageName"]]];
@@ -377,6 +372,76 @@
             y =H_SCALE(70) +btnH + 2*top_Gap;
         }
 
+    }
+}
+
+-(void)setDeviceStatus
+{
+    NSString*total = @"520";
+    NSString*erroNumber = @"5";
+    NSString*online = @"0";
+    NSString*offline =@"520";
+    
+    AppDelegate *appDelegate = kAppDelegate;
+    APGroupView *vc = appDelegate.mainVC.leftView.groupView;
+    if (vc && [vc isKindOfClass:[APGroupView class]])
+    {
+        vc.allNumber = 0;
+        vc.selectedNumber = 0;
+        vc.onlineNumber = 0;
+        vc.errorCodeNumber = 0;
+        for(APGroupNote *temp in vc.data)
+        {
+            if (temp.isDevice)
+            {
+                if([temp.name isEqualToString:@"s4mini"])
+                {
+                    int i = 0;
+                }
+                vc.allNumber++;
+                if (temp.selected)
+                {
+                    vc.selectedNumber++;
+                }
+                if ([temp.supply_status isEqualToString:@"1"])
+                {
+                    vc.onlineNumber++;
+                }
+                if (temp.error_code && temp.error_code.length > 0)
+                {
+                    vc.errorCodeNumber++;
+                }
+            }
+        }
+        
+        total = [NSString stringWithFormat:@"%d",vc.allNumber];
+        offline = [NSString stringWithFormat:@"%d",vc.allNumber - vc.onlineNumber];;
+        erroNumber = [NSString stringWithFormat:@"%d",vc.errorCodeNumber];
+        online = [NSString stringWithFormat:@"%d",vc.onlineNumber];
+        
+        for (APMonitorItem *item in _itemArray)
+        {
+            NSString *number = @"";
+            if(item.tag == 0)
+            {
+                number = total;
+            }
+            else if (item.tag == 1)
+            {
+                number = online;
+            }
+            else if (item.tag == 2)
+            {
+                number = offline;
+            }
+            else if (item.tag == 3)
+            {
+                number = erroNumber;
+            }
+            
+            item.detail.text = [NSString stringWithFormat:@"%@ 台",number];
+
+        }
     }
 }
 

@@ -65,6 +65,7 @@
     _allNumber = 0;
     _selectedNumber = 0;
     _errorCodeNumber = 0;
+    _onlineNumber = 0;
 }
 
 /**
@@ -711,7 +712,8 @@
         //执行耗时的异步操作...
         weakSelf.allNumber = 0;
         weakSelf.selectedNumber = 0;
-
+        weakSelf.onlineNumber = 0;
+        weakSelf.errorCodeNumber = 0;
         for(APGroupNote *temp in weakSelf.data)
         {
             if (temp.isDevice)
@@ -720,6 +722,14 @@
                 if (temp.selected)
                 {
                     weakSelf.selectedNumber++;
+                }
+                if ([temp.supply_status isEqualToString:@"1"])
+                {
+                    weakSelf.onlineNumber++;
+                }
+                if (temp.error_code && temp.error_code.length > 0)
+                {
+                    weakSelf.errorCodeNumber++;
                 }
             }
         }

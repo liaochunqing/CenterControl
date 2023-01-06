@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface APCommandView : APBaseView
 @property(nonatomic,strong)UIView *testBaseView;
 @property(nonatomic,strong)NSMutableArray *data;
-@property (nonatomic,strong)NSMutableArray *sockArray;
+@property (nonatomic,strong)NSMutableArray *itemArray;
 
 @end
 

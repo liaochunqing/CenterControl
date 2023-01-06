@@ -90,71 +90,71 @@
         [db close];
     }
     
-    
-#if 0
-    _djmsDevArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"低功耗" forKey:@"LowPower"],
-                             [NSDictionary dictionaryWithObject:@"联网" forKey:@"NetworkStandby"],
-                             nil];
-    
-    _ghbmsArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"开" forKey:@"On"],
-                             [NSDictionary dictionaryWithObject:@"关" forKey:@"Off"],
-                             nil];
-    
-    _kjszArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"手动开机" forKey:@"Manual"],
-                             [NSDictionary dictionaryWithObject:@"上电自动开机" forKey:@"Auto"],
-                  [NSDictionary dictionaryWithObject:@"有信号自动唤醒" forKey:@"Signal"],
-                             nil];
-    
-    _zjdjArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"关" forKey:@"Off"],
-                             [NSDictionary dictionaryWithObject:@"5分钟" forKey:@"min5"],
-                             [NSDictionary dictionaryWithObject:@"10分钟" forKey:@"min10"],
-                             [NSDictionary dictionaryWithObject:@"15分钟" forKey:@"min15"],
-                             [NSDictionary dictionaryWithObject:@"30分钟" forKey:@"min30"],
-                             nil];
-
-    _yxmsArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"标准模式" forKey:@"Standard"],
-                             [NSDictionary dictionaryWithObject:@"ECO1" forKey:@"ECO1"],
-                             [NSDictionary dictionaryWithObject:@"ECO2" forKey:@"ECO2"],
-                  [NSDictionary dictionaryWithObject:@"自定义" forKey:@"Customize"],
-
-                             nil];
-    
-    
-    /**************************菜单设置数据***************/
-    
-    
-    _languegArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"中文" forKey:@"zhongwen"],
-                             [NSDictionary dictionaryWithObject:@"英文" forKey:@"english"],
-                             nil];
-    
-    _locationArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"居中" forKey:@"Center"],
-                             [NSDictionary dictionaryWithObject:@"左上" forKey:@"UperLeft"],
-                      [NSDictionary dictionaryWithObject:@"右上" forKey:@"UperRight"],
-                      [NSDictionary dictionaryWithObject:@"左下" forKey:@"BottomLeft"],
-                      [NSDictionary dictionaryWithObject:@"右下" forKey:@"BottomRight"],
-                             nil];
-    
-    _nosigalArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"开" forKey:@"On"],
-                     [NSDictionary dictionaryWithObject:@"关" forKey:@"Off"],
-                     nil];
-    
-    _quitArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"关" forKey:@"Off"],
-                             [NSDictionary dictionaryWithObject:@"5s" forKey:@"Second5"],
-                             [NSDictionary dictionaryWithObject:@"10s" forKey:@"Second10"],
-                             [NSDictionary dictionaryWithObject:@"20s" forKey:@"Second15"],
-                             [NSDictionary dictionaryWithObject:@"30s" forKey:@"Second30"],
-                            [NSDictionary dictionaryWithObject:@"45s" forKey:@"Second45"],
-                            [NSDictionary dictionaryWithObject:@"60s" forKey:@"Second60"],
-                             nil];
-    
-    _hidenArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"显示" forKey:@"Show"],
-                            [NSDictionary dictionaryWithObject:@"隐藏" forKey:@"Hide"],
-                             nil];
-#endif
-
     _muteArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"静音开" forKey:@"Mute"],
                      [NSDictionary dictionaryWithObject:@"静音关" forKey:@"UnMute"],
                      nil];
+#if 0
+//    _djmsDevArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"低功耗" forKey:@"LowPower"],
+//                             [NSDictionary dictionaryWithObject:@"联网" forKey:@"NetworkStandby"],
+//                             nil];
+//    
+//    _ghbmsArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"开" forKey:@"On"],
+//                             [NSDictionary dictionaryWithObject:@"关" forKey:@"Off"],
+//                             nil];
+//    
+//    _kjszArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"手动开机" forKey:@"Manual"],
+//                             [NSDictionary dictionaryWithObject:@"上电自动开机" forKey:@"Auto"],
+//                  [NSDictionary dictionaryWithObject:@"有信号自动唤醒" forKey:@"Signal"],
+//                             nil];
+//    
+//    _zjdjArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"关" forKey:@"Off"],
+//                             [NSDictionary dictionaryWithObject:@"5分钟" forKey:@"min5"],
+//                             [NSDictionary dictionaryWithObject:@"10分钟" forKey:@"min10"],
+//                             [NSDictionary dictionaryWithObject:@"15分钟" forKey:@"min15"],
+//                             [NSDictionary dictionaryWithObject:@"30分钟" forKey:@"min30"],
+//                             nil];
+//
+//    _yxmsArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"标准模式" forKey:@"Standard"],
+//                             [NSDictionary dictionaryWithObject:@"ECO1" forKey:@"ECO1"],
+//                             [NSDictionary dictionaryWithObject:@"ECO2" forKey:@"ECO2"],
+//                  [NSDictionary dictionaryWithObject:@"自定义" forKey:@"Customize"],
+//
+//                             nil];
+//    
+//    
+//    /**************************菜单设置数据***************/
+//    
+//    
+//    _languegArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"中文" forKey:@"zhongwen"],
+//                             [NSDictionary dictionaryWithObject:@"英文" forKey:@"english"],
+//                             nil];
+//    
+//    _locationArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"居中" forKey:@"Center"],
+//                             [NSDictionary dictionaryWithObject:@"左上" forKey:@"UperLeft"],
+//                      [NSDictionary dictionaryWithObject:@"右上" forKey:@"UperRight"],
+//                      [NSDictionary dictionaryWithObject:@"左下" forKey:@"BottomLeft"],
+//                      [NSDictionary dictionaryWithObject:@"右下" forKey:@"BottomRight"],
+//                             nil];
+//    
+//    _nosigalArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"开" forKey:@"On"],
+//                     [NSDictionary dictionaryWithObject:@"关" forKey:@"Off"],
+//                     nil];
+//    
+//    _quitArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"关" forKey:@"Off"],
+//                             [NSDictionary dictionaryWithObject:@"5s" forKey:@"Second5"],
+//                             [NSDictionary dictionaryWithObject:@"10s" forKey:@"Second10"],
+//                             [NSDictionary dictionaryWithObject:@"20s" forKey:@"Second15"],
+//                             [NSDictionary dictionaryWithObject:@"30s" forKey:@"Second30"],
+//                            [NSDictionary dictionaryWithObject:@"45s" forKey:@"Second45"],
+//                            [NSDictionary dictionaryWithObject:@"60s" forKey:@"Second60"],
+//                             nil];
+//    
+//    _hidenArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"显示" forKey:@"Show"],
+//                            [NSDictionary dictionaryWithObject:@"隐藏" forKey:@"Hide"],
+//                             nil];
+#endif
+
+    
 }
 
 -(void)createBaseView
