@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic , strong) NSMutableArray *testDataArray;
 
+@property (nonatomic,strong)UISwitch *mySwitch;
 @property (nonatomic, strong)UIView *testBaseView;
 @property (nonatomic, strong)APAdjustButton *wyAdjustButton;
 @property (nonatomic, strong)APAdjustButton *jjAdjustButton;
@@ -26,6 +27,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic)BOOL isSpecial;//是否特殊配置的指令
 
 -(void)createTestView:(NSArray *)array;
+-(void)setDefaultValue:(NSArray *)array;
+
 @end
 
 NS_ASSUME_NONNULL_END

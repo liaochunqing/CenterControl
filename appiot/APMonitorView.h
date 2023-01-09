@@ -18,10 +18,14 @@ NS_ASSUME_NONNULL_BEGIN
 @interface APMonitorView : APBaseView <UITableViewDelegate,UITableViewDataSource,GCDAsyncSocketDelegate>
 @property(nonatomic,strong)UITableView *tableview;
 @property(nonatomic,strong)UILabel *titleLab;
-@property (nonatomic , strong) NSMutableArray *data;//传递过来已经组织好的数据（全量数据）
+@property (nonatomic , strong) NSMutableArray *allDevArr;//传递过来已经组织好的数据（全量数据）
+@property (nonatomic , strong) NSMutableArray *selectedDevArr;//传递过来已经组织好的数据（全量数据）
 @property (nonatomic ,strong)NSTimer *__nullable timer;
 //@property (nonatomic,strong)APTcpSocket *tcpManager;//tcp管理器
 @property (nonatomic,strong)APUdpSocket *udpManager;//udp管理器
+//@property (nonatomic,strong) APGroupView *groupView;
+
+//@property (nonatomic,strong)APGroupView *groupView;
 
 //-(void)refreshTable:(NSArray *)arr;
 

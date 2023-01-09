@@ -82,7 +82,27 @@
     CGFloat imX = expendX + expendW + midGap;
     _im = [[UIImageView alloc] init];
     [self.contentView addSubview:_im];
-    NSString *imgStr = node.isDevice?@"dev" : @"Group 11674";
+    NSString *imgStr = @"";
+    if (node.isDevice)
+    {
+        imgStr = @"dev";
+        if(node.tcpSocket && node.tcpSocket.socket.isConnected)
+        {
+            imgStr = @"Group 270";
+        }
+        else if(node.tcpSocket && node.tcpSocket.socket.isConnected == NO)
+        {
+            imgStr = @"Group 11661";
+        }
+        else
+        {
+            imgStr = @"dev";
+        }
+    }
+    else
+    {
+        imgStr = @"Group 11674";
+    }
     _im.image = [UIImage imageNamed:imgStr];
     _im.contentMode=UIViewContentModeScaleAspectFill;
     _im.clipsToBounds=YES;

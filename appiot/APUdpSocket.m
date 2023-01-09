@@ -63,9 +63,21 @@ static APUdpSocket *sharedInstance = nil;
 }
 
 #pragma mark -GCDAsyncUdpSocketDelegate
+- (void)udpSocket:(GCDAsyncUdpSocket *)sock didConnectToAddress:(NSData *)address
+{
+    NSString *message = [NSString stringWithFormat:@"连接成功"];
+    NSLog(@"%@",message);
+}
+
+- (void)udpSocket:(GCDAsyncUdpSocket *)sock didNotConnect:(NSError * _Nullable)error
+{
+    NSString *message = [NSString stringWithFormat:@"连接失败.ERROR:%@\n",error.description];
+    NSLog(@"%@",message);
+}
+
 - (void)udpSocket:(GCDAsyncUdpSocket *)sock didSendDataWithTag:(long)tag
 {
-    NSLog(@"发送信息成功");
+//    NSLog(@"发送信息成功");
 }
 
 - (void)udpSocket:(GCDAsyncUdpSocket *)sock didNotSendDataWithTag:(long)tag dueToError:(NSError *)error
@@ -76,17 +88,8 @@ static APUdpSocket *sharedInstance = nil;
 - (void)udpSocket:(GCDAsyncUdpSocket *)sock didReceiveData:(NSData *)data fromAddress:(NSData *)address withFilterContext:(id)filterContext
 {
     NSString *ip = [GCDAsyncUdpSocket hostFromAddress:address];
-
     uint16_t port = [GCDAsyncUdpSocket portFromAddress:address];
-
     NSString *receiverStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-//    NSString *receiverStr1 = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
-//
-//    NSString *receiverStr2 = [[NSString alloc] initWithData:data encoding:NSUnicodeStringEncoding];
-//
-//    NSString *receiverStr3 = [[NSString alloc] initWithData:data encoding:NSUTF16StringEncoding];
-
-    // 继续来等待接收下一次消息
 
     NSLog(@"收到响应 [%@:%d] == %@", ip, port, receiverStr);
     dispatch_async(dispatch_get_main_queue(), ^{

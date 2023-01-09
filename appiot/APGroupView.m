@@ -44,10 +44,16 @@
 //    _notification =[NSNotification notificationWithName:Notification_Get_SelectedDev object:nil];
     //一秒后显示悬浮小球
     [self performSelector:@selector(createFloatButton) withObject:nil afterDelay:0.5];
+    
+    WS(weakSelf);
+    [self performSelector:@selector(connectAllDev) withObject:nil afterDelay:1.5];
+    [NSTimer scheduledTimerWithTimeInterval:10 repeats:YES block:^(NSTimer * _Nonnull timer)
+    {
+        [weakSelf connectAllDev];
+    }];
 }
 
 #pragma mark 私有方法
-
 -(void)notifyDevSelectedChanged
 {
     
@@ -429,7 +435,7 @@
     }];
     
     [_tableview reloadData];
-
+//    _tableview.backgroundColor = [UIColor redColor];
 }
 
 -(void)createBottomView:(NSArray *)selectedArr
@@ -681,26 +687,6 @@
         [_floatButton addGestureRecognizer:pan];
         [_floatButton addTarget:self action:@selector(floatbtnClick:) forControlEvents:UIControlEventTouchUpInside];
     }
-}
-
-
-
--(void)refrashMonitorTable
-{
-//    NSArray *temp = [self getSelectedDevice];
-//
-//    AppDelegate *appDelegate = kAppDelegate;
-//    APMonitorView *vc = appDelegate.mainVC.centerView.monitorView;
-//    if (vc && [vc isKindOfClass:[APMonitorView class]])
-//    {
-//        [vc refreshTable:temp];
-//    }
-//
-//    APCommandView *cvc = appDelegate.mainVC.centerView.commandView;
-//    if (cvc && [cvc isKindOfClass:[APCommandView class]])
-//    {
-//        [cvc refreshSelectedList:temp];
-//    }
 }
 
 -(void)refrashAllselectTitle
@@ -974,6 +960,7 @@
         }
     }
 }
+
 #pragma  mark 对外接口
 -(void)refreshTable
 {
@@ -1028,6 +1015,20 @@
     return  arr;
 }
 
+-(NSArray *)getAllDevice
+{
+    NSMutableArray *arr = [NSMutableArray array];
+    for(APGroupNote *temp in _data)
+    {
+        if (temp.isDevice )
+        {
+            [arr addObject:temp];
+        }
+    }
+    
+    return  arr;
+}
+
 //如果有组需要移动， 只需要改变组的父id即可
 -(NSArray *)getNeedMoveDevAndGroup
 {
@@ -1063,6 +1064,322 @@
     [selectedArr removeObjectsAtIndexes:set];
     return  selectedArr;
 }
+
+#pragma mark 连接设备获取数据
+-(void)connectAllDev
+{
+    for (int i = 0; i<self.data.count; i++)
+    {
+        APGroupNote *node = self.data[i];
+        if(node.isDevice)
+        {
+            [self getDataFromDevice:[NSNumber numberWithInt:i]];
+        }
+    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.tableview performSelector:@selector(reloadData) withObject:nil afterDelay:0.5];
+    });
+}
+
+-(void)getDataFromDevice:(NSNumber*)number
+{
+    int row = [number intValue];
+    if(self.data == nil || self.data.count <= row) return;
+    APGroupNote *node = self.data[row];
+
+//    WS(weakSelf);
+    if ([@"tcp" compare:node.access_protocol options:NSCaseInsensitiveSearch |NSNumericSearch] ==NSOrderedSame)
+    {
+        int i = 0;
+        for (NSString * key in node.monitorDict)
+        {
+            i++;
+            NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:number, @"number", key, @"key", nil];
+            [self performSelector:@selector(tcpSendAndRecive:) withObject:dict afterDelay:0.2*i];
+        }
+    }
+    else if ([@"udp" compare:node.access_protocol options:NSCaseInsensitiveSearch |NSNumericSearch] ==NSOrderedSame)
+    {
+        _udpManager = [APUdpSocket sharedInstance];
+        _udpManager.host = node.ip;
+        _udpManager.port = [node.port intValue];
+        for (NSString * key in node.monitorDict)
+        {
+            NSData* udpdata = node.monitorDict[key];
+            [_udpManager createClientUdpSocket];
+            [_udpManager sendMessage:udpdata];
+            
+            [_udpManager setSocketMessageBlock:^(id message) {
+                   if(message)
+                   {
+                       NSData* data = (NSData*)message;
+                       Byte *testByte = (Byte *)[data bytes];
+                       Byte bt4 = testByte[4];
+                       Byte bt5 = testByte[5];
+
+                       //网络已经连接
+                       node.connect = @"1";
+                       
+                       if(bt4 == 0x25 && bt5 == 0x00)//电源开关
+                       {
+                           node.supply_status = @"1";
+                       }
+                       else if(bt4 == 0x37)//环境温度
+                       {
+                           Byte bt = testByte[10];
+                           //16进制转10进制
+                           NSString* str = [NSString stringWithFormat:@"%x", bt];
+                           int uint_ch = (int)strtoul([str UTF8String], 0, 16);
+
+                           node.temperature = [NSString stringWithFormat:@"%d",uint_ch];
+                       }
+                   }
+            }];
+        }
+    }
+}
+
+-(void)tcpSendAndRecive:(NSDictionary *)dict
+{
+    if (dict == nil) return;
+    NSNumber *number = dict[@"number"];
+    NSString *key = dict[@"key"];
+    int row = [number intValue];
+    if(self.data == nil || self.data.count <= row) return;
+    APGroupNote *node = self.data[row];
+    NSData* tcpdata = node.monitorDict[key];
+    WS(weakSelf);
+
+    NSString *sss = [[NSString alloc] initWithData:tcpdata encoding:NSUTF8StringEncoding];
+
+//                NSLog(@"发送数据：%@",sss);
+    APTcpSocket *tcpManager;
+    if (node.tcpSocket == nil)
+    {
+        tcpManager = [APTcpSocket new];
+        node.tcpSocket = tcpManager;
+    }
+    node.tcpSocket.senddata = [NSData dataWithData:tcpdata];
+    node.tcpSocket.ip = node.ip;
+    node.tcpSocket.port = node.port.intValue;
+    [node.tcpSocket connectToHost];
+    
+    //连接失败
+    [node.tcpSocket setDidDisconnectBlock:^(NSString * _Nonnull message) {
+        //重置
+        APGroupNote *node = weakSelf.data[row];
+        
+        if ([node.connect isEqualToString:@"2"] == NO)
+        {
+            node.connect = @"2";
+            node.supply_status = @"2";
+            node.shutter_status = @"2";
+            
+//            [weakSelf refreshCell:number];
+        }
+    }];
+    
+    //连接成功
+    [node.tcpSocket setDidConnectedBlock:^(NSString * _Nonnull message) {
+        //重置
+        APGroupNote *node = weakSelf.data[row];
+        //网络已经连接
+        node.connect = @"1";
+        node.supply_status = @"1";
+    }];
+    
+    [node.tcpSocket setSocketMessageBlock:^(NSString * _Nonnull message) {
+           if(message)
+           {
+               if(weakSelf.data == nil || weakSelf.data.count <= row) return;
+
+               APGroupNote *tempNode = weakSelf.data[row];
+               NSArray *temparray = [message componentsSeparatedByString:@"\r\n"];
+               for (NSString *string in temparray)
+               {
+                   if (string.length == 0) continue;
+                   
+                   NSArray *arr = [string componentsSeparatedByString:@"#"];
+                   NSString *firstStr = [arr firstObject];
+                   NSString *lastStr = [arr lastObject];
+    //                       APGroupNote *tempNode = weakSelf.data[row];
+    //               NSLog(@"第%d行设备：%@收到数据:\n%@",(int)row,tempNode.name,message);
+
+                   if([@"AT+System" isEqualToString:firstStr])//电源开关机
+                   {
+                       //on是开机 off待机 其他关机
+                       if([lastStr containsString:@"On"])
+                       {
+                           tempNode.supply_status = @"1";
+                       }
+                       else if ([lastStr containsString:@"Off"])
+                       {
+                           tempNode.supply_status = @"0";
+                       }
+                       else
+                       {
+                           tempNode.supply_status = @"3";
+                       }
+                   }
+                   else if([@"AT+LightSource" isEqualToString:firstStr])//光源（快门）开关
+                   {
+                       tempNode.shutter_status = [lastStr containsString:@"On"]?@"1":@"2";
+                   }
+                   else if([@"AT+LightSourceTime" isEqualToString:firstStr])//光源（快门）运行时间
+                   {
+                       arr = [lastStr componentsSeparatedByString:@"\r"];
+                       tempNode.light_running_time = arr?arr[0]:lastStr;
+                   }
+                   else if([@"AT+RunTime" isEqualToString:firstStr])//整机运行时间
+                   {
+                       arr = [lastStr componentsSeparatedByString:@"\r"];
+                       tempNode.machine_running_time = arr?arr[0]:lastStr;;
+                   }
+                   else if([@"AT+SignalChannel" isEqualToString:firstStr])//信源
+                   {
+                       arr = [lastStr componentsSeparatedByString:@"\r"];
+                       tempNode.signals = arr?arr[0]:lastStr;;
+                   }
+                   else if([@"AT+Temperature" isEqualToString:firstStr])//温度
+                   {
+                       for (NSString *temp in [lastStr componentsSeparatedByString:@","])
+                       {
+                           NSArray *tempArr = [temp componentsSeparatedByString:@":"];
+                           NSString *first = [[tempArr firstObject] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+                           NSString *last = [[tempArr lastObject] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+
+                           if ([@"NtcEnv" compare:first options:NSCaseInsensitiveSearch] ==NSOrderedSame)
+                           {
+                               tempNode.temperature = last;
+                               break;
+                           }
+                       }
+                   }
+                   else if([@"AT+deviceInfo" isEqualToString:firstStr])//S
+                   {
+                       //devid
+                       NSString* pattern=@"MachineSn:([^,]*()?)";
+                       NSRegularExpression *regex = [NSRegularExpression
+                                                         regularExpressionWithPattern:pattern
+                                                         options:NSRegularExpressionCaseInsensitive error:nil];
+
+                       NSArray *match = [regex matchesInString:message options:0 range:NSMakeRange(0, message.length)];
+                       for (NSTextCheckingResult* b in match)
+                       {
+                           NSRange resultRange = [b rangeAtIndex:0];
+                           //从urlString当中截取数据
+                           NSString *result=[message substringWithRange:resultRange];
+                           if (result)
+                           {
+                               NSArray *tempArr = [result componentsSeparatedByString:@":"];
+                               tempNode.device_id = [tempArr lastObject];
+                               break;
+                           }
+                       }
+                       
+                       //温度
+                       pattern=@"(NtcEnv1:)[^,]*()?";
+                       regex = [NSRegularExpression regularExpressionWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:nil];
+                       match = [regex matchesInString:message options:0 range:NSMakeRange(0, message.length)];
+                       for (NSTextCheckingResult* b in match)
+                       {
+                           NSRange resultRange = [b rangeAtIndex:0];
+                           //从urlString当中截取数据
+                           NSString *result=[message substringWithRange:resultRange];
+                           if (result)
+                           {
+                               NSArray *tempArr = [result componentsSeparatedByString:@":"];
+                               tempNode.temperature = [tempArr lastObject];
+                               break;
+                           }
+                       }
+                       
+                       //整机运行时间
+                       pattern=@"(runtime:)[^,]*()?";
+                       regex = [NSRegularExpression regularExpressionWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:nil];
+                       match = [regex matchesInString:message options:0 range:NSMakeRange(0, message.length)];
+                       for (NSTextCheckingResult* b in match)
+                       {
+                           NSRange resultRange = [b rangeAtIndex:0];
+                           //从urlString当中截取数据
+                           NSString *result=[message substringWithRange:resultRange];
+                           if (result)
+                           {
+                               NSArray *tempArr = [result componentsSeparatedByString:@":"];
+                               tempNode.machine_running_time = [tempArr lastObject];
+                               break;
+                           }
+                       }
+                       
+                       //快门状态
+                       pattern=@"(lightsource:)[^,]*()?";
+                       regex = [NSRegularExpression regularExpressionWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:nil];
+                       match = [regex matchesInString:message options:0 range:NSMakeRange(0, message.length)];
+                       for (NSTextCheckingResult* b in match)
+                       {
+                           NSRange resultRange = [b rangeAtIndex:0];
+                           //从urlString当中截取数据
+                           NSString *result=[message substringWithRange:resultRange];
+                           if (result)
+                           {
+                               NSArray *tempArr = [result componentsSeparatedByString:@":"];
+                               NSString *lastStr = [tempArr lastObject];
+                               tempNode.shutter_status = [lastStr containsString:@"On"]?@"1":@"2";
+
+                               break;
+                           }
+                       }
+                       
+                       //电源状态
+                       pattern=@"(system:)[^,]*()?";
+                       regex = [NSRegularExpression regularExpressionWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:nil];
+                       match = [regex matchesInString:message options:0 range:NSMakeRange(0, message.length)];
+                       for (NSTextCheckingResult* b in match)
+                       {
+                           NSRange resultRange = [b rangeAtIndex:0];
+                           //从urlString当中截取数据
+                           NSString *result=[message substringWithRange:resultRange];
+                           if (result)
+                           {
+                               NSArray *tempArr = [result componentsSeparatedByString:@":"];
+                               NSString *lastStr = [tempArr lastObject];
+                               tempNode.supply_status = [lastStr containsString:@"On"]?@"1":@"2";
+
+                               break;
+                           }
+                       }
+                   }
+                   else if([@"appp" isEqualToString:firstStr])//s4mini整机信息
+                   {
+                       for (NSString *temp in [lastStr componentsSeparatedByString:@","])
+                       {
+                           NSArray *tempArr = [temp componentsSeparatedByString:@":"];
+                           NSString *first = [[tempArr firstObject] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+                           NSString *last = [[tempArr lastObject] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+
+                           if ([@"system" compare:first options:NSCaseInsensitiveSearch] ==NSOrderedSame)
+                           {
+                               tempNode.supply_status = [@"on" compare:last options:NSCaseInsensitiveSearch] ==NSOrderedSame?@"1":@"2";
+                           }
+                           else if ([@"lightsource" compare:first options:NSCaseInsensitiveSearch] ==NSOrderedSame)
+                           {
+                               tempNode.shutter_status = [@"on" compare:last options:NSCaseInsensitiveSearch] ==NSOrderedSame?@"1":@"2";
+                           }
+                           else if ([@"temperature" compare:first options:NSCaseInsensitiveSearch] ==NSOrderedSame)
+                           {
+                               tempNode.temperature = last;
+                           }
+                           else if ([@"runtime" compare:first options:NSCaseInsensitiveSearch] ==NSOrderedSame)
+                           {
+                               tempNode.machine_running_time = last;
+                           }
+                       }
+                   }
+               }
+           }
+    }];
+}
+
 
 #pragma mark UITextFieldDelegate
 - (void)textFieldDidBeginEditing:(UITextField *)textField
@@ -1513,6 +1830,9 @@
 //                make.bottom.mas_equalTo(self.mas_bottom).offset(0);
 //                make.height.mas_equalTo(Bottom_View_Height);
 //            }];
+            [_tableview mas_updateConstraints:^(MASConstraintMaker *make) {
+                make.bottom.mas_equalTo(self.mas_bottom).offset(-Bottom_View_Height);
+            }];
         }
         else
         {
@@ -1536,6 +1856,9 @@
 //                    make.top.mas_equalTo(self.mas_bottom).offset(0);
 //                    make.height.mas_equalTo(Bottom_View_Height);
 //                }];
+                [_tableview mas_updateConstraints:^(MASConstraintMaker *make) {
+                    make.bottom.mas_equalTo(self.mas_bottom).offset(0);
+                }];
             }
         }
     }

@@ -457,7 +457,7 @@
         if ([@"tcp" compare:node.access_protocol options:NSCaseInsensitiveSearch |NSNumericSearch] ==NSOrderedSame)
         {
             NSLog(@"%@,ip=%@,port=%@,发送数据：%@",node.access_protocol,node.ip,node.port,sendData);
-            NSString *sss = [[NSString alloc] initWithData:sendData encoding:NSUTF8StringEncoding];
+//            NSString *sss = [[NSString alloc] initWithData:sendData encoding:NSUTF8StringEncoding];
 
             APTcpSocket *tcpManager;
             if (node.tcpSocket == nil)
@@ -466,19 +466,15 @@
                 node.tcpSocket = tcpManager;
             }
             node.tcpSocket.senddata = sendData;
-//            [_sockArray addObject:tcpManager];
             [node.tcpSocket connectToHost:node.ip Port:[node.port intValue]];
-            WS(weakSelf);
-            [node.tcpSocket setDidConnectedBlock:^(NSString * _Nonnull message) {
-//                            [weakSelf.sockArray addObject:tcpManager];
-            }];
-//            [tcpManager sendData:sendData];
-//            [tcpManager performSelector:@selector(sendData:) withObject:sendData afterDelay:0.2 * i];
+//            WS(weakSelf);
+//            [node.tcpSocket setDidConnectedBlock:^(NSString * _Nonnull message) {
+//            }];
         }
         else if ([@"udp" compare:node.access_protocol options:NSCaseInsensitiveSearch |NSNumericSearch] ==NSOrderedSame)
         {
             NSLog(@"%@,ip=%@,port=%@,发送数据：%@",node.access_protocol,node.ip,node.port,sendData);
-            NSString *sss = [[NSString alloc] initWithData:sendData encoding:NSUTF8StringEncoding];
+//            NSString *sss = [[NSString alloc] initWithData:sendData encoding:NSUTF8StringEncoding];
 
             APUdpSocket *udpManager = [APUdpSocket sharedInstance];
             udpManager.host = node.ip;

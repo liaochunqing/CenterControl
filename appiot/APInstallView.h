@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic)int selectedMenuIndex;//被选中菜单（）
 
 
-//@property(nonatomic,strong)APSceneView *sceneView;
+@property(nonatomic,strong)APSceneView *sceneView;
 //@property(nonatomic,strong)APConfigureView *configureView;
 //@property(nonatomic,strong)APImageView *imageView;
 //@property(nonatomic,strong)APColourView *colourView;

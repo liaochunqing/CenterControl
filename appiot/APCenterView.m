@@ -28,7 +28,11 @@
     self.backgroundColor = ColorHex(0x161635 );
     
     [self createMenu];
-    
+    [self createMonitorView];
+    if(_controlBtn)//默认选中第一个
+    {
+        [_controlBtn sendActionsForControlEvents:UIControlEventTouchUpInside];//代码点击
+    }
 }
 
 
@@ -75,7 +79,8 @@
             
             if(i == 0)//默认选中第一个
             {
-                [button sendActionsForControlEvents:UIControlEventTouchUpInside];//代码点击
+//                [button sendActionsForControlEvents:UIControlEventTouchUpInside];//代码点击
+                _controlBtn = button;
             }
             
             x += Center_Btn_Width + midGap;
@@ -98,7 +103,21 @@
     }
 }
 
-//创建“控制”窗口view
+//创建“监控”窗口view
+-(void)createMonitorView
+{
+    if(self.monitorView == nil)
+    {
+        self.monitorView = [[APMonitorView alloc] init];
+        [self addSubview:self.monitorView];
+    }
+    else
+    {
+        [self bringSubviewToFront:self.monitorView];
+    }
+}
+
+//创建“安装调节”窗口view
 -(void)createInstallView
 {
     if(self.installView == nil)
@@ -109,6 +128,11 @@
     else
     {
         [self bringSubviewToFront:self.installView];
+        
+        if (self.installView.selectedMenuIndex == 0)
+        {
+            [self.installView.sceneView setDefaultValue:self.installView.sceneView.selectedArray];
+        }
     }
 }
 
@@ -134,14 +158,14 @@
         [btn setBackgroundImage:[self imageWithColor:ColorHex(0x3F6EF2)] forState:UIControlStateNormal];
         
         
-        if(self.monitorView != nil)
-        {
-            [self.monitorView.timer invalidate];
-            self.monitorView.timer = nil;
-            [self.monitorView removeFromSuperview];
-            self.monitorView = nil;
-            [kNotificationCenter removeObserver:Notification_Get_SelectedDev];
-        }
+//        if(self.monitorView != nil)
+//        {
+//            [self.monitorView.timer invalidate];
+//            self.monitorView.timer = nil;
+//            [self.monitorView removeFromSuperview];
+//            self.monitorView = nil;
+//            [kNotificationCenter removeObserver:Notification_Get_SelectedDev];
+//        }
         
         switch (btn.tag) {
             case 0://按钮“控制”
@@ -151,19 +175,7 @@
                 break;
             case 1://按钮“监控”
             {
-                if(self.monitorView == nil)
-                {
-                    self.monitorView = [[APMonitorView alloc] init];
-                    [self addSubview:self.monitorView];
-                }
-                else
-                {
-                    [self bringSubviewToFront:self.monitorView];
-                }
-            }
-                break;
-            case 2://按钮“”
-            {
+                [self createMonitorView];
             }
                 break;
                 

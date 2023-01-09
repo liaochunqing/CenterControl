@@ -21,6 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,strong)APMonitorView *__nullable monitorView;
 @property(nonatomic,strong)APInstallView *installView;
 
+@property(nonatomic,strong)UIButton *controlBtn;
+
 @end
 
 NS_ASSUME_NONNULL_END

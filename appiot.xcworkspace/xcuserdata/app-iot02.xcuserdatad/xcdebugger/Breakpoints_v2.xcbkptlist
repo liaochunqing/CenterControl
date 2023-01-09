@@ -46,8 +46,8 @@
             filePath = "appiot/APGroupView.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "251"
-            endingLineNumber = "251"
+            startingLineNumber = "257"
+            endingLineNumber = "257"
             landmarkName = "-getDataFromDB"
             landmarkType = "7">
          </BreakpointContent>
@@ -87,16 +87,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "4256D0C8-958A-47F9-A35C-DADEF2ADEC17"
+            uuid = "9A0D422E-2F2C-40A2-BC0D-3DD725E9070A"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "appiot/APConfigView.m"
+            filePath = "appiot/APMonitorView.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "269"
-            endingLineNumber = "269"
-            landmarkName = "-sendDataToDevice:value:"
+            startingLineNumber = "476"
+            endingLineNumber = "476"
+            landmarkName = "-tcpSendAndRecive:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

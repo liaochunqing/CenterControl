@@ -146,7 +146,7 @@
     
     
     //创建一个开关对象
-    UISwitch *_mySwitch = [[UISwitch alloc]init];
+    _mySwitch = [[UISwitch alloc]init];
     _mySwitch.frame=CGRectMake(W_SCALE(540), H_SCALE(281), W_SCALE(54), H_SCALE(30));
 //    _mySwitch.on=YES;
     [self addSubview:_mySwitch];
@@ -335,6 +335,7 @@
     if(selectedArray && selectedArray.count)
     {
         APGroupNote *node = selectedArray[0];
+        
         _isSpecial = NO;
         
         for (NSString *key in node.sceneDict)
@@ -471,6 +472,20 @@
         [_imageArray addObject:_iv];
     }
 }
+
+-(void)setDefaultValue:(NSArray *)array
+{
+    if (array == nil)
+        return;
+    
+    if (array.count > 0)//没有选设备显示界面
+    {
+        APGroupNote *node = array[0];
+
+        _mySwitch.on = [node.shutter_status isEqualToString:@"1"] ? YES : NO;
+    }
+}
+
 #pragma button响应函数
 //自动居中按钮
 -(void)btnAutoCenterClick:(UIButton *)btn
@@ -555,7 +570,7 @@
         else if ([@"udp" compare:node.access_protocol options:NSCaseInsensitiveSearch |NSNumericSearch] ==NSOrderedSame)
         {
             NSLog(@"%@,ip=%@,port=%@,发送数据：%@",node.access_protocol,node.ip,node.port,sendData);
-            NSString *sss = [[NSString alloc] initWithData:sendData encoding:NSUTF8StringEncoding];
+//            NSString *sss = [[NSString alloc] initWithData:sendData encoding:NSUTF8StringEncoding];
 
             APUdpSocket *udpManager = [APUdpSocket sharedInstance];
             udpManager.host = node.ip;//@"255.255.255.255";

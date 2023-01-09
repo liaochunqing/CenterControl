@@ -86,7 +86,10 @@ static APTcpSocket *shareManager = nil;
 {
     if (self.socket && self.socket.isConnected)
     {
-        [self.socket writeData:self.senddata withTimeout:-1 tag:0];
+        if (self.senddata)
+        {
+            [self.socket writeData:self.senddata withTimeout:-1 tag:0];
+        }
         NSLog(@"%p发送：%@",self.socket, self.senddata);
         [self.socket readDataWithTimeout:-1 tag:0];
     }
@@ -110,8 +113,8 @@ static APTcpSocket *shareManager = nil;
 #pragma mark 已经向服务器发送数据
 - (void)socket:(GCDAsyncSocket *)sock didWriteDataWithTag:(long)tag
 {
-    NSString *message = [NSString stringWithFormat:@"%@发送数据成功",sock];
-    NSLog(@"%@",message);
+//    NSString *message = [NSString stringWithFormat:@"%@发送数据成功",sock];
+//    NSLog(@"%@",message);
 }
 
 
@@ -120,7 +123,7 @@ static APTcpSocket *shareManager = nil;
 {
     NSString *receiverStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 //    NSDictionary *dic = [APTool dictionaryWithJsonString:receiverStr];
-    NSLog(@"%@收到数据: %@",sock,receiverStr);
+//    NSLog(@"%@收到数据: %@",sock,receiverStr);
     
     dispatch_async(dispatch_get_main_queue(), ^{
        // UI更新代码
@@ -139,8 +142,10 @@ static APTcpSocket *shareManager = nil;
 {
     NSString *message = [NSString stringWithFormat:@"连接失败.ERROR:%@\n",err.description];
     NSLog(@"%@",message);
-//    self.disconnectWithHost();
-    //TODO:设置重连
+    if (self.didDisconnectBlock)
+    {
+        self.didDisconnectBlock(message);
+    }
 }
 
 @end

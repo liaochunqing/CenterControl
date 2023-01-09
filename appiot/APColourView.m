@@ -256,10 +256,6 @@
             if ([@"tcp" compare:node.access_protocol options:NSCaseInsensitiveSearch |NSNumericSearch] ==NSOrderedSame)
             {
                 NSLog(@"%@,ip=%@,port=%@,发送数据：%@",node.access_protocol,node.ip,node.port,sendData);
-
-//                APTcpSocket *tcpManager = [APTcpSocket shareManager];
-//                [tcpManager connectToHost:node.ip Port:[node.port intValue]];
-//                [tcpManager sendData:filanData];
                 APTcpSocket *tcpManager;
                 if (node.tcpSocket == nil)
                 {
@@ -342,14 +338,14 @@
 -(void)singleTapAction
 {
 //    if(_chooseItemArray)
-    {
+//    {
         //消除视图
 //        for (APChooseItem *item in _chooseItemArray) {
 //            [item.tableView removeFromSuperview];
 //            item.tableView = nil;
 //            item.expendIm.image = [UIImage imageNamed:@"Vector(2)"];
 //        }
-    }
+//    }
 }
 
 @end

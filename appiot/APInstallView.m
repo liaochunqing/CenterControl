@@ -286,24 +286,12 @@
 
 -(void)createSceneView
 {
-//    if (_sceneView)
-//    {
-//        [_sceneView removeFromSuperview];
-//        _sceneView = nil;
-//    }
-//    APGroupNote *node = nil;
-//    if(_sortData && _sortData.count)
-//    {
-//        NSArray * temp = _sortData[_selectedModelTag];
-//        node = temp.count? temp[0]:nil;
-//    }
-//    NSString *key = [NSString stringWithFormat:@"%@+%@",@"scene",node?node.model_id:@""];
     APSceneView *view = [self getView:@"scene"];
     
     if(view == nil)
     {
         view = [[APSceneView alloc] init];
-//        _sceneView = view;
+        _sceneView = view;
         [self addSubview:view];
         [view mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.mas_top).offset(btn_height + top_Gap + menu_height);
@@ -320,19 +308,17 @@
         }
     }
     
-    
     [self bringSubviewToFront:view];
+    if(view && _sortData && _sortData.count)
+    {
+        [view setDefaultValue:_sortData[_selectedModelTag]];
+    }
 }
 
 
 
 -(void)createImageView
 {
-//    if (_imageView)
-//    {
-//        [_imageView removeFromSuperview];
-//        _imageView = nil;
-//    }
     APImageView *view = [self getView:@"image"];
     
     if (view == nil)
@@ -352,15 +338,10 @@
         [view setDefaultValue:array];
     }
     [self bringSubviewToFront:view];
-
 }
+
 -(void)createColourView
 {
-//    if (_colourView)
-//    {
-//        [_colourView removeFromSuperview];
-//        _colourView = nil;
-//    }
     APColourView *view = [self getView:@"colour"];
     
     if (view == nil)
@@ -385,11 +366,6 @@
 
 -(void)createConfigView
 {
-//    if (_configView)
-//    {
-//        [_configView removeFromSuperview];
-//        _configView = nil;
-//    }
     APConfigView *view = [self getView:@"install_config"];
     
     if (view == nil)
@@ -413,11 +389,6 @@
 
 -(void)createSignalView
 {
-//    if (_signalView)
-//    {
-//        [_signalView removeFromSuperview];
-//        _signalView = nil;
-//    }
     APSignalView *view = [self getView:@"signal"];
     
     if(view == nil)
@@ -443,12 +414,6 @@
 
 -(void)createSetupView
 {
-//    if (_setupView)
-//    {
-//        [_setupView removeFromSuperview];
-//        _setupView = nil;
-//    }
-    
     APSetupView *view = [self getView:@"setup"];
     
     if(view == nil)

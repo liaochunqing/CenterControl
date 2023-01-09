@@ -11,6 +11,8 @@
 NS_ASSUME_NONNULL_BEGIN
 typedef void(^SocketReturnMessage)(NSString *message);
 typedef void(^SocketDidConnected)(NSString *message);
+typedef void(^SocketDidDisconnect)(NSString *message);
+
 
 @interface APTcpSocket : NSObject<GCDAsyncSocketDelegate>
 /*
@@ -27,6 +29,7 @@ typedef void(^SocketDidConnected)(NSString *message);
  */
 @property (nonatomic,copy) SocketReturnMessage socketMessageBlock;
 @property (nonatomic,copy) SocketDidConnected didConnectedBlock;
+@property (nonatomic,copy) SocketDidDisconnect didDisconnectBlock;
 
 
 /*

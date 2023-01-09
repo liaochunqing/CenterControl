@@ -53,7 +53,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,strong)APRenameView *renameView;
 @property(nonatomic,strong)APRenameGroupView *renameGroupView;
 
+@property(nonatomic,strong)APUdpSocket *udpManager;
+
 -(NSArray *)getSelectedDevice;
+-(NSArray *)getAllDevice;
 -(void)refreshTable;
 
 @end
