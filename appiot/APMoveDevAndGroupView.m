@@ -202,6 +202,15 @@
     {
         if(_movetoGroupNode.nodeId != nil)
         {
+            //将加入的分组从选中设备中剔除
+            for (APGroupNote *node in _selectedData)
+            {
+                if ([node.nodeId isEqualToString:_movetoGroupNode.nodeId])
+                {
+                    [_selectedData removeObject:node];
+                    break;
+                }
+            }
             [self writeDB];
             self.okBtnClickBlock(0);
         }

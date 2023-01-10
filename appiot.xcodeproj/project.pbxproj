@@ -23,6 +23,7 @@
 		C63C82432925DAF100DBB3F6 /* APGroupNote.m in Sources */ = {isa = PBXBuildFile; fileRef = C63C82422925DAF100DBB3F6 /* APGroupNote.m */; };
 		C63C82462925DD1200DBB3F6 /* APGroupTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = C63C82452925DD1200DBB3F6 /* APGroupTableView.m */; };
 		C63C82492925FF5500DBB3F6 /* APGroupCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C63C82482925FF5500DBB3F6 /* APGroupCell.m */; };
+		C680CDC0296D72BE00370940 /* remote.db in Resources */ = {isa = PBXBuildFile; fileRef = C680CDBF296D72BD00370940 /* remote.db */; };
 		C68F7A9E295EC4A40021C689 /* APRenameView.m in Sources */ = {isa = PBXBuildFile; fileRef = C68F7A9D295EC4A40021C689 /* APRenameView.m */; };
 		C68F7AA129656C2B0021C689 /* APRenameGroupView.m in Sources */ = {isa = PBXBuildFile; fileRef = C68F7AA029656C2B0021C689 /* APRenameGroupView.m */; };
 		C6C52849291B7DCF003F24C1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C6C52848291B7DCF003F24C1 /* AppDelegate.m */; };
@@ -58,7 +59,6 @@
 		C6ED8A45295054EF00C98D7B /* APSignalView.m in Sources */ = {isa = PBXBuildFile; fileRef = C6ED8A44295054EF00C98D7B /* APSignalView.m */; };
 		C6ED8A4829515D7600C98D7B /* APRadioItem.m in Sources */ = {isa = PBXBuildFile; fileRef = C6ED8A4729515D7600C98D7B /* APRadioItem.m */; };
 		C6ED8A4B2951886E00C98D7B /* APConfigView.m in Sources */ = {isa = PBXBuildFile; fileRef = C6ED8A4A2951886E00C98D7B /* APConfigView.m */; };
-		C6ED8A4D2953E9D700C98D7B /* remote.db in Resources */ = {isa = PBXBuildFile; fileRef = C6ED8A4C2953E9D700C98D7B /* remote.db */; };
 		CDAF7A201535A7BF8524ABBD /* Pods_appiot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB3765024A92663D80DC1163 /* Pods_appiot.framework */; };
 		E1FE5C87F1B352B5DF206E02 /* Pods_appiotTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87EB77647DEFF331311B61D6 /* Pods_appiotTests.framework */; };
 /* End PBXBuildFile section */
@@ -119,6 +119,7 @@
 		C63C82452925DD1200DBB3F6 /* APGroupTableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APGroupTableView.m; sourceTree = "<group>"; };
 		C63C82472925FF5500DBB3F6 /* APGroupCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APGroupCell.h; sourceTree = "<group>"; };
 		C63C82482925FF5500DBB3F6 /* APGroupCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APGroupCell.m; sourceTree = "<group>"; };
+		C680CDBF296D72BD00370940 /* remote.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = remote.db; sourceTree = "<group>"; };
 		C68F7A9C295EC4A40021C689 /* APRenameView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APRenameView.h; sourceTree = "<group>"; };
 		C68F7A9D295EC4A40021C689 /* APRenameView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APRenameView.m; sourceTree = "<group>"; };
 		C68F7A9F29656C2B0021C689 /* APRenameGroupView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APRenameGroupView.h; sourceTree = "<group>"; };
@@ -187,7 +188,6 @@
 		C6ED8A4729515D7600C98D7B /* APRadioItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APRadioItem.m; sourceTree = "<group>"; };
 		C6ED8A492951886E00C98D7B /* APConfigView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APConfigView.h; sourceTree = "<group>"; };
 		C6ED8A4A2951886E00C98D7B /* APConfigView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APConfigView.m; sourceTree = "<group>"; };
-		C6ED8A4C2953E9D700C98D7B /* remote.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = remote.db; sourceTree = "<group>"; };
 		F110C31EB98C931C5089AE17 /* Pods_appiot_appiotUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_appiot_appiotUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -323,8 +323,8 @@
 				C6C52848291B7DCF003F24C1 /* AppDelegate.m */,
 				C6CA8BB129220E1A00F5AAC2 /* APViewController.h */,
 				C6CA8BB229220E1A00F5AAC2 /* APViewController.m */,
+				C680CDBF296D72BD00370940 /* remote.db */,
 				C6C5288C291CFC92003F24C1 /* config.h */,
-				C6ED8A4C2953E9D700C98D7B /* remote.db */,
 				C6C52858291B7DD1003F24C1 /* LaunchScreen.storyboard */,
 				C6C52856291B7DD1003F24C1 /* Assets.xcassets */,
 				C6C5285B291B7DD1003F24C1 /* Info.plist */,
@@ -571,7 +571,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C6C5285A291B7DD1003F24C1 /* LaunchScreen.storyboard in Resources */,
-				C6ED8A4D2953E9D700C98D7B /* remote.db in Resources */,
+				C680CDC0296D72BE00370940 /* remote.db in Resources */,
 				C6C52857291B7DD1003F24C1 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -87,8 +87,7 @@
     if ([fm fileExistsAtPath:dbfileName] == NO)
     {
         BOOL ok;
-//        ok = [fm removeItemAtPath:dbfileName error:nil];
-//                NSLog(@"删除成功");
+        ok = [fm removeItemAtPath:dbfileName error:nil];
         //拷贝数据库文件到指定目录
         NSString *backPath = [[NSBundle mainBundle] pathForResource:@"remote" ofType:@"db"];
          ok = [fm copyItemAtPath:backPath toPath:dbfileName error:nil];
@@ -103,7 +102,8 @@
         [self initData];
         
         //查询设备
-        FMResultSet *resultSet = [db executeQuery:@"SELECT * FROM log_sn l,dev_model m WHERE l.model_id=m.id"];
+//        FMResultSet *resultSet = [db executeQuery:@"SELECT * FROM log_sn l,dev_model m WHERE l.model_id=m.id"];
+        FMResultSet *resultSet = [db executeQuery:@"SELECT * FROM log_sn"];
           while ([resultSet next])
           {
               APGroupNote *node = [APGroupNote new];
