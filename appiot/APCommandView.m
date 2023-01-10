@@ -28,6 +28,7 @@
     [self setFrame:CGRectMake(x, y, w, h)];
     self.backgroundColor = ColorHex(0x161635);
     
+    [self performSelector:@selector(setDeviceStatus) withObject:nil afterDelay:2];
     [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(setDeviceStatus) userInfo:nil repeats:YES];
     
     //监听设备选中的通知
@@ -37,8 +38,8 @@
     [self createTestView];
     [self createMonitorView];
     [self getSelectedDev];
-
 }
+
 -(void)notifySelectedDevChanged:(NSNotification *)notification
 {
     NSArray *arr = notification.userInfo[@"array"];
@@ -327,9 +328,8 @@
     }];
     [btnRight addTarget:self action:@selector(btnRefreshClick:) forControlEvents:UIControlEventTouchUpInside];
     
-    CGFloat btnW = W_SCALE(389);
+    CGFloat btnW = (Center_View_Width - 5*Left_Gap)/2;//W_SCALE(389);
     CGFloat btnH = H_SCALE(70);
-//    CGFloat midGap = 20;
     CGFloat x = Left_Gap;
     CGFloat y = H_SCALE(70);
     _itemArray = [NSMutableArray array];
@@ -377,10 +377,10 @@
 
 -(void)setDeviceStatus
 {
-    NSString*total = @"520";
-    NSString*erroNumber = @"5";
+    NSString*total = @"0";
+    NSString*erroNumber = @"0";
     NSString*online = @"0";
-    NSString*offline =@"520";
+    NSString*offline =@"0";
     
     AppDelegate *appDelegate = kAppDelegate;
     APGroupView *vc = appDelegate.mainVC.leftView.groupView;
@@ -394,16 +394,17 @@
         {
             if (temp.isDevice)
             {
-                if([temp.name isEqualToString:@"s4mini"])
-                {
-                    int i = 0;
-                }
+//                if([temp.name isEqualToString:@"s4mini"])
+//                {
+//                    int i = 0;
+//                }
                 vc.allNumber++;
                 if (temp.selected)
                 {
                     vc.selectedNumber++;
                 }
-                if ([temp.supply_status isEqualToString:@"1"])
+                if((temp.tcpSocket && temp.tcpSocket.socket.isConnected)
+                       || [temp.connect isEqualToString:@"1"])
                 {
                     vc.onlineNumber++;
                 }
@@ -619,7 +620,7 @@
 
 -(void)btnRefreshClick:(UIButton *)btn
 {
-//    [self getSelectedDev];
+    [self setDeviceStatus];
 
     if(btn)
     {

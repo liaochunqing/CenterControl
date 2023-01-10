@@ -26,8 +26,8 @@
     CGFloat lineH = H_SCALE(35);//行高
     CGFloat labelW = W_SCALE(96);//左侧标题控件的宽度
     CGFloat labelFontSize = 14;
-    UIColor *labelColor = ColorHex(0x434343);
-    CGFloat textLeft = labelW + 2*Left_Gap;//右侧控件与父控件的左侧距离
+//    UIColor *labelColor = ColorHex(0x434343);
+//    CGFloat textLeft = labelW + 2*Left_Gap;//右侧控件与父控件的左侧距离
     
     CGFloat contentFontSize = 14;
     UIColor *contentColor = ColorHex(0x434343);

@@ -24,7 +24,7 @@
 {
     
     CGFloat lineH = H_SCALE(35);//行高
-    CGFloat labelW = W_SCALE(96);//左侧标题控件的宽度
+    CGFloat labelW = W_SCALE(109);//左侧标题控件的宽度
     CGFloat labelFontSize = 14;
     UIColor *labelColor = ColorHex(0x434343);
     CGFloat textLeft = labelW + 2*Left_Gap;//右侧控件与父控件的左侧距离
@@ -41,7 +41,7 @@
     [_baseview mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(self);
 //        make.centerY.mas_equalTo(self);
-        make.top.mas_equalTo(self.mas_top).offset(H_SCALE(160));
+        make.top.mas_equalTo(self.mas_top).offset(H_SCALE(130));
         make.size.mas_equalTo(CGSizeMake(W_SCALE(400), H_SCALE(250)));
     }];
  
@@ -78,7 +78,7 @@
 //    _groupField.placeholder = @"请选择要加入的分组";
     ViewBorderRadius(_groupField, 5, 1, ColorHex(0xABBDD5 ));
     [_baseview addSubview:_groupField];
-    NSString *holderText = @"请选择要加入的分组(可不选)";
+    NSString *holderText = @"选择要加入的分组(可不选)";
     NSMutableAttributedString *placeholder = [[NSMutableAttributedString alloc] initWithString:holderText];
     [placeholder addAttribute:NSForegroundColorAttributeName
                             value:ColorHex(0xABBDD5 )
@@ -233,7 +233,7 @@
     //3.打开数据库
     if ([db open])
     {
-        int x = arc4random() % 20000 + 10000;//生成2000-3000的随机数作为id
+        int x = arc4random() % 20000 + 20000;//生成2000-3000的随机数作为id
 
         NSString *ID = [NSString stringWithFormat:@"%d",x];
         NSString *sqlStr = [NSString stringWithFormat:@"insert into zk_group (id,group_name,pid) values ('%@','%@','%@')",ID, _groupInfo.name, _groupInfo.parentId.length?_groupInfo.parentId:@"0"];

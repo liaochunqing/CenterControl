@@ -9,6 +9,7 @@
 #import "config.h"
 NS_ASSUME_NONNULL_BEGIN
 typedef void(^udpSocketReturnMessage)(id message);
+typedef void(^udpDidDisconnect)(NSString *message);
 
 @interface APUdpSocket : NSObject<GCDAsyncUdpSocketDelegate>
 @property(nonatomic,strong)GCDAsyncUdpSocket *udpSocket;
@@ -17,6 +18,7 @@ typedef void(^udpSocketReturnMessage)(id message);
 @property (nonatomic, strong) NSTimer *connectTimer;    // 计时器
 @property (nonatomic, strong) NSDictionary *socketResult;
 @property (nonatomic,copy) udpSocketReturnMessage socketMessageBlock;
+@property (nonatomic,copy) udpDidDisconnect didDisconnectBlock;
 
 //- (void)receiveData:(dataBlock)block;
 

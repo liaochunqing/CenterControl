@@ -7,22 +7,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "7A2846AE-600C-4971-B05B-E2AFD533B8A8"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "appiot/APTool.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "144"
-            endingLineNumber = "144"
-            landmarkName = "+dictionaryWithJsonString:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "EA937DA2-F7ED-4BE2-9FC1-59AF9998304B"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -64,8 +48,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "27"
             endingLineNumber = "27"
-            landmarkName = "-getSocketFromCashWith:port:"
-            landmarkType = "7">
+            landmarkName = "APTcpSocket"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -94,8 +78,8 @@
             filePath = "appiot/APMonitorView.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "476"
-            endingLineNumber = "476"
+            startingLineNumber = "481"
+            endingLineNumber = "481"
             landmarkName = "-tcpSendAndRecive:"
             landmarkType = "7">
          </BreakpointContent>

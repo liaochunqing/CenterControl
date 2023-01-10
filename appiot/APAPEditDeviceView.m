@@ -84,7 +84,7 @@
 //    _groupField.placeholder = @"请选择投影机的分组";
     ViewBorderRadius(_groupField, 5, 1, ColorHex(0xABBDD5 ));
     [_baseview addSubview:_groupField];
-    NSString *holderText = @"请选择投影机的分组(可不选)";
+    NSString *holderText = @"请选择分组(可不选)";
     NSMutableAttributedString *placeholder = [[NSMutableAttributedString alloc] initWithString:holderText];
     [placeholder addAttribute:NSForegroundColorAttributeName
                             value:ColorHex(0xABBDD5 )

@@ -84,7 +84,7 @@
     _groupField.font = [UIFont systemFontOfSize:contentFontSize];
 //    _groupField.placeholder = @"请选择投影机的分组";
     
-    NSString *holderText = @"请选择投影机的分组(可不选)";
+    NSString *holderText = @"请选择分组(可不选)";
     NSMutableAttributedString *placeholder = [[NSMutableAttributedString alloc] initWithString:holderText];
     [placeholder addAttribute:NSForegroundColorAttributeName
                             value:ColorHex(0xABBDD5 )
@@ -599,7 +599,7 @@
         WS(weakSelf);
         [UIView animateWithDuration:0.3 animations:^{
             CGRect frame = weakSelf.baseview.frame;
-            frame.origin.y -= H_SCALE(250);
+            frame.origin.y -= H_SCALE(300);
             [weakSelf.baseview setFrame:frame];
         } completion:^(BOOL finished) {
             
@@ -633,7 +633,7 @@
         WS(weakSelf);
         [UIView animateWithDuration:0.3 animations:^{
             CGRect frame = weakSelf.baseview.frame;
-            frame.origin.y += H_SCALE(250);
+            frame.origin.y += H_SCALE(300);
             [weakSelf.baseview setFrame:frame];
         } completion:^(BOOL finished) {
             

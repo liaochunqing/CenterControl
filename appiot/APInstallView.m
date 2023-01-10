@@ -65,7 +65,7 @@
     if (_menuView)
     {
         [_menuView removeFromSuperview];
-        _menuView = nil;
+//        _menuView = nil;
     }
     
     _menuView = [UIView new];
@@ -140,7 +140,7 @@
     if (_baseView)
     {
         [_baseView removeFromSuperview];
-        _baseView = nil;
+//        _baseView = nil;
     }
     _baseView = [UIScrollView new];
     [self addSubview:_baseView];

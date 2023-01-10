@@ -73,6 +73,10 @@ static APUdpSocket *sharedInstance = nil;
 {
     NSString *message = [NSString stringWithFormat:@"连接失败.ERROR:%@\n",error.description];
     NSLog(@"%@",message);
+    if (self.didDisconnectBlock)
+    {
+        self.didDisconnectBlock(message);
+    }
 }
 
 - (void)udpSocket:(GCDAsyncUdpSocket *)sock didSendDataWithTag:(long)tag

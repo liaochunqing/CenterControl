@@ -47,7 +47,7 @@
     
     WS(weakSelf);
     [self performSelector:@selector(connectAllDev) withObject:nil afterDelay:1.5];
-    [NSTimer scheduledTimerWithTimeInterval:10 repeats:YES block:^(NSTimer * _Nonnull timer)
+    [NSTimer scheduledTimerWithTimeInterval:TIME_CONNECT_DEVICE repeats:YES block:^(NSTimer * _Nonnull timer)
     {
         [weakSelf connectAllDev];
     }];
@@ -550,13 +550,16 @@
         CGFloat w = btnW;
         if ([str isEqualToString:@"重命名分组"])
         {
-            w = btnW+W_SCALE(20);
+            w = btnW+W_SCALE(32);
         }
         APBottomButton *button = [[APBottomButton alloc] initWithFrame:CGRectMake(x, (Bottom_View_Height-btnH)/2, w, btnH)];
 //        [button setBackgroundImage:[self imageWithColor:ColorHex(0x7877A9)] forState:UIControlStateHighlighted];
 //        button.backgroundColor = [UIColor redColor];
         [self.bottomView addSubview:button];
-
+        if ([str isEqualToString:@"重命名分组"])
+        {
+            button.lab.font = [UIFont systemFontOfSize:15];
+        }
         if (str && str.length)
         {
             button.lab.text = str;
@@ -675,7 +678,7 @@
     if (!_floatButton)
     {
         _floatButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _floatButton.frame = CGRectMake(W_SCALE(250), H_SCALE(700), W_SCALE(55), H_SCALE(55));//初始在屏幕上的位置
+        _floatButton.frame = CGRectMake(W_SCALE(250), H_SCALE(680), W_SCALE(55), H_SCALE(55));//初始在屏幕上的位置
         [_floatButton setImage:[UIImage imageNamed:@"Group 11697"] forState:UIControlStateNormal];
         
         UIWindow *window =  [[[UIApplication sharedApplication] windows] objectAtIndex:0];
@@ -1109,6 +1112,10 @@
             [_udpManager createClientUdpSocket];
             [_udpManager sendMessage:udpdata];
             
+            [_udpManager setDidDisconnectBlock:^(NSString * _Nonnull message) {
+                node.connect = @"2";
+            }];
+            
             [_udpManager setSocketMessageBlock:^(id message) {
                    if(message)
                    {
@@ -1146,9 +1153,10 @@
     NSString *key = dict[@"key"];
     int row = [number intValue];
     if(self.data == nil || self.data.count <= row) return;
-    APGroupNote *node = self.data[row];
-    NSData* tcpdata = node.monitorDict[key];
     WS(weakSelf);
+
+    APGroupNote *node = weakSelf.data[row];
+    NSData* tcpdata = node.monitorDict[key];
 
     NSString *sss = [[NSString alloc] initWithData:tcpdata encoding:NSUTF8StringEncoding];
 
@@ -1174,6 +1182,7 @@
             node.connect = @"2";
             node.supply_status = @"2";
             node.shutter_status = @"2";
+//            node.tcpSocket.socket.isConnected = NO;
             
 //            [weakSelf refreshCell:number];
         }
@@ -1602,7 +1611,7 @@
         else
         {
             [_editDevView removeFromSuperview];
-            _editDevView = nil;
+//            _editDevView = nil;
             _editDevView = [[APAPEditDeviceView alloc] init];
             AppDelegate *appDelegate = kAppDelegate;
             UIViewController *vc = appDelegate.mainVC;
@@ -1659,7 +1668,7 @@
         else
         {
             [_moveView removeFromSuperview];
-            _moveView = nil;
+//            _moveView = nil;
             _moveView = [[APMoveDevAndGroupView alloc] init];
             AppDelegate *appDelegate = kAppDelegate;
             UIViewController *vc = appDelegate.mainVC;
@@ -1706,7 +1715,7 @@
         {
             
             [_renameView removeFromSuperview];
-            _renameView = nil;
+//            _renameView = nil;
             _renameView = [[APRenameView alloc] init];
             AppDelegate *appDelegate = kAppDelegate;
             UIViewController *vc = appDelegate.mainVC;
@@ -1760,7 +1769,7 @@
             }
             
             [_renameGroupView removeFromSuperview];
-            _renameGroupView = nil;
+//            _renameGroupView = nil;
             _renameGroupView = [[APRenameGroupView alloc] init];
             AppDelegate *appDelegate = kAppDelegate;
             UIViewController *vc = appDelegate.mainVC;

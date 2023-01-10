@@ -22,24 +22,24 @@ static APTcpSocket *shareManager = nil;
 //}
 
 //从缓存获取已经连接的socket
--(void)getSocketFromCashWith:(NSString *)host port:(NSUInteger)port
-{
-    if(_socketDict && _socketDict.count)
-    {
-        self.socket = nil;
-        
-        NSString *localKey = [NSString stringWithFormat:@"%@+%d",host,(int)port];
-        
-        for (NSString * key in _socketDict)
-        {
-            if([key isEqualToString:localKey])
-            {
-                self.socket = _socketDict[key];
-                break;
-            }
-        }
-    }
-}
+//-(void)getSocketFromCashWith:(NSString *)host port:(NSUInteger)port
+//{
+//    if(_socketDict && _socketDict.count)
+//    {
+//        self.socket = nil;
+//        
+//        NSString *localKey = [NSString stringWithFormat:@"%@+%d",host,(int)port];
+//        
+//        for (NSString * key in _socketDict)
+//        {
+//            if([key isEqualToString:localKey])
+//            {
+//                self.socket = _socketDict[key];
+//                break;
+//            }
+//        }
+//    }
+//}
 
 #pragma mark连接服务器
 - (void)connectToHost:(NSString *)host Port:(NSUInteger)port
@@ -90,7 +90,7 @@ static APTcpSocket *shareManager = nil;
         {
             [self.socket writeData:self.senddata withTimeout:-1 tag:0];
         }
-        NSLog(@"%p发送：%@",self.socket, self.senddata);
+//        NSLog(@"%p发送：%@",self.socket, self.senddata);
         [self.socket readDataWithTimeout:-1 tag:0];
     }
 }

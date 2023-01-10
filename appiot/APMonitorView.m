@@ -88,9 +88,10 @@
         
         if(weakSelf.selectedDevArr  && weakSelf.selectedDevArr.count > row)
         {
+//            [weakSelf.tableview reloadData];
             // UI更新代码
              NSArray *rowArray = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:row inSection:0]];
-             [weakSelf.tableview reloadRowsAtIndexPaths:rowArray withRowAnimation:UITableViewRowAnimationFade];
+             [weakSelf.tableview reloadRowsAtIndexPaths:rowArray withRowAnimation:UITableViewRowAnimationNone];
              
         }
     });
@@ -216,6 +217,10 @@
             NSData* udpdata = node.monitorDict[key];
             [_udpManager createClientUdpSocket];
             [_udpManager sendMessage:udpdata];
+            
+            [_udpManager setDidDisconnectBlock:^(NSString * _Nonnull message) {
+                node.connect = @"2";
+            }];
             
             [_udpManager setSocketMessageBlock:^(id message) {
                    if(message)

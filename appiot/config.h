@@ -119,7 +119,7 @@
 #define Group_Btn_W W_SCALE(30)
 #define Bottom_View_Height H_SCALE(88)//左视图cell高度
 #define Notification_Get_SelectedDev @"getselecteddev"
-
+#define TIME_CONNECT_DEVICE (30) //连接设备的定时器时间间隔 秒
 //右侧view
 #define Center_View_Width W_SCALE(873)//右视图宽度
 #define Center_Btn_Width W_SCALE(120)//中间菜单按钮宽度

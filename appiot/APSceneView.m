@@ -204,7 +204,7 @@
         {
             continue;
         }
-        NSString *str = dic[@"string"];
+//        NSString *str = dic[@"string"];
         NSString *imgStr = dic[@"imageName"];
         CGRect rect = [dic[@"frame"] CGRectValue];
         

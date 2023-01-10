@@ -86,11 +86,18 @@
     if (node.isDevice)
     {
         imgStr = @"dev";
-        if(node.tcpSocket && node.tcpSocket.socket.isConnected)
+        
+        if (node.error_code.length > 0)
+       {
+           imgStr = @"Group 11703";
+       }
+        else if((node.tcpSocket && node.tcpSocket.socket.isConnected)
+               || [node.connect isEqualToString:@"1"])
         {
             imgStr = @"Group 270";
         }
-        else if(node.tcpSocket && node.tcpSocket.socket.isConnected == NO)
+        else if((node.tcpSocket && node.tcpSocket.socket.isConnected == NO)
+            || [node.connect isEqualToString:@"1"] == NO)
         {
             imgStr = @"Group 11661";
         }

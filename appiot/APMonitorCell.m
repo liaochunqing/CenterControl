@@ -250,7 +250,7 @@
 //        make.top.mas_equalTo(idlab.mas_bottom).offset(top_Gap);
         make.top.mas_equalTo(idlab.mas_bottom).offset(gap);
         make.left.mas_equalTo(self.contentView.mas_left).offset(left);
-        make.size.mas_equalTo(CGSizeMake(W_SCALE(280), H_SCALE(17)));
+        make.size.mas_equalTo(CGSizeMake(W_SCALE(380), H_SCALE(17)));
     }];
     
     //详情箭头图标
