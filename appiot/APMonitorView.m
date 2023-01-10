@@ -209,15 +209,24 @@
     }
     else if ([@"udp" compare:node.access_protocol options:NSCaseInsensitiveSearch |NSNumericSearch] ==NSOrderedSame)
     {
-        _udpManager = [APUdpSocket sharedInstance];
-        _udpManager.host = node.ip;
-        _udpManager.port = [node.port intValue];
+//        _udpManager = [APUdpSocket sharedInstance];
+//        _udpManager.host = node.ip;
+//        _udpManager.port = [node.port intValue];
+        if (node.udpManager == nil)
+        {
+            node.udpManager = [APUdpSocket new];
+        }
+        node.udpManager.host = node.ip;//@"255.255.255.255";
+        node.udpManager.port = [node.port intValue];
+        
         for (NSString * key in node.monitorDict)
         {
             NSData* udpdata = node.monitorDict[key];
-            [_udpManager createClientUdpSocket];
-            [_udpManager sendMessage:udpdata];
-            
+//            [_udpManager createClientUdpSocket];
+//            [_udpManager sendMessage:udpdata];
+            [node.udpManager createClientUdpSocket];
+            [node.udpManager sendMessage:udpdata];
+
             [_udpManager setDidDisconnectBlock:^(NSString * _Nonnull message) {
                 node.connect = @"2";
             }];
@@ -267,18 +276,18 @@
 
 //                NSLog(@"发送数据：%@",sss);
     APTcpSocket *tcpManager;
-    if (node.tcpSocket == nil)
+    if (node.tcpManager == nil)
     {
         tcpManager = [APTcpSocket new];
-        node.tcpSocket = tcpManager;
+        node.tcpManager = tcpManager;
     }
-    node.tcpSocket.senddata = [NSData dataWithData:tcpdata];
-    node.tcpSocket.ip = node.ip;
-    node.tcpSocket.port = node.port.intValue;
-    [node.tcpSocket connectToHost];
+    node.tcpManager.senddata = [NSData dataWithData:tcpdata];
+    node.tcpManager.ip = node.ip;
+    node.tcpManager.port = node.port.intValue;
+    [node.tcpManager connectToHost];
     
     //连接失败
-    [node.tcpSocket setDidDisconnectBlock:^(NSString * _Nonnull message) {
+    [node.tcpManager setDidDisconnectBlock:^(NSString * _Nonnull message) {
         if(weakSelf.selectedDevArr && weakSelf.selectedDevArr.count > row)
         {
             //重置
@@ -296,7 +305,7 @@
     }];
     
     //连接成功
-    [node.tcpSocket setDidConnectedBlock:^(NSString * _Nonnull message) {
+    [node.tcpManager setDidConnectedBlock:^(NSString * _Nonnull message) {
         if(weakSelf.selectedDevArr && weakSelf.selectedDevArr.count > row)
         {
             //重置
@@ -307,7 +316,7 @@
         }
     }];
     
-    [node.tcpSocket setSocketMessageBlock:^(NSString * _Nonnull message) {
+    [node.tcpManager setSocketMessageBlock:^(NSString * _Nonnull message) {
            if(message)
            {
                if(weakSelf.selectedDevArr == nil || weakSelf.selectedDevArr.count <= row) return;

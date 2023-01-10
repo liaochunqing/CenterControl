@@ -839,10 +839,10 @@
         for (APGroupNote *node in tempArray)
         {
             //释放node上的socket
-            if(node.tcpSocket && node.tcpSocket.socket && node.tcpSocket.socket.isConnected)
+            if(node.tcpManager && node.tcpManager.socket && node.tcpManager.socket.isConnected)
             {
-                [node.tcpSocket.socket disconnect];
-                node.tcpSocket.socket = nil;
+                [node.tcpManager.socket disconnect];
+                node.tcpManager.socket = nil;
             }
             
             NSString *tableName = node.isDevice? @"log_sn" : @"zk_group";
@@ -1103,14 +1103,24 @@
     }
     else if ([@"udp" compare:node.access_protocol options:NSCaseInsensitiveSearch |NSNumericSearch] ==NSOrderedSame)
     {
-        _udpManager = [APUdpSocket sharedInstance];
-        _udpManager.host = node.ip;
-        _udpManager.port = [node.port intValue];
+//        _udpManager = [APUdpSocket sharedInstance];
+//        _udpManager.host = node.ip;
+//        _udpManager.port = [node.port intValue];
+        if (node.udpManager == nil)
+        {
+            node.udpManager = [APUdpSocket new];
+        }
+        node.udpManager.host = node.ip;//@"255.255.255.255";
+        node.udpManager.port = [node.port intValue];
+        
         for (NSString * key in node.monitorDict)
         {
             NSData* udpdata = node.monitorDict[key];
-            [_udpManager createClientUdpSocket];
-            [_udpManager sendMessage:udpdata];
+//            [_udpManager createClientUdpSocket];
+//            [_udpManager sendMessage:udpdata];
+            
+            [node.udpManager createClientUdpSocket];
+            [node.udpManager sendMessage:udpdata];
             
             [_udpManager setDidDisconnectBlock:^(NSString * _Nonnull message) {
                 node.connect = @"2";
@@ -1162,18 +1172,18 @@
 
 //                NSLog(@"发送数据：%@",sss);
     APTcpSocket *tcpManager;
-    if (node.tcpSocket == nil)
+    if (node.tcpManager == nil)
     {
         tcpManager = [APTcpSocket new];
-        node.tcpSocket = tcpManager;
+        node.tcpManager = tcpManager;
     }
-    node.tcpSocket.senddata = [NSData dataWithData:tcpdata];
-    node.tcpSocket.ip = node.ip;
-    node.tcpSocket.port = node.port.intValue;
-    [node.tcpSocket connectToHost];
+    node.tcpManager.senddata = [NSData dataWithData:tcpdata];
+    node.tcpManager.ip = node.ip;
+    node.tcpManager.port = node.port.intValue;
+    [node.tcpManager connectToHost];
     
     //连接失败
-    [node.tcpSocket setDidDisconnectBlock:^(NSString * _Nonnull message) {
+    [node.tcpManager setDidDisconnectBlock:^(NSString * _Nonnull message) {
         //重置
         APGroupNote *node = weakSelf.data[row];
         
@@ -1182,14 +1192,14 @@
             node.connect = @"2";
             node.supply_status = @"2";
             node.shutter_status = @"2";
-//            node.tcpSocket.socket.isConnected = NO;
+//            node.tcpManager.socket.isConnected = NO;
             
 //            [weakSelf refreshCell:number];
         }
     }];
     
     //连接成功
-    [node.tcpSocket setDidConnectedBlock:^(NSString * _Nonnull message) {
+    [node.tcpManager setDidConnectedBlock:^(NSString * _Nonnull message) {
         //重置
         APGroupNote *node = weakSelf.data[row];
         //网络已经连接
@@ -1197,7 +1207,7 @@
         node.supply_status = @"1";
     }];
     
-    [node.tcpSocket setSocketMessageBlock:^(NSString * _Nonnull message) {
+    [node.tcpManager setSocketMessageBlock:^(NSString * _Nonnull message) {
            if(message)
            {
                if(weakSelf.data == nil || weakSelf.data.count <= row) return;

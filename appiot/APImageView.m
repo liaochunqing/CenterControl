@@ -346,26 +346,29 @@
 //                [tcpManager sendData:filanData];
                 
                 APTcpSocket *tcpManager;
-                if (node.tcpSocket == nil)
+                if (node.tcpManager == nil)
                 {
                     tcpManager = [APTcpSocket new];
-                    node.tcpSocket = tcpManager;
+                    node.tcpManager = tcpManager;
                 }
-                node.tcpSocket.senddata = [NSData dataWithData:filanData];
-                node.tcpSocket.ip = node.ip;
-                node.tcpSocket.port = node.port.intValue;
-                [node.tcpSocket connectToHost];
+                node.tcpManager.senddata = [NSData dataWithData:filanData];
+                node.tcpManager.ip = node.ip;
+                node.tcpManager.port = node.port.intValue;
+                [node.tcpManager connectToHost];
             }
             else if ([@"udp" compare:node.access_protocol options:NSCaseInsensitiveSearch |NSNumericSearch] ==NSOrderedSame)
             {
                 NSLog(@"%@,ip=%@,port=%@,发送数据：%@",node.access_protocol,node.ip,node.port,sendData);
                 NSString *sss = [[NSString alloc] initWithData:sendData encoding:NSUTF8StringEncoding];
 
-                APUdpSocket *udpManager = [APUdpSocket sharedInstance];
-                udpManager.host = node.ip;//@"255.255.255.255";
-                udpManager.port = [node.port intValue];
-                [udpManager createClientUdpSocket];
-                [udpManager sendMessage:filanData];
+                if (node.udpManager == nil)
+                {
+                    node.udpManager = [APUdpSocket new];
+                }
+                node.udpManager.host = node.ip;//@"255.255.255.255";
+                node.udpManager.port = [node.port intValue];
+                [node.udpManager createClientUdpSocket];
+                [node.udpManager sendMessage:filanData];
             }
         }
     }

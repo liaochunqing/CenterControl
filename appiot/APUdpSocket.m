@@ -6,40 +6,44 @@
 //
 
 #import "APUdpSocket.h"
-static APUdpSocket *sharedInstance = nil;
+//static APUdpSocket *sharedInstance = nil;
 
 @implementation APUdpSocket
 
-+ (APUdpSocket *)sharedInstance {
-
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-            sharedInstance = [[APUdpSocket alloc] init];
-//            [sharedInstance createClientUdpSocket];
-            });
-    return sharedInstance;
-}
+//+ (APUdpSocket *)sharedInstance {
+//
+//    static dispatch_once_t onceToken;
+//    dispatch_once(&onceToken, ^{
+//            sharedInstance = [[APUdpSocket alloc] init];
+////            [sharedInstance createClientUdpSocket];
+//            });
+//    return sharedInstance;
+//}
 
 #pragma mark -- 创建socket
 -(void)createClientUdpSocket
 {
     //1.创建一个 udp socket用来和服务器端进行通讯
-//    if (_udpSocket == nil)
+    if (_udpSocket == nil || _udpSocket.isConnected == NO)
     {
-        _udpSocket = [[GCDAsyncUdpSocket alloc] initWithDelegate:sharedInstance delegateQueue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)];
+        _udpSocket = [[GCDAsyncUdpSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)];
         NSError * error = nil;
         //广播
         [_udpSocket enableBroadcast:YES error:&error];
-        if (error) {
+        
+        if (error)
+        {
             NSLog(@"error:%@",error);
-        }else{
+        }
+        else
+        {
             [_udpSocket beginReceiving:&error];
         }
     }
 }
 -(void)broadcast:(NSData *)data
 {
-    if (_udpSocket)
+    if (_udpSocket && _udpSocket.isConnected)
     {
         //如果向特定ip发送，这里要写明ip
         _host = @"255.255.255.255";
@@ -49,10 +53,11 @@ static APUdpSocket *sharedInstance = nil;
 
 - (void)sendMessage:(NSData *)data
 {
-    if (_udpSocket)
+    if (_udpSocket && _udpSocket.isConnected)
     {
         [_udpSocket sendData:data toHost:_host port:_port withTimeout:30 tag:100];
     }
+
 }
 -(void)cutOffSocket; // 断开socket连接
 {

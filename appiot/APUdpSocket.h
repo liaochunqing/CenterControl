@@ -22,7 +22,7 @@ typedef void(^udpDidDisconnect)(NSString *message);
 
 //- (void)receiveData:(dataBlock)block;
 
-+ (APUdpSocket *)sharedInstance;   // 单例
+//+ (APUdpSocket *)sharedInstance;   // 单例
 -(void)createClientUdpSocket;  // socket连接
 -(void)cutOffSocket; // 断开socket连接
 - (void)sendMessage:(NSData *)data;

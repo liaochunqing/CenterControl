@@ -403,7 +403,7 @@
                 {
                     vc.selectedNumber++;
                 }
-                if((temp.tcpSocket && temp.tcpSocket.socket.isConnected)
+                if((temp.tcpManager && temp.tcpManager.socket.isConnected)
                        || [temp.connect isEqualToString:@"1"])
                 {
                     vc.onlineNumber++;
@@ -461,15 +461,15 @@
 //            NSString *sss = [[NSString alloc] initWithData:sendData encoding:NSUTF8StringEncoding];
 
             APTcpSocket *tcpManager;
-            if (node.tcpSocket == nil)
+            if (node.tcpManager == nil)
             {
                 tcpManager = [APTcpSocket new];
-                node.tcpSocket = tcpManager;
+                node.tcpManager = tcpManager;
             }
-            node.tcpSocket.senddata = sendData;
-            [node.tcpSocket connectToHost:node.ip Port:[node.port intValue]];
+            node.tcpManager.senddata = sendData;
+            [node.tcpManager connectToHost:node.ip Port:[node.port intValue]];
 //            WS(weakSelf);
-//            [node.tcpSocket setDidConnectedBlock:^(NSString * _Nonnull message) {
+//            [node.tcpManager setDidConnectedBlock:^(NSString * _Nonnull message) {
 //            }];
         }
         else if ([@"udp" compare:node.access_protocol options:NSCaseInsensitiveSearch |NSNumericSearch] ==NSOrderedSame)
@@ -477,11 +477,14 @@
             NSLog(@"%@,ip=%@,port=%@,发送数据：%@",node.access_protocol,node.ip,node.port,sendData);
 //            NSString *sss = [[NSString alloc] initWithData:sendData encoding:NSUTF8StringEncoding];
 
-            APUdpSocket *udpManager = [APUdpSocket sharedInstance];
-            udpManager.host = node.ip;
-            udpManager.port = [node.port intValue];
-            [udpManager createClientUdpSocket];
-            [udpManager sendMessage:sendData];
+            if (node.udpManager == nil)
+            {
+                node.udpManager = [APUdpSocket new];
+            }
+            node.udpManager.host = node.ip;//@"255.255.255.255";
+            node.udpManager.port = [node.port intValue];
+            [node.udpManager createClientUdpSocket];
+            [node.udpManager sendMessage:sendData];
         }
         i++;
     }
