@@ -86,12 +86,18 @@
     NSFileManager *fm = [NSFileManager defaultManager];
     if ([fm fileExistsAtPath:dbfileName] == NO)
     {
-        BOOL ok;
-        ok = [fm removeItemAtPath:dbfileName error:nil];
+        BOOL ok = NO;
+        if (dbfileName)
+        {
+            ok = [fm removeItemAtPath:dbfileName error:nil];
+        }
         //拷贝数据库文件到指定目录
         NSString *backPath = [[NSBundle mainBundle] pathForResource:@"remote" ofType:@"db"];
-         ok = [fm copyItemAtPath:backPath toPath:dbfileName error:nil];
-        NSLog(@"%d",ok);
+        if (backPath)
+        {
+            ok = [fm copyItemAtPath:backPath toPath:dbfileName error:nil];
+        }
+//        NSLog(@"%d",ok);
     }
     //2.获得数据库
     FMDatabase *db = [FMDatabase databaseWithPath:dbfileName];
@@ -102,8 +108,8 @@
         [self initData];
         
         //查询设备
-//        FMResultSet *resultSet = [db executeQuery:@"SELECT * FROM log_sn l,dev_model m WHERE l.model_id=m.id"];
-        FMResultSet *resultSet = [db executeQuery:@"SELECT * FROM log_sn"];
+        FMResultSet *resultSet = [db executeQuery:@"SELECT * FROM log_sn l,dev_model m WHERE l.model_id=m.id"];
+//        FMResultSet *resultSet = [db executeQuery:@"SELECT * FROM log_sn"];
           while ([resultSet next])
           {
               APGroupNote *node = [APGroupNote new];
@@ -535,7 +541,7 @@
     CGFloat btnW = W_SCALE(50);
     CGFloat btnH = H_SCALE(60);
 //    CGFloat edgeGap = 2*Left_Gap;
-    CGFloat midGap = (Left_View_Width  - array.count*btnW)/(array.count + 1);
+    CGFloat midGap = (self.bottomView.frame.size.width  - array.count*btnW)/(array.count + 1);
     CGFloat x = midGap;
 
     for (int i = 0; i < array.count; i++)
@@ -978,18 +984,18 @@
 -(NSArray *)getSelectedDevice
 {
     NSMutableArray *arr = [NSMutableArray array];
-    if (_isFieldActive)
-    {
-        for(APGroupNote *temp in _filteredData)
-        {
-            if (temp.isDevice && temp.selected)
-            {
-                [arr addObject:temp];
-            }
-        }
-    }
-    else
-    {
+//    if (_isFieldActive)
+//    {
+//        for(APGroupNote *temp in _filteredData)
+//        {
+//            if (temp.isDevice && temp.selected)
+//            {
+//                [arr addObject:temp];
+//            }
+//        }
+//    }
+//    else
+//    {
         for(APGroupNote *temp in _data)
         {
             if (temp.isDevice && temp.selected)
@@ -997,7 +1003,7 @@
                 [arr addObject:temp];
             }
         }
-    }
+//    }
     
     return  arr;
 }
@@ -1184,27 +1190,30 @@
     
     //连接失败
     [node.tcpManager setDidDisconnectBlock:^(NSString * _Nonnull message) {
-        //重置
-        APGroupNote *node = weakSelf.data[row];
-        
-        if ([node.connect isEqualToString:@"2"] == NO)
+        if(weakSelf.data && weakSelf.data.count > row)
         {
-            node.connect = @"2";
-            node.supply_status = @"2";
-            node.shutter_status = @"2";
-//            node.tcpManager.socket.isConnected = NO;
-            
-//            [weakSelf refreshCell:number];
+            APGroupNote *node = weakSelf.data[row];
+        
+            if ([node.connect isEqualToString:@"2"] == NO)
+            {
+                node.connect = @"2";
+                node.supply_status = @"2";
+                node.shutter_status = @"2";
+            }
         }
+            
     }];
     
     //连接成功
     [node.tcpManager setDidConnectedBlock:^(NSString * _Nonnull message) {
-        //重置
-        APGroupNote *node = weakSelf.data[row];
-        //网络已经连接
-        node.connect = @"1";
-        node.supply_status = @"1";
+        if(weakSelf.data && weakSelf.data.count > row)
+        {
+            APGroupNote *node = weakSelf.data[row];
+            //网络已经连接
+            node.connect = @"1";
+            node.supply_status = @"1";
+        }
+        
     }];
     
     [node.tcpManager setSocketMessageBlock:^(NSString * _Nonnull message) {
@@ -1544,8 +1553,19 @@
             [cell.selectBtn setImage:[UIImage imageNamed:selectIamge] forState:UIControlStateNormal];
             tempnode.selected = cell.selectBtn.selected;
             
+            if (tempnode.selected == NO)
+            {
+                if (tempnode.father)
+                {
+                    tempnode.father.selected = NO;
+                }
+                
+                if (tempnode.grandfather)
+                {
+                    tempnode.grandfather.selected = NO;
+                }
+            }
             [tableView reloadData];
-//            [self refrashMonitorTable];
         }
     }
     else//正常列表
@@ -1565,19 +1585,30 @@
             if (node.isDevice == NO)
             {
                 //如果是组并且有孩子，则所有孩子都被选中
-                if (node.haveChild == YES)
+                for(APGroupNote *temp in _data)
                 {
-                    for(APGroupNote *temp in _data)
+                    if ([temp.parentId isEqualToString:node.nodeId] || (temp.father && ([temp.father.parentId isEqualToString:node.nodeId])))
                     {
-                        if ([temp.parentId isEqualToString:node.nodeId] || (temp.father && ([temp.father.parentId isEqualToString:node.nodeId])))
-                        {
-                            temp.selected = cell.selectBtn.selected;
-                        }
+                        temp.selected = cell.selectBtn.selected;
                     }
                 }
             }
+            
+            //设备和分组不被选中，则他所在的分组也不选中
+            if (node.selected == NO)
+            {
+                if (node.father)
+                {
+                    node.father.selected = NO;
+                }
+                
+                if (node.grandfather)
+                {
+                    node.grandfather.selected = NO;
+                }
+            }
+            
             [self refrashAllselectTitle];
-//            [self refrashMonitorTable];
             [self countEveryGroupChildAndSelected];
             [tableView reloadData];
         }

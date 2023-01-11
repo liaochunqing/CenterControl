@@ -34,7 +34,7 @@
     NSString *str = @"";
     UIColor *color = ColorHex(0xCCCCCC);
     NSString *imgName = @"";
-    UIColor *detailColor = ColorHex(0xABBDD5);
+    UIColor *detailColor = ColorHexAlpha(0xABBDD5, 0.5);//ColorHex(0xABBDD5);
 
     //第一行
     UIView *firtRow = [[UIView alloc] init];

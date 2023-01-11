@@ -150,13 +150,18 @@
                 CGFloat y = 0;
                 CGFloat w = Left_View_Width + W_SCALE(150);
                 CGFloat h = SCREEN_HEIGHT;
-//                [UIView animateWithDuration:0.5 animations:^{
+                CGRect frame = self.groupView.bottomView.frame;
+                frame.size.width = w;
+                [UIView animateWithDuration:0.25 animations:^{
                     self.frame = CGRectMake(x, y, w, h);
                     [self.superview bringSubviewToFront:self];
+                    self.groupView.bottomView.frame = frame;
+                    
+                    [self.groupView createBottomView:[self.groupView getSelectedDevAndGroup]];
+                    [self layoutIfNeeded];//强制绘制
+                } completion:^(BOOL finished) {
 
-//                } completion:^(BOOL finished) {
-//
-//                }];
+                }];
             }
             else
             {
@@ -164,13 +169,17 @@
                 CGFloat y = 0;
                 CGFloat w = Left_View_Width;
                 CGFloat h = SCREEN_HEIGHT;
-//                [UIView animateWithDuration:0.5 animations:^{
+                CGRect frame = self.groupView.bottomView.frame;
+                frame.size.width = w;
+                [UIView animateWithDuration:0.5 animations:^{
                     self.frame = CGRectMake(x, y, w, h);
                     [self.superview bringSubviewToFront:self];
-
-//                } completion:^(BOOL finished) {
-//                    
-//                }];
+                    self.groupView.bottomView.frame = frame;
+                    
+                    [self.groupView createBottomView:[self.groupView getSelectedDevAndGroup]];
+                    [self layoutIfNeeded];//强制绘制
+                } completion:^(BOOL finished) {
+                }];
             }
 
         }

@@ -59,6 +59,8 @@ NS_ASSUME_NONNULL_BEGIN
 -(NSArray *)getAllDevice;
 -(void)refreshTable;
 
+-(void)createBottomView:(NSArray *)selectedArr;
+-(NSArray *)getSelectedDevAndGroup;
 @end
 
 NS_ASSUME_NONNULL_END

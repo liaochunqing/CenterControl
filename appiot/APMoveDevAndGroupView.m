@@ -144,6 +144,17 @@
 -(void)setDefaultValue
 {
     _titleLab.text = [NSString stringWithFormat:@"已选择%d个设备",(int)_selectedData.count];
+    
+    APGroupNote *node = [APGroupNote new];
+    node.isDevice = NO;
+    
+    node.name = SafeStr(@"全部");
+    node.parentId = SafeStr(@"0");
+    node.nodeId = SafeStr(@"0");
+    if(_groupData)
+    {
+        [_groupData insertObject:node atIndex:0];
+    }
 }
 
 //保存数据到数据库
@@ -203,14 +214,14 @@
         if(_movetoGroupNode.nodeId != nil)
         {
             //将加入的分组从选中设备中剔除
-            for (APGroupNote *node in _selectedData)
-            {
-                if ([node.nodeId isEqualToString:_movetoGroupNode.nodeId])
-                {
-                    [_selectedData removeObject:node];
-                    break;
-                }
-            }
+//            for (APGroupNote *node in _selectedData)
+//            {
+//                if ([node.nodeId isEqualToString:_movetoGroupNode.nodeId])
+//                {
+//                    [_selectedData removeObject:node];
+//                    break;
+//                }
+//            }
             [self writeDB];
             self.okBtnClickBlock(0);
         }
@@ -265,6 +276,11 @@
     {
         APGroupNote *node = _groupData[indexPath.row];
         cell.textLabel.text = node.name;
+        cell.userInteractionEnabled = !node.selected;
+        if(node.selected)
+        {
+            cell.textLabel.textColor = [UIColor grayColor];//
+        }
     }
     return cell;
 }

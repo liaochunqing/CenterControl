@@ -24,7 +24,7 @@
 //    CGFloat h = Page_Btn_W;
 //    [self setFrame:CGRectMake(x, y, w, h)];
     self.backgroundColor = [UIColor clearColor];
-    self.titleLabel.font = [UIFont systemFontOfSize: 21];
+    self.titleLabel.font = [UIFont systemFontOfSize: 18];
     //标题文本颜色
     [self setTitleColor:ColorHex(0xABBDD5) forState:UIControlStateNormal];
 //    //标题文本颜色
