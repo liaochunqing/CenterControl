@@ -75,8 +75,10 @@
                 //socket连接机器获取最新信息
             [self getDataFromDevice:[NSNumber numberWithInt:row]];
 
-            [self performSelector:@selector(refreshCell:) withObject:number afterDelay:1];
+//            [self performSelector:@selector(refreshCell:) withObject:number afterDelay:1];
         }
+        
+        [self.tableview performSelector:@selector(reloadData) withObject:nil afterDelay:2];
     }
 }
 
@@ -299,7 +301,7 @@
                 node.supply_status = @"2";
                 node.shutter_status = @"2";
                 
-                [weakSelf refreshCell:number];
+//                [weakSelf refreshCell:number];
             }
         }
     }];
