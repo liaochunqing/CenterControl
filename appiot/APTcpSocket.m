@@ -141,7 +141,7 @@ static APTcpSocket *shareManager = nil;
 - (void)socketDidDisconnect:(GCDAsyncSocket *)sock withError:(NSError *)err
 {
     NSString *message = [NSString stringWithFormat:@"连接失败.ERROR:%@\n",err.description];
-    NSLog(@"%@",message);
+//    NSLog(@"%@",message);
     if (self.didDisconnectBlock)
     {
         self.didDisconnectBlock(message);

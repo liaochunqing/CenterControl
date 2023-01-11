@@ -333,7 +333,7 @@
                    NSString *firstStr = [arr firstObject];
                    NSString *lastStr = [arr lastObject];
     //                       APGroupNote *tempNode = weakSelf.data[row];
-                   NSLog(@"第%d行设备：%@收到数据:\n%@",(int)row,tempNode.name,message);
+//                   NSLog(@"第%d行设备：%@收到数据:\n%@",(int)row,tempNode.name,message);
                    
                    if([@"AT+System" isEqualToString:firstStr])//电源开关机
                    {
@@ -593,10 +593,8 @@
 }
 
 #pragma mark *** UITableViewDelegate/UITableViewDataSource ***
- 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-
     return _selectedDevArr.count;
 }
  

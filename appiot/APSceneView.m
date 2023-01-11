@@ -210,9 +210,14 @@
         
         UIButton *button = [[UIButton alloc] initWithFrame:rect];
         ViewRadius(button, 3);
+//        button.backgroundColor = [UIColor redColor];
         [button setBackgroundImage:[UIImage imageNamed:imgStr] forState:UIControlStateNormal];
         button.tag = i;
         [button addTarget:self action:@selector(btnDirectionClick:) forControlEvents:UIControlEventTouchUpInside];
+        UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(btnLongPress:)];
+        longPress.minimumPressDuration = 0.3;//长按时间
+//        longPress.
+        [button addGestureRecognizer:longPress];
         [self addSubview:button];
     }
     
@@ -643,10 +648,79 @@
         default:
             break;
     }
-            
-
 }
 
+
+//方向按钮 长按键
+-(void)btnLongPress:(UILongPressGestureRecognizer*)sender
+{
+
+    UIButton *btn = (UIButton *)[sender view];
+    NSLog(@"btnLongPress %d",(int)btn.tag);
+    
+//    if (sender.state == UIGestureRecognizerStateBegan)
+    {
+        
+        
+        switch (btn.tag) {
+            case 0://位移上
+            {
+                NSString *key = _wyAdjustButton.microBtn.selected?@"scene-up-fine tuning":@"scene-up-coarse tuning";
+                [self sendMssageToDev:key];
+            }
+                break;
+            case 1://位移右
+            {
+                NSString *key = _wyAdjustButton.microBtn.selected?@"scene-right-fine tuning":@"scene-right-fine tuning";
+                [self sendMssageToDev:key];
+            }
+                break;
+            case 2://位移下
+            {
+                NSString *key = _wyAdjustButton.microBtn.selected?@"scene-down-fine tuning":@"scene-down-coarse tuning";
+                [self sendMssageToDev:key];
+            }
+                break;
+                
+            case 3://位移左
+            {
+                NSString *key = _wyAdjustButton.microBtn.selected?@"scene-left-fine tuning":@"scene-left-coarse tuning";
+                [self sendMssageToDev:key];
+            }
+                break;
+                
+            case 4://聚焦左
+            {
+                NSString *key = _jjAdjustButton.microBtn.selected?@"scene-focusing-left-fine tuning":@"scene-focusing-left-coarse tuning";
+                [self sendMssageToDev:key];
+                
+            }
+                break;
+            case 5://聚焦右
+            {
+                NSString *key = _jjAdjustButton.microBtn.selected?@"scene-focusing-right-fine tuning":@"scene-focusing-right-coarse tuning";
+                [self sendMssageToDev:key];
+            }
+                break;
+            case 6://缩放左
+            {
+                NSString *key = _sfAdjustButton.microBtn.selected?@"scene-zoom-left-fine tuning":@"scene-zoom-left-coarse tuning";
+                [self sendMssageToDev:key];
+            }
+                break;
+                
+            case 7://缩放右
+            {
+                NSString *key = _sfAdjustButton.microBtn.selected?@"scene-zoom-right-fine tuning":@"scene-zoom-right-coarse tuning";
+                [self sendMssageToDev:key];
+            }
+                break;
+                
+            default:
+                break;
+        }
+    }
+}
 
 -(void)btnTestClick:(UIButton *)btn
 {

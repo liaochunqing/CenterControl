@@ -34,7 +34,7 @@
     NSString *str = @"";
     UIColor *color = ColorHex(0xCCCCCC);
     NSString *imgName = @"";
-    UIColor *detailColor = ColorHexAlpha(0xABBDD5, 0.5);//ColorHex(0xABBDD5);
+    UIColor *detailColor = ColorHexAlpha(0xABBDD5, 0.7);//ColorHex(0xABBDD5);
 
     //第一行
     UIView *firtRow = [[UIView alloc] init];
@@ -271,7 +271,7 @@
     [bottomLine mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(1);
         make.left.mas_equalTo(self.contentView.mas_left).offset(Left_Gap);
-        make.right.mas_equalTo(self.contentView.mas_right).offset(0);
+        make.right.mas_equalTo(self.contentView.mas_right).offset(-Left_Gap);
         make.bottom.mas_equalTo(self.contentView.mas_bottom).offset(0);
     }];
 }
