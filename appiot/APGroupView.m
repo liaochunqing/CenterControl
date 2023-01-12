@@ -284,6 +284,7 @@
     
     NSMutableArray *firstArr = [NSMutableArray array];
     NSMutableArray *secondArr = [NSMutableArray array];
+    //第一次筛选
     for (APGroupNote *node in _orgData.reverseObjectEnumerator)
     {
         if ([node.parentId isEqualToString:@"0" ])
@@ -307,7 +308,7 @@
             if ([temp.parentId isEqualToString:node.nodeId])
             {
                 if (temp.isDevice) node.childNumber++;
-                
+                temp.height = 0;
                 node.haveChild = YES;
                 temp.depth = 1;//第1层
                 temp.father = node;
@@ -328,7 +329,7 @@
             {
                 node.haveChild = YES;
                 temp.depth = 2;//第2层
-//                temp.grandfatherId = node.parentId;
+                temp.height = 0;
                 temp.father = node;
                 temp.grandfather = node.father;
                 if (temp.isDevice)

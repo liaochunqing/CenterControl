@@ -14,7 +14,7 @@
     if (self = [super init])
     {
         self.height = Group_Cell_Height;
-        self.expand = YES;
+        self.expand = NO;
         self.haveChild = NO;
         self.childNumber = 0;
         self.parentId = @"0";
