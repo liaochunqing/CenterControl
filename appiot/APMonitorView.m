@@ -71,7 +71,7 @@
         {
             NSIndexPath *path = arrIndex[i];
             int row = (int)path.row;
-            NSNumber *number = [NSNumber numberWithInt:row];
+//            NSNumber *number = [NSNumber numberWithInt:row];
                 //socket连接机器获取最新信息
             [self getDataFromDevice:[NSNumber numberWithInt:row]];
 
