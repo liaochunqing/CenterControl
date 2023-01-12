@@ -890,9 +890,13 @@
         for (int i = 0; i < _data.count; i++)
         {
             APGroupNote *second = _data[i];
+            
             if ([second.parentId isEqualToString:node.nodeId] || (second.father && [second.father.parentId isEqualToString:node.nodeId]) )
             {
                 second.height = 0;
+                
+                 NSArray *rowArray = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:i inSection:0]];
+                 [weakSelf.tableview reloadRowsAtIndexPaths:rowArray withRowAnimation:UITableViewRowAnimationAutomatic];
             }
         }
     }
@@ -905,6 +909,10 @@
             if ([second.parentId isEqualToString:node.nodeId])
             {
                 second.height = Group_Cell_Height;
+                
+                 NSArray *rowArray = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:i inSection:0]];
+                 [weakSelf.tableview reloadRowsAtIndexPaths:rowArray withRowAnimation:UITableViewRowAnimationAutomatic];
+                
                 if(second.expand == YES)
                 {
                     for (int k = 0; k < _data.count; k++)
@@ -913,13 +921,19 @@
                         if([third.parentId isEqualToString:second.nodeId])
                         {
                             third.height = Group_Cell_Height;
+                            
+                             NSArray *rowArray = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:k inSection:0]];
+                             [weakSelf.tableview reloadRowsAtIndexPaths:rowArray withRowAnimation:UITableViewRowAnimationAutomatic];
                         }
                     }
                 }
             }
         }
     }
-    [weakSelf.tableview reloadData];
+    
+    NSArray *rowArray = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:row inSection:0]];
+    [weakSelf.tableview reloadRowsAtIndexPaths:rowArray withRowAnimation:UITableViewRowAnimationAutomatic];
+//    [weakSelf.tableview reloadData];
 }
 
 //隐藏编辑按钮
@@ -1194,7 +1208,7 @@
         {
             APGroupNote *node = weakSelf.data[row];
         
-            if ([node.connect isEqualToString:@"2"] == NO)
+            if(node)
             {
                 node.connect = @"2";
                 node.supply_status = @"2";
@@ -1231,7 +1245,7 @@
                    NSString *firstStr = [arr firstObject];
                    NSString *lastStr = [arr lastObject];
     //                       APGroupNote *tempNode = weakSelf.data[row];
-    //               NSLog(@"第%d行设备：%@收到数据:\n%@",(int)row,tempNode.name,message);
+//                   NSLog(@"ip = %@(%@)收到数据:\n%@",tempNode.ip,tempNode.name,message);
 
                    if([@"AT+System" isEqualToString:firstStr])//电源开关机
                    {

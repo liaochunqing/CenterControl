@@ -106,6 +106,8 @@
     _tableview.dataSource = self;
     _tableview.delegate = self;
     _tableview.backgroundColor = ColorHex(0x1D2242);
+    _tableview.separatorStyle = NO;
+
     ViewRadius(_tableview, 10);
 
     [self addSubview:_tableview];
@@ -295,13 +297,11 @@
             //重置
             APGroupNote *node = weakSelf.selectedDevArr[row];
             
-            if ([node.connect isEqualToString:@"2"] == NO)
+            if (node)
             {
                 node.connect = @"2";
                 node.supply_status = @"2";
                 node.shutter_status = @"2";
-                
-//                [weakSelf refreshCell:number];
             }
         }
     }];
@@ -332,9 +332,8 @@
                    NSArray *arr = [string componentsSeparatedByString:@"#"];
                    NSString *firstStr = [arr firstObject];
                    NSString *lastStr = [arr lastObject];
-    //                       APGroupNote *tempNode = weakSelf.data[row];
-//                   NSLog(@"第%d行设备：%@收到数据:\n%@",(int)row,tempNode.name,message);
-                   
+                   NSLog(@"ip = %@(%@)收到数据:\n%@",tempNode.ip,tempNode.name,message);
+
                    if([@"AT+System" isEqualToString:firstStr])//电源开关机
                    {
                        //on是开机 off待机 其他关机

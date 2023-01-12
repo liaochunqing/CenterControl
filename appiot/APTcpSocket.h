@@ -44,7 +44,7 @@ typedef void(^SocketDidDisconnect)(NSString *message);
 - (void)connectToHost;
 
 //发送数据
--(void)sendData:(NSData *)contents;
+-(void)sendData;
 @end
 
 NS_ASSUME_NONNULL_END

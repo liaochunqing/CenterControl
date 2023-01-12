@@ -101,6 +101,11 @@
     {
         [self bringSubviewToFront:self.commandView];
     }
+    
+    self.commandView.alpha = 0;
+    [UIView animateWithDuration:0.2 animations:^{
+        self.commandView.alpha = 1;
+    }];
 }
 
 //创建“监控”窗口view
@@ -115,6 +120,11 @@
     {
         [self bringSubviewToFront:self.monitorView];
     }
+    
+    self.monitorView.alpha = 0;
+    [UIView animateWithDuration:0.2 animations:^{
+        self.monitorView.alpha = 1;
+    }];
 }
 
 //创建“安装调节”窗口view
@@ -134,6 +144,11 @@
             [self.installView.sceneView setDefaultValue:self.installView.sceneView.selectedArray];
         }
     }
+    
+    self.installView.alpha = 0;
+    [UIView animateWithDuration:0.2 animations:^{
+        self.installView.alpha = 1;
+    }];
 }
 
 #pragma button响应函数

@@ -21,25 +21,6 @@ static APTcpSocket *shareManager = nil;
 //    return shareManager;
 //}
 
-//从缓存获取已经连接的socket
-//-(void)getSocketFromCashWith:(NSString *)host port:(NSUInteger)port
-//{
-//    if(_socketDict && _socketDict.count)
-//    {
-//        self.socket = nil;
-//        
-//        NSString *localKey = [NSString stringWithFormat:@"%@+%d",host,(int)port];
-//        
-//        for (NSString * key in _socketDict)
-//        {
-//            if([key isEqualToString:localKey])
-//            {
-//                self.socket = _socketDict[key];
-//                break;
-//            }
-//        }
-//    }
-//}
 
 #pragma mark连接服务器
 - (void)connectToHost:(NSString *)host Port:(NSUInteger)port
@@ -54,7 +35,7 @@ static APTcpSocket *shareManager = nil;
     
     if (self.socket && self.socket.isConnected)
     {
-        [self sendData:nil];
+        [self sendData];
         return;
     }
 
@@ -74,7 +55,7 @@ static APTcpSocket *shareManager = nil;
     
     if (self.socket && self.socket.isConnected)
     {
-        [self sendData:nil];
+        [self sendData];
         return;
     }
 
@@ -82,7 +63,7 @@ static APTcpSocket *shareManager = nil;
 
 }
 #pragma mark 发送数据
--(void)sendData:(NSData *)contents
+-(void)sendData
 {
     if (self.socket && self.socket.isConnected)
     {
@@ -98,9 +79,9 @@ static APTcpSocket *shareManager = nil;
 #pragma mark 已连接到服务器
 - (void)socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(uint16_t)port
 {
-    NSString *message = [NSString stringWithFormat:@"sock:%p,Host:%@,Port:%d",sock,host,port];
-    NSLog(@"连接成功%@",message);
-    [self sendData:nil];
+    NSString *message = [NSString stringWithFormat:@"%@",host];
+    NSLog(@"tcp ip = %@:连接成功",message);
+    [self sendData];
     if (self.didConnectedBlock)
     {
         self.didConnectedBlock(message);
@@ -113,8 +94,8 @@ static APTcpSocket *shareManager = nil;
 #pragma mark 已经向服务器发送数据
 - (void)socket:(GCDAsyncSocket *)sock didWriteDataWithTag:(long)tag
 {
-//    NSString *message = [NSString stringWithFormat:@"%@发送数据成功",sock];
-//    NSLog(@"%@",message);
+    NSString *message = [NSString stringWithFormat:@"ip = %@:发送数据成功",self.ip];
+    NSLog(@"%@",message);
 }
 
 
@@ -140,8 +121,8 @@ static APTcpSocket *shareManager = nil;
 #pragma mark 连接失败,可以在这里设置重连
 - (void)socketDidDisconnect:(GCDAsyncSocket *)sock withError:(NSError *)err
 {
-    NSString *message = [NSString stringWithFormat:@"连接失败.ERROR:%@\n",err.description];
-//    NSLog(@"%@",message);
+    NSString *message = [NSString stringWithFormat:@"tcp ip = %@ ：连接失败\n",self.ip];
+    NSLog(@"%@",message);
     if (self.didDisconnectBlock)
     {
         self.didDisconnectBlock(message);
