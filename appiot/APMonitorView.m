@@ -78,7 +78,7 @@
 //            [self performSelector:@selector(refreshCell:) withObject:number afterDelay:1];
         }
         
-        [self.tableview performSelector:@selector(reloadData) withObject:nil afterDelay:2];
+        [self.tableview performSelector:@selector(reloadData) withObject:nil afterDelay:1];
     }
 }
 
@@ -302,6 +302,9 @@
                 node.connect = @"2";
                 node.supply_status = @"2";
                 node.shutter_status = @"2";
+                
+                NSString *message = [NSString stringWithFormat:@"tcp ip = %@ ：连接失败\n",node.ip];
+                NSLog(@"%@",message);
             }
         }
     }];
@@ -324,7 +327,8 @@
                if(weakSelf.selectedDevArr == nil || weakSelf.selectedDevArr.count <= row) return;
 
                APGroupNote *tempNode = weakSelf.selectedDevArr[row];
-               
+               NSLog(@"3 == %@", [NSThread currentThread]);
+
                NSArray *temparray = [message componentsSeparatedByString:@"\r\n"];
                for (NSString *string in temparray)
                {

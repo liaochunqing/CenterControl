@@ -70,12 +70,12 @@
     [btn addTarget:self action:@selector(expendBtnClick:) forControlEvents:UIControlEventTouchUpInside];
 
     
-    CGFloat imW = H_SCALE(29);
-    CGFloat imH = W_SCALE(26);
+    CGFloat imW = W_SCALE(25);
+    CGFloat imH = H_SCALE(25);
     if (node.isDevice)
     {
-        imW = H_SCALE(36);
-        imH = W_SCALE(15);
+        imW = W_SCALE(36);
+        imH = H_SCALE(14);
     }
     
 //    expendW = _expendBtn.hidden?0:W_SCALE(30);
@@ -111,7 +111,7 @@
         imgStr = @"Group 11674";
     }
     _im.image = [UIImage imageNamed:imgStr];
-    _im.contentMode=UIViewContentModeScaleAspectFill;
+    _im.contentMode=UIViewContentModeScaleAspectFit;
     _im.clipsToBounds=YES;
     [_im mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(self.contentView);

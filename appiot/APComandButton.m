@@ -25,7 +25,7 @@
     
     self.iv = [[UIImageView alloc] init];
     [self addSubview:self.iv];
-    self.iv.contentMode=UIViewContentModeScaleAspectFill;
+    self.iv.contentMode=UIViewContentModeScaleAspectFit;
     [self.iv mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(self);
         make.top.mas_equalTo(self.mas_top).offset(42);

@@ -105,13 +105,16 @@ static APTcpSocket *shareManager = nil;
     NSString *receiverStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 //    NSDictionary *dic = [APTool dictionaryWithJsonString:receiverStr];
 //    NSLog(@"%@收到数据: %@",sock,receiverStr);
-    
+//    NSLog(@"1 == %@", [NSThread currentThread]);
+
     dispatch_async(dispatch_get_main_queue(), ^{
        // UI更新代码
         if (self.socketMessageBlock)
         {
             self.socketMessageBlock(receiverStr);
         }
+//        NSLog(@"2 == %@", [NSThread currentThread]);
+
     });
     
     
@@ -122,7 +125,7 @@ static APTcpSocket *shareManager = nil;
 - (void)socketDidDisconnect:(GCDAsyncSocket *)sock withError:(NSError *)err
 {
     NSString *message = [NSString stringWithFormat:@"tcp ip = %@ ：连接失败\n",self.ip];
-    NSLog(@"%@",message);
+//    NSLog(@"%@",message);
     if (self.didDisconnectBlock)
     {
         self.didDisconnectBlock(message);

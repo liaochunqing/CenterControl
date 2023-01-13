@@ -49,7 +49,7 @@
     _im = [[UIImageView alloc] init];
     [firtRow addSubview:_im];
     _im.image = [UIImage imageNamed:@"dev"];
-    _im.contentMode=UIViewContentModeScaleAspectFill;
+    _im.contentMode=UIViewContentModeScaleAspectFit;
     [_im mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(firtRow);
         make.left.mas_equalTo(firtRow.mas_left).offset(0);

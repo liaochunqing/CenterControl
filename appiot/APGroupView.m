@@ -456,15 +456,8 @@
         self.bottomView.tag = 0;//表示拥有子button的个数
         self.bottomView.userInteractionEnabled = YES;
         self.bottomView.backgroundColor = ColorHex(0x1D2242 );
-    //    self.bottomView.hidden = YES;
+        ViewRadius(self.bottomView, 9);
         [self.bottomView setFrame:CGRectMake(0, self.frame.size.height, Left_View_Width, Bottom_View_Height)];
-        
-//        [self.bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.right.mas_equalTo(self.mas_right).offset(0);
-//            make.height.mas_equalTo(Bottom_View_Height);
-//            make.left.mas_equalTo(self.mas_left).offset(0);
-//            make.top.mas_equalTo(self.mas_bottom).offset(-Bottom_View_Height);
-//        }];
     }
     
     NSMutableArray *array = [NSMutableArray array];
