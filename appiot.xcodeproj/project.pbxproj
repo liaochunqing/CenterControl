@@ -913,6 +913,7 @@
 				DEVELOPMENT_TEAM = 8X79G5XCU6;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = appiot/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = APCS;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIStatusBarStyle = "";
@@ -942,6 +943,7 @@
 				DEVELOPMENT_TEAM = 8X79G5XCU6;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = appiot/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = APCS;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIStatusBarStyle = "";

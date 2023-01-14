@@ -424,7 +424,8 @@
 
 
 -(void)createTableview
-{    _tableview  = [[APGroupTableView alloc] init];
+{
+    _tableview  = [[APGroupTableView alloc] init];
     _tableview.dataSource = self;
     _tableview.delegate = self;
     _tableview.separatorStyle = NO;
@@ -468,13 +469,10 @@
         node.isDevice == YES ? devNumber++ : groupNumber++;
     }
     
-//    if ((self.bottomView.tag == 2 && selectedArr.count == 1)
-//        || selectedArr.count == 0)
     if((devNumber == 1 && groupNumber == 0)||
        (devNumber == 0 && groupNumber == 0))
     {
         
-//        self.bottomView.tag = 4;
         for (UIView *subview in self.bottomView.subviews)
         {
             [subview removeFromSuperview];
@@ -498,14 +496,8 @@
         [array addObject:dict1];
         [array addObject:dict4];
     }
-//    else if ((self.bottomView.tag == 2 && selectedArr.count != 1)
-//             || (self.bottomView.tag == 4 && selectedArr.count == 1))
-//    {
-//        return;
-//    }
     else
     {
-//        self.bottomView.tag = 2;
         for (UIView *subview in self.bottomView.subviews)
         {
             [subview removeFromSuperview];
@@ -534,7 +526,6 @@
     
     CGFloat btnW = W_SCALE(50);
     CGFloat btnH = H_SCALE(60);
-//    CGFloat edgeGap = 2*Left_Gap;
     CGFloat midGap = (self.bottomView.frame.size.width  - array.count*btnW)/(array.count + 1);
     CGFloat x = midGap;
 

@@ -103,7 +103,7 @@
     }
     
     self.commandView.alpha = 0;
-    [UIView animateWithDuration:0.2 animations:^{
+    [UIView animateWithDuration:0.3 animations:^{
         self.commandView.alpha = 1;
     }];
 }
@@ -122,7 +122,7 @@
     }
     
     self.monitorView.alpha = 0;
-    [UIView animateWithDuration:0.2 animations:^{
+    [UIView animateWithDuration:0.3 animations:^{
         self.monitorView.alpha = 1;
     }];
 }
@@ -146,7 +146,7 @@
     }
     
     self.installView.alpha = 0;
-    [UIView animateWithDuration:0.2 animations:^{
+    [UIView animateWithDuration:0.3 animations:^{
         self.installView.alpha = 1;
     }];
 }

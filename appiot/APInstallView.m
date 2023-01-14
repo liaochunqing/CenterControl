@@ -313,6 +313,11 @@
     {
         [view setDefaultValue:_sortData[_selectedModelTag]];
     }
+    
+    view.alpha = 0;
+    [UIView animateWithDuration:0.2 animations:^{
+        view.alpha = 1;
+    }];
 }
 
 
@@ -338,6 +343,10 @@
         [view setDefaultValue:array];
     }
     [self bringSubviewToFront:view];
+    view.alpha = 0;
+    [UIView animateWithDuration:0.2 animations:^{
+        view.alpha = 1;
+    }];
 }
 
 -(void)createColourView
@@ -361,6 +370,10 @@
     }
     [self bringSubviewToFront:view];
 
+    view.alpha = 0;
+    [UIView animateWithDuration:0.2 animations:^{
+        view.alpha = 1;
+    }];
 }
 
 
@@ -385,6 +398,10 @@
     }
     [self bringSubviewToFront:view];
 
+    view.alpha = 0;
+    [UIView animateWithDuration:0.2 animations:^{
+        view.alpha = 1;
+    }];
 }
 
 -(void)createSignalView
@@ -408,6 +425,10 @@
     }
     [self bringSubviewToFront:view];
 
+    view.alpha = 0;
+    [UIView animateWithDuration:0.2 animations:^{
+        view.alpha = 1;
+    }];
 }
 
 
@@ -433,6 +454,10 @@
     }
     [self bringSubviewToFront:view];
 
+    view.alpha = 0;
+    [UIView animateWithDuration:0.2 animations:^{
+        view.alpha = 1;
+    }];
 }
 
 #pragma mark 通知响应函数
