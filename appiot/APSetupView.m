@@ -639,8 +639,8 @@
                 APTcpSocket *tcpManager;
                 if (node.tcpManager == nil)
                 {
-                    tcpManager = [APTcpSocket new];
-                    node.tcpManager = tcpManager;
+                    node.tcpManager = [APTcpSocket new];
+
                 }
                 node.tcpManager.senddata = [NSData dataWithData:filanData];
                 node.tcpManager.ip = node.ip;
@@ -681,8 +681,8 @@
             APTcpSocket *tcpManager;
             if (node.tcpManager == nil)
             {
-                tcpManager = [APTcpSocket new];
-                node.tcpManager = tcpManager;
+                node.tcpManager = [APTcpSocket new];
+
             }
             node.tcpManager.senddata = [NSData dataWithData:sendData];
             node.tcpManager.ip = node.ip;

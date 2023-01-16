@@ -19,8 +19,7 @@ typedef void(^SocketDidDisconnect)(NSString *message);
  *创建GCDAsyncSocket tcp的socket对象
  */
 @property (nonatomic,strong) GCDAsyncSocket *__nullable socket;
-@property (nonatomic, strong) NSMutableDictionary *socketDict;
-@property (nonatomic,strong)NSData *senddata;
+@property (nonatomic,strong)NSData *_Nullable senddata;
 @property (nonatomic,strong)NSString *ip;
 @property (nonatomic,assign) NSUInteger port;
 
@@ -31,16 +30,10 @@ typedef void(^SocketDidDisconnect)(NSString *message);
 @property (nonatomic,copy) SocketDidConnected didConnectedBlock;
 @property (nonatomic,copy) SocketDidDisconnect didDisconnectBlock;
 
-
-/*
- *初始化方法
- */
-//+ (APTcpSocket *)shareManager;
-
 /*
  *连接服务/主机的方法
  */
-- (void)connectToHost:(NSString *)host Port:(NSUInteger)port;
+//- (void)connectToHost:(NSString *)host Port:(NSUInteger)port;
 - (void)connectToHost;
 
 //发送数据

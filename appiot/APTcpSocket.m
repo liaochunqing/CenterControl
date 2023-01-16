@@ -6,51 +6,22 @@
 //
 
 #import "APTcpSocket.h"
-#define ConnectTime -1
+#define ConnectTime 5
 static APTcpSocket *shareManager = nil;
 
 
 @implementation APTcpSocket
-//#pragma mark 伪单例模式
-//+ (APTcpSocket *)shareManager
-//{
-//    static dispatch_once_t onecToken;
-//    dispatch_once(&onecToken, ^{
-//        shareManager = [[APTcpSocket alloc] init];
-//    });
-//    return shareManager;
-//}
-
 
 #pragma mark连接服务器
-- (void)connectToHost:(NSString *)host Port:(NSUInteger)port
-{
-
-    if (self.socket == nil || [self.socket isDisconnected])
-    {
-        dispatch_queue_t queue = dispatch_queue_create("tcpqueue", NULL);
-        self.socket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:queue socketQueue:nil];
-//        self.socket = [[GCDAsyncSocket alloc] initWithDelegate:shareManager delegateQueue:dispatch_get_main_queue()];
-    }
-    
-    if (self.socket && self.socket.isConnected)
-    {
-        [self sendData];
-        return;
-    }
-
-    [self.socket connectToHost:host onPort:(uint16_t)port withTimeout:ConnectTime error:nil];
-
-}
 
 - (void)connectToHost
 {
-
-    if (self.socket == nil || [self.socket isDisconnected])
+//    if (self.socket == nil || self.socket.isConnected == NO)
+    if (self.socket == nil)
     {
-        dispatch_queue_t queue = dispatch_queue_create("tcpqueue", NULL);
+//        dispatch_queue_t queue = dispatch_queue_create("tcpqueue", DISPATCH_QUEUE_CONCURRENT);
+        dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
         self.socket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:queue socketQueue:nil];
-//        self.socket = [[GCDAsyncSocket alloc] initWithDelegate:shareManager delegateQueue:dispatch_get_main_queue()];
     }
     
     if (self.socket && self.socket.isConnected)
@@ -60,8 +31,8 @@ static APTcpSocket *shareManager = nil;
     }
 
     [self.socket connectToHost:self.ip onPort:(uint16_t)self.port withTimeout:ConnectTime error:nil];
-
 }
+
 #pragma mark 发送数据
 -(void)sendData
 {
@@ -69,10 +40,10 @@ static APTcpSocket *shareManager = nil;
     {
         if (self.senddata)
         {
-            [self.socket writeData:self.senddata withTimeout:-1 tag:0];
+            [self.socket writeData:self.senddata withTimeout:ConnectTime tag:0];
         }
 //        NSLog(@"%p发送：%@",self.socket, self.senddata);
-        [self.socket readDataWithTimeout:-1 tag:0];
+        [self.socket readDataWithTimeout:ConnectTime tag:0];
     }
 }
 
@@ -117,15 +88,14 @@ static APTcpSocket *shareManager = nil;
 
     });
     
-    
-    [sock readDataWithTimeout:-1 tag:0];
+    [sock readDataWithTimeout:ConnectTime tag:0];
 }
 
 #pragma mark 连接失败,可以在这里设置重连
 - (void)socketDidDisconnect:(GCDAsyncSocket *)sock withError:(NSError *)err
 {
-    NSString *message = [NSString stringWithFormat:@"tcp ip = %@ ：连接失败\n",self.ip];
-//    NSLog(@"%@",message);
+    NSString *message = [NSString stringWithFormat:@"tcp ip = %@ ：连接失败%d\n",self.ip, sock.isConnected];
+    NSLog(@"%@",message);
     if (self.didDisconnectBlock)
     {
         self.didDisconnectBlock(message);

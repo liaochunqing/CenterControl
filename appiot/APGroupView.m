@@ -99,11 +99,108 @@
         }
 //        NSLog(@"%d",ok);
     }
-    //2.获得数据库
-    FMDatabase *db = [FMDatabase databaseWithPath:dbfileName];
-    //3.打开数据库
-    if ([db open])
+#if 0
+    WS(weakSelf);
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH,0), ^{
+
+        [weakSelf readDB:dbfileName];
+        NSLog(@"2 == %@", [NSThread currentThread]);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            //回到主线程，执行UI刷新操
+            [weakSelf handleDatabaseData];
+            
+            [weakSelf refrashAllselectTitle];
+            [weakSelf notifyDevSelectedChanged];
+            [weakSelf.tableview reloadData];
+            [weakSelf createBottomView:[weakSelf getSelectedDevAndGroup]];
+            NSLog(@"1 == %@", [NSThread currentThread]);
+        });
+    });
+#endif
+    
+    [self readDB:dbfileName];
+    
+    [self handleDatabaseData];
+    
+    [self refrashAllselectTitle];
+    [self notifyDevSelectedChanged];
+    [self.tableview reloadData];
+    [self createBottomView:[self getSelectedDevAndGroup]];
+    //    [self readDB:dbfileName];
+
+}
+
+-(void)handleDatabaseData
+{
+    NSMutableArray *firstArr = [NSMutableArray array];
+    NSMutableArray *secondArr = [NSMutableArray array];
+    //第一次筛选
+    for (APGroupNote *node in _orgData.reverseObjectEnumerator)
     {
+        if ([node.parentId isEqualToString:@"0" ])
+        {
+//            if ([node.nodeId isEqualToString:@"228"] == NO)//测试代码 需要去掉
+//                continue;
+                
+            node.depth = 0;//第0层
+            [firstArr addObject:node];
+            [_orgData removeObject:node];
+        }
+    }
+    
+    //第二次筛选
+    for (int i=0; i<firstArr.count; i++)
+    {
+        APGroupNote *node = firstArr[i];
+        [secondArr addObject:node];
+        for (APGroupNote *temp in _orgData.reverseObjectEnumerator)
+        {
+            if ([temp.parentId isEqualToString:node.nodeId])
+            {
+                if (temp.isDevice) node.childNumber++;
+                temp.height = 0;
+                node.haveChild = YES;
+                temp.depth = 1;//第1层
+                temp.father = node;
+                [secondArr addObject:temp];
+                [_orgData removeObject:temp];
+            }
+        }
+    }
+
+    //第三次筛选
+    for (int i=0; i<secondArr.count; i++)
+    {
+        APGroupNote *node = secondArr[i];
+        [_data addObject:node];
+        for (APGroupNote *temp in _orgData.reverseObjectEnumerator)
+        {
+            if ([temp.parentId isEqualToString:node.nodeId])
+            {
+                node.haveChild = YES;
+                temp.depth = 2;//第2层
+                temp.height = 0;
+                temp.father = node;
+                temp.grandfather = node.father;
+                if (temp.isDevice)
+                {
+                    node.childNumber++;
+                    if (temp.grandfather) temp.grandfather.childNumber++;
+                }
+                [_data addObject:temp];
+                [_orgData removeObject:temp];
+            }
+        }
+    }
+}
+    
+-(void)readDB:(NSString *)dbfileName
+{
+        //2.获得数据库
+        FMDatabase *db = [FMDatabase databaseWithPath:dbfileName];
+        //3.打开数据库
+        if ([db open])
+        {
         //初始化数据容器
         [self initData];
         
@@ -281,70 +378,7 @@
         //关闭数据库
         [db close];
     }
-    
-    NSMutableArray *firstArr = [NSMutableArray array];
-    NSMutableArray *secondArr = [NSMutableArray array];
-    //第一次筛选
-    for (APGroupNote *node in _orgData.reverseObjectEnumerator)
-    {
-        if ([node.parentId isEqualToString:@"0" ])
-        {
-//            if ([node.nodeId isEqualToString:@"228"] == NO)//测试代码 需要去掉
-//                continue;
-                
-            node.depth = 0;//第0层
-            [firstArr addObject:node];
-            [_orgData removeObject:node];
-        }
-    }
-    
-    //第二次筛选
-    for (int i=0; i<firstArr.count; i++)
-    {
-        APGroupNote *node = firstArr[i];
-        [secondArr addObject:node];
-        for (APGroupNote *temp in _orgData.reverseObjectEnumerator)
-        {
-            if ([temp.parentId isEqualToString:node.nodeId])
-            {
-                if (temp.isDevice) node.childNumber++;
-                temp.height = 0;
-                node.haveChild = YES;
-                temp.depth = 1;//第1层
-                temp.father = node;
-                [secondArr addObject:temp];
-                [_orgData removeObject:temp];
-            }
-        }
-    }
-
-    //第三次筛选
-    for (int i=0; i<secondArr.count; i++)
-    {
-        APGroupNote *node = secondArr[i];
-        [_data addObject:node];
-        for (APGroupNote *temp in _orgData.reverseObjectEnumerator)
-        {
-            if ([temp.parentId isEqualToString:node.nodeId])
-            {
-                node.haveChild = YES;
-                temp.depth = 2;//第2层
-                temp.height = 0;
-                temp.father = node;
-                temp.grandfather = node.father;
-                if (temp.isDevice)
-                {
-                    node.childNumber++;
-                    if (temp.grandfather) temp.grandfather.childNumber++;
-                }
-                [_data addObject:temp];
-                [_orgData removeObject:temp];
-            }
-        }
-    }
-    
 }
-
 
 -(NSData*)getSendDataFromParam:(NSString *)param node:(APGroupNote*)node
 {
@@ -362,10 +396,10 @@
         temp = [arr firstObject];
     }
     
-    if([node.model_id containsString:@"46"])//测试代码,方便断点用
-    {
-        int i = 0;
-    }
+//    if([node.model_id containsString:@"46"])//测试代码,方便断点用
+//    {
+//        int i = 0;
+//    }
     
     //去除中间的空格符
     NSString *str = [temp stringByReplacingOccurrencesOfString:@" " withString:@""];
@@ -588,7 +622,6 @@
     }];
     
     [self.btnLeft setImage:[UIImage imageNamed:@"Ellipse 4"] forState:UIControlStateNormal];
-//    [self.btnLeft addTarget:self action:@selector(allSelectbtnClick:) forControlEvents:UIControlEventTouchUpInside];
     
     //放大隐藏按钮
     UIButton *btn = [UIButton new];
@@ -685,41 +718,43 @@
 
 -(void)refrashAllselectTitle
 {
-    WS(weakSelf);
-    
-    dispatch_async(dispatch_get_global_queue(0,0), ^{
-        
-        //执行耗时的异步操作...
-        weakSelf.allNumber = 0;
-        weakSelf.selectedNumber = 0;
-        weakSelf.onlineNumber = 0;
-        weakSelf.errorCodeNumber = 0;
-        for(APGroupNote *temp in weakSelf.data)
+    //执行耗时的异步操作...
+    self.allNumber = 0;
+    self.selectedNumber = 0;
+    self.onlineNumber = 0;
+    self.errorCodeNumber = 0;
+    for(APGroupNote *temp in self.data)
+    {
+        if (temp.isDevice)
         {
-            if (temp.isDevice)
+            self.allNumber++;
+            if (temp.selected)
             {
-                weakSelf.allNumber++;
-                if (temp.selected)
-                {
-                    weakSelf.selectedNumber++;
-                }
-                if ([temp.supply_status isEqualToString:@"1"])
-                {
-                    weakSelf.onlineNumber++;
-                }
-                if (temp.error_code && temp.error_code.length > 0)
-                {
-                    weakSelf.errorCodeNumber++;
-                }
+                self.selectedNumber++;
+            }
+            if ([temp.supply_status isEqualToString:@"1"])
+            {
+                self.onlineNumber++;
+            }
+            if (temp.error_code && temp.error_code.length > 0)
+            {
+                self.errorCodeNumber++;
             }
         }
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            //回到主线程，执行UI刷新操
-            weakSelf.allSelectLabel.text = [NSString stringWithFormat:@"全部(%d/%d)", weakSelf.selectedNumber,weakSelf.allNumber];
+    }
+    
+    self.allSelectLabel.text = [NSString stringWithFormat:@"全部(%d/%d)", self.selectedNumber,self.allNumber];
 
-        });
-    });
+    
+//    dispatch_async(dispatch_get_global_queue(0,0), ^{
+//
+//
+//
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            //回到主线程，执行UI刷新操
+//
+//        });
+//    });
 }
 
 -(void)selectedAllWithSelected:(BOOL)selected
@@ -796,11 +831,8 @@
         UIAlertController  *alert = [UIAlertController alertControllerWithTitle:msg message:@"删除后无法恢复" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"删除" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action)
         {
-//            [weakSelf.data removeObjectsAtIndexes:set];
-//            [weakSelf refrashAllselectTitle];
-//            [weakSelf countEveryGroupChildAndSelected];
             [weakSelf deleteFromDBtaget:deleteArray];
-            [weakSelf refreshTable];
+            [weakSelf refreshAllData];
         }];
                 
         UIAlertAction *action2= [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
@@ -843,12 +875,6 @@
             BOOL ret = [db executeUpdate:sqlStr];
             if  (ret)
             {
-//                AppDelegate *appDelegate = kAppDelegate;
-//                APGroupView *vc = appDelegate.mainVC.leftView.groupView;
-//                if (vc && [vc isKindOfClass:[APGroupView class]])
-//                {
-//                    [vc refreshTable];
-//                }
                 NSLog(@"删除数据库成功");
             }
             else
@@ -970,14 +996,13 @@
 }
 
 #pragma  mark 对外接口
--(void)refreshTable
+-(void)refreshAllData
 {
     [self getDataFromDB];
-    [self refrashAllselectTitle];
-    [self notifyDevSelectedChanged];
-    [_tableview reloadData];
-    [self createBottomView:[self getSelectedDevAndGroup]];
-
+//    [self refrashAllselectTitle];
+//    [self notifyDevSelectedChanged];
+//    [_tableview reloadData];
+//    [self createBottomView:[self getSelectedDevAndGroup]];
 }
 
 -(NSArray *)getSelectedDevice
@@ -1081,11 +1106,12 @@
         APGroupNote *node = self.data[i];
         if(node.isDevice)
         {
-            [self getDataFromDevice:[NSNumber numberWithInt:i]];
+            [self performSelector:@selector(getDataFromDevice:) withObject:[NSNumber numberWithInt:i] afterDelay:0.1*i];
+//            [self getDataFromDevice:[NSNumber numberWithInt:i]];
         }
     }
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.tableview performSelector:@selector(reloadData) withObject:nil afterDelay:0.5];
+        [self.tableview performSelector:@selector(reloadData) withObject:nil afterDelay:3];
     });
 }
 
@@ -1095,16 +1121,52 @@
     if(self.data == nil || self.data.count <= row) return;
     APGroupNote *node = self.data[row];
 
-//    WS(weakSelf);
     if ([@"tcp" compare:node.access_protocol options:NSCaseInsensitiveSearch |NSNumericSearch] ==NSOrderedSame)
     {
-        int i = 0;
-        for (NSString * key in node.monitorDict)
+        if (node.tcpManager == nil)
         {
-            i++;
-            NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:number, @"number", key, @"key", nil];
-            [self performSelector:@selector(tcpSendAndRecive:) withObject:dict afterDelay:0.2*i];
+            node.tcpManager = [APTcpSocket new];
         }
+        node.tcpManager.senddata = nil;//[NSData dataWithData:tcpdata];
+        node.tcpManager.ip = node.ip;
+        node.tcpManager.port = node.port.intValue;
+        [node.tcpManager connectToHost];
+        
+        WS(weakSelf);
+        //连接失败
+        [node.tcpManager setDidDisconnectBlock:^(NSString * _Nonnull message) {
+            if(weakSelf.data && weakSelf.data.count > row)
+            {
+                APGroupNote *node = weakSelf.data[row];
+            
+                if(node)
+                {
+                    node.connect = @"2";
+                    node.supply_status = @"2";
+                    node.shutter_status = @"2";
+                }
+            }
+                
+        }];
+        
+        //连接成功
+        [node.tcpManager setDidConnectedBlock:^(NSString * _Nonnull message) {
+            if(weakSelf.data && weakSelf.data.count > row)
+            {
+                APGroupNote *node = weakSelf.data[row];
+                //网络已经连接
+                node.connect = @"1";
+                node.supply_status = @"1";
+            }
+            
+        }];
+//        int i = 0;
+//        for (NSString * key in node.monitorDict)
+//        {
+//            i++;
+//            NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:number, @"number", key, @"key", nil];
+//            [self performSelector:@selector(tcpSendAndRecive:) withObject:dict afterDelay:0.2*i];
+//        }
     }
     else if ([@"udp" compare:node.access_protocol options:NSCaseInsensitiveSearch |NSNumericSearch] ==NSOrderedSame)
     {
@@ -1171,18 +1233,16 @@
     WS(weakSelf);
 
     APGroupNote *node = weakSelf.data[row];
-    NSData* tcpdata = node.monitorDict[key];
+//    NSData* tcpdata = node.monitorDict[key];
 
-    NSString *sss = [[NSString alloc] initWithData:tcpdata encoding:NSUTF8StringEncoding];
+//    NSString *sss = [[NSString alloc] initWithData:tcpdata encoding:NSUTF8StringEncoding];
 
 //                NSLog(@"发送数据：%@",sss);
-    APTcpSocket *tcpManager;
     if (node.tcpManager == nil)
     {
-        tcpManager = [APTcpSocket new];
-        node.tcpManager = tcpManager;
+        node.tcpManager = [APTcpSocket new];
     }
-    node.tcpManager.senddata = [NSData dataWithData:tcpdata];
+    node.tcpManager.senddata = nil;//[NSData dataWithData:tcpdata];
     node.tcpManager.ip = node.ip;
     node.tcpManager.port = node.port.intValue;
     [node.tcpManager connectToHost];
@@ -1723,7 +1783,7 @@
             [_moveView setOkBtnClickBlock:^(BOOL index) {
                 [weakSelf.editDevView removeFromSuperview];
                 weakSelf.floatButton.hidden = NO;
-                [weakSelf refreshTable];
+                [weakSelf refreshAllData];
 
             }];
             //取消按钮
@@ -1768,7 +1828,7 @@
             [_renameView setOkBtnClickBlock:^(BOOL index) {
                 [weakSelf.renameView removeFromSuperview];
                 weakSelf.floatButton.hidden = NO;
-                [weakSelf refreshTable];
+                [weakSelf refreshAllData];
                 
             }];
             //取消按钮
@@ -1822,7 +1882,7 @@
             [_renameGroupView setOkBtnClickBlock:^(BOOL index) {
                 [weakSelf.renameGroupView removeFromSuperview];
                 weakSelf.floatButton.hidden = NO;
-                [weakSelf refreshTable];
+                [weakSelf refreshAllData];
                 
             }];
             //取消按钮
@@ -1838,20 +1898,17 @@
 
 -(void)allSelectbtnClick:(UIButton *)btn
 {
-//    if (btn == self.btnLeft)
-    {
-        
-        self.btnLeft.selected = !self.btnLeft.selected;
-        NSString *selectIamge = self.btnLeft.selected?@"all" : @"Ellipse 4";
-        [self.btnLeft setImage:[UIImage imageNamed:selectIamge] forState:UIControlStateNormal];
-        
-        [self selectedAllWithSelected:self.btnLeft.selected];
-        [self refrashAllselectTitle];
-        [self notifyDevSelectedChanged];
-        [self createBottomView:[self getSelectedDevAndGroup]];
-
-    }
+    
+    self.btnLeft.selected = !self.btnLeft.selected;
+    NSString *selectIamge = self.btnLeft.selected?@"all" : @"Ellipse 4";
+    [self.btnLeft setImage:[UIImage imageNamed:selectIamge] forState:UIControlStateNormal];
+    
+    [self selectedAllWithSelected:self.btnLeft.selected];
+    [self refrashAllselectTitle];
+    [self notifyDevSelectedChanged];
+    [self createBottomView:[self getSelectedDevAndGroup]];
 }
+
 -(void)editBtnClick:(UIButton *)btn
 {
     if (btn == self.btnRight)

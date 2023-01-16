@@ -287,6 +287,23 @@
             case 1://按钮“机型”
             {
                 
+                
+            #if 1//测试代码
+//                for (int i = 0; i < 200; i++)
+//                {
+//                    NSString *name = [NSString stringWithFormat:@"%d",i + 10010];
+//                    NSString *nodeid = [NSString stringWithFormat:@"%d",i + 10010];
+//                    NSString *ip = [NSString stringWithFormat:@"192.168.1.%d",i + 10];
+//                    [self writeDB:name nodeId:nodeid ip:ip modelid:@"58"];
+//                }
+//                for (int i = 0; i < 200; i++)
+//                {
+//                    NSString *name = [NSString stringWithFormat:@"%d",i + 20010];
+//                    NSString *nodeid = [NSString stringWithFormat:@"%d",i + 20010];
+//                    NSString *ip = [NSString stringWithFormat:@"192.168.1.%d",i + 10];
+//                    [self writeDB:name nodeId:nodeid ip:ip modelid:@"58"];
+//                }
+            #endif
             }
                 break;
             case 2://按钮“图纸”
@@ -317,5 +334,22 @@
         }
     }
 }
-
+//保存数据到数据库
+-(void)writeDB:(NSString *)name nodeId:(NSString *)nodeId ip:(NSString *)ip modelid:(NSString *)modelid
+{
+    //1.获得数据库文件的路径
+    NSString *doc = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    NSString *dbfileName = [doc stringByAppendingPathComponent:DB_NAME];
+    //2.获得数据库
+    FMDatabase *db = [FMDatabase databaseWithPath:dbfileName];
+    //3.打开数据库
+    if ([db open])
+    {
+        NSString *sqlStr = [NSString stringWithFormat:@"insert into log_sn (group_id,device_name,model_id,gsn,access_protocol,ip,port) values ('%@','%@','%@','%@','%@','%@','%@')",@"0", name, modelid ,nodeId, @"TCP", ip, @"4352"];
+        BOOL ret = [db executeUpdate:sqlStr];
+              
+        //关闭数据库
+        [db close];
+    }
+}
 @end

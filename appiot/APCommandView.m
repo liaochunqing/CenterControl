@@ -463,13 +463,29 @@
             APTcpSocket *tcpManager;
             if (node.tcpManager == nil)
             {
-                tcpManager = [APTcpSocket new];
-                node.tcpManager = tcpManager;
+                node.tcpManager = [APTcpSocket new];
+
             }
             node.tcpManager.senddata = sendData;
-            [node.tcpManager connectToHost:node.ip Port:[node.port intValue]];
+            
+            node.tcpManager.ip = node.ip;
+            node.tcpManager.port = node.port.intValue;
+            [node.tcpManager connectToHost];
+//            [node.tcpManager connectToHost:node.ip Port:[node.port intValue]];
+            
 //            WS(weakSelf);
-//            [node.tcpManager setDidConnectedBlock:^(NSString * _Nonnull message) {
+//            [node.tcpManager setSocketMessageBlock:^(NSString * _Nonnull message) {
+//                   if(message && [message localizedStandardContainsString:@"ok"])
+//                   {
+//
+//                       AppDelegate *appDelegate = kAppDelegate;
+//                       APViewController *vc = appDelegate.mainVC;
+//                       if (vc && vc.centerView && vc.centerView.installView && vc.centerView.installView.sceneView)
+//                       {
+//                           NSArray *array = vc.centerView.installView.sortData.count > 0?vc.centerView.installView.sortData[vc.centerView.installView.selectedModelTag] : [NSArray array];
+//                           [vc.centerView.installView.sceneView setDefaultValue:array];
+//                       }
+//                   }
 //            }];
         }
         else if ([@"udp" compare:node.access_protocol options:NSCaseInsensitiveSearch |NSNumericSearch] ==NSOrderedSame)

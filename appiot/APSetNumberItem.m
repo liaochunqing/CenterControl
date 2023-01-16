@@ -64,7 +64,7 @@
     
     _field = [UITextField new];
     _field.delegate = self;
-    _field.textColor =contentColor;
+    _field.textColor = KWhiteColor;
     _field.textAlignment = NSTextAlignmentCenter;
     _field.font = [UIFont systemFontOfSize:contentFontSize];
     _field.keyboardType = UIKeyboardTypeDecimalPad;//UIKeyboardTypePhonePad;
@@ -73,7 +73,7 @@
     NSString *holderText = @"0";
     NSMutableAttributedString *placeholder = [[NSMutableAttributedString alloc] initWithString:holderText];
     [placeholder addAttribute:NSForegroundColorAttributeName
-                            value:ColorHex(0xABBDD5 )
+                            value:KGrayColor
                             range:NSMakeRange(0, holderText.length)];
     [placeholder addAttribute:NSFontAttributeName
                             value:[UIFont systemFontOfSize:labelFontSize]

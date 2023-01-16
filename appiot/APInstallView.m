@@ -314,10 +314,14 @@
         [view setDefaultValue:_sortData[_selectedModelTag]];
     }
     
-    view.alpha = 0;
-    [UIView animateWithDuration:0.2 animations:^{
-        view.alpha = 1;
-    }];
+    if(_currentView != view)
+    {
+        view.alpha = 0;
+        [UIView animateWithDuration:0.2 animations:^{
+            view.alpha = 1;
+        }];
+    }
+    _currentView = view;
 }
 
 
@@ -343,10 +347,15 @@
         [view setDefaultValue:array];
     }
     [self bringSubviewToFront:view];
-    view.alpha = 0;
-    [UIView animateWithDuration:0.2 animations:^{
-        view.alpha = 1;
-    }];
+    
+    if(_currentView != view)
+    {
+        view.alpha = 0;
+        [UIView animateWithDuration:0.2 animations:^{
+            view.alpha = 1;
+        }];
+    }
+    _currentView = view;
 }
 
 -(void)createColourView
@@ -370,10 +379,14 @@
     }
     [self bringSubviewToFront:view];
 
-    view.alpha = 0;
-    [UIView animateWithDuration:0.2 animations:^{
-        view.alpha = 1;
-    }];
+    if(_currentView != view)
+    {
+        view.alpha = 0;
+        [UIView animateWithDuration:0.2 animations:^{
+            view.alpha = 1;
+        }];
+    }
+    _currentView = view;
 }
 
 
@@ -398,10 +411,14 @@
     }
     [self bringSubviewToFront:view];
 
-    view.alpha = 0;
-    [UIView animateWithDuration:0.2 animations:^{
-        view.alpha = 1;
-    }];
+    if(_currentView != view)
+    {
+        view.alpha = 0;
+        [UIView animateWithDuration:0.2 animations:^{
+            view.alpha = 1;
+        }];
+    }
+    _currentView = view;
 }
 
 -(void)createSignalView
@@ -425,10 +442,14 @@
     }
     [self bringSubviewToFront:view];
 
-    view.alpha = 0;
-    [UIView animateWithDuration:0.2 animations:^{
-        view.alpha = 1;
-    }];
+    if(_currentView != view)
+    {
+        view.alpha = 0;
+        [UIView animateWithDuration:0.2 animations:^{
+            view.alpha = 1;
+        }];
+    }
+    _currentView = view;
 }
 
 
@@ -454,10 +475,14 @@
     }
     [self bringSubviewToFront:view];
 
-    view.alpha = 0;
-    [UIView animateWithDuration:0.2 animations:^{
-        view.alpha = 1;
-    }];
+    if(_currentView != view)
+    {
+        view.alpha = 0;
+        [UIView animateWithDuration:0.2 animations:^{
+            view.alpha = 1;
+        }];
+    }
+    _currentView = view;
 }
 
 #pragma mark 通知响应函数

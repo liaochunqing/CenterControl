@@ -28,10 +28,11 @@
     self.backgroundColor = ColorHex(0x161635 );
     
     [self createMenu];
-    [self createMonitorView];
+//    [self createMonitorView];
     if(_controlBtn)//默认选中第一个
     {
         [_controlBtn sendActionsForControlEvents:UIControlEventTouchUpInside];//代码点击
+        _lastSelectIndex = 0;
     }
 }
 
@@ -102,10 +103,15 @@
         [self bringSubviewToFront:self.commandView];
     }
     
-    self.commandView.alpha = 0;
-    [UIView animateWithDuration:0.3 animations:^{
-        self.commandView.alpha = 1;
-    }];
+    if(_currentView != self.commandView)
+    {
+        self.commandView.alpha = 0;
+        [UIView animateWithDuration:0.3 animations:^{
+            self.commandView.alpha = 1;
+        }];
+    }
+    
+    _currentView = self.commandView;
 }
 
 //创建“监控”窗口view
@@ -121,10 +127,14 @@
         [self bringSubviewToFront:self.monitorView];
     }
     
-    self.monitorView.alpha = 0;
-    [UIView animateWithDuration:0.3 animations:^{
-        self.monitorView.alpha = 1;
-    }];
+    if(_currentView != self.monitorView)
+    {
+        self.monitorView.alpha = 0;
+        [UIView animateWithDuration:0.3 animations:^{
+            self.monitorView.alpha = 1;
+        }];
+    }
+    _currentView = self.monitorView;
 }
 
 //创建“安装调节”窗口view
@@ -139,16 +149,20 @@
     {
         [self bringSubviewToFront:self.installView];
         
-        if (self.installView.selectedMenuIndex == 0)
+        if (self.installView.sceneView && self.installView.selectedMenuIndex == 0)
         {
             [self.installView.sceneView setDefaultValue:self.installView.sceneView.selectedArray];
         }
     }
     
-    self.installView.alpha = 0;
-    [UIView animateWithDuration:0.3 animations:^{
-        self.installView.alpha = 1;
-    }];
+    if(_currentView != self.installView)
+    {
+        self.installView.alpha = 0;
+        [UIView animateWithDuration:0.3 animations:^{
+            self.installView.alpha = 1;
+        }];
+    }
+    _currentView = self.installView;
 }
 
 #pragma button响应函数
@@ -172,15 +186,6 @@
         ViewBorder(btn, 0, ColorHex(0x375BCD ));
         [btn setBackgroundImage:[self imageWithColor:ColorHex(0x3F6EF2)] forState:UIControlStateNormal];
         
-        
-//        if(self.monitorView != nil)
-//        {
-//            [self.monitorView.timer invalidate];
-//            self.monitorView.timer = nil;
-//            [self.monitorView removeFromSuperview];
-//            self.monitorView = nil;
-//            [kNotificationCenter removeObserver:Notification_Get_SelectedDev];
-//        }
         
         switch (btn.tag) {
             case 0://按钮“控制”

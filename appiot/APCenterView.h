@@ -18,11 +18,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,strong)UIView *centerChangeView;//
 @property(nonatomic,strong)NSMutableArray *menuBtnArray;
 @property(nonatomic,strong)APCommandView *commandView;
-@property(nonatomic,strong)APMonitorView *__nullable monitorView;
+@property(nonatomic,strong)APMonitorView *monitorView;
 @property(nonatomic,strong)APInstallView *installView;
 
 @property(nonatomic,strong)UIButton *controlBtn;
 
+@property(nonatomic)int lastSelectIndex;
+@property(nonatomic,strong)APBaseView *currentView;
 @end
 
 NS_ASSUME_NONNULL_END

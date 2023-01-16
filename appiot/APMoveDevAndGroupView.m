@@ -185,12 +185,6 @@
             if  (ret)
             {
                 NSLog(@"操作数据库成功");
-//                AppDelegate *appDelegate = kAppDelegate;
-//                APGroupView *vc = appDelegate.mainVC.leftView.groupView;
-//                if (vc && [vc isKindOfClass:[APGroupView class]])
-//                {
-//                    [vc refreshTable];
-//                }
                 
             }
             else

@@ -513,8 +513,8 @@
             APTcpSocket *tcpManager;
             if (node.tcpManager == nil)
             {
-                tcpManager = [APTcpSocket new];
-                node.tcpManager = tcpManager;
+                node.tcpManager = [APTcpSocket new];
+
             }
             node.tcpManager.senddata = [NSData dataWithData:sendData];
             node.tcpManager.ip = node.ip;
@@ -558,14 +558,11 @@
         {
             NSLog(@"%@,ip=%@,port=%@,发送数据：%@",node.access_protocol,node.ip,node.port,sendData);
 
-//            APTcpSocket *tcpManager = [APTcpSocket shareManager];
-//            [tcpManager connectToHost:node.ip Port:[node.port intValue]];
-//            [tcpManager sendData:sendData];
             APTcpSocket *tcpManager;
             if (node.tcpManager == nil)
             {
-                tcpManager = [APTcpSocket new];
-                node.tcpManager = tcpManager;
+                node.tcpManager = [APTcpSocket new];
+
             }
             node.tcpManager.senddata = [NSData dataWithData:filanData];
             node.tcpManager.ip = node.ip;

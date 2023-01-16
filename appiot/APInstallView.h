@@ -42,6 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,strong)UIScrollView *baseView;
 @property(nonatomic,strong)UIView *menuView;
 
+@property(nonatomic,strong)APBaseView *currentView;
 @end
 
 NS_ASSUME_NONNULL_END

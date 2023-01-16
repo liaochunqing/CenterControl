@@ -23,11 +23,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic ,strong)NSTimer *__nullable timer;
 //@property (nonatomic,strong)APTcpSocket *tcpManager;//tcp管理器
 @property (nonatomic,strong)APUdpSocket *udpManager;//udp管理器
-//@property (nonatomic,strong) APGroupView *groupView;
-
-//@property (nonatomic,strong)APGroupView *groupView;
-
-//-(void)refreshTable:(NSArray *)arr;
 
 @end
 

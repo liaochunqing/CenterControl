@@ -510,7 +510,7 @@
             APGroupView *vc = appDelegate.mainVC.leftView.groupView;
             if (vc && [vc isKindOfClass:[APGroupView class]])
             {
-                [vc refreshTable];
+                [vc refreshAllData];
             }
         }
         else

@@ -8,7 +8,7 @@
 #import "APMonitorView.h"
 #import "AppDelegate.h"
 
-#define Monitor_getdatafromnet_clock (5)//定时秒 获取数据
+#define Monitor_getdatafromnet_clock (8)//定时秒 获取数据
 
 @implementation APMonitorView
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -46,13 +46,6 @@
     [kNotificationCenter addObserver:self selector:@selector(notifySelectedDevChanged:) name:Notification_Get_SelectedDev object:nil];
     
     WS(weakSelf);
-//    [NSTimer scheduledTimerWithTimeInterval:Monitor_getdatafromnet_clock repeats:YES block:^(NSTimer * _Nonnull timer)
-//    {
-//        [weakSelf getAllDevFromLeftView];
-//        [weakSelf connectAllDev];
-//    }];
-    
-    
     [self doTimer];
     _timer = [NSTimer scheduledTimerWithTimeInterval:Monitor_getdatafromnet_clock repeats:YES block:^(NSTimer * _Nonnull timer)
     {
@@ -273,29 +266,30 @@
     int row = [number intValue];
     if(self.selectedDevArr == nil || self.selectedDevArr.count <= row) return;
     APGroupNote *node = self.selectedDevArr[row];
-    NSData* tcpdata = node.monitorDict[key];
-    WS(weakSelf);
 
-    NSString *sss = [[NSString alloc] initWithData:tcpdata encoding:NSUTF8StringEncoding];
-
-//                NSLog(@"发送数据：%@",sss);
-    APTcpSocket *tcpManager;
     if (node.tcpManager == nil)
     {
-        tcpManager = [APTcpSocket new];
-        node.tcpManager = tcpManager;
+        node.tcpManager = [APTcpSocket new];
     }
-    node.tcpManager.senddata = [NSData dataWithData:tcpdata];
+    node.tcpManager.senddata = node.monitorDict[key];//[NSData dataWithData:tcpdata];
     node.tcpManager.ip = node.ip;
     node.tcpManager.port = node.port.intValue;
     [node.tcpManager connectToHost];
     
+    //    NSString *sss = [[NSString alloc] initWithData:tcpdata encoding:NSUTF8StringEncoding];
+    //    NSLog(@"monitorview发送数据：%@",sss);
+    //    if ([sss isEqualToString:@"AT+SignalChannel=\r\n"])
+    //    {
+    //        return;
+    //    }
+    
+    WS(weakSelf);
     //连接失败
     [node.tcpManager setDidDisconnectBlock:^(NSString * _Nonnull message) {
         if(weakSelf.selectedDevArr && weakSelf.selectedDevArr.count > row)
         {
             //重置
-            APGroupNote *node = weakSelf.selectedDevArr[row];
+//            APGroupNote *node = weakSelf.selectedDevArr[row];
             
             if (node)
             {
@@ -327,6 +321,7 @@
                if(weakSelf.selectedDevArr == nil || weakSelf.selectedDevArr.count <= row) return;
 
                APGroupNote *tempNode = weakSelf.selectedDevArr[row];
+               tempNode.connect = @"1";
                NSLog(@"3 == %@", [NSThread currentThread]);
 
                NSArray *temparray = [message componentsSeparatedByString:@"\r\n"];

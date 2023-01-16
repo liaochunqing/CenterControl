@@ -35,7 +35,7 @@
     keyBoardManager.toolbarManageBehaviour = IQAutoToolbarBySubviews;
     keyBoardManager.enableAutoToolbar=YES;
     keyBoardManager.shouldShowToolbarPlaceholder = NO;
-    keyBoardManager.keyboardDistanceFromTextField = 10;
+    keyBoardManager.keyboardDistanceFromTextField = 18;
     keyBoardManager.shouldResignOnTouchOutside = YES;
 
     return YES;
