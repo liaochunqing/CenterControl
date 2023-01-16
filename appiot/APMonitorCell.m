@@ -84,31 +84,15 @@
     
 
     //RS232
-
-    if(node.connect.intValue == 1)
-    {
-        str = @"网络已连接";
-        color = ColorHex(0xEC00CF );
-        imgName =@"Group 11726";
-    }
-    else
-    {
-        str = @"网络未连接";
-        color = ColorHex(0xCCCCCC);
-        imgName =@"Group 11727";
-    }
     UILabel *zhan = [[UILabel alloc] init];
     [firtRow addSubview:zhan];
-    zhan.text = str;
     zhan.font = [UIFont systemFontOfSize:16];
-    zhan.textColor = color;
     [zhan mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(firtRow);
         make.right.mas_equalTo(firtRow.mas_right).offset(-Left_Gap);
         make.size.mas_equalTo(CGSizeMake(W_SCALE(110), H_SCALE(20)));
     }];
     UIImageView *imzhan = [[UIImageView alloc] init];
-    imzhan.image = [UIImage imageNamed:imgName];
     [firtRow addSubview:imzhan];
     [imzhan mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(firtRow);
@@ -116,12 +100,45 @@
         make.size.mas_equalTo(CGSizeMake(W_SCALE(16), H_SCALE(16)));
     }];
     
+    if(node.connect.intValue == 1)
+    {
+        str = @"网络已连接";
+        color = ColorHex(0xEC00CF );
+        imgName =@"Group 11726";
+        [[APTool shareInstance] shakeToShow:imzhan];
+    }
+    else
+    {
+        str = @"网络未连接";
+        color = ColorHex(0xCCCCCC);
+        imgName =@"Group 11727";
+    }
+    zhan.textColor = color;
+    zhan.text = str;
+    imzhan.image = [UIImage imageNamed:imgName];
+
     //开快门
+    UILabel *kuaimen = [[UILabel alloc] init];
+    [firtRow addSubview:kuaimen];
+    kuaimen.font = [UIFont systemFontOfSize:16];
+    [kuaimen mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.mas_equalTo(firtRow);
+        make.right.mas_equalTo(zhan.mas_left).offset(-30);
+        make.size.mas_equalTo(CGSizeMake(W_SCALE(55), H_SCALE(20)));
+    }];
+    UIImageView *imkuaimen = [[UIImageView alloc] init];
+    [firtRow addSubview:imkuaimen];
+    [imkuaimen mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.mas_equalTo(firtRow);
+        make.right.mas_equalTo(kuaimen.mas_left).offset(-3);
+        make.size.mas_equalTo(CGSizeMake(W_SCALE(16), H_SCALE(16)));
+    }];
     if(node.shutter_status.intValue == 1)
     {
         str = @"快门开";
         color = ColorHex(0xFFBD12);
         imgName =@"Group 11725";
+        [[APTool shareInstance] shakeToShow:imkuaimen];
     }
     else
     {
@@ -129,49 +146,15 @@
         color = ColorHex(0xCCCCCC);
         imgName =@"Group 11727";
     }
-    UILabel *kuaimen = [[UILabel alloc] init];
-    [firtRow addSubview:kuaimen];
     kuaimen.text = str;
-    kuaimen.font = [UIFont systemFontOfSize:16];
     kuaimen.textColor = color;
-    [kuaimen mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.mas_equalTo(firtRow);
-        make.right.mas_equalTo(zhan.mas_left).offset(-30);
-        make.size.mas_equalTo(CGSizeMake(W_SCALE(55), H_SCALE(20)));
-    }];
-    UIImageView *imkuaimen = [[UIImageView alloc] init];
     imkuaimen.image = [UIImage imageNamed:imgName];
-    [firtRow addSubview:imkuaimen];
-    [imkuaimen mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.mas_equalTo(firtRow);
-        make.right.mas_equalTo(kuaimen.mas_left).offset(-3);
-        make.size.mas_equalTo(CGSizeMake(W_SCALE(16), H_SCALE(16)));
-    }];
+    
     
     //开机
-    if(node.supply_status.intValue == 1)
-    {
-        str = @"开机";
-        color = ColorHex(0x12D4B2 );
-        imgName =@"Group 11724";
-    }
-    else if (node.supply_status.intValue == 0)
-    {
-        str = @"待机";
-        color = ColorHex(0x12D4B2 );
-        imgName =@"Group 11724";
-    }
-    else
-    {
-        str = @"关机";
-        color = ColorHex(0xCCCCCC);
-        imgName =@"Group 11727";
-    }
     UILabel *kaiji = [[UILabel alloc] init];
     [firtRow addSubview:kaiji];
-    kaiji.text = str;
     kaiji.font = [UIFont systemFontOfSize:16];
-    kaiji.textColor = color;
     [kaiji mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(firtRow);
         make.right.mas_equalTo(kuaimen.mas_left).offset(-30);
@@ -179,14 +162,36 @@
     }];
     
     UIImageView *imkaiji = [[UIImageView alloc] init];
-    imkaiji.image = [UIImage imageNamed:imgName];
     [firtRow addSubview:imkaiji];
     [imkaiji mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(firtRow);
         make.right.mas_equalTo(kaiji.mas_left).offset(-3);
         make.size.mas_equalTo(CGSizeMake(W_SCALE(16), H_SCALE(16)));
     }];
-    
+    if(node.supply_status.intValue == 1)
+    {
+        str = @"开机";
+        color = ColorHex(0x12D4B2 );
+        imgName =@"Group 11724";
+        [[APTool shareInstance] shakeToShow:imkaiji];
+    }
+    else if (node.supply_status.intValue == 0)
+    {
+        str = @"待机";
+        color = ColorHex(0x12D4B2 );
+        imgName =@"Group 11724";
+        [[APTool shareInstance] shakeToShow:imkaiji];
+    }
+    else
+    {
+        str = @"关机";
+        color = ColorHex(0xCCCCCC);
+        imgName =@"Group 11727";
+    }
+    imkaiji.image = [UIImage imageNamed:imgName];
+    kaiji.text = str;
+    kaiji.textColor = color;
+
     
     CGFloat fontsize = H_SCALE(13);
     CGFloat w = W_SCALE(180);
@@ -275,4 +280,6 @@
         make.bottom.mas_equalTo(self.contentView.mas_bottom).offset(0);
     }];
 }
+
+
 @end

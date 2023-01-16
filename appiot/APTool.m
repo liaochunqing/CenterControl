@@ -155,24 +155,38 @@
 }
 
 //设置不同字体颜色
-
 -(void)fontColorLabel:(UILabel *)label FontNumber:(UIFont *)font AndRange:(NSRange)range AndColor:(UIColor *)vaColor
 
 {
-
     NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:label.text];
-
     //设置字号
-
     [str addAttribute:NSFontAttributeName value:font range:range];
-
     //设置文字颜色
-
     [str addAttribute:NSForegroundColorAttributeName value:vaColor range:range];
 
     label.attributedText = str;
+}
 
-    
+- (void) shakeToShow:(UIView*)aView
+{
+
+    CAKeyframeAnimation* animation = [CAKeyframeAnimation animationWithKeyPath:@"transform"];
+    animation.repeatCount = 100;
+
+    animation.duration = 1.5;// 动画时间
+
+    NSMutableArray *values = [NSMutableArray array];
+
+    [values addObject:[NSValue valueWithCATransform3D:CATransform3DMakeScale(0.1, 0.1, 1.0)]];
+
+    // 这三个数字，我只研究了前两个，所以最后一个数字我还是按照它原来写1.0；前两个是控制view的大小的；
+    [values addObject:[NSValue valueWithCATransform3D:CATransform3DMakeScale(1.5, 1.5, 1.0)]];
+    [values addObject:[NSValue valueWithCATransform3D:CATransform3DMakeScale(0.9, 0.9, 1.0)]];
+    [values addObject:[NSValue valueWithCATransform3D:CATransform3DMakeScale(0.1, 0.1, 1.0)]];
+
+    animation.values = values;
+
+    [aView.layer addAnimation:animation forKey:nil];
 
 }
 @end

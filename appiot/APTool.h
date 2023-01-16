@@ -36,6 +36,8 @@ NS_ASSUME_NONNULL_BEGIN
 //UIAlertController 背景颜色设置
 -(void)setAlterviewBackgroundColor:(UIAlertController *)alert color:(UIColor*)color;
 
+//uiview的放大缩小动画
+- (void) shakeToShow:(UIView*)aView;
 
 //设置不同字体颜色
 -(void)fontColorLabel:(UILabel *)label FontNumber:(UIFont *)font AndRange:(NSRange)range AndColor:(UIColor *)vaColor;
