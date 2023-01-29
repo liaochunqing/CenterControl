@@ -53,10 +53,15 @@ static APTcpSocket *shareManager = nil;
     NSString *message = [NSString stringWithFormat:@"%@",host];
     NSLog(@"tcp ip = %@:连接成功",message);
     [self sendData];
-    if (self.didConnectedBlock)
-    {
-        self.didConnectedBlock(message);
-    }
+    
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+       // UI更新代码
+        if (self.didConnectedBlock)
+        {
+            self.didConnectedBlock(message);
+        }
+    });
     
     // 读取数据
     [sock readDataWithTimeout:-1 tag:0];
@@ -96,10 +101,15 @@ static APTcpSocket *shareManager = nil;
 {
     NSString *message = [NSString stringWithFormat:@"tcp ip = %@ ：连接失败%d\n",self.ip, sock.isConnected];
     NSLog(@"%@",message);
-    if (self.didDisconnectBlock)
-    {
-        self.didDisconnectBlock(message);
-    }
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+       // UI更新代码
+        if (self.didDisconnectBlock)
+        {
+            self.didDisconnectBlock(message);
+        }
+    });
+    
 }
 
 @end

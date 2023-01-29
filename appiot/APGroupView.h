@@ -57,10 +57,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 -(NSArray *)getSelectedDevice;
 -(NSArray *)getAllDevice;
+-(NSArray *)getSelectedDevAndGroup;
+-(APGroupNote *)getNodeByNodeid:(NSString *)nodeid;
+
 -(void)refreshAllData;
 
 -(void)createBottomView:(NSArray *)selectedArr;
--(NSArray *)getSelectedDevAndGroup;
 @end
 
 NS_ASSUME_NONNULL_END

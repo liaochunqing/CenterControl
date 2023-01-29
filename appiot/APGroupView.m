@@ -1048,6 +1048,19 @@
     return  arr;
 }
 
+-(APGroupNote *)getNodeByNodeid:(NSString *)nodeid
+{
+    for(APGroupNote *temp in _data)
+    {
+        if ([nodeid isEqualToString:temp.nodeId] )
+        {
+            return temp;
+        }
+    }
+    
+    return  nil;
+}
+
 -(NSArray *)getAllDevice
 {
     NSMutableArray *arr = [NSMutableArray array];

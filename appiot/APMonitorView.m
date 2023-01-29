@@ -200,8 +200,8 @@
         for (NSString * key in node.monitorDict)
         {
             i++;
-            NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:number, @"number", key, @"key", nil];
-            [self performSelector:@selector(tcpSendAndRecive:) withObject:dict afterDelay:0.2*i];
+            NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:node.nodeId, @"nodeId", key, @"key", nil];
+            [self performSelector:@selector(tcpSendAndRecive:) withObject:dict afterDelay:0.2*i];//减少粘包的发生
         }
     }
     else if ([@"udp" compare:node.access_protocol options:NSCaseInsensitiveSearch |NSNumericSearch] ==NSOrderedSame)
@@ -261,12 +261,15 @@
 -(void)tcpSendAndRecive:(NSDictionary *)dict
 {
     if (dict == nil) return;
-    NSNumber *number = dict[@"number"];
+    NSString *nodeId = dict[@"nodeId"];
     NSString *key = dict[@"key"];
-    int row = [number intValue];
-    if(self.selectedDevArr == nil || self.selectedDevArr.count <= row) return;
-    APGroupNote *node = self.selectedDevArr[row];
-
+//    int row = [number intValue];
+    if(self.selectedDevArr == nil || self.selectedDevArr.count == 0) return;
+    AppDelegate *appDelegate = kAppDelegate;
+    APGroupView *vc = appDelegate.mainVC.leftView.groupView;
+    APGroupNote *node = [vc getNodeByNodeid:nodeId];
+    if (node==nil) return;
+    
     if (node.tcpManager == nil)
     {
         node.tcpManager = [APTcpSocket new];
@@ -286,10 +289,13 @@
     WS(weakSelf);
     //连接失败
     [node.tcpManager setDidDisconnectBlock:^(NSString * _Nonnull message) {
-        if(weakSelf.selectedDevArr && weakSelf.selectedDevArr.count > row)
+        if(weakSelf.selectedDevArr && weakSelf.selectedDevArr.count > 0)
         {
             //重置
-//            APGroupNote *node = weakSelf.selectedDevArr[row];
+            AppDelegate *appDelegate = kAppDelegate;
+            APGroupView *vc = appDelegate.mainVC.leftView.groupView;
+            APGroupNote *node = [vc getNodeByNodeid:nodeId];
+            if (node==nil) return;
             
             if (node)
             {
@@ -305,10 +311,13 @@
     
     //连接成功
     [node.tcpManager setDidConnectedBlock:^(NSString * _Nonnull message) {
-        if(weakSelf.selectedDevArr && weakSelf.selectedDevArr.count > row)
+        if(weakSelf.selectedDevArr && weakSelf.selectedDevArr.count > 0)
         {
             //重置
-            APGroupNote *node = weakSelf.selectedDevArr[row];
+            AppDelegate *appDelegate = kAppDelegate;
+            APGroupView *vc = appDelegate.mainVC.leftView.groupView;
+            APGroupNote *node = [vc getNodeByNodeid:nodeId];
+            if (node==nil) return;
             //网络已经连接
             node.connect = @"1";
             node.supply_status = @"1";
@@ -318,9 +327,13 @@
     [node.tcpManager setSocketMessageBlock:^(NSString * _Nonnull message) {
            if(message)
            {
-               if(weakSelf.selectedDevArr == nil || weakSelf.selectedDevArr.count <= row) return;
+               if(weakSelf.selectedDevArr == nil || weakSelf.selectedDevArr.count == 0) return;
 
-               APGroupNote *tempNode = weakSelf.selectedDevArr[row];
+               AppDelegate *appDelegate = kAppDelegate;
+               APGroupView *vc = appDelegate.mainVC.leftView.groupView;
+               APGroupNote *tempNode = [vc getNodeByNodeid:nodeId];
+               if (tempNode==nil) return;
+               
                tempNode.connect = @"1";
                NSLog(@"3 == %@", [NSThread currentThread]);
 
@@ -537,27 +550,6 @@
     }
 }
 
--(void)getAllDevFromLeftView
-{
-    AppDelegate *appDelegate = kAppDelegate;
-    APGroupView *vc = appDelegate.mainVC.leftView.groupView;
-    if (vc && [vc isKindOfClass:[APGroupView class]])
-    {
-        NSArray *temp = [vc getAllDevice];
-        if (!temp) return;
-        
-        if (_allDevArr && _allDevArr.count)
-        {
-            [_allDevArr removeAllObjects];
-        }
-        else
-        {
-            _allDevArr = [NSMutableArray array];
-        }
-        _allDevArr = [NSMutableArray arrayWithArray:temp];
-
-    }
-}
 
 -(void)refreshTitle
 {
