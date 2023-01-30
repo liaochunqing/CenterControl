@@ -49,7 +49,8 @@
     [_microLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(_microImg.mas_right).offset(Left_Gap);
         make.centerY.mas_equalTo(button);
-        make.width.mas_equalTo(39);
+//        make.width.mas_equalTo(49);
+        make.right.mas_equalTo(button.mas_right).offset(0);
         make.height.mas_equalTo(22);
     }];
     

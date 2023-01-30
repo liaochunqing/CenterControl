@@ -394,7 +394,7 @@
     
     UILabel *lab = [[UILabel alloc] init];
     [view addSubview:lab];
-    lab.text = @"测试图";
+    lab.text = LSTRING(@"测试图");
     lab.font = [UIFont systemFontOfSize:18];
     lab.textColor = [UIColor whiteColor];
     [lab mas_makeConstraints:^(MASConstraintMaker *make) {
