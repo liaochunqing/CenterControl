@@ -111,16 +111,16 @@
 
 -(void)createSwitchView
 {
-    NSDictionary *dict1 = @{@"string":@"开机",
+    NSDictionary *dict1 = @{@"string":LSTRING(@"开机"),
                            @"imageName":@"active 3",
     };
-    NSDictionary *dict2 = @{@"string":@"关机",
+    NSDictionary *dict2 = @{@"string":LSTRING(@"关机"),
                            @"imageName":@"active 1",
     };
-    NSDictionary *dict3 = @{@"string":@"开快门",
+    NSDictionary *dict3 = @{@"string":LSTRING(@"开快门"),
                            @"imageName":@"active 4",
     };
-    NSDictionary *dict4 = @{@"string":@"关快门",
+    NSDictionary *dict4 = @{@"string":LSTRING(@"关快门"),
                            @"imageName":@"active 2",
     };
     
@@ -165,34 +165,34 @@
 //测试
 -(void)createTestView
 {
-    NSDictionary *dict1 = @{@"string":@"关",
+    NSDictionary *dict1 = @{@"string":LSTRING(@"关"),
                            @"color":ColorHex(0x494E67),
                             @"textColor":ColorHex(0xABBDD5)
     };
-    NSDictionary *dict2 = @{@"string":@"网格",
+    NSDictionary *dict2 = @{@"string":LSTRING(@"网格"),
                            @"color":ColorHex(0x344B67),
                             @"textColor":ColorHex(0x96EFFF)
     };
-    NSDictionary *dict3 = @{@"string":@"红",
+    NSDictionary *dict3 = @{@"string":LSTRING(@"红"),
                            @"color":ColorHex(0x491B34),
                             @"textColor":[UIColor redColor]
     };
-    NSDictionary *dict4 = @{@"string":@"绿",
+    NSDictionary *dict4 = @{@"string":LSTRING(@"绿"),
                            @"color":ColorHex(0x164E34),
                             @"textColor":[UIColor greenColor]
     };
     
-    NSDictionary *dict5 = @{@"string":@"蓝",
+    NSDictionary *dict5 = @{@"string":LSTRING(@"蓝"),
                            @"color":ColorHex(0x1D3066),
                             @"textColor":[UIColor blueColor]
     };
     
-    NSDictionary *dict6 = @{@"string":@"白",
+    NSDictionary *dict6 = @{@"string":LSTRING(@"白"),
                            @"color":ColorHex(0x494E67),
                             @"textColor":[UIColor whiteColor]
     };
     
-    NSDictionary *dict7 = @{@"string":@"黑",
+    NSDictionary *dict7 = @{@"string":LSTRING(@"黑"),
                             @"color":[UIColor darkGrayColor],//ColorHex(0x493C39),
                             @"textColor":[UIColor blackColor]
     };
@@ -215,9 +215,9 @@
         make.height.mas_equalTo(h);
     }];
     
-    UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(Left_Gap, top_Gap, 80, 28)];
+    UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(Left_Gap, top_Gap, 180, 28)];
     [view addSubview:lab];
-    lab.text = @"测试图";
+    lab.text = LSTRING(@"测试图");
     lab.font = [UIFont systemFontOfSize:20];
     lab.textColor = [UIColor whiteColor];
     
@@ -273,19 +273,19 @@
         erroNumber = [NSString stringWithFormat:@"%d",vc.errorCodeNumber];
     }
     
-    NSDictionary *dict1 = @{@"string":@"设备总数",
+    NSDictionary *dict1 = @{@"string":LSTRING(@"设备总数"),
                            @"number":total,
                             @"imageName":@"Group 215",
     };
-    NSDictionary *dict2 = @{@"string":@"在线设备数",
+    NSDictionary *dict2 = @{@"string":LSTRING(@"在线设备数"),
                            @"number":online,
                             @"imageName":@"Group 216",
     };
-    NSDictionary *dict3 = @{@"string":@"离线设备数",
+    NSDictionary *dict3 = @{@"string":LSTRING(@"离线设备数"),
                            @"number":offline,
                             @"imageName":@"Group 217",
     };
-    NSDictionary *dict4 = @{@"string":@"异常设备",
+    NSDictionary *dict4 = @{@"string":LSTRING(@"异常设备"),
                            @"number":erroNumber,
                             @"imageName":@"Group 218",
     };
@@ -306,9 +306,9 @@
         make.top.mas_equalTo(self.testBaseView.mas_bottom).offset(top_Gap);
     }];
     
-    UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(Left_Gap, top_Gap, 120, 28)];
+    UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(Left_Gap, top_Gap, 190, 28)];
     [view addSubview:lab];
-    lab.text = @"设备监测";
+    lab.text = LSTRING(@"设备监测");
     lab.font = [UIFont systemFontOfSize:20];
     lab.textColor = [UIColor whiteColor];
     
@@ -316,13 +316,13 @@
     UIButton *btnRight = [UIButton new];
     [view addSubview:btnRight];
     ViewRadius(btnRight, 5);
-    [btnRight setTitle:@"刷新" forState:UIControlStateNormal];
+    [btnRight setTitle:LSTRING(@"刷新") forState:UIControlStateNormal];
     btnRight.titleLabel.font = [UIFont systemFontOfSize: 16.0];
     [btnRight setTitleColor:ColorHex(0xFFFFFF ) forState:UIControlStateNormal];
     [btnRight setBackgroundImage:[self imageWithColor:ColorHex(0x3F6EF2)] forState:UIControlStateNormal];
     [btnRight setBackgroundImage:[self imageWithColor:[UIColor grayColor]] forState:UIControlStateSelected];
     [btnRight mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(W_SCALE(60), H_SCALE(32)));
+        make.size.mas_equalTo(CGSizeMake(W_SCALE(70), H_SCALE(35)));
         make.top.mas_equalTo(view.mas_top).offset(top_Gap);
         make.right.mas_equalTo(view.mas_right).offset(-Left_Gap);
     }];
@@ -358,7 +358,7 @@
         }
         if (number && number.length)
         {
-            item.detail.text = [NSString stringWithFormat:@"%@ 台",number];
+            item.detail.text = [NSString stringWithFormat:@"%@ %@",number,LSTRING(@"台")];
         }
         if (i == 3)
         {
@@ -440,7 +440,7 @@
                 number = erroNumber;
             }
             
-            item.detail.text = [NSString stringWithFormat:@"%@ 台",number];
+            item.detail.text = [NSString stringWithFormat:@"%@ %@",number,LSTRING(@"台")];
 
         }
     }
@@ -460,7 +460,7 @@
             NSLog(@"%@,ip=%@,port=%@,发送数据：%@",node.access_protocol,node.ip,node.port,sendData);
 //            NSString *sss = [[NSString alloc] initWithData:sendData encoding:NSUTF8StringEncoding];
 
-            APTcpSocket *tcpManager;
+//            APTcpSocket *tcpManager;
             if (node.tcpManager == nil)
             {
                 node.tcpManager = [APTcpSocket new];
@@ -514,10 +514,10 @@
     
     if(_data.count == 0)
     {
-        NSString *t= @"提示";
+        NSString *t= LSTRING(@"提示");
         NSString *m= @"没有选中任何设备";
         UIAlertController  *alert = [UIAlertController alertControllerWithTitle:t message:m preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *action2= [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        UIAlertAction *action2= [UIAlertAction actionWithTitle:LSTRING(@"好的") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
                 }];
 
         
@@ -586,10 +586,10 @@
 
     if(_data.count == 0)
     {
-        NSString *t= @"提示";
+        NSString *t= LSTRING(@"提示");
         NSString *m= @"没有选中任何设备";
         UIAlertController  *alert = [UIAlertController alertControllerWithTitle:t message:m preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *action2= [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        UIAlertAction *action2= [UIAlertAction actionWithTitle:LSTRING(@"好的") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
                 }];
 //        ViewRadius(alert, 5);
 

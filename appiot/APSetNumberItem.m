@@ -27,11 +27,11 @@
     UIColor *labelColor = ColorHex(0xA1A7C1);
     CGFloat textW = W_SCALE(68);
     CGFloat contentFontSize = 14;
-    UIColor *contentColor = ColorHex(0x9699AC);
+//    UIColor *contentColor = ColorHex(0x9699AC);
     
     UILabel *fenzuLab = [[UILabel alloc] init];
     _label = fenzuLab;
-    fenzuLab.text = @"亮度对比";
+    fenzuLab.text = LSTRING(@"亮度对比");
     [self addSubview:fenzuLab];
     fenzuLab.font = [UIFont systemFontOfSize:labelFontSize];
     fenzuLab.textColor = labelColor;

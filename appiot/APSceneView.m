@@ -59,7 +59,7 @@
     
     UILabel *lab = [[UILabel alloc] init];
     [view addSubview:lab];
-    lab.text = @"镜头调节";
+    lab.text = LSTRING(@"镜头调节");
     lab.font = [UIFont systemFontOfSize:18];
     lab.textColor = [UIColor whiteColor];
     [lab mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -71,31 +71,31 @@
     
     lab = [[UILabel alloc] init];
     [self addSubview:lab];
-    lab.text = @"位移";
+    lab.text = LSTRING(@"位移");
     lab.font = [UIFont systemFontOfSize:16];
     lab.textColor = ColorHex(0xA1A7C1);
     [lab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.mas_left).offset(Left_Gap*2);
         make.top.mas_equalTo(self.mas_top).offset(H_SCALE(81));
         make.height.mas_equalTo(H_SCALE(25));
-        make.width.mas_equalTo(W_SCALE(65));
+        make.width.mas_equalTo(W_SCALE(165));
     }];
     
     lab = [[UILabel alloc] init];
     [self addSubview:lab];
-    lab.text = @"自动居中";
+    lab.text = LSTRING(@"自动居中");
     lab.font = [UIFont systemFontOfSize:16];
     lab.textColor = ColorHex(0xA1A7C1);
     [lab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.mas_left).offset(Left_Gap*2);
         make.top.mas_equalTo(self.mas_top).offset(H_SCALE(286));
         make.height.mas_equalTo(H_SCALE(25));
-        make.width.mas_equalTo(W_SCALE(75));
+        make.width.mas_equalTo(W_SCALE(175));
     }];
     
     lab = [[UILabel alloc] init];
     [self addSubview:lab];
-    lab.text = @"聚焦";
+    lab.text = LSTRING(@"聚焦");
     lab.font = [UIFont systemFontOfSize:16];
     lab.textColor = ColorHex(0xA1A7C1);
     [lab mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -107,7 +107,7 @@
     
     lab = [[UILabel alloc] init];
     [self addSubview:lab];
-    lab.text = @"缩放";
+    lab.text = LSTRING(@"缩放");
     lab.font = [UIFont systemFontOfSize:16];
     lab.textColor = ColorHex(0xA1A7C1);
     [lab mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -119,7 +119,7 @@
     
     lab = [[UILabel alloc] init];
     [self addSubview:lab];
-    lab.text = @"快门";
+    lab.text = LSTRING(@"快门");
     lab.font = [UIFont systemFontOfSize:16];
     lab.textColor = ColorHex(0xA1A7C1);
     [lab mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -131,7 +131,7 @@
     
     UIButton *button = [[UIButton alloc] init];
     ViewRadius(button, 5);
-    [button setTitle:@"自动居中" forState:UIControlStateNormal];
+    [button setTitle:LSTRING(@"自动居中") forState:UIControlStateNormal];
     button.titleLabel.font = [UIFont systemFontOfSize:14];
     [button setBackgroundImage:[self imageWithColor:ColorHex(0x2589EE)] forState:UIControlStateNormal];
     [button setBackgroundImage:[self imageWithColor:ColorHex(0x7877A9)] forState:UIControlStateHighlighted];
@@ -327,7 +327,7 @@
                              @"parameter_value":@"CheckErboard",
                              @"exec_code":@"scene-testChart-CheckErboard",
     };
-    NSDictionary *dict16 = @{@"string":@"切换测试图",
+    NSDictionary *dict16 = @{@"string":LSTRING(@"切换测试图"),
                              @"parameter_value":@"",
                              @"exec_code":@"scene-testSwitch",
     };

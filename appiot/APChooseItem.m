@@ -40,7 +40,7 @@
     
     _label = [[UILabel alloc] init];
     [self addSubview:_label];
-    _label.text = @"动态对比度";
+    _label.text = LSTRING(@"动态对比度");
     _label.font = [UIFont systemFontOfSize:labelFontSize];
     _label.textColor = labelColor;
     [_label mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -55,7 +55,7 @@
     _field.textColor =contentColor;
     _field.textAlignment = NSTextAlignmentCenter;
     _field.font = [UIFont systemFontOfSize:contentFontSize];
-    _field.placeholder = @"请选择";
+    _field.placeholder = LSTRING(@"请选择");
     ViewBorderRadius(_field, 5, 1, ColorHex(0xADACA8));
     [self addSubview:_field];
     

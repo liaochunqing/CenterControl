@@ -176,7 +176,7 @@
     _modelField.font = [UIFont systemFontOfSize:contentFontSize];
 //    _modelField.placeholder = @"请选择机型";
     
-    holderText = @"请选择机型";
+    holderText = LSTRING(@"请选择机型");
     placeholder = [[NSMutableAttributedString alloc] initWithString:holderText];
     [placeholder addAttribute:NSForegroundColorAttributeName
                             value:ColorHex(0xABBDD5 )
@@ -250,7 +250,7 @@
     /*************************网络设置**********************************/
     UILabel *netlab = [[UILabel alloc] init];
     [_baseview addSubview:netlab];
-    netlab.text = @"网络设置";
+    netlab.text = LSTRING(@"网络设置");
 //    netlab.textAlignment =  NSTextAlignmentCenter;
     netlab.font = [UIFont boldSystemFontOfSize:16];
     netlab.textColor = ColorHex(0x1D2242);
@@ -404,7 +404,7 @@
     okbtn.backgroundColor = ColorHex(0x007AFF);
 //    ViewBorderRadius(okbtn, 5, 0.8, [UIColor grayColor]);
     ViewRadius(okbtn, 5);
-    [okbtn setTitle:@"确定" forState:UIControlStateNormal];
+    [okbtn setTitle:LSTRING(@"确定") forState:UIControlStateNormal];
     okbtn.tag = 0;
     [okbtn addTarget:self action:@selector(newDevBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     [okbtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -416,7 +416,7 @@
     UIButton *cancelbtn = [UIButton new];
     [_baseview addSubview:cancelbtn];
     ViewBorderRadius(cancelbtn, 5, 0.8, [UIColor grayColor]);
-    [cancelbtn setTitle:@"取消" forState:UIControlStateNormal];
+    [cancelbtn setTitle:LSTRING(@"取消") forState:UIControlStateNormal];
     [cancelbtn setTitleColor:ColorHex(0x1D2242) forState:UIControlStateNormal];
     cancelbtn.tag = 1;
     [cancelbtn addTarget:self action:@selector(newDevBtnClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -660,13 +660,6 @@
         BOOL basicTest = [string isEqualToString:filtered];
         if(!basicTest) {
              
-//                UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"提示"
-//                                                                message:@"请输入数字"
-//                                                               delegate:nil
-//                                                      cancelButtonTitle:@"确定"
-//                                                      otherButtonTitles:nil];
-//
-//                [alert show];
             return NO;
                      
                 }

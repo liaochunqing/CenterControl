@@ -428,7 +428,7 @@
     filed.backgroundColor = ColorHex(0x29315F);
     filed.clearButtonMode = UITextFieldViewModeAlways;
     //改变搜索框中的placeholder的颜色
-    NSString *holderText = @"搜索投影机/分组";
+    NSString *holderText = LSTRING(@"搜索投影机/分组");
     NSMutableAttributedString *placeholder = [[NSMutableAttributedString alloc] initWithString:holderText];
     [placeholder addAttribute:NSForegroundColorAttributeName
                             value:ColorHex(0xABBDD5 )
@@ -512,16 +512,16 @@
             [subview removeFromSuperview];
         }
         
-        NSDictionary *dict1 = @{@"string":@"编辑",
+        NSDictionary *dict1 = @{@"string":LSTRING(@"编辑"),
                                @"imageName":@"edit",
         };
-        NSDictionary *dict2 = @{@"string":@"删除",
+        NSDictionary *dict2 = @{@"string":LSTRING(@"删除"),
                                @"imageName":@"Group 11533",
         };
-        NSDictionary *dict3 = @{@"string":@"移动",
+        NSDictionary *dict3 = @{@"string":LSTRING(@"移动"),
                                @"imageName":@"Group 11532",
         };
-        NSDictionary *dict4 = @{@"string":@"重命名",
+        NSDictionary *dict4 = @{@"string":LSTRING(@"重命名"),
                                @"imageName":@"Group 11531",
         };
         
@@ -537,14 +537,14 @@
             [subview removeFromSuperview];
         }
         
-        NSDictionary *dict2 = @{@"string":@"删除",
+        NSDictionary *dict2 = @{@"string":LSTRING(@"删除"),
                                @"imageName":@"Group 11533",
         };
-        NSDictionary *dict3 = @{@"string":@"移动",
+        NSDictionary *dict3 = @{@"string":LSTRING(@"移动"),
                                @"imageName":@"Group 11532",
         };
         
-        NSDictionary *dict4 = @{@"string":@"重命名分组",
+        NSDictionary *dict4 = @{@"string":LSTRING(@"重命名分组"),
                                @"imageName":@"Group 11531",
         };
         
@@ -573,7 +573,7 @@
         NSString *str = dic[@"string"];
         NSString *strImage = dic[@"imageName"];
         CGFloat w = btnW;
-        if ([str isEqualToString:@"重命名分组"])
+        if ([str isEqualToString:LSTRING(@"重命名分组")])
         {
             w = btnW+W_SCALE(32);
         }
@@ -581,7 +581,7 @@
 //        [button setBackgroundImage:[self imageWithColor:ColorHex(0x7877A9)] forState:UIControlStateHighlighted];
 //        button.backgroundColor = [UIColor redColor];
         [self.bottomView addSubview:button];
-        if ([str isEqualToString:@"重命名分组"])
+        if ([str isEqualToString:LSTRING(@"重命名分组")])
         {
             button.lab.font = [UIFont systemFontOfSize:15];
         }
@@ -639,7 +639,7 @@
     _allSelectLabel.textColor = [UIColor whiteColor];
     _allSelectLabel.font = [UIFont systemFontOfSize:16];
     _allSelectLabel.textAlignment = NSTextAlignmentLeft;
-    NSString *str = @"全部";
+    NSString *str = LSTRING(@"全部");
     _allSelectLabel.text = str;
     [self addSubview:_allSelectLabel];
     [_allSelectLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -651,7 +651,7 @@
     //编辑按钮
     self.btnRight = [UIButton new];
     [self addSubview:self.btnRight];
-    [self.btnRight setTitle:@"编辑" forState:UIControlStateNormal];
+    [self.btnRight setTitle:LSTRING(@"编辑") forState:UIControlStateNormal];
     self.btnRight.titleLabel.font = [UIFont systemFontOfSize: 16.0];
     [self.btnRight setTitleColor:ColorHex(0x3F6EF2) forState:UIControlStateNormal];
     [self.btnRight mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -743,7 +743,7 @@
         }
     }
     
-    self.allSelectLabel.text = [NSString stringWithFormat:@"全部(%d/%d)", self.selectedNumber,self.allNumber];
+    self.allSelectLabel.text = [NSString stringWithFormat:@"%@(%d/%d)",LSTRING(@"全部"), self.selectedNumber,self.allNumber];
 
     
 //    dispatch_async(dispatch_get_global_queue(0,0), ^{
@@ -777,10 +777,10 @@
     NSArray *temp1 = [self getSelectedDevAndGroup];
     if(temp1.count == 0)
     {
-        NSString *t = @"提示";
+        NSString *t = LSTRING(@"提示");
         NSString *m = @"请选择要删除的设备或者分组";
         UIAlertController  *alert = [UIAlertController alertControllerWithTitle:t message:m preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *action2= [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        UIAlertAction *action2= [UIAlertAction actionWithTitle:LSTRING(@"好的") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
                 }];
 //                    [action2 setValue:[UIColor blueColor] forKey:@"titleTextColor"];
         //修改title
@@ -829,13 +829,13 @@
         WS(weakSelf);
         NSString *msg = haveGroup?@"确认删除分组以及分组内的所有设备吗":@"确认删除设备吗";
         UIAlertController  *alert = [UIAlertController alertControllerWithTitle:msg message:@"删除后无法恢复" preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"删除" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action)
+        UIAlertAction *action1 = [UIAlertAction actionWithTitle:LSTRING(@"删除") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action)
         {
             [weakSelf deleteFromDBtaget:deleteArray];
             [weakSelf refreshAllData];
         }];
                 
-        UIAlertAction *action2= [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        UIAlertAction *action2= [UIAlertAction actionWithTitle:LSTRING(@"取消") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
                 }];
 
         [alert addAction:action1];
@@ -1699,15 +1699,15 @@
 -(void)btnBottomClick:(APBottomButton *)btn
 {
     NSString *string = btn.lab.text;
-    if ([@"编辑" isEqualToString:string])//按钮编辑
+    if ([LSTRING(@"编辑") isEqualToString:string])//按钮编辑
     {
         NSArray *temp = [self getSelectedDevice];
         if(temp.count != 1)
         {
-            NSString *t = @"提示";
+            NSString *t = LSTRING(@"提示");
             NSString *m = @"请选中需要编辑的设备";
             UIAlertController  *alert = [UIAlertController alertControllerWithTitle:t message:m preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *action2= [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+            UIAlertAction *action2= [UIAlertAction actionWithTitle:LSTRING(@"好的") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
                     }];
 //                    [action2 setValue:[UIColor blueColor] forKey:@"titleTextColor"];
             //修改title
@@ -1761,10 +1761,10 @@
         NSArray *temp = [self getSelectedDevAndGroup];
         if(temp.count == 0)
         {
-            NSString *t = @"提示";
-            NSString *m = @"请选择要移动的设备或者分组";
+            NSString *t = LSTRING(@"提示");
+            NSString *m = LSTRING(@"请选择要移动的设备或者分组");
             UIAlertController  *alert = [UIAlertController alertControllerWithTitle:t message:m preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *action2= [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+            UIAlertAction *action2= [UIAlertAction actionWithTitle:LSTRING(@"好的") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
                     }];
 //                    [action2 setValue:[UIColor blueColor] forKey:@"titleTextColor"];
             //修改title
@@ -1810,16 +1810,16 @@
             self.floatButton.hidden = YES;
         }
     }
-    else if ([@"重命名" isEqualToString:string])//重命名
+    else if ([LSTRING(@"重命名") isEqualToString:string])//重命名
     {
         NSArray *temp = [self getSelectedDevice];
 
         if(temp.count == 0)
         {
-            NSString *t = @"提示";
-            NSString *m = @"未选中";
+            NSString *t = LSTRING(@"提示");
+            NSString *m = LSTRING(@"未选中");
             UIAlertController  *alert = [UIAlertController alertControllerWithTitle:t message:m preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *action2= [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+            UIAlertAction *action2= [UIAlertAction actionWithTitle:LSTRING(@"好的") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
                     }];
             [alert addAction:action2];
             AppDelegate *appDelegate = kAppDelegate;
@@ -1856,16 +1856,16 @@
         }
         
     }
-    else if ([@"重命名分组" isEqualToString:string])//重命名分组
+    else if ([LSTRING(@"重命名分组") isEqualToString:string])//重命名分组
     {
         NSArray *temp = [self getSelectedDevAndGroup];
         
         if(temp.count == 0)
         {
-            NSString *t = @"提示";
-            NSString *m = @"未选中";
+            NSString *t = LSTRING(@"提示");
+            NSString *m = LSTRING(@"未选中");
             UIAlertController  *alert = [UIAlertController alertControllerWithTitle:t message:m preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *action2= [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+            UIAlertAction *action2= [UIAlertAction actionWithTitle:LSTRING(@"好的") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
             }];
             [alert addAction:action2];
             AppDelegate *appDelegate = kAppDelegate;
@@ -1931,7 +1931,7 @@
         self.btnRight.selected = !self.btnRight.selected;
         if(self.btnRight.selected == YES)
         {
-            [self.btnRight setTitle:@"完成编辑" forState:UIControlStateNormal];
+            [self.btnRight setTitle:LSTRING(@"完成编辑") forState:UIControlStateNormal];
             [self.btnRight mas_updateConstraints:^(MASConstraintMaker *make) {
                             make.size.mas_equalTo(CGSizeMake(70, Group_Btn_W));
             }];
@@ -1957,7 +1957,7 @@
         }
         else
         {
-            [self.btnRight setTitle:@"编辑" forState:UIControlStateNormal];
+            [self.btnRight setTitle:LSTRING(@"编辑") forState:UIControlStateNormal];
             [self.btnRight mas_updateConstraints:^(MASConstraintMaker *make) {
                             make.size.mas_equalTo(CGSizeMake(45, Group_Btn_W));
             }];
@@ -1991,15 +1991,15 @@
     {
         [_floatButton setImage:[UIImage imageNamed:@"devnewicom"] forState:UIControlStateNormal];
 
-        LFPopupMenuItem *item1 = [LFPopupMenuItem createWithTitle:@"新建投影机" image:[UIImage imageNamed:@"icon_menu_record_normal"]];
-            LFPopupMenuItem *item2 = [LFPopupMenuItem createWithTitle:@"新建分组" image:[UIImage imageNamed:@"icon_menu_shoot_normal"]];
+        LFPopupMenuItem *item1 = [LFPopupMenuItem createWithTitle:LSTRING(@"新建投影机") image:[UIImage imageNamed:@"icon_menu_record_normal"]];
+            LFPopupMenuItem *item2 = [LFPopupMenuItem createWithTitle:LSTRING(@"新建分组") image:[UIImage imageNamed:@"icon_menu_shoot_normal"]];
 //            LFPopupMenuItem *item3 = [LFPopupMenuItem createWithTitle:@"相册" image:[UIImage imageNamed:@"icon_menu_album_normal"]];
         NSArray *array = @[item1, item2];
 
         LFPopupMenu *menu = [[LFPopupMenu alloc] init];
         WS(weakSelf);
         [menu configWithItems:array action:^(NSInteger index) {
-                               NSLog(@"点击了第%zi个",index);
+//                               NSLog(@"点击了第%zi个",index);
             if(index == 0)//新增投影机
             {
 //                [weakSelf newDeviceView];

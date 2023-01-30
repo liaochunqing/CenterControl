@@ -53,7 +53,7 @@
  
     UILabel *namelab = [[UILabel alloc] init];
     [_baseview addSubview:namelab];
-    namelab.text = @"编辑投影机";
+    namelab.text = LSTRING(@"编辑投影机");
     namelab.textAlignment =  NSTextAlignmentCenter;
     namelab.font = [UIFont systemFontOfSize:20];
     namelab.textColor = ColorHex(0x1D2242);
@@ -66,7 +66,7 @@
     
     UILabel *fenzuLab = [[UILabel alloc] init];
     [_baseview addSubview:fenzuLab];
-    fenzuLab.text = @"  投影机分组";
+    fenzuLab.text = LSTRING(@"  投影机分组");
     fenzuLab.font = [UIFont systemFontOfSize:labelFontSize];
     fenzuLab.textColor = labelColor;
     [fenzuLab mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -84,7 +84,7 @@
 //    _groupField.placeholder = @"请选择投影机的分组";
     ViewBorderRadius(_groupField, 5, 1, ColorHex(0xABBDD5 ));
     [_baseview addSubview:_groupField];
-    NSString *holderText = @"请选择分组(可不选)";
+    NSString *holderText = LSTRING(@"请选择分组(可不选)");
     NSMutableAttributedString *placeholder = [[NSMutableAttributedString alloc] initWithString:holderText];
     [placeholder addAttribute:NSForegroundColorAttributeName
                             value:ColorHex(0xABBDD5 )
@@ -342,7 +342,7 @@
     okbtn.backgroundColor = ColorHex(0x007AFF);
 //    ViewBorderRadius(okbtn, 5, 0.8, [UIColor grayColor]);
     ViewRadius(okbtn, 5);
-    [okbtn setTitle:@"确定" forState:UIControlStateNormal];
+    [okbtn setTitle:LSTRING(@"确定") forState:UIControlStateNormal];
     okbtn.tag = 0;
     [okbtn addTarget:self action:@selector(newDevBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     [okbtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -354,7 +354,7 @@
     UIButton *cancelbtn = [UIButton new];
     [_baseview addSubview:cancelbtn];
     ViewBorderRadius(cancelbtn, 5, 0.8, [UIColor grayColor]);
-    [cancelbtn setTitle:@"取消" forState:UIControlStateNormal];
+    [cancelbtn setTitle:LSTRING(@"取消") forState:UIControlStateNormal];
     [cancelbtn setTitleColor:ColorHex(0x1D2242) forState:UIControlStateNormal];
     cancelbtn.tag = 1;
     [cancelbtn addTarget:self action:@selector(newDevBtnClick:) forControlEvents:UIControlEventTouchUpInside];

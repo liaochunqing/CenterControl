@@ -148,7 +148,7 @@
     APGroupNote *node = [APGroupNote new];
     node.isDevice = NO;
     
-    node.name = SafeStr(@"全部");
+    node.name = LSTRING(@"全部");
     node.parentId = SafeStr(@"0");
     node.nodeId = SafeStr(@"0");
     if(_groupData)

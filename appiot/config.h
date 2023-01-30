@@ -37,7 +37,9 @@
 
 //设备型号
 #define IS_IPAD  [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad
-//颜色
+//多语言
+#define LSTRING(str) NSLocalizedString(str, nil)
+
 //颜色
 #define KClearColor [UIColor clearColor]
 #define KWhiteColor [UIColor whiteColor]

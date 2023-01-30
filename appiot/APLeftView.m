@@ -64,7 +64,7 @@
         make.width.mas_lessThanOrEqualTo(200);
     }];
     
-    titleLabel.text = @"中控管理平台";
+    titleLabel.text = LSTRING(@"中控管理平台");
     titleLabel.font = [UIFont systemFontOfSize:18];
     titleLabel.textColor = [UIColor whiteColor];
     
@@ -107,7 +107,7 @@
         make.height.mas_equalTo(H_SCALE(60));
     }];
 
-    NSArray *array = [NSArray arrayWithObjects:@"分组", @"机型", @"图纸",nil];
+    NSArray *array = [NSArray arrayWithObjects:LSTRING(@"分组"), LSTRING(@"机型"), LSTRING(@"图纸"),nil];
     CGFloat midGap = (Left_View_Width - 2*Left_Gap - array.count*Page_Btn_W)/(array.count - 1);
     self.pageBtnArray = [NSMutableArray array];
     int x = Left_Gap;
@@ -186,9 +186,9 @@
         else
         {
             
-                LFPopupMenuItem *item1 = [LFPopupMenuItem createWithTitle:@"App版本号" image:[UIImage imageNamed:@"icon_menu_record_normal"]];
-                    LFPopupMenuItem *item2 = [LFPopupMenuItem createWithTitle:@"修改密码" image:[UIImage imageNamed:@"icon_menu_shoot_normal"]];
-                    LFPopupMenuItem *item3 = [LFPopupMenuItem createWithTitle:@"退出登录" image:[UIImage imageNamed:@"icon_menu_album_normal"]];
+                LFPopupMenuItem *item1 = [LFPopupMenuItem createWithTitle:LSTRING(@"App版本号") image:[UIImage imageNamed:@"icon_menu_record_normal"]];
+                    LFPopupMenuItem *item2 = [LFPopupMenuItem createWithTitle:LSTRING(@"修改密码") image:[UIImage imageNamed:@"icon_menu_shoot_normal"]];
+                    LFPopupMenuItem *item3 = [LFPopupMenuItem createWithTitle:LSTRING(@"退出登录") image:[UIImage imageNamed:@"icon_menu_album_normal"]];
                 NSArray *array = @[item1, item2,item3];
 
                 LFPopupMenu *menu = [[LFPopupMenu alloc] init];
@@ -217,11 +217,11 @@
                     {
                         NSString *msg = @"确认要退出账户吗";
                         UIAlertController  *alert = [UIAlertController alertControllerWithTitle:msg message:@"" preferredStyle:UIAlertControllerStyleAlert];
-                        UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action)
+                        UIAlertAction *action1 = [UIAlertAction actionWithTitle:LSTRING(@"确定") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action)
                         {
                         }];
                                 
-                        UIAlertAction *action2= [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+                        UIAlertAction *action2= [UIAlertAction actionWithTitle:LSTRING(@"取消") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
                                 }];
 
                         [alert addAction:action1];

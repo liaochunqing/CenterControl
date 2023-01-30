@@ -35,7 +35,7 @@ static APDatabaseTool *tool = nil;
     FMDatabase *db = [FMDatabase databaseWithPath:dbPath];
 
     if (![db open]) {
-        NSLog(@"无法获取数据库");
+//        NSLog(@"无法获取数据库");
         return nil;
     }
     

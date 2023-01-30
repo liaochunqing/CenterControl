@@ -130,7 +130,7 @@
     UILabel *lab = [[UILabel alloc] init];
     _titleLab = lab;
     [view addSubview:lab];
-    lab.text = @"设备监测(0)";
+    lab.text = [NSString stringWithFormat:@"%@(0)",LSTRING(@"设备监测")];//@"设备监测(0)";
     lab.font = [UIFont systemFontOfSize:20];
     lab.textColor = [UIColor whiteColor];
     [lab mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -143,7 +143,7 @@
 
     UILabel *zhan = [[UILabel alloc] init];
     [view addSubview:zhan];
-    zhan.text = @"展厅名称";
+    zhan.text = LSTRING(@"展厅名称");
     zhan.font = [UIFont systemFontOfSize:16];
     zhan.textColor = ColorHex(0xABBDD5);
     [zhan mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -165,7 +165,7 @@
     
     UILabel *cuo = [[UILabel alloc] init];
     [view addSubview:cuo];
-    cuo.text = @"报错码";
+    cuo.text = LSTRING(@"报错码");
     cuo.font = [UIFont systemFontOfSize:16];
     cuo.textColor = ColorHex(0xABBDD5);
     [cuo mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -555,7 +555,7 @@
 {
     if(_selectedDevArr)
     {
-        _titleLab.text = [NSString stringWithFormat:@"设备监测(%d)", (int)_selectedDevArr.count];
+        _titleLab.text = [NSString stringWithFormat:@"%@(%d)",LSTRING(@"设备监测"), (int)_selectedDevArr.count];
     }
 }
 

@@ -21,12 +21,6 @@
 -(void)createUI
 {
     UIButton *button = [[UIButton alloc] init];
-//    button.backgroundColor = [UIColor blueColor];
-//    ViewRadius(button, 5);
-//    [button setTitle:@"自动居中" forState:UIControlStateNormal];
-//    button.titleLabel.font = [UIFont systemFontOfSize:14];
-//    [button setBackgroundImage:[self imageWithColor:ColorHex(0xffffff)] forState:UIControlStateNormal];
-//    [button setBackgroundImage:[self imageWithColor:ColorHex(0x7877A9)] forState:UIControlStateHighlighted];
     [button addTarget:self action:@selector(btnMicroClick:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:button];
     [button mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -48,7 +42,7 @@
     
     _microLab = [[UILabel alloc] init];
     [button addSubview:_microLab];
-    _microLab.text = @"微调";
+    _microLab.text = LSTRING(@"微调");
 //    _microLab.textAlignment = NSTextAlignmentCenter;
     _microLab.font = [UIFont systemFontOfSize:14];
     _microLab.textColor = ColorHex(0x0083FF);
@@ -89,7 +83,7 @@
     
     _macroLab = [[UILabel alloc] init];
     [button addSubview:_macroLab];
-    _macroLab.text = @"粗调";
+    _macroLab.text = LSTRING(@"粗调");
 //    _microLab.textAlignment = NSTextAlignmentCenter;
     _macroLab.font = [UIFont systemFontOfSize:14];
     _macroLab.textColor = ColorHex(0x717690);

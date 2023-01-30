@@ -51,7 +51,7 @@
 {
     UILabel *fenzuLab = [[UILabel alloc] init];
     [self addSubview:fenzuLab];
-    fenzuLab.text = @"当前已选设备";
+    fenzuLab.text = LSTRING(@"当前已选设备");
     fenzuLab.font = [UIFont systemFontOfSize:17];
     fenzuLab.textColor = [UIColor whiteColor];
     [fenzuLab mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -97,7 +97,7 @@
         make.height.mas_equalTo(0.7);
     }];
     
-    NSArray *array = [NSArray arrayWithObjects:@"镜头调节", @"图像调节", @"色彩调节", @"画面剪裁", @"畸变校正", @"安装配置",@"信号",@"设置",@"连接控制",nil];
+    NSArray *array = [NSArray arrayWithObjects:LSTRING(@"镜头调节"), LSTRING(@"图像调节"), LSTRING(@"色彩调节"), LSTRING(@"画面剪裁"), LSTRING(@"畸变校正"), LSTRING(@"安装配置"),LSTRING(@"信号"),LSTRING(@"设置"),LSTRING(@"连接控制"),nil];
     
     self.menuBtnArray = [NSMutableArray array];
 
@@ -169,7 +169,7 @@
         APGroupNote *node = array[0];
         UIButton *button = [[UIButton alloc] init];
         ViewRadius(button, 10);
-        NSString *str = [NSString stringWithFormat:@"%@(%d台)",node.model_name,(int)array.count];
+        NSString *str = [NSString stringWithFormat:@"%@(%d%@)",node.model_name,(int)array.count,LSTRING(@"台")];
         [button setTitle:str forState:UIControlStateNormal];
         button.titleLabel.font = [UIFont systemFontOfSize: 15.0];
         [button setTitleColor:ColorHex(0xFFFFFF ) forState:UIControlStateNormal];

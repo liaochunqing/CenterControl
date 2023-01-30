@@ -102,14 +102,14 @@
     
     if(node.connect.intValue == 1)
     {
-        str = @"网络已连接";
+        str = LSTRING(@"网络已连接");
         color = ColorHex(0xEC00CF );
         imgName =@"Group 11726";
         [[APTool shareInstance] shakeToShow:imzhan];
     }
     else
     {
-        str = @"网络未连接";
+        str = LSTRING(@"网络未连接");
         color = ColorHex(0xCCCCCC);
         imgName =@"Group 11727";
     }
@@ -135,14 +135,14 @@
     }];
     if(node.shutter_status.intValue == 1)
     {
-        str = @"快门开";
+        str = LSTRING(@"快门开");
         color = ColorHex(0xFFBD12);
         imgName =@"Group 11725";
         [[APTool shareInstance] shakeToShow:imkuaimen];
     }
     else
     {
-        str = @"快门关";
+        str = LSTRING(@"快门关");
         color = ColorHex(0xCCCCCC);
         imgName =@"Group 11727";
     }
@@ -170,21 +170,21 @@
     }];
     if(node.supply_status.intValue == 1)
     {
-        str = @"开机";
+        str = LSTRING(@"开机");
         color = ColorHex(0x12D4B2 );
         imgName =@"Group 11724";
         [[APTool shareInstance] shakeToShow:imkaiji];
     }
     else if (node.supply_status.intValue == 0)
     {
-        str = @"待机";
+        str = LSTRING(@"待机");
         color = ColorHex(0x12D4B2 );
         imgName =@"Group 11724";
         [[APTool shareInstance] shakeToShow:imkaiji];
     }
     else
     {
-        str = @"关机";
+        str = LSTRING(@"关机");
         color = ColorHex(0xCCCCCC);
         imgName =@"Group 11727";
     }
@@ -211,7 +211,7 @@
     //信号源
     UILabel *singallab = [[UILabel alloc] init];
     [self.contentView addSubview:singallab];
-    singallab.text = [NSString stringWithFormat:@"信源 : %@",node.signals];;
+    singallab.text = [NSString stringWithFormat:@"%@ : %@",LSTRING(@"信源"),node.signals];;
     singallab.font = [UIFont systemFontOfSize:fontsize];
     singallab.textColor = detailColor;
     [singallab mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -223,7 +223,7 @@
     //温度
     UILabel *templab = [[UILabel alloc] init];
     [self.contentView addSubview:templab];
-    templab.text = [NSString stringWithFormat:@"环境温度(°C) : %@",node.temperature];;
+    templab.text = [NSString stringWithFormat:@"%@(°C) : %@",LSTRING(@"环境温度"),node.temperature];;
     templab.font = [UIFont systemFontOfSize:fontsize];
     templab.textColor = detailColor;
     [templab mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -248,7 +248,7 @@
     //时间比
     UILabel *timelab = [[UILabel alloc] init];
     [self.contentView addSubview:timelab];
-    timelab.text = [NSString stringWithFormat:@"整机/光源时间(h) : %@/%@",node.machine_running_time,node.light_running_time];//@"整机/光源时间（h）：1000000/56795";
+    timelab.text = [NSString stringWithFormat:@"%@ : %@/%@",LSTRING(@"整机/光源时间(h)"),node.machine_running_time,node.light_running_time];//@"整机/光源时间（h）：1000000/56795";
     timelab.font = [UIFont systemFontOfSize:fontsize];
     timelab.textColor = detailColor;
     [timelab mas_makeConstraints:^(MASConstraintMaker *make) {

@@ -39,7 +39,7 @@
     [self.title mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.iv.mas_right).offset(10);
         make.centerY.mas_equalTo(self);
-        make.size.mas_equalTo(CGSizeMake(W_SCALE(120), H_SCALE(30)));
+        make.size.mas_equalTo(CGSizeMake(W_SCALE(250), H_SCALE(30)));
     }];
     
     self.detail = [[UILabel alloc] init];

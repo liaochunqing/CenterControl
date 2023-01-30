@@ -42,7 +42,7 @@
     [self.lab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(self);
         make.bottom.mas_equalTo(self.mas_bottom).offset(-H_SCALE(38));
-        make.size.mas_equalTo(CGSizeMake(W_SCALE(110), H_SCALE(45)));
+        make.size.mas_equalTo(CGSizeMake(Command_Btn_W, H_SCALE(45)));
     }];
 }
 

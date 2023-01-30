@@ -24,6 +24,9 @@
 		C63C82462925DD1200DBB3F6 /* APGroupTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = C63C82452925DD1200DBB3F6 /* APGroupTableView.m */; };
 		C63C82492925FF5500DBB3F6 /* APGroupCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C63C82482925FF5500DBB3F6 /* APGroupCell.m */; };
 		C680CDC0296D72BE00370940 /* remote.db in Resources */ = {isa = PBXBuildFile; fileRef = C680CDBF296D72BD00370940 /* remote.db */; };
+		C680CE9529876BD600370940 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C680CE9729876BD600370940 /* Localizable.strings */; };
+		C680CE9C2987965A00370940 /* zh.js in Resources */ = {isa = PBXBuildFile; fileRef = C680CE9A2987965900370940 /* zh.js */; };
+		C680CE9D2987965A00370940 /* en.js in Resources */ = {isa = PBXBuildFile; fileRef = C680CE9B2987965900370940 /* en.js */; };
 		C68F7A9E295EC4A40021C689 /* APRenameView.m in Sources */ = {isa = PBXBuildFile; fileRef = C68F7A9D295EC4A40021C689 /* APRenameView.m */; };
 		C68F7AA129656C2B0021C689 /* APRenameGroupView.m in Sources */ = {isa = PBXBuildFile; fileRef = C68F7AA029656C2B0021C689 /* APRenameGroupView.m */; };
 		C6C52849291B7DCF003F24C1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C6C52848291B7DCF003F24C1 /* AppDelegate.m */; };
@@ -120,6 +123,13 @@
 		C63C82472925FF5500DBB3F6 /* APGroupCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APGroupCell.h; sourceTree = "<group>"; };
 		C63C82482925FF5500DBB3F6 /* APGroupCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APGroupCell.m; sourceTree = "<group>"; };
 		C680CDBF296D72BD00370940 /* remote.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = remote.db; sourceTree = "<group>"; };
+		C680CE9129876B1D00370940 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		C680CE9229876B5D00370940 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		C680CE9629876BD600370940 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		C680CE9829876BFF00370940 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		C680CE9929876C0400370940 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		C680CE9A2987965900370940 /* zh.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = zh.js; sourceTree = "<group>"; };
+		C680CE9B2987965900370940 /* en.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = en.js; sourceTree = "<group>"; };
 		C68F7A9C295EC4A40021C689 /* APRenameView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APRenameView.h; sourceTree = "<group>"; };
 		C68F7A9D295EC4A40021C689 /* APRenameView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APRenameView.m; sourceTree = "<group>"; };
 		C68F7A9F29656C2B0021C689 /* APRenameGroupView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APRenameGroupView.h; sourceTree = "<group>"; };
@@ -323,11 +333,14 @@
 				C6C52848291B7DCF003F24C1 /* AppDelegate.m */,
 				C6CA8BB129220E1A00F5AAC2 /* APViewController.h */,
 				C6CA8BB229220E1A00F5AAC2 /* APViewController.m */,
+				C680CE9B2987965900370940 /* en.js */,
+				C680CE9A2987965900370940 /* zh.js */,
 				C680CDBF296D72BD00370940 /* remote.db */,
 				C6C5288C291CFC92003F24C1 /* config.h */,
 				C6C52858291B7DD1003F24C1 /* LaunchScreen.storyboard */,
 				C6C52856291B7DD1003F24C1 /* Assets.xcassets */,
 				C6C5285B291B7DD1003F24C1 /* Info.plist */,
+				C680CE9729876BD600370940 /* Localizable.strings */,
 				C6C5285C291B7DD1003F24C1 /* main.m */,
 				C6C52853291B7DCF003F24C1 /* appiot.xcdatamodeld */,
 				C6C52887291CFBA4003F24C1 /* base */,
@@ -552,6 +565,8 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hans",
+				ru,
 			);
 			mainGroup = C6C5283B291B7DCF003F24C1;
 			productRefGroup = C6C52845291B7DCF003F24C1 /* Products */;
@@ -570,7 +585,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C680CE9C2987965A00370940 /* zh.js in Resources */,
 				C6C5285A291B7DD1003F24C1 /* LaunchScreen.storyboard in Resources */,
+				C680CE9529876BD600370940 /* Localizable.strings in Resources */,
+				C680CE9D2987965A00370940 /* en.js in Resources */,
 				C680CDC0296D72BE00370940 /* remote.db in Resources */,
 				C6C52857291B7DD1003F24C1 /* Assets.xcassets in Resources */,
 			);
@@ -781,10 +799,22 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		C680CE9729876BD600370940 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C680CE9629876BD600370940 /* en */,
+				C680CE9829876BFF00370940 /* zh-Hans */,
+				C680CE9929876C0400370940 /* ru */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		C6C52858291B7DD1003F24C1 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				C6C52859291B7DD1003F24C1 /* Base */,
+				C680CE9129876B1D00370940 /* zh-Hans */,
+				C680CE9229876B5D00370940 /* ru */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -796,6 +826,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -854,6 +885,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";

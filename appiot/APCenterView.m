@@ -40,7 +40,7 @@
 //右侧顶部菜单
 - (void)createMenu
 {
-    NSArray *array = [NSArray arrayWithObjects:@"控制", @"监视", @"日程设定", @"安装调节", @"工程", @"工厂",nil];
+    NSArray *array = [NSArray arrayWithObjects:LSTRING(@"控制"), LSTRING(@"监视"), LSTRING(@"日程设定"), LSTRING(@"安装调节"), LSTRING(@"工程"), LSTRING(@"工厂"),nil];
 
     CGFloat midGap = (Center_View_Width - 2*Left_Gap - array.count*Center_Btn_Width)/(array.count - 1);
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, Center_Top_Gap, Center_View_Width, Center_Btn_Heigth)];
