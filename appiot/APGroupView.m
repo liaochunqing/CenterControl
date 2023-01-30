@@ -1724,7 +1724,7 @@
         else
         {
             [_editDevView removeFromSuperview];
-//            _editDevView = nil;
+            _editDevView = nil;
             _editDevView = [[APAPEditDeviceView alloc] init];
             AppDelegate *appDelegate = kAppDelegate;
             UIViewController *vc = appDelegate.mainVC;
@@ -1781,7 +1781,7 @@
         else
         {
             [_moveView removeFromSuperview];
-//            _moveView = nil;
+            _moveView = nil;
             _moveView = [[APMoveDevAndGroupView alloc] init];
             AppDelegate *appDelegate = kAppDelegate;
             UIViewController *vc = appDelegate.mainVC;
@@ -1795,6 +1795,7 @@
             WS(weakSelf);
             [_moveView setOkBtnClickBlock:^(BOOL index) {
                 [weakSelf.editDevView removeFromSuperview];
+                weakSelf.editDevView = nil;
                 weakSelf.floatButton.hidden = NO;
                 [weakSelf refreshAllData];
 
@@ -1802,6 +1803,7 @@
             //取消按钮
             [_moveView setCancelBtnClickBlock:^(BOOL index) {
                 [weakSelf.editDevView removeFromSuperview];
+                weakSelf.editDevView = nil;
                 weakSelf.floatButton.hidden = NO;
             }];
             
@@ -1828,7 +1830,7 @@
         {
             
             [_renameView removeFromSuperview];
-//            _renameView = nil;
+            _renameView = nil;
             _renameView = [[APRenameView alloc] init];
             AppDelegate *appDelegate = kAppDelegate;
             UIViewController *vc = appDelegate.mainVC;

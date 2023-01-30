@@ -34,6 +34,7 @@
     [self setFrame:CGRectMake(x, y, w, h)];
     self.backgroundColor = ColorHex(0x1D2242);
     ViewRadius(self, 10);
+
     
     //监听设备选中的通知
     [kNotificationCenter addObserver:self selector:@selector(notifySelectedDevChanged:) name:Notification_Get_SelectedDev object:nil];
@@ -65,12 +66,17 @@
     if (_menuView)
     {
         [_menuView removeFromSuperview];
-//        _menuView = nil;
+        _menuView = nil;
     }
     
     _menuView = [UIView new];
     _selectedMenuIndex = 0;
+    for (NSString *key in _viewDict) {
+        UIView *view = _viewDict[key];
+        if(view) [view removeFromSuperview];
+    }
     _viewDict = [NSMutableDictionary dictionary];
+
 
     [self addSubview:_menuView];
     [_menuView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -140,7 +146,7 @@
     if (_baseView)
     {
         [_baseView removeFromSuperview];
-//        _baseView = nil;
+        _baseView = nil;
     }
     _baseView = [UIScrollView new];
     [self addSubview:_baseView];

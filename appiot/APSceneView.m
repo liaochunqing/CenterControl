@@ -405,6 +405,7 @@
     }];
     
     [_testBaseView removeFromSuperview];
+    _testBaseView = nil;
     _testBaseView = [[UIView alloc] init];
 //    _testBaseView.backgroundColor = [UIColor redColor];
     [self addSubview:_testBaseView];

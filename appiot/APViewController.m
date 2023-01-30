@@ -225,6 +225,7 @@
             [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 
             [_bkView removeFromSuperview];
+            _bkView = nil;
         }
         
         [self creatLeftView];

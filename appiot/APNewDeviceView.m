@@ -825,10 +825,6 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NODE_CELL_ID];
     }
     
-//    for (UIView *subview in cell.contentView.subviews)
-//    {
-//        [subview removeFromSuperview];
-//    }
     [cell.textLabel setTextColor:[UIColor blackColor]];
     cell.textLabel.font = [UIFont systemFontOfSize:14];
     cell.backgroundColor = [UIColor whiteColor];

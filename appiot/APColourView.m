@@ -340,15 +340,6 @@
 #pragma  mark button delegate
 -(void)singleTapAction
 {
-//    if(_chooseItemArray)
-//    {
-        //消除视图
-//        for (APChooseItem *item in _chooseItemArray) {
-//            [item.tableView removeFromSuperview];
-//            item.tableView = nil;
-//            item.expendIm.image = [UIImage imageNamed:@"Vector(2)"];
-//        }
-//    }
 }
 
 @end
