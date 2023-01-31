@@ -46,7 +46,7 @@
  
     UILabel *namelab = [[UILabel alloc] init];
     [_baseview addSubview:namelab];
-    namelab.text = @"移动至";
+    namelab.text = LSTRING(@"移动至");
     namelab.textAlignment =  NSTextAlignmentCenter;
     namelab.font = [UIFont systemFontOfSize:20];
     namelab.textColor = ColorHex(0x1D2242);
@@ -59,6 +59,7 @@
     
     UILabel *fenzuLab = [[UILabel alloc] init];
     _titleLab = fenzuLab;
+    fenzuLab.hidden = YES;//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     [_baseview addSubview:fenzuLab];
     fenzuLab.text = [NSString stringWithFormat:@"已选择%d个投影机",(int)_selectedData.count];
     fenzuLab.font = [UIFont systemFontOfSize:labelFontSize];
@@ -115,7 +116,7 @@
 //    okbtn.backgroundColor = ColorHex(0x007AFF);
     //    ViewBorderRadius(okbtn, 5, 0.8, [UIColor grayColor]);
         ViewRadius(okbtn, 5);
-    [okbtn setTitle:@"移动至此" forState:UIControlStateNormal];
+    [okbtn setTitle:LSTRING(@"移动至此") forState:UIControlStateNormal];
     okbtn.enabled = NO;
     okbtn.backgroundColor = ColorHex(0xABBDD5);
     okbtn.tag = 0;
@@ -130,7 +131,7 @@
     UIButton *cancelbtn = [UIButton new];
     [_baseview addSubview:cancelbtn];
     ViewBorderRadius(cancelbtn, 5, 0.8, [UIColor grayColor]);
-    [cancelbtn setTitle:@"取消" forState:UIControlStateNormal];
+    [cancelbtn setTitle:LSTRING(@"取消") forState:UIControlStateNormal];
     [cancelbtn setTitleColor:ColorHex(0x1D2242) forState:UIControlStateNormal];
     cancelbtn.tag = 1;
     [cancelbtn addTarget:self action:@selector(newDevBtnClick:) forControlEvents:UIControlEventTouchUpInside];

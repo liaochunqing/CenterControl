@@ -41,6 +41,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 //设置不同字体颜色
 -(void)fontColorLabel:(UILabel *)label FontNumber:(UIFont *)font AndRange:(NSRange)range AndColor:(UIColor *)vaColor;
+
+//获取当前系统语言环境  只考虑中文和英文
+-(NSString *)getCurrentLanguage;
 @end
 
 NS_ASSUME_NONNULL_END

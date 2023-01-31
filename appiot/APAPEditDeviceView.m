@@ -116,7 +116,7 @@
     //投影机名字
     UILabel *devname = [[UILabel alloc] init];
     [_baseview addSubview:devname];
-    devname.text = @"* 投影机名称";
+    devname.text = LSTRING(@"* 投影机名称");
     devname.font = [UIFont systemFontOfSize:labelFontSize];
     devname.textColor = labelColor;
     [[APTool shareInstance] fontColorLabel:devname FontNumber:[UIFont systemFontOfSize:labelFontSize] AndRange:NSMakeRange(0, 1) AndColor:[UIColor redColor]];
@@ -133,7 +133,7 @@
     _nameField.textAlignment = NSTextAlignmentCenter;
 
     _nameField.font = [UIFont systemFontOfSize:contentFontSize];
-    _nameField.placeholder = @"请输入投影机名称";
+    _nameField.placeholder = LSTRING(@"请输入投影机名称");
     ViewBorderRadius(_nameField, 5, 1, ColorHex(0xABBDD5 ));
     [_baseview addSubview:_nameField];
 
@@ -146,7 +146,7 @@
  /**************************************************机型*********************************************/
     UILabel *jixingLab = [[UILabel alloc] init];
     [_baseview addSubview:jixingLab];
-    jixingLab.text = @"* 机型";
+    jixingLab.text = LSTRING(@"* 机型");
     jixingLab.font = [UIFont systemFontOfSize:labelFontSize];
     jixingLab.textColor = labelColor;
     [[APTool shareInstance] fontColorLabel:jixingLab FontNumber:[UIFont systemFontOfSize:labelFontSize] AndRange:NSMakeRange(0, 1) AndColor:[UIColor redColor]];
@@ -164,7 +164,7 @@
     _modelField.textAlignment = NSTextAlignmentCenter;
 
     _modelField.font = [UIFont systemFontOfSize:contentFontSize];
-    _modelField.placeholder = @"请选择机型";
+    _modelField.placeholder = LSTRING(@"请选择机型");
     ViewBorderRadius(_modelField, 5, 1, ColorHex(0xABBDD5 ));
     [_baseview addSubview:_modelField];
 
@@ -189,7 +189,7 @@
     /*************************************************投影机ID*********************************************/
     UILabel *devid = [[UILabel alloc] init];
     [_baseview addSubview:devid];
-    devid.text = @"* 投影机ID";
+    devid.text = LSTRING(@"* 投影机ID");
     devid.font = [UIFont systemFontOfSize:labelFontSize];
     devid.textColor = labelColor;
     [[APTool shareInstance] fontColorLabel:devid FontNumber:[UIFont systemFontOfSize:labelFontSize] AndRange:NSMakeRange(0, 1) AndColor:[UIColor redColor]];
@@ -207,7 +207,7 @@
     _idField.keyboardType = UIKeyboardTypePhonePad;
     _idField.enabled = FALSE;
     _idField.font = [UIFont systemFontOfSize:contentFontSize];
-    _idField.placeholder = @"请输入投影机的ID";
+    _idField.placeholder = LSTRING(@"请输入投影机的ID");
     ViewBorderRadius(_idField, 5, 1, ColorHex(0xABBDD5 ));
     [_baseview addSubview:_idField];
 
@@ -221,7 +221,7 @@
     /*************************网络设置**********************************/
     UILabel *netlab = [[UILabel alloc] init];
     [_baseview addSubview:netlab];
-    netlab.text = @"网络设置";
+    netlab.text = LSTRING(@"网络设置");
 //    netlab.textAlignment =  NSTextAlignmentCenter;
     netlab.font = [UIFont boldSystemFontOfSize:16];
     netlab.textColor = ColorHex(0x1D2242);
@@ -234,7 +234,7 @@
     /*************************接入协议**********************************/
     UILabel *protocolLab = [[UILabel alloc] init];
     [_baseview addSubview:protocolLab];
-    protocolLab.text = @"* 接入协议";
+    protocolLab.text = LSTRING(@"* 接入协议");
     protocolLab.font = [UIFont systemFontOfSize:labelFontSize];
     protocolLab.textColor = labelColor;
     [[APTool shareInstance] fontColorLabel:protocolLab FontNumber:[UIFont systemFontOfSize:labelFontSize] AndRange:NSMakeRange(0, 1) AndColor:[UIColor redColor]];
@@ -251,7 +251,7 @@
     _protocolField.textColor =contentColor;
     _protocolField.textAlignment = NSTextAlignmentCenter;
     _protocolField.font = [UIFont systemFontOfSize:contentFontSize];
-    _protocolField.placeholder = @"请选择投影机的接入协议";
+    _protocolField.placeholder = LSTRING(@"请选择投影机的接入协议");
     ViewBorderRadius(_protocolField, 5, 1, ColorHex(0xABBDD5 ));
     [_baseview addSubview:_protocolField];
 
@@ -277,7 +277,7 @@
     /*************************IP**********************************/
     UILabel *iplab = [[UILabel alloc] init];
     [_baseview addSubview:iplab];
-    iplab.text = @"* IP地址";
+    iplab.text = LSTRING(@"* IP地址");
     iplab.font = [UIFont systemFontOfSize:labelFontSize];
     iplab.textColor = labelColor;
     [[APTool shareInstance] fontColorLabel:iplab FontNumber:[UIFont systemFontOfSize:labelFontSize] AndRange:NSMakeRange(0, 1) AndColor:[UIColor redColor]];
@@ -295,7 +295,7 @@
     _ipField.keyboardType = UIKeyboardTypeDecimalPad;
 
     _ipField.font = [UIFont systemFontOfSize:contentFontSize];
-    _ipField.placeholder = @"请输入投影机的ip";
+    _ipField.placeholder = LSTRING(@"请输入投影机的ip");
     ViewBorderRadius(_ipField, 5, 1, ColorHex(0xABBDD5 ));
     [_baseview addSubview:_ipField];
 
@@ -308,7 +308,7 @@
     /*************************端口**********************************/
     UILabel *portLab = [[UILabel alloc] init];
     [_baseview addSubview:portLab];
-    portLab.text = @"* 端口";
+    portLab.text = LSTRING(@"* 端口");
     portLab.font = [UIFont systemFontOfSize:labelFontSize];
     portLab.textColor = labelColor;
     [[APTool shareInstance] fontColorLabel:portLab FontNumber:[UIFont systemFontOfSize:labelFontSize] AndRange:NSMakeRange(0, 1) AndColor:[UIColor redColor]];
@@ -325,7 +325,7 @@
     _portField.textAlignment = NSTextAlignmentCenter;
     _portField.keyboardType = UIKeyboardTypeDecimalPad;
     _portField.font = [UIFont systemFontOfSize:contentFontSize];
-    _portField.placeholder = @"请输入投影机的端口";
+    _portField.placeholder = LSTRING(@"请输入投影机的端口");
     ViewBorderRadius(_portField, 5, 1, ColorHex(0xABBDD5 ));
     [_baseview addSubview:_portField];
 
@@ -703,10 +703,10 @@
            _modelField.text.length == 0)
         {
                     
-            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"提示"
-                                                            message:@"请补全信息"
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:LSTRING(@"提示")
+                                                            message:LSTRING(@"请补全信息")
                                                            delegate:nil
-                                                  cancelButtonTitle:@"确定"
+                                                  cancelButtonTitle:LSTRING(@"确定")
                                                   otherButtonTitles:nil];
 
             [alert show];

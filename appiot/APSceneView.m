@@ -259,61 +259,61 @@
 {
     
     _selectedArray = [NSMutableArray arrayWithArray:selectedArray];
-    NSDictionary *dict1 = @{@"string":@"关",
+    NSDictionary *dict1 = @{@"string":LSTRING(@"关"),
                            @"parameter_value":@"Off",
                             @"exec_code":@"scene-testChart-Off",
     };
-    NSDictionary *dict2 = @{@"string":@"网格",
+    NSDictionary *dict2 = @{@"string":LSTRING(@"网格"),
                             @"parameter_value":@"Grid",
                             @"exec_code":@"scene-testChart-Grid",
     };
-    NSDictionary *dict3 = @{@"string":@"白",
+    NSDictionary *dict3 = @{@"string":LSTRING(@"白"),
                             @"parameter_value":@"White",
                             @"exec_code":@"scene-testChart-White",
     };
-    NSDictionary *dict4 = @{@"string":@"红",
+    NSDictionary *dict4 = @{@"string":LSTRING(@"红"),
                             @"parameter_value":@"Red",
                             @"exec_code":@"scene-testChart-Rad",
     };
     
-    NSDictionary *dict5 = @{@"string":@"绿",
+    NSDictionary *dict5 = @{@"string":LSTRING(@"绿"),
                             @"parameter_value":@"Green",
                             @"exec_code":@"scene-testChart-Green",
     };
     
-    NSDictionary *dict6 = @{@"string":@"蓝",
+    NSDictionary *dict6 = @{@"string":LSTRING(@"蓝"),
                             @"parameter_value":@"Blue",
                             @"exec_code":@"scene-testChart-Blue",
     };
     
-    NSDictionary *dict7 = @{@"string":@"青",
+    NSDictionary *dict7 = @{@"string":LSTRING(@"青"),
                             @"parameter_value":@"Cyan",
                             @"exec_code":@"scene-testChart-Cyan",
     };
     
-    NSDictionary *dict8 = @{@"string":@"洋红",
+    NSDictionary *dict8 = @{@"string":LSTRING(@"洋红"),
                             @"parameter_value":@"Megenta",
                             @"exec_code":@"scene-testChart-Radc",
     };
-    NSDictionary *dict9 = @{@"string":@"黄",
+    NSDictionary *dict9 = @{@"string":LSTRING(@"黄"),
                             @"parameter_value":@"Yellow",
                             @"exec_code":@"scene-testChart-yellow",
     };
-    NSDictionary *dict10 = @{@"string":@"黑",
+    NSDictionary *dict10 = @{@"string":LSTRING(@"黑"),
                              @"parameter_value":@"Black",
                              @"exec_code":@"scene-testChart-Black",
     };
-    NSDictionary *dict11 = @{@"string":@"16灰阶",
+    NSDictionary *dict11 = @{@"string":LSTRING(@"16灰阶"),
                              @"parameter_value":@"Grey16",
                              @"exec_code":@"scene-testChart-Grey16",
     };
     
-    NSDictionary *dict12 = @{@"string":@"256灰阶",
+    NSDictionary *dict12 = @{@"string":LSTRING(@"256灰阶"),
                              @"parameter_value":@"Grey256",
                              @"exec_code":@"scene-testChart-Grey256",
     };
     
-    NSDictionary *dict13 = @{@"string":@"彩条",
+    NSDictionary *dict13 = @{@"string":LSTRING(@"彩条"),
                              @"parameter_value":@"ColorBars",
                              @"exec_code":@"scene-testChart-ColorBars",
     };
@@ -323,7 +323,7 @@
                              @"exec_code":@"scene-testChart-Grid1",
                              
     };
-    NSDictionary *dict15 = @{@"string":@"棋盘格",
+    NSDictionary *dict15 = @{@"string":LSTRING(@"棋盘格"),
                              @"parameter_value":@"CheckErboard",
                              @"exec_code":@"scene-testChart-CheckErboard",
     };
@@ -511,7 +511,7 @@
         if ([@"tcp" compare:node.access_protocol options:NSCaseInsensitiveSearch |NSNumericSearch] ==NSOrderedSame)
         {
             NSLog(@"%@,ip=%@,port=%@,发送数据：%@",node.access_protocol,node.ip,node.port,sendData);
-            APTcpSocket *tcpManager;
+//            APTcpSocket *tcpManager;
             if (node.tcpManager == nil)
             {
                 node.tcpManager = [APTcpSocket new];

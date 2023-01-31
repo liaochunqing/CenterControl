@@ -47,7 +47,7 @@
  
     UILabel *namelab = [[UILabel alloc] init];
     [_baseview addSubview:namelab];
-    namelab.text = @"新增分组";
+    namelab.text = LSTRING(@"新建分组");
     namelab.textAlignment =  NSTextAlignmentCenter;
     namelab.font = [UIFont systemFontOfSize:20];
     namelab.textColor = ColorHex(0x1D2242);
@@ -60,7 +60,7 @@
     
     UILabel *fenzuLab = [[UILabel alloc] init];
     [_baseview addSubview:fenzuLab];
-    fenzuLab.text = @"  加入分组";
+    fenzuLab.text = LSTRING(@"  加入分组");
     fenzuLab.font = [UIFont systemFontOfSize:labelFontSize];
     fenzuLab.textColor = labelColor;
     [fenzuLab mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -78,7 +78,7 @@
 //    _groupField.placeholder = @"请选择要加入的分组";
     ViewBorderRadius(_groupField, 5, 1, ColorHex(0xABBDD5 ));
     [_baseview addSubview:_groupField];
-    NSString *holderText = @"选择要加入的分组(可不选)";
+    NSString *holderText = LSTRING(@"请选择分组(可不选)");
     NSMutableAttributedString *placeholder = [[NSMutableAttributedString alloc] initWithString:holderText];
     [placeholder addAttribute:NSForegroundColorAttributeName
                             value:ColorHex(0xABBDD5 )
@@ -111,7 +111,7 @@
     //投影机名字
     UILabel *devname = [[UILabel alloc] init];
     [_baseview addSubview:devname];
-    devname.text = @"* 新建分组名称";
+    devname.text = LSTRING(@"* 分组名称");
     devname.font = [UIFont systemFontOfSize:labelFontSize];
     devname.textColor = labelColor;
     [[APTool shareInstance] fontColorLabel:devname FontNumber:[UIFont systemFontOfSize:labelFontSize] AndRange:NSMakeRange(0, 1) AndColor:[UIColor redColor]];
@@ -130,7 +130,7 @@
     _nameField.font = [UIFont systemFontOfSize:contentFontSize];
 //    _nameField.placeholder = @"请输入分组名称";
     //改变搜索框中的placeholder的颜色
-    NSString *holderText1 = @"请输入分组名称";
+    NSString *holderText1 = LSTRING(@"请输入分组名称");
     NSMutableAttributedString *placeholder1 = [[NSMutableAttributedString alloc] initWithString:holderText1];
     [placeholder1 addAttribute:NSForegroundColorAttributeName
                             value:ColorHex(0xABBDD5 )
@@ -155,7 +155,7 @@
     okbtn.backgroundColor = ColorHex(0x007AFF);
 //    ViewBorderRadius(okbtn, 5, 0.8, [UIColor grayColor]);
     ViewRadius(okbtn, 5);
-    [okbtn setTitle:@"确定" forState:UIControlStateNormal];
+    [okbtn setTitle:LSTRING(@"确定") forState:UIControlStateNormal];
     okbtn.tag = 0;
     [okbtn addTarget:self action:@selector(newDevBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     [okbtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -167,7 +167,7 @@
     UIButton *cancelbtn = [UIButton new];
     [_baseview addSubview:cancelbtn];
     ViewBorderRadius(cancelbtn, 5, 0.8, [UIColor grayColor]);
-    [cancelbtn setTitle:@"取消" forState:UIControlStateNormal];
+    [cancelbtn setTitle:LSTRING(@"取消") forState:UIControlStateNormal];
     [cancelbtn setTitleColor:ColorHex(0x1D2242) forState:UIControlStateNormal];
     cancelbtn.tag = 1;
     [cancelbtn addTarget:self action:@selector(newDevBtnClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -310,10 +310,10 @@
         if(_nameField.text.length == 0)
         {
                     
-            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"提示"
-                                                            message:@"分组名称不能为空"
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:LSTRING(@"提示")
+                                                            message:LSTRING(@"分组名称不能为空")
                                                            delegate:nil
-                                                  cancelButtonTitle:@"确定"
+                                                  cancelButtonTitle:LSTRING(@"确定")
                                                   otherButtonTitles:nil];
 
             [alert show];

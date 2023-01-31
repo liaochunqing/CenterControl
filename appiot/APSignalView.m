@@ -24,46 +24,7 @@
     }
     return self;
 }
-//
-//-(NSArray *)resolveValue:(NSString *)parameter_value
-//{
-//    NSMutableArray *returnArray = [NSMutableArray array];
-//
-//    NSString* pattern=@"(?<=,value:\"\\{)(.*?)(?=\\}\")";
-//    NSRegularExpression *regex = [NSRegularExpression
-//                                      regularExpressionWithPattern:pattern
-//                                      options:NSRegularExpressionCaseInsensitive error:nil];
-//
-//
-//    NSArray *match = [regex matchesInString:parameter_value options:0 range:NSMakeRange(0, parameter_value.length)];
-//    for (NSTextCheckingResult* b in match)
-//    {
-//        NSRange resultRange = [b rangeAtIndex:0];
-//        //从urlString当中截取数据
-//        NSString *result=[parameter_value substringWithRange:resultRange];
-//        if (result)
-//        {
-//            NSArray *tempArr = [result componentsSeparatedByString:@","];
-//            for (NSString *str  in tempArr)
-//            {
-//                NSArray *tempArr = [str componentsSeparatedByString:@":"];
-//                if(tempArr.count > 1)
-//                {
-//                    NSString *first = [tempArr firstObject];
-//                    
-//                    first = [first stringByReplacingOccurrencesOfString:@"\"" withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [first length])];
-//                    
-//                    NSString *last = [tempArr lastObject];
-//                    last = [last stringByReplacingOccurrencesOfString:@"\"" withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [last length])];
-//
-//                    NSDictionary *dict = [NSDictionary dictionaryWithObject:last forKey:first];
-//                    [returnArray addObject:dict];
-//                }
-//            }
-//        }
-//    }
-//    return returnArray;
-//}
+
 
 -(void)initData
 {
@@ -122,51 +83,21 @@
     }
 
     
-//    _kjmrArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"记忆" forKey:@"Memory"],
-//                             [NSDictionary dictionaryWithObject:@"HDMI" forKey:@"HDMI:1"],
-//                             [NSDictionary dictionaryWithObject:@"DVI" forKey:@"DVI:1"],
-//                             [NSDictionary dictionaryWithObject:@"HDBaseT" forKey:@"HDBaseT:1"],
-//                             [NSDictionary dictionaryWithObject:@"RGB1" forKey:@"RGB1:1"],
-//                             [NSDictionary dictionaryWithObject:@"RGB2" forKey:@"RGB2:1"],
-//                                [NSDictionary dictionaryWithObject:@"Video" forKey:@"Video:1"],
-//                             nil];
-
-    
-    _kbpArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"黑" forKey:@"Black"],
-                             [NSDictionary dictionaryWithObject:@"白" forKey:@"White"],
-                            [NSDictionary dictionaryWithObject:@"红" forKey:@"Red"],
-                            [NSDictionary dictionaryWithObject:@"绿" forKey:@"Green"],
-                            [NSDictionary dictionaryWithObject:@"蓝" forKey:@"Blue"],
+    _kbpArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:LSTRING(@"黑") forKey:@"Black"],
+                             [NSDictionary dictionaryWithObject:LSTRING(@"白") forKey:@"White"],
+                            [NSDictionary dictionaryWithObject:LSTRING(@"红") forKey:@"Red"],
+                            [NSDictionary dictionaryWithObject:LSTRING(@"绿") forKey:@"Green"],
+                            [NSDictionary dictionaryWithObject:LSTRING(@"蓝") forKey:@"Blue"],
                              nil];
     
 
     
-    _zdssArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"开" forKey:@"On"],
-                                [NSDictionary dictionaryWithObject:@"关" forKey:@"Off"],
+    _zdssArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:LSTRING(@"开") forKey:@"On"],
+                                [NSDictionary dictionaryWithObject:LSTRING(@"关") forKey:@"Off"],
                              nil];
 
-//    _moshiArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"退出3D模式" forKey:@"Off"],
-//                            [NSDictionary dictionaryWithObject:@"垂直同步半分离" forKey:@"VsyncSeparatedHalf"],
-//                             [NSDictionary dictionaryWithObject:@"垂直同步全分离" forKey:@"VsyncSeparatedFull"],
-//                             [NSDictionary dictionaryWithObject:@"垂直半封装" forKey:@"VertPackedHalf"],
-//                   [NSDictionary dictionaryWithObject:@"垂直全封装" forKey:@"VertPackedFull"],
-//                    [NSDictionary dictionaryWithObject:@"水平半封装" forKey:@"HorizPackedHalf"],
-//                    [NSDictionary dictionaryWithObject:@"水平全封装" forKey:@"HorizPackedFull"],
-//                             nil];
-    
-    
-    
-//    _geshiArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"左右" forKey:@"LRFlip"],
-//                             [NSDictionary dictionaryWithObject:@"上下" forKey:@"UDFlip"],
-//                   [NSDictionary dictionaryWithObject:@"帧序列" forKey:@"FrameSeq"],
-//                             nil];
-
-//    _tongbuArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"使用外接同步" forKey:@"External"],
-//                             [NSDictionary dictionaryWithObject:@"内部信号配置" forKey:@"Internal"],
-//                             nil];
-
-    _zyyfzArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"开" forKey:@"On"],
-                     [NSDictionary dictionaryWithObject:@"关" forKey:@"Off"],
+    _zyyfzArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:LSTRING(@"开") forKey:@"On"],
+                     [NSDictionary dictionaryWithObject:LSTRING(@"关") forKey:@"Off"],
                      nil];
     
     _zyyysArray = [NSMutableArray array];
@@ -174,12 +105,12 @@
     _acsjArray = [NSMutableArray array];
     
     
-    _cskjArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"自动" forKey:@"Auto"],
+    _cskjArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:LSTRING(@"自动") forKey:@"Auto"],
                              [NSDictionary dictionaryWithObject:@"RGB" forKey:@"RGB"],
                    [NSDictionary dictionaryWithObject:@"Ycbcr" forKey:@"Ycbcr"],
                              nil];
 
-    _xhdpfwArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"自动" forKey:@"Auto"],
+    _xhdpfwArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:LSTRING(@"自动") forKey:@"Auto"],
                              [NSDictionary dictionaryWithObject:@"0_255" forKey:@"Range0_255"],
                    [NSDictionary dictionaryWithObject:@"16_235" forKey:@"Range16_235"],
                              nil];
@@ -205,13 +136,13 @@
 {
     CGFloat w = W_SCALE(382);
 //    CGFloat h = H_SCALE(35);
-    NSDictionary *dict1 = @{@"string":@"VGA设置",
+    NSDictionary *dict1 = @{@"string":LSTRING(@"VGA设置"),
                             @"frame":[NSValue valueWithCGRect:CGRectMake(Left_Gap, Titleview_y , w,Titleview_h)],
     };
-    NSDictionary *dict2 = @{@"string":@"3D设置",
+    NSDictionary *dict2 = @{@"string":LSTRING(@"3D设置"),
                              @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(436), Titleview_y,w,Titleview_h)],
     };
-    NSDictionary *dict3 = @{@"string":@"HDMI设置",
+    NSDictionary *dict3 = @{@"string":LSTRING(@"HDMI设置"),
                              @"frame":[NSValue valueWithCGRect:CGRectMake(Left_Gap, H_SCALE(465), w,Titleview_h)],
     };
     
@@ -250,19 +181,19 @@
 -(void)createTopItem
 {
     
-    NSDictionary *dict1 = @{@"string":@"开机默认",
+    NSDictionary *dict1 = @{@"string":LSTRING(@"开机默认"),
                             @"data":_kjmrArray?_kjmrArray:[NSArray array],
                             @"execcode":@"signal-TheDefaultBoot",
     };
-    NSDictionary *dict2 = @{@"string":@"信号选择",
+    NSDictionary *dict2 = @{@"string":LSTRING(@"信号选择"),
                             @"data":_xhxzArray?_xhxzArray:[NSArray array],
                             @"execcode":@"signal-Source select",
     };
-    NSDictionary *dict3 = @{@"string":@"空白屏",
+    NSDictionary *dict3 = @{@"string":LSTRING(@"空白屏"),
                             @"data":_kbpArray?_kbpArray:[NSArray array],
                             @"execcode":@"signal-A blank screen",
     };
-    NSDictionary *dict4 = @{@"string":@"自动搜索",
+    NSDictionary *dict4 = @{@"string":LSTRING(@"自动搜索"),
                             @"data":_zdssArray?_zdssArray:[NSArray array],
                             @"execcode":@"signal-A search",
     };
@@ -421,22 +352,22 @@
     CGFloat h = H_SCALE(30);
     CGFloat h_gap = H_SCALE(28.5);
 
-    NSDictionary *dict1 = @{@"string":@"水平位置",
+    NSDictionary *dict1 = @{@"string":LSTRING(@"水平位置"),
                             @"execcode":@"signal-vga-level",
                            @"imageName":@"Group 11715",
 //                            @"frame":[NSValue valueWithCGRect:CGRectMake(x, H_SCALE(25)+10 , w,h)],
     };
-    NSDictionary *dict2 = @{@"string":@"垂直位置",
+    NSDictionary *dict2 = @{@"string":LSTRING(@"垂直位置"),
                             @"execcode":@"signal-vga-vertical",
                             @"imageName":@"Group 11706",
 //                             @"frame":[NSValue valueWithCGRect:CGRectMake(x, H_SCALE(25)+(h+h_gap),w,h)],
     };
-    NSDictionary *dict3 = @{@"string":@"相位调整",
+    NSDictionary *dict3 = @{@"string":LSTRING(@"相位"),
                             @"execcode":@"signal-vga-phase",
                             @"imageName":@"Group 11707",
 //                             @"frame":[NSValue valueWithCGRect:CGRectMake(x, H_SCALE(25)+(h+h_gap)*2 + 10, w,h)],
     };
-    NSDictionary *dict4 = @{@"string":@"时钟调整",
+    NSDictionary *dict4 = @{@"string":LSTRING(@"时钟"),
                             @"execcode":@"signal-vga-clock",
                             @"imageName":@"Group 11708",
 //                             @"frame":[NSValue valueWithCGRect:CGRectMake(x, H_SCALE(25)+(h+h_gap)*3, w,h)],
@@ -501,28 +432,28 @@
 -(void)create3D
 {
      
-        NSDictionary *dict1 = @{@"string":@"3D模式",
+        NSDictionary *dict1 = @{@"string":LSTRING(@"3D模式"),
                                 @"data":_moshiArray?_moshiArray:[NSArray array],
                                 @"execcode":@"signal-3D mode",
         };
-        NSDictionary *dict2 = @{@"string":@"3D格式",
+        NSDictionary *dict2 = @{@"string":LSTRING(@"3D格式"),
                                 @"data":_geshiArray?_geshiArray:[NSArray array],
                                 @"execcode":@"signal-format",
         };
-        NSDictionary *dict3 = @{@"string":@"同步延迟调节",
+        NSDictionary *dict3 = @{@"string":LSTRING(@"同步延迟调节"),
                                 @"data":_tongbuArray?_tongbuArray:[NSArray array],
                                 @"execcode":@"signal-Synchronization delay adjustment",
         };
-        NSDictionary *dict4 = @{@"string":@"左右眼反转",
+        NSDictionary *dict4 = @{@"string":LSTRING(@"左右眼反转"),
                                 @"data":_zyyfzArray?_zyyfzArray:[NSArray array],
                                 @"execcode":@"signal-Left and right eye reversal",
         };
     
-    NSDictionary *dict5 = @{@"string":@"左右眼延时",
+    NSDictionary *dict5 = @{@"string":LSTRING(@"左右眼延迟"),
                             @"data":_zyyysArray?_zyyysArray:[NSArray array],
                             @"execcode":@"",
     };
-    NSDictionary *dict6 = @{@"string":@"暗场时间",
+    NSDictionary *dict6 = @{@"string":LSTRING(@"暗场时间"),
                             @"data":_acsjArray?_acsjArray:[NSArray array],
                             @"execcode":@"",
     };
@@ -614,11 +545,11 @@
 -(void)createHDMI
 {
      
-        NSDictionary *dict1 = @{@"string":@"彩色空间",
+        NSDictionary *dict1 = @{@"string":LSTRING(@"彩色空间"),
                                 @"data":_cskjArray?_cskjArray:[NSArray array],
                                 @"execcode":@"signal-hdml-color",
         };
-        NSDictionary *dict2 = @{@"string":@"信号电平范围",
+        NSDictionary *dict2 = @{@"string":LSTRING(@"信号电平范围"),
                                 @"data":_xhdpfwArray?_xhdpfwArray:[NSArray array],
                                 @"execcode":@"signal-hdml-range",
         };
@@ -726,7 +657,7 @@
 //                [tcpManager connectToHost:node.ip Port:[node.port intValue]];
 //                [tcpManager sendData:filanData];
                 
-                APTcpSocket *tcpManager;
+//                APTcpSocket *tcpManager;
                 if (node.tcpManager == nil)
                 {
                     node.tcpManager = [APTcpSocket new];
@@ -780,7 +711,7 @@
 //                [tcpManager connectToHost:node.ip Port:[node.port intValue]];
 //                [tcpManager sendData:filanData];
                 
-                APTcpSocket *tcpManager;
+//                APTcpSocket *tcpManager;
                 if (node.tcpManager == nil)
                 {
                     node.tcpManager = [APTcpSocket new];

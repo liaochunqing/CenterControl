@@ -47,7 +47,7 @@
  
     UILabel *namelab = [[UILabel alloc] init];
     [_baseview addSubview:namelab];
-    namelab.text = @"重命名";
+    namelab.text = LSTRING(@"重命名");
     namelab.textAlignment =  NSTextAlignmentCenter;
     namelab.font = [UIFont systemFontOfSize:20];
     namelab.textColor = ColorHex(0x1D2242);
@@ -76,7 +76,7 @@
     _nameField.font = [UIFont systemFontOfSize:contentFontSize];
     _nameField.backgroundColor = ColorHexAlpha(0xABBDD5, 0.5);
     //改变搜索框中的placeholder的颜色
-    NSString *holderText1 = @"请输入名称";
+    NSString *holderText1 = LSTRING(@"请输入名称");
     NSMutableAttributedString *placeholder1 = [[NSMutableAttributedString alloc] initWithString:holderText1];
     [placeholder1 addAttribute:NSForegroundColorAttributeName
                             value:ColorHex(0xABBDD5 )
@@ -104,7 +104,7 @@
     okbtn.backgroundColor = ColorHex(0x007AFF);
 //    ViewBorderRadius(okbtn, 5, 0.8, [UIColor grayColor]);
     ViewRadius(okbtn, 5);
-    [okbtn setTitle:@"确定" forState:UIControlStateNormal];
+    [okbtn setTitle:LSTRING(@"确定") forState:UIControlStateNormal];
     okbtn.tag = 0;
     [okbtn addTarget:self action:@selector(newDevBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     [okbtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -116,7 +116,7 @@
     UIButton *cancelbtn = [UIButton new];
     [_baseview addSubview:cancelbtn];
     ViewBorderRadius(cancelbtn, 5, 0.8, [UIColor grayColor]);
-    [cancelbtn setTitle:@"取消" forState:UIControlStateNormal];
+    [cancelbtn setTitle:LSTRING(@"取消") forState:UIControlStateNormal];
     [cancelbtn setTitleColor:ColorHex(0x1D2242) forState:UIControlStateNormal];
     cancelbtn.tag = 1;
     [cancelbtn addTarget:self action:@selector(newDevBtnClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -196,10 +196,10 @@
         if(_nameField.text.length == 0)
         {
                     
-            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"提示"
-                                                            message:@"名称不能空"
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:LSTRING(@"提示")
+                                                            message:LSTRING(@"名称不能空")
                                                            delegate:nil
-                                                  cancelButtonTitle:@"确定"
+                                                  cancelButtonTitle:LSTRING(@"确定")
                                                   otherButtonTitles:nil];
 
             [alert show];

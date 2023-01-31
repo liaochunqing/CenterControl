@@ -90,8 +90,8 @@
         [db close];
     }
     
-    _muteArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"静音开" forKey:@"Mute"],
-                     [NSDictionary dictionaryWithObject:@"静音关" forKey:@"UnMute"],
+    _muteArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:LSTRING(@"静音开") forKey:@"Mute"],
+                     [NSDictionary dictionaryWithObject:LSTRING(@"静音关") forKey:@"UnMute"],
                      nil];
 
 }
@@ -114,13 +114,13 @@
 {
     CGFloat w = W_SCALE(382);
     CGFloat h = H_SCALE(35);
-    NSDictionary *dict1 = @{@"string":@"电源设置",
+    NSDictionary *dict1 = @{@"string":LSTRING(@"电源设置"),
                             @"frame":[NSValue valueWithCGRect:CGRectMake(Left_Gap, top_Gap , w,h)],
     };
-    NSDictionary *dict2 = @{@"string":@"菜单设置",
+    NSDictionary *dict2 = @{@"string":LSTRING(@"菜单设置"),
                              @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(436), top_Gap,w,h)],
     };
-    NSDictionary *dict3 = @{@"string":@"通用",
+    NSDictionary *dict3 = @{@"string":LSTRING(@"通用"),
                              @"frame":[NSValue valueWithCGRect:CGRectMake(Left_Gap, H_SCALE(480), W_SCALE(797),h)],
     };
     
@@ -163,28 +163,28 @@
 -(void)createPowerItem
 {
     
-    NSDictionary *dict1 = @{@"string":@"待机模式",
+    NSDictionary *dict1 = @{@"string":LSTRING(@"待机模式"),
                             @"data":_djmsDevArray?_djmsDevArray:[NSArray array],
                             @"execcode":@"setup-standby mode",
 //                            @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(507), H_SCALE(25) , w,h)],
     };
-    NSDictionary *dict2 = @{@"string":@"自动待机",
+    NSDictionary *dict2 = @{@"string":LSTRING(@"自动待机"),
                             @"data":_zjdjArray?_zjdjArray:[NSArray array],
                             @"execcode":@"setup-Automatic standby",
 //                             @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(507), H_SCALE(25)+(h+h_gap),w,h)],
     };
-    NSDictionary *dict3 = @{@"string":@"开机设置",
+    NSDictionary *dict3 = @{@"string":LSTRING(@"开机设置"),
                             @"data":_kjszArray?_kjszArray:[NSArray array],
                             @"execcode":@"setup-power-on setting",
 //                             @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(507), H_SCALE(25)+(h+h_gap)*2, w,h)],
     };
-    NSDictionary *dict4 = @{@"string":@"高海拔模式",
+    NSDictionary *dict4 = @{@"string":LSTRING(@"高海拔模式"),
                             @"data":_ghbmsArray?_ghbmsArray:[NSArray array],
                             @"execcode":@"setup-High altitude model",
 //                             @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(507), H_SCALE(25)+(h+h_gap)*3, w,h)],
     };
     
-    NSDictionary *dict5 = @{@"string":@"运行模式",
+    NSDictionary *dict5 = @{@"string":LSTRING(@"运行模式"),
                             @"data":_yxmsArray?_yxmsArray:[NSArray array],
                             @"execcode":@"setup-running mode",
 //                             @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(15), H_SCALE(275), w,h)],
@@ -248,7 +248,7 @@
         {
             _customizeItem = [[APSetNumberItem alloc] init];
             [self addSubview:_customizeItem];
-            _customizeItem.label.text = @"自定义";
+            _customizeItem.label.text = LSTRING(@"自定义");
             _customizeItem.slider.enabled = NO;
             _customizeItem.field.enabled = NO;
             [_customizeItem mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -301,39 +301,39 @@
 -(void)createMenuItem
 {
     
-    NSDictionary *dict1 = @{@"string":@"菜单语言",
+    NSDictionary *dict1 = @{@"string":LSTRING(@"菜单语言"),
                             @"data":_languegArray?_languegArray:[NSArray array],
                             @"execcode":@"setup-The menu",
 //                            @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(507), H_SCALE(25) , w,h)],
     };
-    NSDictionary *dict2 = @{@"string":@"菜单位置",
+    NSDictionary *dict2 = @{@"string":LSTRING(@"菜单位置"),
                             @"data":_locationArray?_locationArray:[NSArray array],
                             @"execcode":@"setup-The menu location",
 //                             @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(507), H_SCALE(25)+(h+h_gap),w,h)],
     };
-    NSDictionary *dict3 = @{@"string":@"无信号提示",
+    NSDictionary *dict3 = @{@"string":LSTRING(@"无信号提示"),
                             @"data":_nosigalArray?_nosigalArray:[NSArray array],
                             @"execcode":@"setup-No signal prompt",
 //                             @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(507), H_SCALE(25)+(h+h_gap)*2, w,h)],
     };
-    NSDictionary *dict4 = @{@"string":@"菜单自动退出",
+    NSDictionary *dict4 = @{@"string":LSTRING(@"菜单自动退出"),
                             @"data":_quitArray?_quitArray:[NSArray array],
                             @"execcode":@"setup-The menu automatically exits",
 //                             @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(507), H_SCALE(25)+(h+h_gap)*3, w,h)],
     };
     
-    NSDictionary *dict5 = @{@"string":@"菜单状态",
+    NSDictionary *dict5 = @{@"string":LSTRING(@"隐藏菜单"),
                             @"data":_hidenArray?_hidenArray:[NSArray array],
                             @"execcode":@"setup-The hidden menu",
 //                             @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(15), H_SCALE(275), w,h)],
     };
     
-    NSDictionary *dict6 = @{@"string":@"静音",
+    NSDictionary *dict6 = @{@"string":LSTRING(@"静音"),
                             @"data":_muteArray?_muteArray:[NSArray array],
                             @"execcode":@"setup-mute",
     };
     
-    NSDictionary *dict7 = @{@"string":@"音量",
+    NSDictionary *dict7 = @{@"string":LSTRING(@"音量"),
                             @"data":[NSArray array],
                             @"execcode":@"setup-volume-down",
     };
@@ -480,7 +480,7 @@
     
     UILabel *lab = [[UILabel alloc] init];
     [baseview1 addSubview:lab];
-    lab.text = @"数据同步";
+    lab.text = LSTRING(@"数据同步");
     lab.font = [UIFont systemFontOfSize:16];
     lab.textColor = ColorHex(0xA1A7C1);
     [lab mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -492,7 +492,7 @@
     
     UILabel *syslab = [[UILabel alloc] init];
     [baseview1 addSubview:syslab];
-    syslab.text = @"系统升级";
+    syslab.text = LSTRING(@"系统升级");
     syslab.font = [UIFont systemFontOfSize:16];
     syslab.textColor = ColorHex(0xA1A7C1);
     [syslab mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -504,7 +504,7 @@
     
     UIButton *button = [[UIButton alloc] init];
     ViewRadius(button, 5);
-    [button setTitle:@"立即升级" forState:UIControlStateNormal];
+    [button setTitle:LSTRING(@"立即升级") forState:UIControlStateNormal];
     button.titleLabel.font = [UIFont systemFontOfSize:14];
     [button setBackgroundImage:[self imageWithColor:ColorHex(0x2589EE)] forState:UIControlStateNormal];
     [button setBackgroundImage:[self imageWithColor:ColorHex(0x7877A9)] forState:UIControlStateHighlighted];

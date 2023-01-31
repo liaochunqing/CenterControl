@@ -40,22 +40,22 @@
 "持续时间" = "Continue Time";
 "设备sn" = "Device SN";
 "关于" = "As Regards";
-"版本号" = "Version Number";
+"App版本号" = "Version Number";
 "分组" = "Groups";
-"机型" = "Projector Type";
+"* 机型" = "* Projector Type";
 "图纸" = "Drawings";
 "控制" = "Control";
 "监视" = "Info";
 "日程设定" = "Schedule";
-"安装调节" = "Installation Adjustment";
+"安装调节" = "Installation";
 "工程" = "Project";
 "工厂" = "Factory";
 "投影机" = "Projector";
 "新建投影机" = "Add projector";
 "编辑投影机" = "Edit projector";
 "自定义" = "Custom";
-"投影机分组" = "Grouping Projector";
-"请选择投影机分组" = "Please select projector group";
+"  投影机分组" = "  Grouping Projector";
+"请选择分组(可不选)" = "Please select group";
 "编辑" = "Edit";
 "创建" = "Create";
 "机型" = "Projector Type";
@@ -64,19 +64,20 @@
 "请选择控制方式" = "Please select control mode";
 "网络设置" = "Network settings";
 "IP地址" = "IP Site";
-"端口号" = "Port Number";
-"请输入端口号" = "Please input port number";
+"* 端口" = "* Port Number";
+"请输入投影机的端口" = "Please input port number";
 "串口" = "Serial Port";
 "串口线路" = "Serial Port Path";
 "请选择串口线路" = "Please select serial port path";
 "波特率" = "Baud Rate";
 "请输入波特率" = "Please input baud rate";
-"投影机ID" = "Projector ID";
-"请输入投影机ID" = "Please input projector ID";
-"接入协议" = "Access Protocol";
+"* 投影机ID" = "* Projector ID";
+"请输入投影机的ID" = "Please input projector ID";
+"请输入投影机的IP" = "Please input projector IP";
+"* 接入协议" = "* Access Protocol";
 "请选择接入协议" = "Please select access protocol";
-"投影机命名" = "Projector name";
-"请输入投影机命名如：投影机234" = "Please input projector name";
+"* 投影机名称" = "* Projector name";
+"请输入投影机名称" = "Please input projector name";
 "请补全投影机信息" = "Please complete projector info";
 "自动搜索" = "Auto Search";
 "搜索时长" = "Search Duration";
@@ -97,10 +98,10 @@
 "投影机详情" = "projector info";
 "再创建一个" = "Create another one";
 "重新编辑" = "Re-edit";
-"移动至分组" = "Move to group";
+"移动至" = "Move to";
 "新建分组" = "New group";
 "添加至新建分组" = "Add to new group";
-"移动至此分组" = "Move to current group";
+"移动至此" = "Move to";
 "确定删除选中的" = "Confirm delete the selected";
 "个分组及分组内" = "Each group and within the group";
 "个投影机吗" = "Is it a projector";
@@ -133,7 +134,7 @@
 "在线时间" = "Online runtime";
 "离线时间" = "Offline runtime";
 "型号名称" = "Model name";
-"IP地址" = "IP Site";
+"* IP地址" = "* IP Site";
 "创建失败，最大支持嵌套8层" = "";
 "新建成功" = "Successfully created";
 "请先选中分组或设备" = "Please first select group or device";
@@ -258,7 +259,7 @@
 "安装方式" = "Installation method";
 "遥控ID" = "Remote Control ID";
 "遥控接收" = "Remote Control Receiving";
-"三色汇聚(3DLP)" = "Three colors converge";
+"三色汇聚" = "Three colors converge";
 "开机默认" = "Defaul power on source";
 "信号选择" = "Source selection";
 "空白屏" = "Blank Screen";
@@ -322,11 +323,24 @@
 
 
 //新增加
-"中控管理平台" = "Central control management platform";
+"中控管理平台" = "Central control platform";
 "完成编辑" = "Finish editing";
 "移动" = "Move";
 "全部" = "All";
 "重命名分组" = "Rename group";
 "台" = "sets";
+"请选择" = "Please select";
+"静音开" = "Mute On";
+"静音关" = "Mute Off";
+"* 分组名称" = "* Group name";
+"请输入分组名称" = "Please input group name";
+"  加入分组" = "  Join group";
+"确认删除分组以及分组内的所有设备吗" = "Are you sure to delete the group and all devices in the group";
+"确认删除设备吗" = "Are you sure to delete the device";
+"删除后无法恢复" = "Cannot recover after deletion";
+"修改密码" = "Change Password";
+
+
+
 
 

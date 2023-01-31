@@ -827,8 +827,8 @@
     if (deleteArray.count > 0)
     {
         WS(weakSelf);
-        NSString *msg = haveGroup?@"确认删除分组以及分组内的所有设备吗":@"确认删除设备吗";
-        UIAlertController  *alert = [UIAlertController alertControllerWithTitle:msg message:@"删除后无法恢复" preferredStyle:UIAlertControllerStyleAlert];
+        NSString *msg = haveGroup?LSTRING(@"确认删除分组以及分组内的所有设备吗"):LSTRING(@"确认删除设备吗");
+        UIAlertController  *alert = [UIAlertController alertControllerWithTitle:msg message:LSTRING(@"删除后无法恢复") preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *action1 = [UIAlertAction actionWithTitle:LSTRING(@"删除") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action)
         {
             [weakSelf deleteFromDBtaget:deleteArray];
@@ -1705,7 +1705,7 @@
         if(temp.count != 1)
         {
             NSString *t = LSTRING(@"提示");
-            NSString *m = @"请选中需要编辑的设备";
+            NSString *m = LSTRING(@"请选中需要编辑的设备");
             UIAlertController  *alert = [UIAlertController alertControllerWithTitle:t message:m preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *action2= [UIAlertAction actionWithTitle:LSTRING(@"好的") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
                     }];
@@ -1752,11 +1752,11 @@
             self.floatButton.hidden = YES;
         }
     }
-    else if ([@"删除" isEqualToString:string])//删除
+    else if ([LSTRING(@"删除") isEqualToString:string])//删除
     {
         [self deleteSelectedNode];
     }
-    else if ([@"移动" isEqualToString:string])//移动
+    else if ([LSTRING(@"移动") isEqualToString:string])//移动
     {
         NSArray *temp = [self getSelectedDevAndGroup];
         if(temp.count == 0)

@@ -189,4 +189,33 @@
     [aView.layer addAnimation:animation forKey:nil];
 
 }
+
+//获取当前系统语言环境  只考虑中文和英文
+-(NSString *)getCurrentLanguage
+{
+    NSString *currentLocaleLanguageCode = @"zh";
+    NSArray *languages = [NSLocale preferredLanguages];
+    if (languages.count>0)
+    {
+        currentLocaleLanguageCode = languages.firstObject;
+        if ([currentLocaleLanguageCode hasPrefix:@"en"])
+        {
+            currentLocaleLanguageCode = @"en";
+        }
+        else if ([currentLocaleLanguageCode hasPrefix:@"zh"])
+        {
+            currentLocaleLanguageCode = @"zh";
+        }
+        else
+        {
+            currentLocaleLanguageCode = @"zh";
+        }
+    }
+    else
+    {
+        currentLocaleLanguageCode = @"zh";
+    }
+    
+    return currentLocaleLanguageCode;
+}
 @end

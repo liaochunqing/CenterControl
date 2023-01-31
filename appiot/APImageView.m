@@ -72,12 +72,12 @@
 //                             [NSDictionary dictionaryWithObject:@"自定义" forKey:@"Customize"],
 //                             nil];
     
-    _dynamicContrastArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"开" forKey:@"On"],
-                             [NSDictionary dictionaryWithObject:@"关" forKey:@"Off"],
+    _dynamicContrastArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:LSTRING(@"开") forKey:@"On"],
+                             [NSDictionary dictionaryWithObject:LSTRING(@"关") forKey:@"Off"],
                              nil];
     
-    _contrastEnhanceArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"开" forKey:@"On"],
-                             [NSDictionary dictionaryWithObject:@"关" forKey:@"Off"],
+    _contrastEnhanceArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:LSTRING(@"开") forKey:@"On"],
+                             [NSDictionary dictionaryWithObject:LSTRING(@"关") forKey:@"Off"],
                              nil];
     
 //    _ImageScaleArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"本征" forKey:@"Native"],
@@ -123,40 +123,40 @@
     CGFloat h = H_SCALE(30);
     CGFloat h_gap = H_SCALE(30);
 
-    NSDictionary *dict1 = @{@"string":@"亮度",
+    NSDictionary *dict1 = @{@"string":LSTRING(@"亮度"),
                             @"execcode":@"image-luminance",
                            @"imageName":@"Group 11715",
                             @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(15), H_SCALE(25) , w,h)],
     };
-    NSDictionary *dict2 = @{@"string":@"对比度",
+    NSDictionary *dict2 = @{@"string":LSTRING(@"对比度"),
                             @"execcode":@"image-contrast",
                             @"imageName":@"Group 11706",
                              @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(15), H_SCALE(25)+(h+h_gap),w,h)],
     };
-    NSDictionary *dict3 = @{@"string":@"饱和度",
+    NSDictionary *dict3 = @{@"string":LSTRING(@"饱和度"),
                             @"execcode":@"image-saturability",
                             @"imageName":@"Group 11707",
                              @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(15), H_SCALE(25)+(h+h_gap)*2, w,h)],
     };
-    NSDictionary *dict4 = @{@"string":@"锐度",
+    NSDictionary *dict4 = @{@"string":LSTRING(@"锐度"),
                             @"execcode":@"image-acuity",
                             @"imageName":@"Group 11708",
                              @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(15), H_SCALE(25)+(h+h_gap)*3, w,h)],
     };
     
-    NSDictionary *dict5 = @{@"string":@"红色增益",
+    NSDictionary *dict5 = @{@"string":LSTRING(@"红色增益"),
                             @"execcode":@"image-gain-red",
                             @"imageName":@"Group 11708",
                              @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(15), H_SCALE(395), w,h)],
     };
     
-    NSDictionary *dict6 = @{@"string":@"绿色增益",
+    NSDictionary *dict6 = @{@"string":LSTRING(@"绿色增益"),
                             @"execcode":@"image-gain-green",
                             @"imageName":@"Group 11706",
                              @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(15), H_SCALE(395)+(h+h_gap), w,h)],
     };
     
-    NSDictionary *dict7 = @{@"string":@"蓝色增益",
+    NSDictionary *dict7 = @{@"string":LSTRING(@"蓝色增益"),
                             @"execcode":@"image-gain-blue",
                             @"imageName":@"Group 11708",
                              @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(15), H_SCALE(395)+(h+h_gap)*2, w,h)],
@@ -187,9 +187,9 @@
             [weakSelf sendDataToDevice:code value:str];
         }];
         
-        if([str isEqualToString:@"红色增益"]
-           || [str isEqualToString:@"绿色增益"]
-           || [str isEqualToString:@"蓝色增益"])
+        if([str isEqualToString:LSTRING(@"红色增益")]
+           || [str isEqualToString:LSTRING(@"绿色增益")]
+           || [str isEqualToString:LSTRING(@"蓝色增益")])
         {
             item.field.enabled = NO;
             item.slider.enabled = NO;
@@ -204,34 +204,34 @@
     CGFloat h = H_SCALE(30);
     CGFloat h_gap = H_SCALE(30);
     
-    NSDictionary *dict1 = @{@"string":@"场景模式",
+    NSDictionary *dict1 = @{@"string":LSTRING(@"场景模式"),
                             @"data":_sceneModeArray?_sceneModeArray:[NSArray array],
                             @"execcode":@"image-scene mode",
                             @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(507), H_SCALE(25) , w,h)],
     };
-    NSDictionary *dict2 = @{@"string":@"动态对比度",
+    NSDictionary *dict2 = @{@"string":LSTRING(@"动态对比度"),
                             @"data":_dynamicContrastArray?_dynamicContrastArray:[NSArray array],
                             @"execcode":@"image-Dynamic contrast",
                              @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(507), H_SCALE(25)+(h+h_gap),w,h)],
     };
-    NSDictionary *dict3 = @{@"string":@"对比度增强",
+    NSDictionary *dict3 = @{@"string":LSTRING(@"对比度增强"),
                             @"data":_contrastEnhanceArray?_contrastEnhanceArray:[NSArray array],
                             @"execcode":@"image-contrastEnhance",
                              @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(507), H_SCALE(25)+(h+h_gap)*2, w,h)],
     };
-    NSDictionary *dict4 = @{@"string":@"画面比例",
+    NSDictionary *dict4 = @{@"string":LSTRING(@"画面比例"),
                             @"data":_ImageScaleArray?_ImageScaleArray:[NSArray array],
                             @"execcode":@"image-ImageScale",
                              @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(507), H_SCALE(25)+(h+h_gap)*3, w,h)],
     };
     
-    NSDictionary *dict5 = @{@"string":@"gamma调节",
+    NSDictionary *dict5 = @{@"string":LSTRING(@"gamma调节"),
                             @"data":_gammaAdjustArray?_gammaAdjustArray:[NSArray array],
                             @"execcode":@"image-gammaAdjust",
                              @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(15), H_SCALE(275), w,h)],
     };
     
-    NSDictionary *dict6 = @{@"string":@"色温调节",
+    NSDictionary *dict6 = @{@"string":LSTRING(@"色温调节"),
                             @"data":_colorAdjustingArray?_colorAdjustingArray:[NSArray array],
                             @"execcode":@"image-colorAdjusting",
                              @"frame":[NSValue valueWithCGRect:CGRectMake(W_SCALE(15), H_SCALE(275)+(h+h_gap), w,h)],
@@ -290,9 +290,9 @@
         {
             for (APSetNumberItem *item in self.itemArray)
             {
-                if([item.label.text isEqualToString:@"红色增益"]
-                   || [item.label.text isEqualToString:@"绿色增益"]
-                   || [item.label.text isEqualToString:@"蓝色增益"])
+                if([item.label.text isEqualToString:LSTRING(@"红色增益")]
+                   || [item.label.text isEqualToString:LSTRING(@"绿色增益")]
+                   || [item.label.text isEqualToString:LSTRING(@"蓝色增益")])
                 {
                     item.field.enabled = YES;
                     item.slider.enabled = YES;
@@ -306,9 +306,9 @@
         {
             for (APSetNumberItem *item in self.itemArray)
             {
-                if([item.label.text isEqualToString:@"红色增益"]
-                   || [item.label.text isEqualToString:@"绿色增益"]
-                   || [item.label.text isEqualToString:@"蓝色增益"])
+                if([item.label.text isEqualToString:LSTRING(@"红色增益")]
+                   || [item.label.text isEqualToString:LSTRING(@"绿色增益")]
+                   || [item.label.text isEqualToString:LSTRING(@"蓝色增益")])
                 {
                     item.field.enabled = NO;
                     item.slider.enabled = NO;

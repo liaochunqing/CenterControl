@@ -30,8 +30,12 @@
 -(NSArray *)resolveValue:(NSString *)parameter_value
 {
     NSMutableArray *returnArray = [NSMutableArray array];
-
     NSString* pattern=@"(?<=,value:\"\\{)(.*?)(?=\\}\")";
+    if ([@"en" isEqualToString:[[APTool shareInstance] getCurrentLanguage] ])
+    {
+        pattern=@"(?<=en-value:\"\\{)(.*?)(?=\\}\")";
+    }
+    
     NSRegularExpression *regex = [NSRegularExpression
                                       regularExpressionWithPattern:pattern
                                       options:NSRegularExpressionCaseInsensitive error:nil];

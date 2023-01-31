@@ -41,58 +41,58 @@
     CGFloat h = H_SCALE(30);
     CGFloat h_gap = H_SCALE(28.5);
 
-    NSDictionary *dict1 = @{@"string":@"红色色调",
+    NSDictionary *dict1 = @{@"string":LSTRING(@"红色色调"),
                             @"execcode":@"colour-red-tone",
                            @"imageName":@"Group 11715",
                             @"frame":[NSValue valueWithCGRect:CGRectMake(x, H_SCALE(25)+10 , w,h)],
     };
-    NSDictionary *dict2 = @{@"string":@"红色饱和度",
+    NSDictionary *dict2 = @{@"string":LSTRING(@"红色饱和度"),
                             @"execcode":@"colour-red-saturation",
                             @"imageName":@"Group 11706",
                              @"frame":[NSValue valueWithCGRect:CGRectMake(x, H_SCALE(25)+(h+h_gap),w,h)],
     };
-    NSDictionary *dict3 = @{@"string":@"绿色色调",
+    NSDictionary *dict3 = @{@"string":LSTRING(@"绿色色调"),
                             @"execcode":@"colour-green-tone",
                             @"imageName":@"Group 11707",
                              @"frame":[NSValue valueWithCGRect:CGRectMake(x, H_SCALE(25)+(h+h_gap)*2 + 10, w,h)],
     };
-    NSDictionary *dict4 = @{@"string":@"绿色饱和度",
+    NSDictionary *dict4 = @{@"string":LSTRING(@"绿色饱和度"),
                             @"execcode":@"colour-green-saturation",
                             @"imageName":@"Group 11708",
                              @"frame":[NSValue valueWithCGRect:CGRectMake(x, H_SCALE(25)+(h+h_gap)*3, w,h)],
     };
     
-    NSDictionary *dict5 = @{@"string":@"蓝色色调",
+    NSDictionary *dict5 = @{@"string":LSTRING(@"蓝色色调"),
                             @"execcode":@"colour-blue-tone",
                             @"imageName":@"Group 11708",
                              @"frame":[NSValue valueWithCGRect:CGRectMake(x, H_SCALE(25)+(h+h_gap)*4+ 10, w,h)],
     };
     
-    NSDictionary *dict6 = @{@"string":@"蓝色饱和度",
+    NSDictionary *dict6 = @{@"string":LSTRING(@"蓝色饱和度"),
                             @"execcode":@"colour-blue-saturation",
                             @"imageName":@"Group 11706",
                              @"frame":[NSValue valueWithCGRect:CGRectMake(x, H_SCALE(25)+(h+h_gap)*5, w,h)],
     };
     
-    NSDictionary *dict7 = @{@"string":@"洋红色调",
+    NSDictionary *dict7 = @{@"string":LSTRING(@"洋红色调"),
                             @"execcode":@"colour-brightRed-tone",
                             @"imageName":@"Group 11708",
                              @"frame":[NSValue valueWithCGRect:CGRectMake(x, H_SCALE(25)+(h+h_gap)*6+ 10, w,h)],
     };
     
-    NSDictionary *dict8 = @{@"string":@"洋红饱和度",
+    NSDictionary *dict8 = @{@"string":LSTRING(@"洋红饱和度"),
                             @"execcode":@"colour-brightRed-saturation",
                             @"imageName":@"Group 11708",
                              @"frame":[NSValue valueWithCGRect:CGRectMake(x, H_SCALE(25)+(h+h_gap)*7, w,h)],
     };
     
-    NSDictionary *dict9 = @{@"string":@"黄色色调",
+    NSDictionary *dict9 = @{@"string":LSTRING(@"黄色色调"),
                             @"execcode":@"colour-yellow-tone",
                             @"imageName":@"Group 11706",
                              @"frame":[NSValue valueWithCGRect:CGRectMake(x, H_SCALE(25)+(h+h_gap)*8+ 10, w,h)],
     };
     
-    NSDictionary *dict10 = @{@"string":@"黄色饱和度",
+    NSDictionary *dict10 = @{@"string":LSTRING(@"黄色饱和度"),
                             @"execcode":@"colour-yellow-saturation",
                             @"imageName":@"Group 11708",
                              @"frame":[NSValue valueWithCGRect:CGRectMake(x, H_SCALE(25)+(h+h_gap)*9, w,h)],
@@ -104,69 +104,69 @@
     x = W_SCALE(455);
     h_gap = H_SCALE(13.5);
 
-    NSDictionary *dict11 = @{@"string":@"青色色调",
+    NSDictionary *dict11 = @{@"string":LSTRING(@"青色色调"),
                             @"execcode":@"colour-cyan-tone",
                             @"imageName":@"Group 11706",
                              @"frame":[NSValue valueWithCGRect:CGRectMake(x, H_SCALE(25), w,h)],
     };
     
-    NSDictionary *dict12 = @{@"string":@"青色饱和度",
+    NSDictionary *dict12 = @{@"string":LSTRING(@"青色饱和度"),
                             @"execcode":@"colour-cyan-saturation",
                             @"imageName":@"Group 11708",
                              @"frame":[NSValue valueWithCGRect:CGRectMake(x, H_SCALE(25)+(h+h_gap)*1, w,h)],
     };
     
 ///////////////////////////////////////////////    //白色色调
-    NSDictionary *dict13 = @{@"string":@"红",
+    NSDictionary *dict13 = @{@"string":LSTRING(@"红"),
                             @"execcode":@"colour-white-tone-red",
                             @"imageName":@"Group 11708",
                              @"frame":[NSValue valueWithCGRect:CGRectMake(x, H_SCALE(25)+(h+h_gap)*3, w,h)],
     };
     
-    NSDictionary *dict14 = @{@"string":@"绿",
+    NSDictionary *dict14 = @{@"string":LSTRING(@"绿"),
                             @"execcode":@"colour-white-tone-green",
                             @"imageName":@"Group 11706",
                              @"frame":[NSValue valueWithCGRect:CGRectMake(x, H_SCALE(25)+(h+h_gap)*4, w,h)],
     };
     
-    NSDictionary *dict15 = @{@"string":@"蓝",
+    NSDictionary *dict15 = @{@"string":LSTRING(@"蓝"),
                             @"execcode":@"colour-white-tone-blue",
                             @"imageName":@"Group 11708",
                              @"frame":[NSValue valueWithCGRect:CGRectMake(x, H_SCALE(25)+(h+h_gap)*5, w,h)],
     };
 //////////////////视觉增强
     CGFloat add = 14;
-    NSDictionary *dict16 = @{@"string":@"洋红增益",
+    NSDictionary *dict16 = @{@"string":LSTRING(@"洋红增益"),
                              @"execcode":@"colour-brightRed-gain",
                              @"imageName":@"Group 11708",
                               @"frame":[NSValue valueWithCGRect:CGRectMake(x, H_SCALE(25)+(h+h_gap)*7 +add, w,h)],
                          };
 
-    NSDictionary *dict17 = @{@"string":@"红色增益",
+    NSDictionary *dict17 = @{@"string":LSTRING(@"红色增益"),
                              @"execcode":@"colour-red-gain",
                              @"imageName":@"Group 11706",
                               @"frame":[NSValue valueWithCGRect:CGRectMake(x, H_SCALE(25)+(h+h_gap)*8 +add, w,h)],
                          };
 
-    NSDictionary *dict18 = @{@"string":@"绿色增益",
+    NSDictionary *dict18 = @{@"string":LSTRING(@"绿色增益"),
                              @"execcode":@"colour-green-gain",
                              @"imageName":@"Group 11708",
                               @"frame":[NSValue valueWithCGRect:CGRectMake(x, H_SCALE(25)+(h+h_gap)*9 +add, w,h)],
                          };
     
-    NSDictionary *dict19 = @{@"string":@"黄色增益",
+    NSDictionary *dict19 = @{@"string":LSTRING(@"黄色增益"),
                            @"execcode":@"colour-yellow-gain",
                            @"imageName":@"Group 11708",
                             @"frame":[NSValue valueWithCGRect:CGRectMake(x, H_SCALE(25)+(h+h_gap)*10 +add, w,h)],
    };
    
-   NSDictionary *dict20 = @{@"string":@"蓝色增益",
+   NSDictionary *dict20 = @{@"string":LSTRING(@"蓝色增益"),
                            @"execcode":@"colour-blue-gain",
                            @"imageName":@"Group 11706",
                             @"frame":[NSValue valueWithCGRect:CGRectMake(x, H_SCALE(25)+(h+h_gap)*11 +add, w,h)],
    };
    
-   NSDictionary *dict21 = @{@"string":@"青色增益",
+   NSDictionary *dict21 = @{@"string":LSTRING(@"青色增益"),
                            @"execcode":@"colour-rcyan-gain",
                            @"imageName":@"Group 11708",
                             @"frame":[NSValue valueWithCGRect:CGRectMake(x, H_SCALE(25)+(h+h_gap)*12 +add, w,h)],
@@ -188,7 +188,7 @@
         item.label.text = str;
         item.label.font = [UIFont systemFontOfSize:13.5];
         
-        if([str containsString:@"色调"])
+        if([str containsString:LSTRING(@"色调")])
         {
             item.slider.minimumValue = -100;
             item.slider.maximumValue = 99;
@@ -203,10 +203,10 @@
         
         [self addSubview:item];
         
-        if ([@"红" isEqualToString:SafeStr(str)])
+        if ([LSTRING(@"红") isEqualToString:SafeStr(str)])
         {
             UILabel *fenzuLab = [[UILabel alloc] init];
-            fenzuLab.text = @"白色色调";
+            fenzuLab.text = LSTRING(@"白色色调");
             [self addSubview:fenzuLab];
             fenzuLab.font = [UIFont systemFontOfSize:14];
             fenzuLab.textColor = ColorHex(0xA1A7C1);
@@ -217,11 +217,11 @@
             }];
         }
         
-        if ([@"洋红增益" isEqualToString:SafeStr(str)])
+        if ([LSTRING(@"洋红增益") isEqualToString:SafeStr(str)])
         {
             APChooseItem *ci = [[APChooseItem alloc] init];
             [self addSubview:ci];
-            ci.label.text = @"视觉增强";
+            ci.label.text = LSTRING(@"视觉增强");
             [ci mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.mas_equalTo(item.mas_left).offset(0);
                 make.bottom.mas_equalTo(item.mas_top).offset(-13);
@@ -256,7 +256,7 @@
             if ([@"tcp" compare:node.access_protocol options:NSCaseInsensitiveSearch |NSNumericSearch] ==NSOrderedSame)
             {
                 NSLog(@"%@,ip=%@,port=%@,发送数据：%@",node.access_protocol,node.ip,node.port,sendData);
-                APTcpSocket *tcpManager;
+//                APTcpSocket *tcpManager;
                 if (node.tcpManager == nil)
                 {
                     node.tcpManager = [APTcpSocket new];

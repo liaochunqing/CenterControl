@@ -19,47 +19,47 @@
     }
     return self;
 }
-
-
--(NSArray *)resolveValue:(NSString *)parameter_value
-{
-    NSMutableArray *returnArray = [NSMutableArray array];
-
-    NSString* pattern=@"(?<=,value:\"\\{)(.*?)(?=\\}\")";
-    NSRegularExpression *regex = [NSRegularExpression
-                                      regularExpressionWithPattern:pattern
-                                      options:NSRegularExpressionCaseInsensitive error:nil];
-
-
-    NSArray *match = [regex matchesInString:parameter_value options:0 range:NSMakeRange(0, parameter_value.length)];
-    for (NSTextCheckingResult* b in match)
-    {
-        NSRange resultRange = [b rangeAtIndex:0];
-        //从urlString当中截取数据
-        NSString *result=[parameter_value substringWithRange:resultRange];
-        if (result)
-        {
-            NSArray *tempArr = [result componentsSeparatedByString:@","];
-            for (NSString *str  in tempArr)
-            {
-                NSArray *tempArr = [str componentsSeparatedByString:@":"];
-                if(tempArr.count > 1)
-                {
-                    NSString *first = [tempArr firstObject];
-                    
-                    first = [first stringByReplacingOccurrencesOfString:@"\"" withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [first length])];
-                    
-                    NSString *last = [tempArr lastObject];
-                    last = [last stringByReplacingOccurrencesOfString:@"\"" withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [last length])];
-
-                    NSDictionary *dict = [NSDictionary dictionaryWithObject:last forKey:first];
-                    [returnArray addObject:dict];
-                }
-            }
-        }
-    }
-    return returnArray;
-}
+//
+//
+//-(NSArray *)resolveValue:(NSString *)parameter_value
+//{
+//    NSMutableArray *returnArray = [NSMutableArray array];
+//
+//    NSString* pattern=@"(?<=,value:\"\\{)(.*?)(?=\\}\")";
+//    NSRegularExpression *regex = [NSRegularExpression
+//                                      regularExpressionWithPattern:pattern
+//                                      options:NSRegularExpressionCaseInsensitive error:nil];
+//
+//
+//    NSArray *match = [regex matchesInString:parameter_value options:0 range:NSMakeRange(0, parameter_value.length)];
+//    for (NSTextCheckingResult* b in match)
+//    {
+//        NSRange resultRange = [b rangeAtIndex:0];
+//        //从urlString当中截取数据
+//        NSString *result=[parameter_value substringWithRange:resultRange];
+//        if (result)
+//        {
+//            NSArray *tempArr = [result componentsSeparatedByString:@","];
+//            for (NSString *str  in tempArr)
+//            {
+//                NSArray *tempArr = [str componentsSeparatedByString:@":"];
+//                if(tempArr.count > 1)
+//                {
+//                    NSString *first = [tempArr firstObject];
+//
+//                    first = [first stringByReplacingOccurrencesOfString:@"\"" withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [first length])];
+//
+//                    NSString *last = [tempArr lastObject];
+//                    last = [last stringByReplacingOccurrencesOfString:@"\"" withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [last length])];
+//
+//                    NSDictionary *dict = [NSDictionary dictionaryWithObject:last forKey:first];
+//                    [returnArray addObject:dict];
+//                }
+//            }
+//        }
+//    }
+//    return returnArray;
+//}
 
 
 -(void)initData
@@ -81,7 +81,7 @@
         while ([resultSet next])
         {
             NSString *exec_code = SafeStr([resultSet stringForColumn:@"exec_code"]);
-            NSString *exec_name = SafeStr([resultSet stringForColumn:@"exec_name"]);
+//            NSString *exec_name = SafeStr([resultSet stringForColumn:@"exec_name"]);
             NSString *parameter_value = SafeStr([resultSet stringForColumn:@"parameter_value"]);
 
             if ([exec_code isEqualToString:@"installDeploy-ImageScale"])//3d模式
@@ -96,22 +96,6 @@
         //关闭数据库
         [db close];
     }
-
-    
-//    _hmblArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"本征" forKey:@"Native"],
-////                  [NSDictionary dictionaryWithObject:@"填充" forKey:@"Fill"],
-//                  [NSDictionary dictionaryWithObject:@"4_3" forKey:@"4_3"],
-//                  [NSDictionary dictionaryWithObject:@"16_6" forKey:@"16_6"],
-//                  [NSDictionary dictionaryWithObject:@"16_9" forKey:@"16_9"],
-//                  [NSDictionary dictionaryWithObject:@"16_10" forKey:@"16_10"],
-//                  nil];
-//
-//    _azfsArray = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObject:@"吊顶背投" forKey:@"CeilingRear"],
-//                 [NSDictionary dictionaryWithObject:@"吊顶正投" forKey:@"CeilingFront"],
-//                 [NSDictionary dictionaryWithObject:@"桌面背投" forKey:@"TableRear"],
-//                 [NSDictionary dictionaryWithObject:@"桌面正投" forKey:@"TableFront"],
-//                 nil];
-    
     
     _tyjidArray = [NSMutableArray array];
     
@@ -139,27 +123,27 @@
 -(void)createUI
 {
     
-    NSDictionary *dict1 = @{@"string":@"画面比例",
+    NSDictionary *dict1 = @{@"string":LSTRING(@"画面比例"),
                             @"data":_hmblArray?_hmblArray:[NSArray array],
                             @"execcode":@"installDeploy-ImageScale",
     };
-    NSDictionary *dict2 = @{@"string":@"安装方式",
+    NSDictionary *dict2 = @{@"string":LSTRING(@"安装方式"),
                             @"data":_azfsArray?_azfsArray:[NSArray array],
                             @"execcode":@"installDeploy-wayToInstall",
     };
-    NSDictionary *dict3 = @{@"string":@"投影机ID",
+    NSDictionary *dict3 = @{@"string":LSTRING(@"投影机ID"),
                             @"data":_tyjidArray?_tyjidArray:[NSArray array],
                             @"execcode":@"installDeploy-projectorID",
     };
-    NSDictionary *dict4 = @{@"string":@"遥控ID",
+    NSDictionary *dict4 = @{@"string":LSTRING(@"遥控ID"),
                             @"data":_ykidArray?_ykidArray:[NSArray array],
                             @"execcode":@"installDeploy-remoteControlID",
     };
-    NSDictionary *dict5 = @{@"string":@"遥控接收",
+    NSDictionary *dict5 = @{@"string":LSTRING(@"遥控接收"),
                             @"data":_ykjsArray?_ykjsArray:[NSArray array],
                             @"execcode":@"installDeploy-remoteControlTakeIn",
     };
-    NSDictionary *dict6 = @{@"string":@"三色汇聚",
+    NSDictionary *dict6 = @{@"string":LSTRING(@"三色汇聚"),
                             @"data":_sshjArray?_sshjArray:[NSArray array],
                             @"execcode":@"installDeploy-ThreeColorsTogether",
     };

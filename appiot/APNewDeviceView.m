@@ -54,7 +54,7 @@
  
     UILabel *namelab = [[UILabel alloc] init];
     [_baseview addSubview:namelab];
-    namelab.text = @"新增投影机";
+    namelab.text = LSTRING(@"新建投影机");
     namelab.textAlignment =  NSTextAlignmentCenter;
     namelab.font = [UIFont systemFontOfSize:20];
     namelab.textColor = ColorHex(0x1D2242);
@@ -67,7 +67,7 @@
     
     UILabel *fenzuLab = [[UILabel alloc] init];
     [_baseview addSubview:fenzuLab];
-    fenzuLab.text = @"  投影机分组";
+    fenzuLab.text = LSTRING(@"  投影机分组");
     fenzuLab.font = [UIFont systemFontOfSize:labelFontSize];
     fenzuLab.textColor = labelColor;
     [fenzuLab mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -84,7 +84,7 @@
     _groupField.font = [UIFont systemFontOfSize:contentFontSize];
 //    _groupField.placeholder = @"请选择投影机的分组";
     
-    NSString *holderText = @"请选择分组(可不选)";
+    NSString *holderText = LSTRING(@"请选择分组(可不选)");
     NSMutableAttributedString *placeholder = [[NSMutableAttributedString alloc] initWithString:holderText];
     [placeholder addAttribute:NSForegroundColorAttributeName
                             value:ColorHex(0xABBDD5 )
@@ -119,7 +119,7 @@
     //投影机名字
     UILabel *devname = [[UILabel alloc] init];
     [_baseview addSubview:devname];
-    devname.text = @"* 投影机名称";
+    devname.text = LSTRING(@"* 投影机名称");
     devname.font = [UIFont systemFontOfSize:labelFontSize];
     devname.textColor = labelColor;
     [[APTool shareInstance] fontColorLabel:devname FontNumber:[UIFont systemFontOfSize:labelFontSize] AndRange:NSMakeRange(0, 1) AndColor:[UIColor redColor]];
@@ -136,7 +136,7 @@
 
     _nameField.font = [UIFont systemFontOfSize:contentFontSize];
 //    _nameField.placeholder = @"请输入投影机名称";
-    holderText = @"请输入投影机名称";
+    holderText = LSTRING(@"请输入投影机名称");
     placeholder = [[NSMutableAttributedString alloc] initWithString:holderText];
     [placeholder addAttribute:NSForegroundColorAttributeName
                             value:ColorHex(0xABBDD5 )
@@ -157,7 +157,7 @@
  /**************************************************机型*********************************************/
     UILabel *jixingLab = [[UILabel alloc] init];
     [_baseview addSubview:jixingLab];
-    jixingLab.text = @"* 机型";
+    jixingLab.text = LSTRING(@"* 机型");
     jixingLab.font = [UIFont systemFontOfSize:labelFontSize];
     jixingLab.textColor = labelColor;
     [[APTool shareInstance] fontColorLabel:jixingLab FontNumber:[UIFont systemFontOfSize:labelFontSize] AndRange:NSMakeRange(0, 1) AndColor:[UIColor redColor]];
@@ -209,7 +209,7 @@
     /*************************************************投影机ID*********************************************/
     UILabel *devid = [[UILabel alloc] init];
     [_baseview addSubview:devid];
-    devid.text = @"* 投影机ID";
+    devid.text = LSTRING(@"* 投影机ID");
     devid.font = [UIFont systemFontOfSize:labelFontSize];
     devid.textColor = labelColor;
     [[APTool shareInstance] fontColorLabel:devid FontNumber:[UIFont systemFontOfSize:labelFontSize] AndRange:NSMakeRange(0, 1) AndColor:[UIColor redColor]];
@@ -228,7 +228,7 @@
     _idField.font = [UIFont systemFontOfSize:contentFontSize];
 //    _idField.placeholder = @"请输入投影机的ID";
     
-    holderText = @"请输入投影机的ID";
+    holderText = LSTRING(@"请输入投影机的ID");
     placeholder = [[NSMutableAttributedString alloc] initWithString:holderText];
     [placeholder addAttribute:NSForegroundColorAttributeName
                             value:ColorHex(0xABBDD5 )
@@ -264,7 +264,7 @@
     /*************************接入协议**********************************/
     UILabel *protocolLab = [[UILabel alloc] init];
     [_baseview addSubview:protocolLab];
-    protocolLab.text = @"* 接入协议";
+    protocolLab.text = LSTRING(@"* 接入协议");
     protocolLab.font = [UIFont systemFontOfSize:labelFontSize];
     protocolLab.textColor = labelColor;
     [[APTool shareInstance] fontColorLabel:protocolLab FontNumber:[UIFont systemFontOfSize:labelFontSize] AndRange:NSMakeRange(0, 1) AndColor:[UIColor redColor]];
@@ -283,7 +283,7 @@
     _protocolField.font = [UIFont systemFontOfSize:contentFontSize];
 //    _protocolField.placeholder = @"请选择接入协议";
     
-    holderText = @"请选择接入协议";
+    holderText = LSTRING(@"请选择接入协议");
     placeholder = [[NSMutableAttributedString alloc] initWithString:holderText];
     [placeholder addAttribute:NSForegroundColorAttributeName
                             value:ColorHex(0xABBDD5 )
@@ -317,7 +317,7 @@
     /*************************IP**********************************/
     UILabel *iplab = [[UILabel alloc] init];
     [_baseview addSubview:iplab];
-    iplab.text = @"* IP地址";
+    iplab.text = LSTRING(@"* IP地址");
     iplab.font = [UIFont systemFontOfSize:labelFontSize];
     iplab.textColor = labelColor;
     [[APTool shareInstance] fontColorLabel:iplab FontNumber:[UIFont systemFontOfSize:labelFontSize] AndRange:NSMakeRange(0, 1) AndColor:[UIColor redColor]];
@@ -337,7 +337,7 @@
     _ipField.font = [UIFont systemFontOfSize:contentFontSize];
 //    _ipField.placeholder = @"请输入投影机的ip";
     
-    holderText = @"请输入投影机的ip";
+    holderText = LSTRING(@"请输入投影机的ip");
     placeholder = [[NSMutableAttributedString alloc] initWithString:holderText];
     [placeholder addAttribute:NSForegroundColorAttributeName
                             value:ColorHex(0xABBDD5 )
@@ -358,7 +358,7 @@
     /*************************端口**********************************/
     UILabel *portLab = [[UILabel alloc] init];
     [_baseview addSubview:portLab];
-    portLab.text = @"* 端口";
+    portLab.text = LSTRING(@"* 端口");
     portLab.font = [UIFont systemFontOfSize:labelFontSize];
     portLab.textColor = labelColor;
     [[APTool shareInstance] fontColorLabel:portLab FontNumber:[UIFont systemFontOfSize:labelFontSize] AndRange:NSMakeRange(0, 1) AndColor:[UIColor redColor]];
@@ -377,7 +377,7 @@
     _portField.font = [UIFont systemFontOfSize:contentFontSize];
 //    _portField.placeholder = @"请输入投影机的端口";
     
-    holderText = @"请输入投影机的端口";
+    holderText = LSTRING(@"请输入投影机的端口");
     placeholder = [[NSMutableAttributedString alloc] initWithString:holderText];
     [placeholder addAttribute:NSForegroundColorAttributeName
                             value:ColorHex(0xABBDD5 )
